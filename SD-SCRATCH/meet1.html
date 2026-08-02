@@ -1,0 +1,3768 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Session 1 - Pengenalan Coding | Ruangguru Coding</title>
+    <link rel="icon"
+        href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue: #2f80ed;
+            --cyan: #16bde8;
+            --purple: #845ef7;
+            --orange: #ff8a34;
+            --yellow: #ffd53d;
+            --green: #28b875;
+            --red: #ef5350;
+            --ink: #20324a;
+            --muted: #66788d;
+            --cream: #fff9ed;
+            --panel: #fff;
+            --shadow: 0 22px 55px rgba(22, 44, 76, .18)
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--ink);
+            background: #f8fffe;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        /* Teal educational SVG icons scattered as background decoration */
+        body:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='600' viewBox='0 0 900 600'%3E%3Cg fill='none' stroke='%2300bcd4' stroke-width='2.2' opacity='0.18'%3E%3C!-- book left top --%3E%3Crect x='40' y='60' width='68' height='80' rx='6'/%3E%3Cline x1='40' y1='100' x2='108' y2='100'/%3E%3Cline x1='74' y1='60' x2='74' y2='140'/%3E%3C!-- atom right top --%3E%3Ccircle cx='820' cy='70' r='22'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15' transform='rotate(0 820 70)'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15' transform='rotate(60 820 70)'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15' transform='rotate(120 820 70)'/%3E%3C!-- backpack center top --%3E%3Crect x='432' y='20' width='48' height='55' rx='10'/%3E%3Crect x='446' y='10' width='20' height='14' rx='4'/%3E%3Cline x1='456' y1='40' x2='456' y2='70'/%3E%3C!-- backpack left mid --%3E%3Crect x='30' y='260' width='58' height='68' rx='10'/%3E%3Crect x='46' y='248' width='26' height='16' rx='4'/%3E%3Cline x1='59' y1='278' x2='59' y2='320'/%3E%3C!-- globe right mid --%3E%3Ccircle cx='838' cy='340' r='42'/%3E%3Cellipse cx='838' cy='340' rx='20' ry='42'/%3E%3Cline x1='796' y1='340' x2='880' y2='340'/%3E%3Cline x1='838' y1='298' x2='838' y2='382'/%3E%3Cline x1='796' y1='320' x2='880' y2='320'/%3E%3Cline x1='796' y1='360' x2='880' y2='360'/%3E%3Ccircle cx='856' cy='292' r='10'/%3E%3Cline x1='856' y1='302' x2='856' y2='320'/%3E%3C!-- open book bottom left --%3E%3Crect x='55' y='450' width='80' height='90' rx='6'/%3E%3Cline x1='55' y1='495' x2='135' y2='495'/%3E%3Cline x1='55' y1='468' x2='135' y2='468'/%3E%3Cline x1='55' y1='510' x2='135' y2='510'/%3E%3Cline x1='95' y1='450' x2='95' y2='540'/%3E%3C!-- sudoku grid bottom mid --%3E%3Crect x='390' y='480' width='72' height='72' rx='4'/%3E%3Cline x1='414' y1='480' x2='414' y2='552'/%3E%3Cline x1='438' y1='480' x2='438' y2='552'/%3E%3Cline x1='390' y1='504' x2='462' y2='504'/%3E%3Cline x1='390' y1='528' x2='462' y2='528'/%3E%3C/g%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-size: cover;
+            pointer-events: none;
+            z-index: -1
+        }
+
+        body:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at 0% 100%, rgba(0,188,212,.07) 0%, transparent 55%),
+                        radial-gradient(ellipse at 100% 0%, rgba(0,188,212,.06) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1
+        }
+
+        .brand-logo {
+            position: fixed;
+            left: 22px;
+            top: 16px;
+            z-index: 2000;
+            background: #fff;
+            border: 2.5px solid rgba(0,188,212,.22);
+            border-radius: 22px;
+            padding: 10px 20px;
+            box-shadow: 0 8px 32px rgba(0,188,212,.18), 0 2px 8px rgba(0,0,0,.07);
+            display: flex;
+            align-items: center;
+            gap: 0;
+            transition: box-shadow .2s
+        }
+
+        .brand-logo:hover {
+            box-shadow: 0 14px 40px rgba(0,188,212,.28), 0 2px 8px rgba(0,0,0,.08)
+        }
+
+        .brand-logo img {
+            display: block;
+            height: 80px;
+            max-width: 220px;
+            object-fit: contain
+        }
+
+        .presentation-container {
+            width: 86vw;
+            height: 80vh;
+            max-width: 1500px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(30, 56, 93, .25);
+            overflow: hidden;
+            position: relative;
+            border: 4px solid rgba(255, 255, 255, .85)
+        }
+
+        .presentation-container:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 26px;
+            box-shadow: inset 0 0 0 1px rgba(91, 124, 164, .10);
+            z-index: 30
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 42px 58px 74px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(42px) scale(.985);
+            transition: .46s ease;
+            background: linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(249, 252, 255, .98));
+            overflow-y: auto;
+            overflow-x: hidden
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            z-index: 10
+        }
+
+        .slide.exit-left {
+            transform: translateX(-40px);
+            opacity: 0
+        }
+
+        .slide-head {
+            width: 100%;
+            max-width: 1180px;
+            margin-bottom: 22px
+        }
+
+        .slide-head.center {
+            text-align: center
+        }
+
+        .slide-head.compact {
+            margin-bottom: 16px
+        }
+
+        .slide-head h2,
+        .single-focus h2 {
+            font-size: clamp(2.2rem, 4vw, 4rem);
+            line-height: 1.06;
+            margin: 6px 0 12px;
+            color: #24344d
+        }
+
+        .slide-head p,
+        .single-focus p,
+        .lead {
+            font-size: clamp(1.15rem, 1.65vw, 1.55rem);
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.5
+        }
+
+        .kicker {
+            display: inline-block;
+            font-size: .92rem;
+            letter-spacing: .16em;
+            font-weight: 700;
+            color: var(--purple);
+            background: #f0eaff;
+            border-radius: 999px;
+            padding: 7px 13px
+        }
+
+        .eyebrow {
+            letter-spacing: .22em;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 0 10px
+        }
+
+        .navigation {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, .96);
+            border-top: 1px solid #e7edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 100;
+            backdrop-filter: blur(12px)
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b7d92;
+            max-width: 42%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #d9e3ef;
+            background: #fff;
+            color: #4c6077;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            border-color: var(--blue);
+            color: var(--blue)
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            color: #fff;
+            border: 0;
+            box-shadow: 0 7px 16px rgba(255, 138, 52, .3)
+        }
+
+        .nav-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed
+        }
+
+        .counter {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #53677f;
+            min-width: 74px;
+            text-align: center
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 0;
+            bottom: 62px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--orange), var(--purple), var(--cyan));
+            width: 0;
+            transition: .35s;
+            z-index: 110
+        }
+
+        .cover-slide {
+            background: linear-gradient(135deg, #172b55, #3c2a76 52%, #7646b8);
+            color: #fff
+        }
+
+        .cover-scene {
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, .14);
+            border: 1px solid rgba(255, 255, 255, .3);
+            padding: 9px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            margin-bottom: 18px
+        }
+
+        .hero-icon {
+            font-size: 7rem;
+            filter: drop-shadow(0 12px 16px rgba(0, 0, 0, .24));
+            animation: float 3s ease-in-out infinite
+        }
+
+        .display-title {
+            font-size: clamp(3.4rem, 7vw, 6.6rem);
+            line-height: .95;
+            margin: 8px 0 18px
+        }
+
+        .display-title span {
+            color: #ffd65a
+        }
+
+        .hero-subtitle {
+            font-size: 1.55rem;
+            max-width: 820px;
+            margin: 0 auto;
+            color: #edf2ff
+        }
+
+        .hero-pills {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 26px
+        }
+
+        .hero-pills span {
+            background: rgba(255, 255, 255, .13);
+            border: 1px solid rgba(255, 255, 255, .22);
+            padding: 10px 16px;
+            border-radius: 15px;
+            font-weight: 600
+        }
+
+        .orbit {
+            position: absolute;
+            font-size: 2.6rem;
+            animation: float 3.5s ease-in-out infinite
+        }
+
+        .orbit-a {
+            left: 8%;
+            top: 12%
+        }
+
+        .orbit-b {
+            right: 8%;
+            top: 18%;
+            animation-delay: .7s
+        }
+
+        .orbit-c {
+            right: 15%;
+            bottom: 10%;
+            animation-delay: 1.2s
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-12px) rotate(3deg)
+            }
+        }
+
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px
+        }
+
+        .agenda-card {
+            position: relative;
+            padding: 25px;
+            border-radius: 26px;
+            border: 2px solid;
+            min-height: 170px;
+            overflow: hidden
+        }
+
+        .agenda-card>b {
+            position: absolute;
+            right: 18px;
+            top: 10px;
+            font-size: 3rem;
+            opacity: .12
+        }
+
+        .agenda-card>span {
+            font-size: 3.2rem
+        }
+
+        .agenda-card h3 {
+            font-size: 1.6rem;
+            margin: 8px 0 3px
+        }
+
+        .agenda-card p {
+            margin: 0;
+            color: #52667c
+        }
+
+        .agenda-card.blue {
+            background: #eef7ff;
+            border-color: #b9dcff
+        }
+
+        .agenda-card.orange {
+            background: #fff4e8;
+            border-color: #ffd3a7
+        }
+
+        .agenda-card.purple {
+            background: #f5efff;
+            border-color: #d9c6ff
+        }
+
+        .agenda-card.green {
+            background: #ebfbf4;
+            border-color: #b7ebd2
+        }
+
+        .single-focus {
+            max-width: 800px;
+            text-align: center;
+            padding: 40px;
+            background: #fff;
+            border-radius: 34px;
+            box-shadow: var(--shadow);
+            border: 3px solid #d9e8ff
+        }
+
+        .giant-emoji {
+            font-size: 6rem
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            border: 0;
+            border-radius: 16px;
+            padding: 13px 22px;
+            font: 700 1rem 'Fredoka';
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(66, 92, 201, .25)
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px)
+        }
+
+        .primary-btn.large {
+            font-size: 1.25rem;
+            padding: 16px 28px
+        }
+
+        .primary-btn.small {
+            padding: 10px 16px
+        }
+
+        .secondary-btn {
+            background: #eef2f7;
+            color: #465c74;
+            border: 2px solid #d9e1ea
+        }
+
+        .notice {
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: #fff8db;
+            border: 2px solid #f7d95d;
+            color: #7b6412;
+            font-weight: 600;
+            margin-top: 14px
+        }
+
+        .hidden {
+            display: none !important
+        }
+
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+            max-width: 1100px;
+            align-items: center
+        }
+
+        .question-bubble {
+            margin-top: 25px;
+            background: #fff;
+            border: 3px solid #ffd067;
+            border-radius: 22px;
+            padding: 18px 22px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(130, 90, 20, .1)
+        }
+
+        .question-bubble.centered {
+            max-width: 850px;
+            text-align: center;
+            margin: 26px auto 0
+        }
+
+        .morning-clock {
+            height: 380px;
+            border-radius: 40px;
+            background: linear-gradient(#9edaff 0 58%, #74cb68 58%);
+            position: relative;
+            overflow: hidden;
+            border: 5px solid #fff;
+            box-shadow: var(--shadow)
+        }
+
+        .sun {
+            position: absolute;
+            right: 30px;
+            top: 25px;
+            font-size: 5rem
+        }
+
+        .bed {
+            position: absolute;
+            left: 42px;
+            bottom: 55px;
+            font-size: 7rem
+        }
+
+        .kid {
+            position: absolute;
+            right: 90px;
+            bottom: 62px;
+            font-size: 6rem
+        }
+
+        .routine-cloud {
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            top: 25px;
+            background: rgba(255, 255, 255, .92);
+            padding: 13px;
+            border-radius: 18px;
+            text-align: center;
+            font-weight: 700
+        }
+
+        .sort-shell {
+            width: 100%;
+            max-width: 970px;
+            background: #fff;
+            border: 3px solid #e3eaf3;
+            border-radius: 28px;
+            padding: 22px;
+            box-shadow: var(--shadow)
+        }
+
+        .goal-card {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            background: #fff7df;
+            border: 2px solid #f8d973;
+            border-radius: 18px;
+            padding: 12px 16px;
+            margin-bottom: 14px
+        }
+
+        .goal-card>span {
+            font-size: 2.5rem
+        }
+
+        .goal-card p {
+            margin: 2px 0 0;
+            color: #756121
+        }
+
+        .sortable {
+            display: grid;
+            gap: 10px
+        }
+
+        .sortable.four {
+            grid-template-columns: 1fr 1fr
+        }
+
+        .sort-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 15px;
+            border: 2px solid #dce4ee;
+            border-radius: 16px;
+            background: #f9fbfd;
+            cursor: grab;
+            transition: .2s;
+            min-height: 62px
+        }
+
+        .sort-item:hover {
+            transform: translateX(4px);
+            border-color: #8cbfff
+        }
+
+        .sort-item.correct {
+            border-color: #52c78a;
+            background: #effcf5
+        }
+
+        .sort-item.wrong {
+            border-color: #ef7774;
+            background: #fff1f0
+        }
+
+        .sort-index {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #e9eef5;
+            display: grid;
+            place-items: center;
+            font-weight: 700
+        }
+
+        .sort-emoji {
+            font-size: 1.8rem
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 15px
+        }
+
+        .button-row.tight {
+            margin-top: 10px
+        }
+
+        .feedback {
+            min-height: 28px;
+            margin-top: 12px;
+            text-align: center;
+            font-size: 1.08rem;
+            font-weight: 700;
+            color: #566b81
+        }
+
+        .feedback.success {
+            color: #12834e
+        }
+
+        .feedback.error {
+            color: #ce3f3c
+        }
+
+        .transport-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            width: 100%;
+            max-width: 980px
+        }
+
+        .transport-grid button {
+            border: 3px solid #dfe7f0;
+            border-radius: 26px;
+            background: #fff;
+            padding: 22px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: .2s
+        }
+
+        .transport-grid button:hover,
+        .transport-grid button.selected {
+            transform: translateY(-6px);
+            border-color: var(--purple);
+            box-shadow: 0 14px 30px rgba(76, 64, 150, .15)
+        }
+
+        .transport-grid span {
+            display: block;
+            font-size: 5rem
+        }
+
+        .transport-grid b {
+            display: block;
+            font-size: 1.35rem;
+            margin: 8px
+        }
+
+        .transport-grid small {
+            font-size: 1.05rem;
+            color: #60758c
+        }
+
+        .timeline-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            max-width: 760px;
+            margin: 25px auto 4px;
+            font-weight: 700
+        }
+
+        .timeline-line {
+            flex: 1;
+            height: 12px;
+            background: #e6edf5;
+            border-radius: 999px;
+            overflow: hidden
+        }
+
+        .timeline-line i {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--green), var(--yellow), var(--red))
+        }
+
+        .large-feedback {
+            font-size: 1.25rem
+        }
+
+        .school-scene {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(#bce7ff 0 65%, #9ed276 65%);
+            border-radius: 32px;
+            overflow: hidden
+        }
+
+        .school-building {
+            position: absolute;
+            left: 8%;
+            bottom: 15%;
+            font-size: 11rem
+        }
+
+        .school-kids {
+            position: absolute;
+            left: 17%;
+            bottom: 7%;
+            font-size: 4rem
+        }
+
+        .speech-card {
+            margin-left: 38%;
+            background: rgba(255, 255, 255, .94);
+            border-radius: 30px;
+            padding: 32px;
+            max-width: 560px;
+            box-shadow: var(--shadow)
+        }
+
+        .speech-card h2 {
+            font-size: 3rem;
+            margin: 8px 0
+        }
+
+        .concept-reveal {
+            text-align: center
+        }
+
+        .mini-scenes {
+            display: flex;
+            gap: 20px;
+            justify-content: center
+        }
+
+        .mini-scenes div {
+            background: rgba(255, 255, 255, .94);
+            padding: 20px;
+            border-radius: 24px;
+            font-size: 4rem;
+            min-width: 190px;
+            box-shadow: 0 12px 25px rgba(38, 24, 97, .15)
+        }
+
+        .mini-scenes small {
+            display: block;
+            font-size: 1rem;
+            margin-top: 8px
+        }
+
+        .arrow-down {
+            font-size: 4rem;
+            color: #fff
+        }
+
+        .reveal-word {
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 700;
+            color: #ffe562;
+            text-shadow: 0 6px 0 rgba(0, 0, 0, .15)
+        }
+
+        .concept-reveal p {
+            font-size: 1.4rem;
+            color: #fff;
+            max-width: 800px
+        }
+
+        .gradient-purple {
+            background: linear-gradient(135deg, #673ab7, #8b5cf6, #4169e1)
+        }
+
+        .mission-board {
+            width: 100%;
+            max-width: 1050px;
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 22px;
+            background: #172a49;
+            color: #fff;
+            border-radius: 32px;
+            padding: 35px;
+            box-shadow: var(--shadow)
+        }
+
+        .mission-number {
+            font-size: 6rem;
+            font-weight: 700;
+            color: #ffd34e;
+            display: grid;
+            place-items: center;
+            border-right: 2px solid rgba(255, 255, 255, .18)
+        }
+
+        .mission-board h2 {
+            font-size: 3rem;
+            margin: 7px 0
+        }
+
+        .mission-board p {
+            font-size: 1.25rem;
+            color: #cad6e8
+        }
+
+        .mission-qualities {
+            grid-column: 1/-1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+
+        .mission-qualities span {
+            background: rgba(255, 255, 255, .1);
+            padding: 15px;
+            border-radius: 14px;
+            font-size: 1.15rem
+        }
+
+        .three-step-flow {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            max-width: 1050px
+        }
+
+        .three-step-flow>div {
+            background: #fff;
+            border: 3px solid #dce7f3;
+            border-radius: 28px;
+            padding: 25px;
+            text-align: center;
+            min-width: 230px;
+            box-shadow: 0 12px 28px rgba(36, 66, 96, .1)
+        }
+
+        .three-step-flow span {
+            font-size: 4rem
+        }
+
+        .three-step-flow b {
+            display: block;
+            font-size: 1.5rem;
+            margin: 8px
+        }
+
+        .three-step-flow p {
+            margin: 0;
+            color: #64768a
+        }
+
+        .three-step-flow i {
+            font-size: 2.5rem;
+            color: var(--orange)
+        }
+
+        .problem-stack {
+            display: grid;
+            gap: 14px
+        }
+
+        .problem-card {
+            background: #fff;
+            border: 3px solid #c8e9d9;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(20, 100, 70, .08)
+        }
+
+        .simple-rule {
+            background: #eef4ff;
+            border: 2px solid #bcd5ff;
+            padding: 16px 20px;
+            border-radius: 18px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 20px
+        }
+
+        .centered-rule {
+            max-width: 850px;
+            text-align: center;
+            margin: 20px auto 0
+        }
+
+        .app-showcase {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1000px
+        }
+
+        .app-showcase>div {
+            padding: 20px;
+            border-radius: 23px;
+            background: #fff;
+            border: 2px solid #e2e9f2;
+            text-align: center;
+            box-shadow: 0 10px 22px rgba(40, 70, 100, .08)
+        }
+
+        .app-showcase span {
+            font-size: 3.5rem
+        }
+
+        .app-showcase b {
+            display: block;
+            font-size: 1.3rem;
+            margin: 6px
+        }
+
+        .app-showcase p {
+            margin: 0;
+            color: #66788d
+        }
+
+        .input-lab {
+            display: grid;
+            grid-template-columns: .7fr 1.3fr;
+            gap: 45px;
+            align-items: center;
+            max-width: 1000px;
+            width: 100%
+        }
+
+        .input-lab.reversed {
+            grid-template-columns: 1.35fr .65fr
+        }
+
+        .phone-mockup {
+            height: 380px;
+            border: 12px solid #273b56;
+            border-radius: 45px;
+            background: linear-gradient(145deg, #d9edff, #f8ecff);
+            position: relative;
+            box-shadow: var(--shadow)
+        }
+
+        .phone-top {
+            width: 100px;
+            height: 18px;
+            background: #273b56;
+            border-radius: 0 0 14px 14px;
+            margin: auto
+        }
+
+        .phone-icons {
+            font-size: 6rem;
+            text-align: center;
+            padding-top: 70px
+        }
+
+        .phone-icons span {
+            font-size: 4rem;
+            color: var(--purple)
+        }
+
+        .input-lab h2 {
+            font-size: 3.2rem;
+            margin: 8px 0
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px
+        }
+
+        .input-row input {
+            flex: 1;
+            border: 3px solid #dbe5f0;
+            border-radius: 16px;
+            padding: 14px 17px;
+            font: 600 1.05rem 'Fredoka';
+            outline: none
+        }
+
+        .input-row input:focus {
+            border-color: var(--purple)
+        }
+
+        .response-box {
+            min-height: 48px;
+            margin-top: 15px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: #fff;
+            border: 2px dashed #cdd8e5;
+            color: #50657d;
+            font-weight: 600
+        }
+
+        .controller-art {
+            font-size: 13rem;
+            text-align: center;
+            filter: drop-shadow(0 18px 12px rgba(74, 40, 120, .18));
+            animation: float 3s infinite
+        }
+
+        .game-stage {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(#6d54bb 0 60%, #3c7c43 60%);
+            border-radius: 32px;
+            position: relative;
+            overflow: hidden;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center
+        }
+
+        .game-title {
+            background: rgba(23, 27, 65, .82);
+            padding: 26px 38px;
+            border-radius: 28px;
+            max-width: 720px;
+            z-index: 3
+        }
+
+        .game-title h2 {
+            font-size: 4rem;
+            margin: 7px 0
+        }
+
+        .game-title p {
+            font-size: 1.25rem
+        }
+
+        .game-characters {
+            font-size: 5.5rem;
+            z-index: 3;
+            margin-top: 18px
+        }
+
+        .pixel-cloud {
+            position: absolute;
+            background: #fff;
+            width: 120px;
+            height: 35px;
+            border-radius: 30px;
+            opacity: .8
+        }
+
+        .c1 {
+            top: 14%;
+            left: 8%
+        }
+
+        .c2 {
+            top: 25%;
+            right: 10%;
+            transform: scale(.7)
+        }
+
+        .communication-flow {
+            display: grid;
+            grid-template-columns: 1fr .8fr 1fr;
+            align-items: center;
+            gap: 25px;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .communication-flow>div {
+            text-align: center;
+            border-radius: 28px;
+            padding: 28px
+        }
+
+        .human-side,
+        .computer-side {
+            background: #fff;
+            border: 3px solid #dfe8f3;
+            box-shadow: 0 12px 25px rgba(40, 60, 100, .09)
+        }
+
+        .communication-flow span {
+            font-size: 6rem
+        }
+
+        .communication-flow b {
+            display: block;
+            font-size: 1.5rem
+        }
+
+        .communication-flow p {
+            color: #62778e
+        }
+
+        .code-bridge {
+            background: linear-gradient(135deg, #6c4ddf, #8c66f4);
+            color: #fff;
+            box-shadow: 0 14px 28px rgba(77, 43, 170, .22)
+        }
+
+        .code-bridge small {
+            display: block;
+            margin-top: 6px
+        }
+
+        .bottom-message {
+            margin-top: 28px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: #fff7da;
+            border: 2px solid #f8d459;
+            padding: 16px 24px;
+            border-radius: 18px;
+            text-align: center
+        }
+
+        .chat-lab {
+            width: 100%;
+            max-width: 1000px;
+            display: grid;
+            gap: 18px
+        }
+
+        .chat-person,
+        .chat-computer {
+            display: flex;
+            align-items: center;
+            gap: 18px
+        }
+
+        .chat-computer {
+            justify-content: flex-end
+        }
+
+        .avatar {
+            font-size: 4.5rem;
+            background: #fff;
+            border-radius: 22px;
+            padding: 12px;
+            box-shadow: 0 8px 20px rgba(30, 50, 90, .1)
+        }
+
+        .chat-bubble,
+        .computer-questions {
+            padding: 20px 24px;
+            border-radius: 24px;
+            font-size: 1.2rem;
+            max-width: 720px
+        }
+
+        .chat-bubble.user {
+            background: #dfefff;
+            border: 3px solid #a4d0ff
+        }
+
+        .computer-questions {
+            background: #fff4df;
+            border: 3px solid #ffc86b;
+            min-width: 550px
+        }
+
+        .computer-questions ul {
+            margin: 0;
+            padding-left: 20px
+        }
+
+        .detail-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            width: 100%;
+            max-width: 1000px
+        }
+
+        .detail-comparison>div {
+            padding: 30px;
+            border-radius: 30px
+        }
+
+        .detail-comparison span {
+            font-size: 4rem
+        }
+
+        .detail-comparison h3 {
+            font-size: 2rem;
+            margin: 6px 0
+        }
+
+        .bad-instruction {
+            background: #fff0ef;
+            border: 3px solid #f5aaa7
+        }
+
+        .good-instruction {
+            background: #edfbf4;
+            border: 3px solid #a6e1c4
+        }
+
+        .good-instruction li {
+            font-size: 1.15rem;
+            margin: 8px
+        }
+
+        .ct-wheel {
+            width: 600px;
+            height: 420px;
+            position: relative
+        }
+
+        .ct-center {
+            position: absolute;
+            left: 220px;
+            top: 120px;
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7449dd, #3f8fed);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            font-size: 2.3rem;
+            box-shadow: var(--shadow)
+        }
+
+        .ct-center b {
+            font-size: 1.05rem
+        }
+
+        .ct-item {
+            position: absolute;
+            background: #fff;
+            border: 3px solid #dce6f2;
+            border-radius: 20px;
+            padding: 15px 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            box-shadow: 0 10px 23px rgba(35, 65, 100, .1)
+        }
+
+        .ct-item span {
+            font-size: 2rem
+        }
+
+        .ct-item.one {
+            left: 0;
+            top: 20px
+        }
+
+        .ct-item.two {
+            right: 0;
+            top: 30px
+        }
+
+        .ct-item.three {
+            left: 0;
+            bottom: 20px
+        }
+
+        .ct-item.four {
+            right: 0;
+            bottom: 20px
+        }
+
+        .center-note {
+            text-align: center;
+            font-size: 1.2rem;
+            max-width: 850px;
+            color: #62758b
+        }
+
+        .maze-layout,
+        .repeat-layout,
+        .debug-layout {
+            display: grid;
+            grid-template-columns: 1.15fr .85fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 1120px;
+            align-items: stretch
+        }
+
+        .maze-board-wrap {
+            position: relative;
+            background: #e9f5ff;
+            border: 4px solid #b9ddfa;
+            border-radius: 26px;
+            padding: 18px;
+            display: grid;
+            place-items: center;
+            min-height: 400px;
+            overflow: hidden
+        }
+
+        .maze-board {
+            display: grid;
+            gap: 5px;
+            padding: 8px;
+            background: #b7ddad;
+            border-radius: 18px;
+            box-shadow: inset 0 0 0 3px rgba(255, 255, 255, .55)
+        }
+
+        .maze-board.no-grid {
+            gap: 0;
+            padding: 0;
+            background: #acdca5
+        }
+
+        .maze-cell {
+            width: 58px;
+            height: 58px;
+            background: #f8f1cd;
+            display: grid;
+            place-items: center;
+            font-size: 2rem;
+            border-radius: 9px;
+            border: 2px solid rgba(121, 103, 49, .12);
+            position: relative
+        }
+
+        .maze-board.no-grid .maze-cell {
+            border: 0;
+            border-radius: 0
+        }
+
+        .maze-cell.wall {
+            background: #be5960;
+            border-color: #8a3439
+        }
+
+        .maze-cell.wall:after {
+            content: "🧱"
+        }
+
+        .maze-cell.goal {
+            background: #d7f5d7;
+            border-color: #45b862
+        }
+
+        .maze-cell.package {
+            background: #fff0b7
+        }
+
+        .maze-cell.drop {
+            background: #d7e9ff
+        }
+
+        .maze-cell.robot {
+            outline: 4px solid #ffd048;
+            z-index: 2
+        }
+
+        .maze-console,
+        .repeat-console,
+        .debug-console {
+            background: #fff;
+            border: 3px solid #e1e8f2;
+            border-radius: 26px;
+            padding: 18px;
+            box-shadow: 0 12px 26px rgba(40, 65, 100, .1)
+        }
+
+        .maze-console h3 {
+            margin: 0 0 10px;
+            font-size: 1.5rem
+        }
+
+        .command-palette {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px
+        }
+
+        .command-palette button {
+            border: 2px solid #b8d5ff;
+            background: #eef6ff;
+            border-radius: 13px;
+            padding: 10px;
+            font: 700 .95rem 'Fredoka';
+            cursor: grab
+        }
+
+        .program-label {
+            font-weight: 700;
+            margin: 12px 0 7px;
+            color: #576d84
+        }
+
+        .program-zone,
+        .repeat-zone {
+            min-height: 82px;
+            background: #f4f7fa;
+            border: 3px dashed #b9c7d7;
+            border-radius: 15px;
+            padding: 8px;
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            align-content: flex-start
+        }
+
+        .program-chip {
+            background: #4c9aff;
+            color: #fff;
+            border: 0;
+            border-radius: 10px;
+            padding: 9px 11px;
+            font: 700 .9rem 'Fredoka';
+            cursor: grab;
+            box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .12)
+        }
+
+        .program-chip.action {
+            background: #a16be8
+        }
+
+        .maze-status {
+            position: absolute;
+            top: 10px;
+            left: 14px;
+            font-weight: 700;
+            background: rgba(255, 255, 255, .9);
+            padding: 8px 12px;
+            border-radius: 13px;
+            z-index: 4
+        }
+
+        .battery-panel {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            background: #253753;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 13px;
+            font-weight: 700;
+            z-index: 4
+        }
+
+        .success-banner {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            background: linear-gradient(135deg, #234f9c, #6d4ccb);
+            color: #fff;
+            padding: 22px 30px;
+            border-radius: 28px;
+            max-width: 1000px;
+            width: 100%
+        }
+
+        .success-banner span {
+            font-size: 4.5rem
+        }
+
+        .success-banner h2 {
+            font-size: 2.6rem;
+            margin: 0
+        }
+
+        .efficiency-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 950px;
+            width: 100%;
+            margin-top: 20px
+        }
+
+        .efficiency-compare>div {
+            padding: 25px;
+            border-radius: 26px;
+            background: #fff;
+            border: 3px solid #e0e7f1;
+            text-align: center
+        }
+
+        .efficiency-compare span {
+            font-size: 4rem
+        }
+
+        .efficiency-compare b {
+            display: block;
+            font-size: 1.5rem
+        }
+
+        .repeat-block {
+            background: #ffb636;
+            border-radius: 18px;
+            padding: 8px;
+            color: #553400;
+            box-shadow: inset 0 -5px 0 rgba(0, 0, 0, .12)
+        }
+
+        .repeat-top {
+            font-weight: 700;
+            padding: 7px 9px
+        }
+
+        .repeat-top input {
+            width: 55px;
+            border: 2px solid #d58a00;
+            border-radius: 9px;
+            padding: 5px;
+            font: 700 1rem 'Fredoka'
+        }
+
+        .repeat-zone {
+            background: #fff5dc;
+            border-color: #df9525;
+            min-height: 90px
+        }
+
+        .code-comparison {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 25px;
+            align-items: center;
+            width: 100%;
+            max-width: 980px
+        }
+
+        .long-code,
+        .short-code {
+            background: #fff;
+            border: 3px solid #e1e8f1;
+            border-radius: 28px;
+            padding: 25px;
+            text-align: center
+        }
+
+        .code-comparison h3 {
+            font-size: 1.8rem;
+            margin: 0 0 14px
+        }
+
+        .block {
+            padding: 10px 16px;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 700;
+            margin: 6px auto;
+            width: max-content
+        }
+
+        .block.blue {
+            background: #4c9aff
+        }
+
+        .block.orange {
+            background: #ffaf2e;
+            color: #5e3a00
+        }
+
+        .block.big {
+            padding: 13px 20px
+        }
+
+        .block.inner {
+            margin-top: 10px
+        }
+
+        .versus {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ef7e35
+        }
+
+        .baby-explain {
+            margin-top: 20px;
+            background: #edf8ff;
+            border: 3px solid #b7e0fa;
+            padding: 18px 24px;
+            border-radius: 20px;
+            font-size: 1.25rem
+        }
+
+        .debug-program {
+            min-height: 190px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .debug-program .program-chip {
+            width: 100%;
+            text-align: left
+        }
+
+        .bug-label {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #b44c4c
+        }
+
+        .achievement-wall {
+            max-width: 1050px;
+            text-align: center
+        }
+
+        .achievement-wall h2 {
+            font-size: 3.3rem;
+            margin: 10px 0 22px
+        }
+
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px
+        }
+
+        .achievement-grid>div {
+            background: #fff;
+            border: 3px solid #e0e8f3;
+            border-radius: 24px;
+            padding: 22px;
+            font-size: 3rem;
+            box-shadow: 0 10px 22px rgba(40, 60, 100, .09)
+        }
+
+        .achievement-grid b {
+            display: block;
+            font-size: 1.1rem;
+            margin-top: 8px
+        }
+
+        .achievement-wall p {
+            font-size: 1.25rem
+        }
+
+        .asset-picker {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .asset-picker button {
+            border: 3px solid #e1e7ef;
+            background: #fff;
+            border-radius: 20px;
+            padding: 14px;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .asset-picker button small {
+            display: block;
+            font: 600 .9rem 'Fredoka';
+            margin-top: 5px
+        }
+
+        .asset-picker button.selected {
+            border-color: var(--purple);
+            background: #f4efff;
+            transform: translateY(-4px)
+        }
+
+        .asset-picker button.correct {
+            border-color: var(--green);
+            background: #edfbf4
+        }
+
+        .asset-picker button.wrong {
+            border-color: var(--red);
+            background: #fff0ef
+        }
+
+        .asset-definition {
+            text-align: center;
+            color: #fff
+        }
+
+        .asset-word {
+            font-size: 7rem;
+            font-weight: 700;
+            letter-spacing: .08em
+        }
+
+        .asset-examples {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px
+        }
+
+        .asset-examples span {
+            background: rgba(255, 255, 255, .16);
+            border: 1px solid rgba(255, 255, 255, .35);
+            border-radius: 16px;
+            padding: 13px 18px;
+            font-size: 1.2rem
+        }
+
+        .asset-definition p {
+            font-size: 1.4rem;
+            max-width: 850px
+        }
+
+        .gradient-blue {
+            background: linear-gradient(135deg, #1c5b9e, #2d92d0, #614db3)
+        }
+
+        .carousel-shell {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 18px;
+            width: 100%;
+            max-width: 950px
+        }
+
+        .carousel-arrow {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            border: 0;
+            background: #fff;
+            box-shadow: 0 8px 22px rgba(30, 50, 80, .16);
+            font-size: 2.2rem;
+            cursor: pointer
+        }
+
+        .backdrop-preview {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 28px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: var(--shadow)
+        }
+
+        .backdrop-art {
+            height: 330px;
+            border-radius: 22px;
+            display: grid;
+            place-items: center;
+            font-size: 9rem;
+            position: relative;
+            overflow: hidden
+        }
+
+        .backdrop-preview h3 {
+            font-size: 1.7rem;
+            margin: 10px 0 3px
+        }
+
+        .backdrop-preview p {
+            margin: 0 0 12px;
+            color: #64768a
+        }
+
+        .inventory-scene {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #fff1ce, #ffe0a8);
+            border: 4px solid #fff;
+            border-radius: 34px;
+            padding: 38px;
+            max-width: 1000px;
+            width: 100%;
+            box-shadow: var(--shadow)
+        }
+
+        .inventory-left h2 {
+            font-size: 3rem;
+            margin: 0 0 18px
+        }
+
+        .inventory-list {
+            display: grid;
+            gap: 9px;
+            font-size: 1.2rem
+        }
+
+        .inventory-list span {
+            background: rgba(255, 255, 255, .7);
+            padding: 10px 14px;
+            border-radius: 12px
+        }
+
+        .treasure-chest {
+            font-size: 10rem
+        }
+
+        .game-screen-picker {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .game-screen-demo {
+            height: 380px;
+            background: linear-gradient(#7ba5d9 0 60%, #6b985b 60%);
+            border: 10px solid #283a51;
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .castle-bg-mini {
+            font-size: 10rem;
+            position: absolute;
+            right: 20px;
+            bottom: 20px
+        }
+
+        .hero-mini {
+            font-size: 6rem;
+            position: absolute;
+            left: 35px;
+            bottom: 30px
+        }
+
+        #guiOverlayPreview {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none
+        }
+
+        .gui-chip {
+            position: absolute;
+            background: rgba(24, 32, 50, .85);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: .9rem
+        }
+
+        .gui-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px
+        }
+
+        .gui-options button {
+            border: 3px solid #e0e7f0;
+            background: #fff;
+            border-radius: 15px;
+            padding: 12px;
+            font: 700 1rem 'Fredoka';
+            cursor: pointer
+        }
+
+        .gui-options button.selected {
+            border-color: #805ad5;
+            background: #f5efff
+        }
+
+        .sound-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .sound-grid button {
+            border: 3px solid #e0e7ef;
+            background: #fff;
+            border-radius: 20px;
+            padding: 18px 12px;
+            cursor: pointer;
+            font-family: inherit
+        }
+
+        .sound-grid span {
+            display: block;
+            font-size: 3rem
+        }
+
+        .sound-grid b {
+            display: block;
+            margin-top: 8px
+        }
+
+        .sound-grid button.selected {
+            border-color: var(--orange);
+            background: #fff4e6;
+            transform: translateY(-4px)
+        }
+
+        .asset-composition {
+            display: grid;
+            grid-template-columns: 1.4fr .6fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .composition-screen {
+            height: 400px;
+            border: 10px solid #26394f;
+            border-radius: 26px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(#5d74a8 0 60%, #466c48 60%)
+        }
+
+        .composition-objects {
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            bottom: 35px;
+            display: flex;
+            justify-content: space-around;
+            font-size: 5rem
+        }
+
+        .composition-gui {
+            position: absolute;
+            inset: 0;
+            z-index: 3
+        }
+
+        .composition-side {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 25px;
+            padding: 20px
+        }
+
+        .composition-side h3 {
+            margin-top: 0
+        }
+
+        #compositionList {
+            display: grid;
+            gap: 8px;
+            margin-bottom: 15px
+        }
+
+        #compositionList span {
+            background: #f1f5f9;
+            border-radius: 10px;
+            padding: 9px
+        }
+
+        .coding-reveal {
+            text-align: center;
+            color: #fff;
+            position: relative
+        }
+
+        .coding-reveal h1 {
+            font-size: 8rem;
+            margin: 0;
+            color: #ffd34f;
+            text-shadow: 0 10px 0 rgba(0, 0, 0, .16)
+        }
+
+        .coding-reveal p {
+            font-size: 1.4rem
+        }
+
+        .coding-slide {
+            background: linear-gradient(135deg, #17284e, #502b78, #943d80)
+        }
+
+        .code-rain {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 25px
+        }
+
+        .code-rain span {
+            background: rgba(255, 255, 255, .14);
+            border: 1px solid rgba(255, 255, 255, .28);
+            padding: 9px 13px;
+            border-radius: 12px
+        }
+
+        .coding-lab {
+            display: grid;
+            grid-template-columns: 1.25fr .75fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .coding-stage {
+            height: 410px;
+            background: linear-gradient(#95d9ff 0 62%, #76bb65 62%);
+            border: 8px solid #2c4058;
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .stage-grid-lines {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, .35) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .35) 1px, transparent 1px);
+            background-size: 45px 45px
+        }
+
+        .coded-character {
+            position: absolute;
+            left: 50px;
+            bottom: 48px;
+            font-size: 7rem;
+            transition: .65s ease;
+            transform-origin: center
+        }
+
+        .coded-character.clickable {
+            cursor: pointer;
+            left: 45%;
+            bottom: 85px
+        }
+
+        .click-hint {
+            position: absolute;
+            left: 39%;
+            bottom: 32px;
+            background: #fff;
+            padding: 8px 13px;
+            border-radius: 12px;
+            font-weight: 700
+        }
+
+        .coding-panel {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 25px;
+            padding: 20px
+        }
+
+        .coding-panel label {
+            display: grid;
+            gap: 5px;
+            font-weight: 700;
+            margin-bottom: 12px
+        }
+
+        .coding-panel select,
+        .coding-panel input {
+            border: 2px solid #d3deea;
+            border-radius: 10px;
+            padding: 8px;
+            font: 600 1rem 'Fredoka'
+        }
+
+        .scratch-stack {
+            display: grid;
+            gap: 4px;
+            margin: 12px 0
+        }
+
+        .scratch-event,
+        .scratch-motion {
+            border-radius: 12px;
+            padding: 13px;
+            font-weight: 700;
+            box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .12)
+        }
+
+        .scratch-event {
+            background: #ffd129;
+            color: #4c3a00
+        }
+
+        .scratch-event.yellow {
+            background: #ffbf20
+        }
+
+        .scratch-motion {
+            background: #4b97ff;
+            color: #fff
+        }
+
+        .scratch-motion.purple {
+            background: #9966ff
+        }
+
+        .scratch-motion select,
+        .scratch-motion input {
+            width: auto;
+            background: rgba(255, 255, 255, .92)
+        }
+
+        .green-flag-btn {
+            width: 100%;
+            border: 0;
+            border-radius: 15px;
+            background: #27b56f;
+            color: #fff;
+            padding: 14px;
+            font: 700 1.1rem 'Fredoka';
+            cursor: pointer
+        }
+
+        .clickable.jump {
+            animation: jump .65s ease
+        }
+
+        .clickable.spin {
+            animation: spin .7s ease
+        }
+
+        .clickable.grow {
+            animation: grow .7s ease
+        }
+
+        @keyframes jump {
+            50% {
+                transform: translateY(-110px)
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        @keyframes grow {
+            50% {
+                transform: scale(1.7)
+            }
+        }
+
+        .celebration-scene {
+            text-align: center
+        }
+
+        .big-character {
+            font-size: 9rem;
+            animation: float 2.5s infinite
+        }
+
+        .celebration-scene h2 {
+            font-size: 3rem;
+            max-width: 900px;
+            margin: 5px auto
+        }
+
+        .celebration-scene p {
+            font-size: 1.2rem;
+            color: #60748a
+        }
+
+        .asset-jobs {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap
+        }
+
+        .asset-jobs span {
+            background: #fff;
+            border: 2px solid #dfe7f1;
+            border-radius: 14px;
+            padding: 10px 14px
+        }
+
+        .confetti {
+            font-size: 3rem;
+            color: #ffb728;
+            letter-spacing: 1rem
+        }
+
+        .scratch-intro {
+            display: grid;
+            grid-template-columns: .7fr 1.3fr;
+            gap: 35px;
+            align-items: center;
+            max-width: 1000px
+        }
+
+        .scratch-cat {
+            font-size: 14rem;
+            text-align: center
+        }
+
+        .scratch-intro h2 {
+            font-size: 3.3rem;
+            margin: 8px 0
+        }
+
+        .scratch-intro li {
+            font-size: 1.2rem;
+            margin: 9px
+        }
+
+        .scratch-logo-text {
+            display: inline-block;
+            background: #ff8b22;
+            color: #fff;
+            border: 5px solid #fff;
+            box-shadow: 0 8px 18px rgba(255, 120, 30, .25);
+            border-radius: 20px;
+            padding: 10px 18px;
+            font-size: 2rem;
+            font-weight: 700;
+            transform: rotate(-4deg)
+        }
+
+        .quiz-shell {
+            width: 100%;
+            max-width: 950px;
+            background: #fff;
+            border: 3px solid #e1e8f2;
+            border-radius: 30px;
+            padding: 28px;
+            box-shadow: var(--shadow)
+        }
+
+        .quiz-question {
+            display: none
+        }
+
+        .quiz-question.active {
+            display: block
+        }
+
+        .quiz-question h3 {
+            font-size: 2rem;
+            margin: 0 0 18px
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px
+        }
+
+        .quiz-options button {
+            border: 3px solid #dfe7f0;
+            background: #f9fbfd;
+            border-radius: 16px;
+            padding: 15px 18px;
+            text-align: left;
+            font: 600 1.1rem 'Fredoka';
+            cursor: pointer
+        }
+
+        .quiz-options button:hover {
+            border-color: #8f75ea;
+            background: #f5f0ff
+        }
+
+        .quiz-options button.correct {
+            border-color: var(--green);
+            background: #eafaf3
+        }
+
+        .quiz-options button.wrong {
+            border-color: var(--red);
+            background: #fff0ef
+        }
+
+        .quiz-question.done {
+            text-align: center
+        }
+
+        .quiz-progress {
+            margin-top: 20px;
+            color: #63778e;
+            font-weight: 700
+        }
+
+        .quiz-progress>div {
+            height: 10px;
+            background: #e9eef4;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 7px
+        }
+
+        .quiz-progress i {
+            display: block;
+            height: 100%;
+            width: 20%;
+            background: linear-gradient(90deg, var(--orange), var(--purple));
+            transition: .3s
+        }
+
+        .recap-path {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .recap-path>div {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 23px;
+            padding: 20px;
+            text-align: center
+        }
+
+        .recap-path span {
+            font-size: 3.5rem
+        }
+
+        .recap-path b {
+            display: block;
+            font-size: 1.25rem;
+            margin: 7px
+        }
+
+        .recap-path p {
+            margin: 0;
+            color: #61758b
+        }
+
+        .feedback-slide-content {
+            text-align: center
+        }
+
+        .feedback-slide-content h2 {
+            font-size: 3.5rem;
+            margin: 10px auto;
+            max-width: 900px
+        }
+
+        .feedback-slide-content p {
+            font-size: 1.25rem;
+            color: #65778b
+        }
+
+        .emoji-feedback {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 30px
+        }
+
+        .emoji-feedback button {
+            border: 3px solid #e0e7ef;
+            background: #fff;
+            border-radius: 25px;
+            padding: 18px;
+            font-size: 5rem;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .emoji-feedback button:hover,
+        .emoji-feedback button.selected {
+            transform: scale(1.12);
+            border-color: var(--purple);
+            background: #f5efff
+        }
+
+        .emoji-feedback small {
+            display: block;
+            font: 600 .9rem 'Fredoka'
+        }
+
+        .feedback-thanks {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c4ddd;
+            margin-top: 25px;
+            min-height: 35px
+        }
+
+        .soft-blue {
+            background: linear-gradient(145deg, #edf7ff, #f7fbff)
+        }
+
+        .soft-green {
+            background: linear-gradient(145deg, #effcf5, #fbfffd)
+        }
+
+        .soft-orange {
+            background: linear-gradient(145deg, #fff6ea, #fffdf8)
+        }
+
+        .soft-purple {
+            background: linear-gradient(145deg, #f6f0ff, #fbf9ff)
+        }
+
+        .warm-slide {
+            background: linear-gradient(145deg, #fff8e9, #fffdf6)
+        }
+
+        .dark-slide {
+            background: linear-gradient(145deg, #dfeeff, #f5efff)
+        }
+
+        .sky-slide {
+            background: #e8f7ff
+        }
+
+        .ct-slide {
+            background: linear-gradient(145deg, #fff, #edf7ff)
+        }
+
+        .achievement-slide {
+            background: linear-gradient(145deg, #f6f0ff, #eef7ff)
+        }
+
+        .celebration-slide {
+            background: linear-gradient(145deg, #fff8dc, #f3edff)
+        }
+
+        .scratch-slide {
+            background: linear-gradient(145deg, #fff4e6, #fff)
+        }
+
+        .feedback-final {
+            background: linear-gradient(145deg, #fff0f6, #eef4ff)
+        }
+
+        @media(max-width:1050px) {
+            .presentation-container {
+                width: 95vw;
+                height: 84vh
+            }
+
+            .slide {
+                padding: 32px 30px 72px
+            }
+
+            .agenda-grid,
+            .split-layout,
+            .maze-layout,
+            .repeat-layout,
+            .debug-layout,
+            .coding-lab,
+            .asset-composition,
+            .game-screen-picker {
+                grid-template-columns: 1fr
+            }
+
+            .maze-board-wrap {
+                min-height: 300px
+            }
+
+            .maze-cell {
+                width: 46px;
+                height: 46px;
+                font-size: 1.6rem
+            }
+
+            .app-showcase,
+            .recap-path {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .asset-picker {
+                grid-template-columns: repeat(4, 1fr)
+            }
+
+            .sound-grid {
+                grid-template-columns: repeat(3, 1fr)
+            }
+
+            .achievement-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .school-building {
+                font-size: 7rem
+            }
+
+            .speech-card {
+                margin-left: 28%
+            }
+        }
+
+        @media(max-width:700px) {
+            .brand-logo img {
+                height: 32px
+            }
+
+            .brand-logo {
+                left: 8px;
+                top: 6px;
+                padding: 7px 12px
+            }
+
+            .presentation-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: 0
+            }
+
+            .slide {
+                padding: 68px 18px 74px
+            }
+
+            .agenda-grid,
+            .transport-grid,
+            .app-showcase,
+            .recap-path,
+            .sortable.four {
+                grid-template-columns: 1fr
+            }
+
+            .slide-head h2,
+            .single-focus h2 {
+                font-size: 2rem
+            }
+
+            .display-title {
+                font-size: 3.4rem
+            }
+
+            .hero-icon {
+                font-size: 5rem
+            }
+
+            .asset-picker {
+                grid-template-columns: repeat(3, 1fr)
+            }
+
+            .sound-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .mini-scenes {
+                flex-wrap: wrap
+            }
+
+            .three-step-flow {
+                flex-direction: column
+            }
+
+            .three-step-flow i {
+                transform: rotate(90deg)
+            }
+
+            .ct-wheel {
+                transform: scale(.7)
+            }
+
+            .communication-flow {
+                grid-template-columns: 1fr
+            }
+
+            .code-comparison {
+                grid-template-columns: 1fr
+            }
+
+            .versus {
+                transform: rotate(90deg)
+            }
+
+            .emoji-feedback {
+                gap: 8px;
+                flex-wrap: wrap
+            }
+
+            .emoji-feedback button {
+                font-size: 3.5rem
+            }
+
+            .nav-title {
+                display: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="brand-logo"><img
+            src="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+            alt="Ruangguru"></div>
+    <main class="presentation-container" id="presentation">
+        <!-- Slide 1: Pengenalan Coding -->
+        <section class="slide cover-slide" data-title="Pengenalan Coding">
+
+            <div class="cover-scene">
+                <div class="orbit orbit-a">⚙️</div>
+                <div class="orbit orbit-b">🧩</div>
+                <div class="orbit orbit-c">🤖</div>
+                <div class="hero-badge">Welcome to Coding Class</div>
+                <div class="hero-icon">💻</div>
+                <p class="eyebrow">INTRODUCTION</p>
+                <h1 class="display-title">Pengenalan <span>Coding</span></h1>
+                <p class="hero-subtitle">Belajar menyusun instruksi, memecahkan masalah, dan berkomunikasi dengan
+                    komputer.</p>
+                <div class="hero-pills"><span>🧠 Algoritma</span><span>🤖 Robot Maze</span><span>🎮 Asset
+                        Game</span><span>🧩 Coding Pertama</span></div>
+            </div>
+        </section><!-- Slide 2: Apa yang Akan Kita Pelajari? -->
+        <section class="slide " data-title="Apa yang Akan Kita Pelajari?">
+
+            <div class="slide-head center"><span class="kicker">TODAY'S MISSION</span>
+                <h2>Apa yang Akan Kita Pelajari Hari Ini?</h2>
+                <p>Kita mulai dari kegiatan sehari-hari, lalu mencoba memberi instruksi kepada robot.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><b>01</b><span>📝</span>
+                    <h3>Pre-Test</h3>
+                    <p>Cek pengetahuan awal.</p>
+                </div>
+                <div class="agenda-card orange"><b>02</b><span>🔢</span>
+                    <h3>Algoritma</h3>
+                    <p>Menyusun langkah yang benar.</p>
+                </div>
+                <div class="agenda-card purple"><b>03</b><span>🤖</span>
+                    <h3>Robot Mission</h3>
+                    <p>Memandu robot mencapai tujuan.</p>
+                </div>
+                <div class="agenda-card green"><b>04</b><span>🎮</span>
+                    <h3>Program & Asset</h3>
+                    <p>Menyiapkan isi sebuah program.</p>
+                </div>
+            </div>
+        </section><!-- Slide 3: Pre-Test -->
+        <section class="slide soft-blue" data-title="Pre-Test">
+
+            <div class="single-focus pretest-card">
+                <div class="giant-emoji">📝</div>
+                <span class="kicker">SEBELUM MULAI</span>
+                <h2>Kerjakan Pre-Test Dulu</h2>
+                <p>Jawab sesuai kemampuanmu. Tidak perlu takut salah karena hasilnya digunakan untuk melihat pengetahuan
+                    awal.</p>
+                <button class="primary-btn large" onclick="openPretest()">Buka Pre-Test ↗</button>
+                <div id="pretestNotice" class="notice hidden">Link pre-test belum diisi. Guru akan menambahkannya nanti.
+                </div>
+            </div>
+        </section><!-- Slide 4: Rutinitas Pagi -->
+        <section class="slide warm-slide" data-title="Rutinitas Pagi">
+
+            <div class="split-layout">
+                <div>
+                    <span class="kicker">CERITA PAGI</span>
+                    <h2>Setelah Bangun Tidur...</h2>
+                    <p class="lead">Persiapan apa saja yang biasa kamu lakukan sampai siap berangkat ke sekolah?</p>
+                    <div class="question-bubble">🙋 Ada yang mau menyebutkan urutannya?</div>
+                </div>
+                <div class="morning-clock">
+                    <div class="sun">☀️</div>
+                    <div class="bed">🛏️</div>
+                    <div class="kid">🧒</div>
+                    <div class="routine-cloud">Bangun → Bersih-bersih → Sarapan → Sekolah</div>
+                </div>
+            </div>
+        </section><!-- Slide 5: Urutan Menyikat Gigi -->
+        <section class="slide " data-title="Urutan Menyikat Gigi">
+
+            <div class="slide-head"><span class="kicker">DRAG & ARRANGE</span>
+                <h2>🦷 Urutan Menyikat Gigi</h2>
+                <p>Geser langkah-langkah berikut hingga menjadi urutan yang benar.</p>
+            </div>
+            <div class="sort-shell">
+                <div class="goal-card"><span>🎯</span>
+                    <div><b>Tujuan</b>
+                        <p>Gigi bersih setelah menyikat selama dua menit.</p>
+                    </div>
+                </div>
+                <div class="sortable" id="sortTeeth" data-answer="pick,paste,brush">
+                    <div class="sort-item" draggable="true" data-key="brush"><span class="sort-index">?</span><span
+                            class="sort-emoji">⏱️</span><b>Sikat gigi selama dua menit</b></div>
+                    <div class="sort-item" draggable="true" data-key="pick"><span class="sort-index">?</span><span
+                            class="sort-emoji">🪥</span><b>Ambil sikat gigi</b></div>
+                    <div class="sort-item" draggable="true" data-key="paste"><span class="sort-index">?</span><span
+                            class="sort-emoji">🧴</span><b>Letakkan pasta gigi pada sikat</b></div>
+                </div>
+                <div class="button-row"><button class="primary-btn"
+                        onclick="checkSortable('sortTeeth','feedbackTeeth')">Periksa Urutan</button><button
+                        class="secondary-btn" onclick="shuffleSortable('sortTeeth','feedbackTeeth')">Acak Lagi</button>
+                </div>
+                <div class="feedback" id="feedbackTeeth"></div>
+            </div>
+        </section><!-- Slide 6: Urutan Membuat Sereal -->
+        <section class="slide " data-title="Urutan Membuat Sereal">
+
+            <div class="slide-head"><span class="kicker">ALGORITHM CHALLENGE</span>
+                <h2>🥣 Membuat Semangkuk Sereal</h2>
+                <p>Urutkan langkah dari menyiapkan alat sampai sereal siap dimakan.</p>
+            </div>
+            <div class="sort-shell cereal-shell">
+                <div class="sortable four" id="sortCereal" data-answer="supplies,cereal,milk,serve">
+                    <div class="sort-item" draggable="true" data-key="milk"><span class="sort-index">?</span><span
+                            class="sort-emoji">🥛</span><b>Tuang susu perlahan</b></div>
+                    <div class="sort-item" draggable="true" data-key="serve"><span class="sort-index">?</span><span
+                            class="sort-emoji">🥄</span><b>Masukkan sendok dan makan</b></div>
+                    <div class="sort-item" draggable="true" data-key="supplies"><span class="sort-index">?</span><span
+                            class="sort-emoji">🍽️</span><b>Siapkan mangkuk, sendok, sereal, dan susu</b></div>
+                    <div class="sort-item" draggable="true" data-key="cereal"><span class="sort-index">?</span><span
+                            class="sort-emoji">🌾</span><b>Tuang sereal ke dalam mangkuk</b></div>
+                </div>
+                <div class="button-row"><button class="primary-btn"
+                        onclick="checkSortable('sortCereal','feedbackCereal')">Periksa Urutan</button><button
+                        class="secondary-btn" onclick="shuffleSortable('sortCereal','feedbackCereal')">Acak
+                        Lagi</button></div>
+                <div class="feedback" id="feedbackCereal"></div>
+            </div>
+        </section><!-- Slide 7: Memilih Perjalanan -->
+        <section class="slide " data-title="Memilih Perjalanan">
+
+            <div class="slide-head center"><span class="kicker">DECISION MAKING</span>
+                <h2>Berangkat Sekolah Pukul 06.25</h2>
+                <p>Sekolah dimulai pukul <b>07.00</b>. Kendaraan mana yang kamu pilih?</p>
+            </div>
+            <div class="transport-grid" id="transportChoices">
+                <button onclick="chooseTransport(this,60,'Kendaraan Umum')"><span>🚌</span><b>Kendaraan
+                        Umum</b><small>60 menit</small></button>
+                <button onclick="chooseTransport(this,45,'Mobil')"><span>🚗</span><b>Mobil</b><small>45
+                        menit</small></button>
+                <button onclick="chooseTransport(this,30,'Motor')"><span>🛵</span><b>Motor</b><small>30
+                        menit</small></button>
+            </div>
+            <div class="timeline-card"><span>06.25</span>
+                <div class="timeline-line"><i></i></div><span>07.00</span>
+            </div>
+            <div class="feedback large-feedback" id="transportFeedback">Pilih satu kendaraan untuk melihat waktu tiba.
+            </div>
+        </section><!-- Slide 8: Sampai di Sekolah -->
+        <section class="slide sky-slide" data-title="Sampai di Sekolah">
+
+            <div class="school-scene">
+                <div class="school-building">🏫</div>
+                <div class="school-kids">🧒👧🧒</div>
+                <div class="speech-card"><span class="kicker">KAMU SUDAH SAMPAI!</span>
+                    <h2>Sekarang Kita Siap Belajar</h2>
+                    <p>Kira-kira, kegiatan mengurutkan langkah dan memilih kendaraan tadi berhubungan dengan pelajaran
+                        apa?</p>
+                </div>
+            </div>
+        </section><!-- Slide 9: Kita Sudah Membuat Algoritma -->
+        <section class="slide gradient-purple" data-title="Kita Sudah Membuat Algoritma">
+
+            <div class="concept-reveal">
+                <div class="mini-scenes">
+                    <div>🪥<small>Urutan menyikat gigi</small></div>
+                    <div>🥣<small>Urutan membuat sereal</small></div>
+                    <div>🛵<small>Memilih perjalanan</small></div>
+                </div>
+                <div class="arrow-down">↓</div>
+                <div class="reveal-word">ALGORITMA</div>
+                <p>Tanpa sadar, kita sudah menyusun langkah dan membuat keputusan untuk mencapai tujuan.</p>
+            </div>
+        </section><!-- Slide 10: Misi Belajar Hari Ini -->
+        <section class="slide dark-slide" data-title="Misi Belajar Hari Ini">
+
+            <div class="mission-board">
+                <div class="mission-number">01</div>
+                <div><span class="kicker">MISI UTAMA</span>
+                    <h2>Menyelesaikan Masalah dengan Langkah yang Tepat</h2>
+                    <p>Kita akan belajar menyusun instruksi yang:</p>
+                </div>
+                <div class="mission-qualities"><span>✅ Berurutan</span><span>✅ Jelas</span><span>✅ Tidak
+                        berputar-putar</span><span>✅ Sesuai tujuan</span></div>
+            </div>
+        </section><!-- Slide 11: Untuk Apa Algoritma? -->
+        <section class="slide " data-title="Untuk Apa Algoritma?">
+
+            <div class="slide-head center"><span class="kicker">WHY?</span>
+                <h2>Algoritma Itu Digunakan untuk Apa?</h2>
+                <p>Algoritma membantu kita mengetahui masalah, tujuan, dan langkah yang perlu dilakukan.</p>
+            </div>
+            <div class="three-step-flow">
+                <div><span>❓</span><b>Masalah</b>
+                    <p>Apa yang belum bekerja?</p>
+                </div><i>→</i>
+                <div><span>🎯</span><b>Tujuan</b>
+                    <p>Hasil apa yang kita mau?</p>
+                </div><i>→</i>
+                <div><span>🧩</span><b>Langkah</b>
+                    <p>Apa yang harus dilakukan?</p>
+                </div>
+            </div>
+            <div class="question-bubble centered">Contoh: Sulit bangun pagi → ingin bangun tepat waktu → membuat alarm.
+            </div>
+        </section><!-- Slide 12: Program Menyelesaikan Masalah -->
+        <section class="slide soft-green" data-title="Program Menyelesaikan Masalah">
+
+            <div class="split-layout">
+                <div class="problem-stack">
+                    <div class="problem-card">😴 Sulit bangun tepat waktu</div>
+                    <div class="problem-card">🌧️ Tidak tahu cuaca hari ini</div>
+                    <div class="problem-card">📝 Sering lupa tugas</div>
+                </div>
+                <div><span class="kicker">PROGRAM = ALAT BANTU</span>
+                    <h2>Mengapa Kita Membuat Program?</h2>
+                    <p class="lead">Program dibuat untuk membantu manusia menyelesaikan masalah atau melakukan tugas
+                        dengan lebih mudah.</p>
+                    <div class="simple-rule">Masalah → Ide Solusi → Program</div>
+                </div>
+            </div>
+        </section><!-- Slide 13: Program di Kehidupan Sehari-hari -->
+        <section class="slide " data-title="Program di Kehidupan Sehari-hari">
+
+            <div class="slide-head center"><span class="kicker">AROUND US</span>
+                <h2>Masalah yang Sudah Dibantu oleh Program</h2>
+            </div>
+            <div class="app-showcase">
+                <div><span>⏰</span><b>Alarm</b>
+                    <p>Membantu bangun tepat waktu.</p>
+                </div>
+                <div><span>🗒️</span><b>Catatan Digital</b>
+                    <p>Menyimpan ide dan tugas.</p>
+                </div>
+                <div><span>🌦️</span><b>Weather App</b>
+                    <p>Melihat perkiraan cuaca.</p>
+                </div>
+                <div><span>🗺️</span><b>Maps</b>
+                    <p>Mencari jalan menuju tempat.</p>
+                </div>
+                <div><span>📷</span><b>Camera App</b>
+                    <p>Mengambil dan menyimpan gambar.</p>
+                </div>
+                <div><span>🧮</span><b>Calculator</b>
+                    <p>Membantu menghitung.</p>
+                </div>
+            </div>
+        </section><!-- Slide 14: Aplikasi yang Sering Digunakan -->
+        <section class="slide soft-orange" data-title="Aplikasi yang Sering Digunakan">
+
+            <div class="input-lab">
+                <div class="phone-mockup">
+                    <div class="phone-top"></div>
+                    <div class="phone-icons">📱<br><span>?</span></div>
+                </div>
+                <div><span class="kicker">YOUR ANSWER</span>
+                    <h2>Aplikasi Apa yang Sering Kamu Gunakan?</h2>
+                    <p>Boleh aplikasi belajar, komunikasi, kamera, maps, atau hiburan.</p>
+                    <div class="input-row"><input id="appInput" type="text"
+                            placeholder="Ketik nama aplikasinya..."><button class="primary-btn"
+                            onclick="submitTextAnswer('appInput','appResponse','Aplikasi itu membantu kamu melakukan sesuatu. Coba pikirkan: masalah apa yang dibantu oleh aplikasi tersebut?')">Kirim</button>
+                    </div>
+                    <div class="response-box" id="appResponse"></div>
+                </div>
+            </div>
+        </section><!-- Slide 15: Program untuk Hiburan -->
+        <section class="slide game-slide" data-title="Program untuk Hiburan">
+
+            <div class="game-stage">
+                <div class="pixel-cloud c1"></div>
+                <div class="pixel-cloud c2"></div>
+                <div class="game-title"><span class="kicker">PROGRAM JUGA BISA SERU</span>
+                    <h2>Kita Bisa Membuat Game</h2>
+                    <p>Game adalah program yang dibuat untuk memberi tantangan, cerita, atau hiburan kepada pemain.</p>
+                </div>
+                <div class="game-characters">🧙‍♂️ ⚔️ 🐉 🏰</div>
+            </div>
+        </section><!-- Slide 16: Game Favorit -->
+        <section class="slide soft-purple" data-title="Game Favorit">
+
+            <div class="input-lab reversed">
+                <div><span class="kicker">GAME TALK</span>
+                    <h2>Game Apa yang Sedang Kamu Suka?</h2>
+                    <p>Ketik nama game-nya. Setelah itu, pikirkan apa saja yang perlu diprogram agar game tersebut bisa
+                        dimainkan.</p>
+                    <div class="input-row"><input id="gameInput" type="text" placeholder="Ketik nama game..."><button
+                            class="primary-btn"
+                            onclick="submitTextAnswer('gameInput','gameResponse','Di balik game itu ada karakter, aturan, suara, tombol, dan banyak instruksi yang disusun oleh programmer.')">Kirim</button>
+                    </div>
+                    <div class="response-box" id="gameResponse"></div>
+                </div>
+                <div class="controller-art">🎮</div>
+            </div>
+        </section><!-- Slide 17: Memberi Instruksi kepada Komputer -->
+        <section class="slide " data-title="Memberi Instruksi kepada Komputer">
+
+            <div class="communication-flow">
+                <div class="human-side"><span>🧒</span><b>Manusia</b>
+                    <p>Memiliki masalah dan tujuan.</p>
+                </div>
+                <div class="code-bridge"><span>🧩</span><b>ALGORITMA</b><small>Instruksi yang jelas</small></div>
+                <div class="computer-side"><span>💻</span><b>Komputer</b>
+                    <p>Menjalankan instruksi.</p>
+                </div>
+            </div>
+            <div class="bottom-message">Cara membuat program adalah dengan memberi instruksi kepada komputer menggunakan
+                algoritma.</div>
+        </section><!-- Slide 18: Komputer Tidak Bisa Menebak -->
+        <section class="slide chat-slide" data-title="Komputer Tidak Bisa Menebak">
+
+            <div class="chat-lab">
+                <div class="chat-person">
+                    <div class="avatar">🧒</div>
+                    <div class="chat-bubble user">“Komputer, buatkan aplikasi supaya aku bisa bangun dengan suara keras
+                        pada waktu yang kutentukan.”</div>
+                </div>
+                <div class="chat-computer">
+                    <div class="avatar">💻</div>
+                    <div class="computer-questions" id="computerQuestions">
+                        <p>Klik tombol untuk melihat pertanyaan komputer.</p>
+                    </div>
+                </div>
+                <button class="primary-btn" onclick="showComputerQuestions()">Kirim Instruksi</button>
+            </div>
+        </section><!-- Slide 19: Instruksi Harus Detail -->
+        <section class="slide " data-title="Instruksi Harus Detail">
+
+            <div class="detail-comparison">
+                <div class="bad-instruction"><span>❌</span>
+                    <h3>Kurang Jelas</h3>
+                    <p>“Buat aplikasi alarm.”</p>
+                </div>
+                <div class="good-instruction"><span>✅</span>
+                    <h3>Lebih Jelas</h3>
+                    <ul>
+                        <li>Ada tombol mengatur jam.</li>
+                        <li>Ada tombol menyimpan.</li>
+                        <li>Suara berbunyi pada waktu pilihan.</li>
+                        <li>Ada tombol menghentikan suara.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="simple-rule centered-rule">Algoritma membantu kita menyusun perintah secara detail dan
+                berurutan.</div>
+        </section><!-- Slide 20: Computational Thinking -->
+        <section class="slide ct-slide" data-title="Computational Thinking">
+
+            <div class="ct-wheel">
+                <div class="ct-center">🧠<b>Computational<br>Thinking</b></div>
+                <div class="ct-item one"><span>🧩</span><b>Pecah Masalah</b></div>
+                <div class="ct-item two"><span>🔍</span><b>Cari Pola</b></div>
+                <div class="ct-item three"><span>📝</span><b>Susun Langkah</b></div>
+                <div class="ct-item four"><span>🧪</span><b>Uji & Perbaiki</b></div>
+            </div>
+            <p class="center-note">Dengan memahami cara komputer bekerja, kita bisa memberi instruksi yang lebih mudah
+                dipahami komputer.</p>
+        </section><!-- Slide 21: Robot Mission 1 -->
+        <section class="slide " data-title="Robot Mission 1">
+
+            <div class="slide-head compact"><span class="kicker">ROBOT MISSION 1</span>
+                <h2>Bantu Robot Mengambil Tool 🔧</h2>
+                <p>Susun perintah agar robot mencapai kotak tool.</p>
+            </div>
+            <div class="maze-layout" data-maze-shell="maze1">
+                <div class="maze-board-wrap">
+                    <div class="maze-status" id="maze1Status"></div>
+                    <div class="maze-board" id="maze1Board"></div>
+                </div>
+                <div class="maze-console">
+                    <h3>Perintah Robot</h3>
+                    <div class="command-palette" data-target="maze1Program">
+                        <button draggable="true" data-command="up">⬆️ Atas</button>
+                        <button draggable="true" data-command="down">⬇️ Bawah</button>
+                        <button draggable="true" data-command="left">⬅️ Kiri</button>
+                        <button draggable="true" data-command="right">➡️ Kanan</button>
+
+                    </div>
+                    <div class="program-label">Susunan Program</div>
+                    <div class="program-zone" id="maze1Program"></div>
+                    <div class="button-row tight"><button class="primary-btn" onclick="runMaze('maze1')">▶
+                            Jalankan</button><button class="secondary-btn"
+                            onclick="clearMazeProgram('maze1')">Bersihkan</button></div>
+                    <div class="feedback" id="maze1Feedback"></div>
+                </div>
+            </div>
+        </section><!-- Slide 22: Robot Mission 2 -->
+        <section class="slide " data-title="Robot Mission 2">
+
+            <div class="slide-head compact"><span class="kicker">ROBOT MISSION 2</span>
+                <h2>Hindari Tembok! 🧱</h2>
+                <p>Robot tidak boleh menabrak tembok merah.</p>
+            </div>
+            <div class="maze-layout" data-maze-shell="maze2">
+                <div class="maze-board-wrap">
+                    <div class="maze-status" id="maze2Status"></div>
+                    <div class="maze-board" id="maze2Board"></div>
+                </div>
+                <div class="maze-console">
+                    <h3>Perintah Robot</h3>
+                    <div class="command-palette" data-target="maze2Program">
+                        <button draggable="true" data-command="up">⬆️ Atas</button>
+                        <button draggable="true" data-command="down">⬇️ Bawah</button>
+                        <button draggable="true" data-command="left">⬅️ Kiri</button>
+                        <button draggable="true" data-command="right">➡️ Kanan</button>
+
+                    </div>
+                    <div class="program-label">Susunan Program</div>
+                    <div class="program-zone" id="maze2Program"></div>
+                    <div class="button-row tight"><button class="primary-btn" onclick="runMaze('maze2')">▶
+                            Jalankan</button><button class="secondary-btn"
+                            onclick="clearMazeProgram('maze2')">Bersihkan</button></div>
+                    <div class="feedback" id="maze2Feedback"></div>
+                </div>
+            </div>
+        </section><!-- Slide 23: Robot Mission 3 -->
+        <section class="slide " data-title="Robot Mission 3">
+
+            <div class="slide-head compact"><span class="kicker">ROBOT MISSION 3</span>
+                <h2>Sekarang Tanpa Garis Grid</h2>
+                <p>Perhatikan jarak dengan teliti karena garis kotaknya disembunyikan.</p>
+            </div>
+            <div class="maze-layout" data-maze-shell="maze3">
+                <div class="maze-board-wrap">
+                    <div class="maze-status" id="maze3Status"></div>
+                    <div class="maze-board" id="maze3Board"></div>
+                </div>
+                <div class="maze-console">
+                    <h3>Perintah Robot</h3>
+                    <div class="command-palette" data-target="maze3Program">
+                        <button draggable="true" data-command="up">⬆️ Atas</button>
+                        <button draggable="true" data-command="down">⬇️ Bawah</button>
+                        <button draggable="true" data-command="left">⬅️ Kiri</button>
+                        <button draggable="true" data-command="right">➡️ Kanan</button>
+
+                    </div>
+                    <div class="program-label">Susunan Program</div>
+                    <div class="program-zone" id="maze3Program"></div>
+                    <div class="button-row tight"><button class="primary-btn" onclick="runMaze('maze3')">▶
+                            Jalankan</button><button class="secondary-btn"
+                            onclick="clearMazeProgram('maze3')">Bersihkan</button></div>
+                    <div class="feedback" id="maze3Feedback"></div>
+                </div>
+            </div>
+        </section><!-- Slide 24: Robot Mission 4 -->
+        <section class="slide " data-title="Robot Mission 4">
+
+            <div class="slide-head compact"><span class="kicker">ROBOT MISSION 4</span>
+                <h2>Ada Lebih dari Satu Jalan</h2>
+                <p>Cari jalan yang paling singkat untuk mengambil tool.</p>
+            </div>
+            <div class="maze-layout" data-maze-shell="maze4">
+                <div class="maze-board-wrap">
+                    <div class="maze-status" id="maze4Status"></div>
+                    <div class="maze-board" id="maze4Board"></div>
+                </div>
+                <div class="maze-console">
+                    <h3>Perintah Robot</h3>
+                    <div class="command-palette" data-target="maze4Program">
+                        <button draggable="true" data-command="up">⬆️ Atas</button>
+                        <button draggable="true" data-command="down">⬇️ Bawah</button>
+                        <button draggable="true" data-command="left">⬅️ Kiri</button>
+                        <button draggable="true" data-command="right">➡️ Kanan</button>
+
+                    </div>
+                    <div class="program-label">Susunan Program</div>
+                    <div class="program-zone" id="maze4Program"></div>
+                    <div class="button-row tight"><button class="primary-btn" onclick="runMaze('maze4')">▶
+                            Jalankan</button><button class="secondary-btn"
+                            onclick="clearMazeProgram('maze4')">Bersihkan</button></div>
+                    <div class="feedback" id="maze4Feedback"></div>
+                </div>
+            </div>
+        </section><!-- Slide 25: Robot Mission 5 -->
+        <section class="slide " data-title="Robot Mission 5">
+
+            <div class="slide-head compact"><span class="kicker">BATTERY CHALLENGE</span>
+                <h2>Baterai Robot Terbatas 🔋</h2>
+                <p>Setiap satu langkah menggunakan satu baterai. Pilih jalan yang tidak boros.</p>
+            </div>
+            <div class="maze-layout" data-maze-shell="maze5">
+                <div class="maze-board-wrap">
+                    <div class="maze-status" id="maze5Status"></div>
+                    <div class="maze-board" id="maze5Board"></div>
+                    <div class="battery-panel">🔋 <span id="maze5Battery">0</span></div>
+                </div>
+                <div class="maze-console">
+                    <h3>Perintah Robot</h3>
+                    <div class="command-palette" data-target="maze5Program">
+                        <button draggable="true" data-command="up">⬆️ Atas</button>
+                        <button draggable="true" data-command="down">⬇️ Bawah</button>
+                        <button draggable="true" data-command="left">⬅️ Kiri</button>
+                        <button draggable="true" data-command="right">➡️ Kanan</button>
+
+                    </div>
+                    <div class="program-label">Susunan Program</div>
+                    <div class="program-zone" id="maze5Program"></div>
+                    <div class="button-row tight"><button class="primary-btn" onclick="runMaze('maze5')">▶
+                            Jalankan</button><button class="secondary-btn"
+                            onclick="clearMazeProgram('maze5')">Bersihkan</button></div>
+                    <div class="feedback" id="maze5Feedback"></div>
+                </div>
+            </div>
+        </section><!-- Slide 26: Robot Mission 6 -->
+        <section class="slide " data-title="Robot Mission 6">
+
+            <div class="slide-head compact"><span class="kicker">BATTERY CHALLENGE 2</span>
+                <h2>Jalan Mana yang Paling Hemat?</h2>
+                <p>Maze lebih sulit. Pastikan baterai cukup sampai tujuan.</p>
+            </div>
+            <div class="maze-layout" data-maze-shell="maze6">
+                <div class="maze-board-wrap">
+                    <div class="maze-status" id="maze6Status"></div>
+                    <div class="maze-board" id="maze6Board"></div>
+                    <div class="battery-panel">🔋 <span id="maze6Battery">0</span></div>
+                </div>
+                <div class="maze-console">
+                    <h3>Perintah Robot</h3>
+                    <div class="command-palette" data-target="maze6Program">
+                        <button draggable="true" data-command="up">⬆️ Atas</button>
+                        <button draggable="true" data-command="down">⬇️ Bawah</button>
+                        <button draggable="true" data-command="left">⬅️ Kiri</button>
+                        <button draggable="true" data-command="right">➡️ Kanan</button>
+
+                    </div>
+                    <div class="program-label">Susunan Program</div>
+                    <div class="program-zone" id="maze6Program"></div>
+                    <div class="button-row tight"><button class="primary-btn" onclick="runMaze('maze6')">▶
+                            Jalankan</button><button class="secondary-btn"
+                            onclick="clearMazeProgram('maze6')">Bersihkan</button></div>
+                    <div class="feedback" id="maze6Feedback"></div>
+                </div>
+            </div>
+        </section><!-- Slide 27: Delivery Drone -->
+        <section class="slide " data-title="Delivery Drone">
+
+            <div class="slide-head compact"><span class="kicker">DELIVERY MISSION</span>
+                <h2>Ambil Paket, Lalu Antar ke Rumah 📦</h2>
+                <p>Drone harus berada di paket saat menjalankan Pick Up, lalu berada di rumah saat menjalankan Drop.</p>
+            </div>
+            <div class="maze-layout" data-maze-shell="maze7">
+                <div class="maze-board-wrap">
+                    <div class="maze-status" id="maze7Status"></div>
+                    <div class="maze-board" id="maze7Board"></div>
+                </div>
+                <div class="maze-console">
+                    <h3>Perintah Robot</h3>
+                    <div class="command-palette" data-target="maze7Program">
+                        <button draggable="true" data-command="up">⬆️ Atas</button>
+                        <button draggable="true" data-command="down">⬇️ Bawah</button>
+                        <button draggable="true" data-command="left">⬅️ Kiri</button>
+                        <button draggable="true" data-command="right">➡️ Kanan</button>
+                        <button draggable="true" data-command="pickup">📦 Pick Up</button><button draggable="true"
+                            data-command="drop">🏠 Drop</button>
+                    </div>
+                    <div class="program-label">Susunan Program</div>
+                    <div class="program-zone" id="maze7Program"></div>
+                    <div class="button-row tight"><button class="primary-btn" onclick="runMaze('maze7')">▶
+                            Jalankan</button><button class="secondary-btn"
+                            onclick="clearMazeProgram('maze7')">Bersihkan</button></div>
+                    <div class="feedback" id="maze7Feedback"></div>
+                </div>
+            </div>
+        </section><!-- Slide 28: Delivery Drone dengan Baterai -->
+        <section class="slide " data-title="Delivery Drone dengan Baterai">
+
+            <div class="slide-head compact"><span class="kicker">DELIVERY + BATTERY</span>
+                <h2>Antar Paket Sebelum Baterai Habis</h2>
+                <p>Susun rute, Pick Up paket, lalu Drop di rumah dengan langkah yang hemat.</p>
+            </div>
+            <div class="maze-layout" data-maze-shell="maze8">
+                <div class="maze-board-wrap">
+                    <div class="maze-status" id="maze8Status"></div>
+                    <div class="maze-board" id="maze8Board"></div>
+                    <div class="battery-panel">🔋 <span id="maze8Battery">0</span></div>
+                </div>
+                <div class="maze-console">
+                    <h3>Perintah Robot</h3>
+                    <div class="command-palette" data-target="maze8Program">
+                        <button draggable="true" data-command="up">⬆️ Atas</button>
+                        <button draggable="true" data-command="down">⬇️ Bawah</button>
+                        <button draggable="true" data-command="left">⬅️ Kiri</button>
+                        <button draggable="true" data-command="right">➡️ Kanan</button>
+                        <button draggable="true" data-command="pickup">📦 Pick Up</button><button draggable="true"
+                            data-command="drop">🏠 Drop</button>
+                    </div>
+                    <div class="program-label">Susunan Program</div>
+                    <div class="program-zone" id="maze8Program"></div>
+                    <div class="button-row tight"><button class="primary-btn" onclick="runMaze('maze8')">▶
+                            Jalankan</button><button class="secondary-btn"
+                            onclick="clearMazeProgram('maze8')">Bersihkan</button></div>
+                    <div class="feedback" id="maze8Feedback"></div>
+                </div>
+            </div>
+        </section><!-- Slide 29: Program yang Hemat Langkah -->
+        <section class="slide success-slide" data-title="Program yang Hemat Langkah">
+
+            <div class="success-banner"><span>🏆</span>
+                <h2>Kamu Berhasil Memberi Instruksi kepada Robot!</h2>
+            </div>
+            <div class="efficiency-compare">
+                <div><span>🌀</span><b>Jalan Berputar</b>
+                    <p>Bisa sampai, tetapi memakai banyak langkah dan baterai.</p>
+                </div>
+                <div><span>⚡</span><b>Jalan Lebih Singkat</b>
+                    <p>Lebih mudah dibaca dan lebih hemat tenaga robot.</p>
+                </div>
+            </div>
+            <div class="simple-rule centered-rule">Dalam coding, kita mencari cara yang <b>lebih singkat, jelas, dan
+                    tidak membuang langkah.</b></div>
+        </section><!-- Slide 30: Repeat Mission 1 -->
+        <section class="slide " data-title="Repeat Mission 1">
+
+            <div class="slide-head compact"><span class="kicker">LOOP MISSION 1</span>
+                <h2>Gunakan Block Ulangi 🔁</h2>
+                <p>Robot hanya menerima program jika kamu menggunakan block Ulangi.</p>
+            </div>
+            <div class="repeat-layout" data-repeat-shell="repeat1">
+                <div class="maze-board-wrap">
+                    <div class="maze-board" id="repeat1Board"></div>
+                </div>
+                <div class="repeat-console">
+                    <div class="command-palette repeat-palette" data-target="repeat1RepeatZone"><button draggable="true"
+                            data-command="up">⬆️ Atas</button><button draggable="true" data-command="down">⬇️
+                            Bawah</button><button draggable="true" data-command="left">⬅️ Kiri</button><button
+                            draggable="true" data-command="right">➡️ Kanan</button></div>
+                    <div class="repeat-block">
+                        <div class="repeat-top">ULANGI <input id="repeat1Count" type="number" min="2" max="10"
+                                value="2"> KALI</div>
+                        <div class="repeat-zone" id="repeat1RepeatZone"></div>
+                    </div>
+                    <div class="button-row tight"><button class="primary-btn" onclick="runRepeatMaze('repeat1')">▶
+                            Jalankan</button><button class="secondary-btn"
+                            onclick="clearRepeat('repeat1')">Bersihkan</button></div>
+                    <div class="feedback" id="repeat1Feedback"></div>
+                </div>
+            </div>
+        </section><!-- Slide 31: Repeat Mission 2 -->
+        <section class="slide " data-title="Repeat Mission 2">
+
+            <div class="slide-head compact"><span class="kicker">LOOP MISSION 2</span>
+                <h2>Pola Gerak yang Berulang</h2>
+                <p>Temukan dua gerakan yang selalu berulang, lalu masukkan ke dalam block Ulangi.</p>
+            </div>
+            <div class="repeat-layout" data-repeat-shell="repeat2">
+                <div class="maze-board-wrap">
+                    <div class="maze-board" id="repeat2Board"></div>
+                </div>
+                <div class="repeat-console">
+                    <div class="command-palette repeat-palette" data-target="repeat2RepeatZone"><button draggable="true"
+                            data-command="up">⬆️ Atas</button><button draggable="true" data-command="down">⬇️
+                            Bawah</button><button draggable="true" data-command="left">⬅️ Kiri</button><button
+                            draggable="true" data-command="right">➡️ Kanan</button></div>
+                    <div class="repeat-block">
+                        <div class="repeat-top">ULANGI <input id="repeat2Count" type="number" min="2" max="10"
+                                value="2"> KALI</div>
+                        <div class="repeat-zone" id="repeat2RepeatZone"></div>
+                    </div>
+                    <div class="button-row tight"><button class="primary-btn" onclick="runRepeatMaze('repeat2')">▶
+                            Jalankan</button><button class="secondary-btn"
+                            onclick="clearRepeat('repeat2')">Bersihkan</button></div>
+                    <div class="feedback" id="repeat2Feedback"></div>
+                </div>
+            </div>
+        </section><!-- Slide 32: Repeat Mission 3 -->
+        <section class="slide " data-title="Repeat Mission 3">
+
+            <div class="slide-head compact"><span class="kicker">LOOP MISSION 3</span>
+                <h2>Tanpa Garis Grid Lagi</h2>
+                <p>Perkirakan polanya dan selesaikan maze dengan block Ulangi.</p>
+            </div>
+            <div class="repeat-layout" data-repeat-shell="repeat3">
+                <div class="maze-board-wrap">
+                    <div class="maze-board" id="repeat3Board"></div>
+                </div>
+                <div class="repeat-console">
+                    <div class="command-palette repeat-palette" data-target="repeat3RepeatZone"><button draggable="true"
+                            data-command="up">⬆️ Atas</button><button draggable="true" data-command="down">⬇️
+                            Bawah</button><button draggable="true" data-command="left">⬅️ Kiri</button><button
+                            draggable="true" data-command="right">➡️ Kanan</button></div>
+                    <div class="repeat-block">
+                        <div class="repeat-top">ULANGI <input id="repeat3Count" type="number" min="2" max="10"
+                                value="2"> KALI</div>
+                        <div class="repeat-zone" id="repeat3RepeatZone"></div>
+                    </div>
+                    <div class="button-row tight"><button class="primary-btn" onclick="runRepeatMaze('repeat3')">▶
+                            Jalankan</button><button class="secondary-btn"
+                            onclick="clearRepeat('repeat3')">Bersihkan</button></div>
+                    <div class="feedback" id="repeat3Feedback"></div>
+                </div>
+            </div>
+        </section><!-- Slide 33: Mengapa Menggunakan Repeat? -->
+        <section class="slide " data-title="Mengapa Menggunakan Repeat?">
+
+            <div class="code-comparison">
+                <div class="long-code">
+                    <h3>Tanpa Repeat</h3>
+                    <div class="block blue">➡️ kanan</div>
+                    <div class="block blue">➡️ kanan</div>
+                    <div class="block blue">➡️ kanan</div>
+                    <div class="block blue">➡️ kanan</div><small>Dibaca empat kali satu per satu.</small>
+                </div>
+                <div class="versus">VS</div>
+                <div class="short-code">
+                    <h3>Dengan Repeat</h3>
+                    <div class="block orange big">ULANGI 4 KALI<div class="block blue inner">➡️ kanan</div>
+                    </div><small>Dibaca: ulangi gerak kanan empat kali.</small>
+                </div>
+            </div>
+            <div class="baby-explain">Repeat artinya <b>“lakukan hal yang sama beberapa kali.”</b> Program menjadi lebih
+                pendek dan lebih mudah dibaca.</div>
+        </section><!-- Slide 34: Debugging Mission 1 -->
+        <section class="slide " data-title="Debugging Mission 1">
+
+            <div class="slide-head compact"><span class="kicker">DEBUGGING MISSION 1</span>
+                <h2>Program Robotnya Rusak! 🐞</h2>
+                <p>Geser block dan perbaiki urutannya agar robot mencapai tool.</p>
+            </div>
+            <div class="debug-layout" data-debug-shell="debug1">
+                <div class="maze-board-wrap">
+                    <div class="maze-board" id="debug1Board"></div>
+                </div>
+                <div class="debug-console">
+                    <div class="bug-label">🐞 Program yang Rusak</div>
+                    <div class="debug-program sortable-program" id="debug1Program"></div>
+                    <div class="button-row tight"><button class="primary-btn" onclick="runDebug('debug1')">▶ Uji
+                            Program</button><button class="secondary-btn"
+                            onclick="resetDebug('debug1')">Kembalikan</button></div>
+                    <div class="feedback" id="debug1Feedback"></div>
+                </div>
+            </div>
+        </section><!-- Slide 35: Debugging Mission 2 -->
+        <section class="slide " data-title="Debugging Mission 2">
+
+            <div class="slide-head compact"><span class="kicker">DEBUGGING MISSION 2</span>
+                <h2>Perbaiki Robot Kedua</h2>
+                <p>Program ini lebih sulit. Uji, lihat kesalahannya, lalu susun ulang.</p>
+            </div>
+            <div class="debug-layout" data-debug-shell="debug2">
+                <div class="maze-board-wrap">
+                    <div class="maze-board" id="debug2Board"></div>
+                </div>
+                <div class="debug-console">
+                    <div class="bug-label">🐞 Program yang Rusak</div>
+                    <div class="debug-program sortable-program" id="debug2Program"></div>
+                    <div class="button-row tight"><button class="primary-btn" onclick="runDebug('debug2')">▶ Uji
+                            Program</button><button class="secondary-btn"
+                            onclick="resetDebug('debug2')">Kembalikan</button></div>
+                    <div class="feedback" id="debug2Feedback"></div>
+                </div>
+            </div>
+        </section><!-- Slide 36: Kemampuan Baru Kamu -->
+        <section class="slide achievement-slide" data-title="Kemampuan Baru Kamu">
+
+            <div class="achievement-wall"><span class="kicker">CHECKPOINT</span>
+                <h2>Selama Menyelesaikan Puzzle, Kamu Sudah...</h2>
+                <div class="achievement-grid">
+                    <div>🤖<b>Memberi Instruksi</b></div>
+                    <div>🧭<b>Memilih Jalan</b></div>
+                    <div>🔁<b>Menggunakan Repeat</b></div>
+                    <div>🐞<b>Memperbaiki Error</b></div>
+                </div>
+                <p>Artinya kamu sudah mulai belajar berkomunikasi dengan komputer.</p>
+            </div>
+        </section><!-- Slide 37: Menyiapkan Asset -->
+        <section class="slide " data-title="Menyiapkan Asset">
+
+            <div class="slide-head compact"><span class="kicker">PREPARE YOUR ASSET</span>
+                <h2>Game Bertema Kerajaan 🏰</h2>
+                <p>Klik semua benda yang cocok digunakan dalam game medieval atau kerajaan.</p>
+            </div>
+            <div class="asset-picker" id="assetPicker">
+                <button data-name="Ksatria" data-emoji="🛡️" data-correct="true">🛡️<small>Ksatria</small></button>
+                <button data-name="Naga" data-emoji="🐉" data-correct="true">🐉<small>Naga</small></button>
+                <button data-name="Penyihir" data-emoji="🧙‍♂️"
+                    data-correct="true">🧙‍♂️<small>Penyihir</small></button>
+                <button data-name="Kastel" data-emoji="🏰" data-correct="true">🏰<small>Kastel</small></button>
+                <button data-name="Pedang" data-emoji="⚔️" data-correct="true">⚔️<small>Pedang</small></button>
+                <button data-name="Harta" data-emoji="💰" data-correct="true">💰<small>Harta</small></button>
+                <button data-name="Pesawat" data-emoji="✈️" data-correct="false">✈️<small>Pesawat</small></button>
+                <button data-name="Sikat Gigi" data-emoji="🪥" data-correct="false">🪥<small>Sikat Gigi</small></button>
+                <button data-name="Lampu Lalu Lintas" data-emoji="🚦"
+                    data-correct="false">🚦<small>Lampu</small></button>
+                <button data-name="Ponsel" data-emoji="📱" data-correct="false">📱<small>Ponsel</small></button>
+            </div>
+            <div class="button-row"><button class="primary-btn" onclick="checkAssets()">Periksa Pilihan</button></div>
+            <div class="feedback" id="assetFeedback"></div>
+        </section><!-- Slide 38: Apa Itu Asset? -->
+        <section class="slide gradient-blue" data-title="Apa Itu Asset?">
+
+            <div class="asset-definition">
+                <div class="asset-word">ASSET</div>
+                <div class="asset-examples"><span>🧙‍♂️ Karakter</span><span>🏰 Backdrop</span><span>❤️
+                        GUI</span><span>🔊 Sound</span></div>
+                <p>Asset adalah semua gambar, karakter, latar, tombol, informasi layar, dan suara yang dipakai di dalam
+                    program atau game.</p>
+            </div>
+        </section><!-- Slide 39: Memilih Backdrop -->
+        <section class="slide " data-title="Memilih Backdrop">
+
+            <div class="slide-head compact"><span class="kicker">BACKDROP ASSET</span>
+                <h2>Pilih Latar untuk Game Kerajaan</h2>
+                <p>Gunakan tombol kiri dan kanan, lalu pilih backdrop yang paling sesuai.</p>
+            </div>
+            <div class="carousel-shell">
+                <button class="carousel-arrow" onclick="moveBackdrop(-1)">‹</button>
+                <div class="backdrop-preview" id="backdropPreview">
+                    <div class="backdrop-art" id="backdropArt"></div>
+                    <h3 id="backdropName"></h3>
+                    <p id="backdropDesc"></p><button class="primary-btn small" onclick="selectBackdrop()">Pilih Backdrop
+                        Ini</button>
+                </div>
+                <button class="carousel-arrow" onclick="moveBackdrop(1)">›</button>
+            </div>
+            <div class="feedback" id="backdropFeedback"></div>
+        </section><!-- Slide 40: Asset Lain yang Dibutuhkan -->
+        <section class="slide warm-slide" data-title="Asset Lain yang Dibutuhkan">
+
+            <div class="inventory-scene">
+                <div class="inventory-left">
+                    <h2>Asset-mu Hampir Siap</h2>
+                    <div class="inventory-list"><span>✅ Object</span><span>✅ Backdrop</span><span>⬜ Informasi
+                            Layar</span><span>⬜ Sound Effect</span></div>
+                </div>
+                <div class="treasure-chest">🧰</div>
+            </div>
+            <div class="question-bubble centered">Selain karakter dan latar, apa lagi yang biasa terlihat atau terdengar
+                di dalam game?</div>
+        </section><!-- Slide 41: Memilih GUI -->
+        <section class="slide " data-title="Memilih GUI">
+
+            <div class="slide-head compact"><span class="kicker">SCREEN GUI</span>
+                <h2>Apa yang Perlu Ditampilkan di Layar?</h2>
+                <p>Klik informasi yang masuk akal untuk game kerajaan.</p>
+            </div>
+            <div class="game-screen-picker">
+                <div class="game-screen-demo">
+                    <div class="castle-bg-mini">🏰</div>
+                    <div id="guiOverlayPreview"></div>
+                    <div class="hero-mini">🧙‍♂️</div>
+                </div>
+                <div class="gui-options" id="guiPicker">
+                    <button data-key="health" data-correct="true">❤️ Health Bar</button><button data-key="level"
+                        data-correct="true">⭐ Level</button><button data-key="name" data-correct="true">👤 Nama
+                        Pemain</button><button data-key="coin" data-correct="true">🪙 Jumlah Koin</button><button
+                        data-key="battery" data-correct="false">🔋 Baterai Ponsel</button><button data-key="wifi"
+                        data-correct="false">📶 Sinyal Wi-Fi</button><button data-key="weather" data-correct="false">🌦️
+                        Cuaca Kota</button>
+                </div>
+            </div>
+            <div class="feedback" id="guiFeedback"></div>
+        </section><!-- Slide 42: Memilih Sound Effect -->
+        <section class="slide " data-title="Memilih Sound Effect">
+
+            <div class="slide-head compact"><span class="kicker">SOUND ASSET</span>
+                <h2>Dengarkan dan Pilih Sound Effect</h2>
+                <p>Klik speaker untuk mendengar. Pilih suara yang cocok untuk game kerajaan.</p>
+            </div>
+            <div class="sound-grid" id="soundPicker">
+                <button data-sound="sword" data-correct="true"
+                    onclick="playSoundChoice(this,'sword')"><span>🔊</span><b>Pedang Beradu</b></button>
+                <button data-sound="magic" data-correct="true"
+                    onclick="playSoundChoice(this,'magic')"><span>🔊</span><b>Sihir</b></button>
+                <button data-sound="hoof" data-correct="true"
+                    onclick="playSoundChoice(this,'hoof')"><span>🔊</span><b>Langkah Kuda</b></button>
+                <button data-sound="notification" data-correct="false"
+                    onclick="playSoundChoice(this,'notification')"><span>🔊</span><b>Notifikasi Ponsel</b></button>
+                <button data-sound="car" data-correct="false"
+                    onclick="playSoundChoice(this,'car')"><span>🔊</span><b>Klakson Mobil</b></button>
+            </div>
+            <div class="button-row"><button class="primary-btn" onclick="confirmSound()">Gunakan Sound Terpilih</button>
+            </div>
+            <div class="feedback" id="soundFeedback"></div>
+        </section><!-- Slide 43: Semua Asset Siap -->
+        <section class="slide " data-title="Semua Asset Siap">
+
+            <div class="slide-head compact"><span class="kicker">ASSET PREVIEW</span>
+                <h2>Gabungkan Semua Asset-mu</h2>
+                <p>Preview ini memakai pilihanmu dari slide sebelumnya.</p>
+            </div>
+            <div class="asset-composition" id="assetComposition">
+                <div class="composition-screen" id="compositionScreen">
+                    <div class="composition-gui" id="compositionGui"></div>
+                    <div class="composition-objects" id="compositionObjects"></div>
+                </div>
+                <div class="composition-side">
+                    <h3>Daftar Asset</h3>
+                    <div id="compositionList"></div><button class="secondary-btn"
+                        onclick="refreshComposition()">Perbarui Preview</button>
+                </div>
+            </div>
+            <div class="question-bubble centered">Asset sudah siap. Bagaimana caranya agar semua benda dapat bergerak
+                dan bereaksi?</div>
+        </section><!-- Slide 44: Jawabannya adalah Coding -->
+        <section class="slide coding-slide" data-title="Jawabannya adalah Coding">
+
+            <div class="coding-reveal">
+                <div class="code-rain"><span>when</span><span>move</span><span>repeat</span><span>play
+                        sound</span><span>if</span></div>
+                <p class="eyebrow">THE ANSWER IS</p>
+                <h1>CODING</h1>
+                <p>Coding memberi tugas dan aturan kepada setiap asset di dalam program.</p>
+            </div>
+        </section><!-- Slide 45: Program Karakter Pertama -->
+        <section class="slide " data-title="Program Karakter Pertama">
+
+            <div class="slide-head compact"><span class="kicker">CODING LAB 1</span>
+                <h2>Buat Karaktermu Bergerak</h2>
+                <p>Pilih karakter, arah gerak, dan jumlah langkah. Lalu klik Green Flag.</p>
+            </div>
+            <div class="coding-lab">
+                <div class="coding-stage">
+                    <div class="stage-grid-lines"></div>
+                    <div class="coded-character" id="moveCharacter">🛡️</div>
+                </div>
+                <div class="coding-panel"><label>Karakter<select id="moveCharacterSelect"
+                            onchange="updateCodingCharacter()"></select></label>
+                    <div class="scratch-stack">
+                        <div class="scratch-event">🟢 ketika Green Flag diklik</div>
+                        <div class="scratch-motion"><select id="moveDirection">
+                                <option value="1">bergerak maju</option>
+                                <option value="-1">bergerak mundur</option>
+                            </select><input id="moveSteps" type="number" min="1" max="20" value="8"> langkah</div>
+                    </div><button class="green-flag-btn" onclick="runMoveCode()">🚩 Jalankan</button>
+                    <div class="feedback" id="moveCodeFeedback"></div>
+                </div>
+            </div>
+        </section><!-- Slide 46: Tambahkan Event Klik -->
+        <section class="slide " data-title="Tambahkan Event Klik">
+
+            <div class="slide-head compact"><span class="kicker">CODING LAB 2</span>
+                <h2>Ketika Karakter Diklik...</h2>
+                <p>Pilih respons karakter. Setelah program siap, klik karakter di Stage.</p>
+            </div>
+            <div class="coding-lab">
+                <div class="coding-stage click-stage">
+                    <div class="coded-character clickable" id="clickCharacter" onclick="triggerCharacterClick()">🛡️
+                    </div>
+                    <div class="click-hint">Klik karakter!</div>
+                </div>
+                <div class="coding-panel"><label>Karakter<select id="clickCharacterSelect"
+                            onchange="updateClickCharacter()"></select></label>
+                    <div class="scratch-stack">
+                        <div class="scratch-event yellow">👆 ketika karakter ini diklik</div>
+                        <div class="scratch-motion purple"><select id="clickAction">
+                                <option value="jump">melompat</option>
+                                <option value="spin">berputar</option>
+                                <option value="grow">membesar sebentar</option>
+                            </select></div>
+                    </div>
+                    <div class="notice">Program berjalan saat karakter diklik, bukan saat Green Flag diklik.</div>
+                    <div class="feedback" id="clickCodeFeedback"></div>
+                </div>
+            </div>
+        </section><!-- Slide 47: Karakter Pertamamu Sudah Diprogram -->
+        <section class="slide celebration-slide" data-title="Karakter Pertamamu Sudah Diprogram">
+
+            <div class="celebration-scene">
+                <div class="confetti">✦ ✦ ✦</div>
+                <div class="big-character" id="celebrationCharacter">🛡️</div>
+                <h2>Karakter Pertamamu Sudah Bisa Bergerak dan Bereaksi!</h2>
+                <p>Setiap asset dapat diberi program yang berbeda sesuai tugasnya.</p>
+                <div class="asset-jobs"><span>🐉 Naga terbang</span><span>💰 Harta bisa diambil</span><span>🚪 Pintu
+                        bisa terbuka</span><span>🔊 Suara bisa dimainkan</span></div>
+            </div>
+        </section><!-- Slide 48: Next: Scratch -->
+        <section class="slide scratch-slide" data-title="Next: Scratch">
+
+            <div class="scratch-intro">
+                <div class="scratch-cat">🐱</div>
+                <div><span class="kicker">NEXT SESSION</span>
+                    <h2>Kita Akan Mulai Menggunakan Scratch</h2>
+                    <p>Pada pertemuan berikutnya, kita akan:</p>
+                    <ul>
+                        <li>menyiapkan asset di Scratch,</li>
+                        <li>menyusun block coding,</li>
+                        <li>dan membuat program pertama.</li>
+                    </ul>
+                    <div class="scratch-logo-text">SCRATCH</div>
+                </div>
+            </div>
+        </section><!-- Slide 49: Quick Quiz -->
+        <section class="slide " data-title="Quick Quiz">
+
+            <div class="slide-head compact center"><span class="kicker">QUICK QUIZ</span>
+                <h2>Cek Pemahamanmu 🧠</h2>
+                <p>Pilih jawaban yang paling tepat.</p>
+            </div>
+            <div class="quiz-shell">
+                <div class="quiz-question active" id="quiz1">
+                    <h3>1. Urutan langkah untuk mencapai tujuan disebut...</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz1','quiz2')">A.
+                            Asset</button><button onclick="answerQuiz(this,true,'quiz1','quiz2')">B.
+                            Algoritma</button><button onclick="answerQuiz(this,false,'quiz1','quiz2')">C.
+                            Backdrop</button></div>
+                </div>
+                <div class="quiz-question" id="quiz2">
+                    <h3>2. Mengapa instruksi kepada komputer harus jelas?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,true,'quiz2','quiz3')">A. Komputer tidak
+                            bisa menebak maksud kita</button><button onclick="answerQuiz(this,false,'quiz2','quiz3')">B.
+                            Agar layar lebih besar</button><button onclick="answerQuiz(this,false,'quiz2','quiz3')">C.
+                            Agar internet lebih cepat</button></div>
+                </div>
+                <div class="quiz-question" id="quiz3">
+                    <h3>3. Perintah “lakukan hal yang sama beberapa kali” disebut...</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz3','quiz4')">A.
+                            Sound</button><button onclick="answerQuiz(this,true,'quiz3','quiz4')">B.
+                            Repeat</button><button onclick="answerQuiz(this,false,'quiz3','quiz4')">C. Asset</button>
+                    </div>
+                </div>
+                <div class="quiz-question" id="quiz4">
+                    <h3>4. Memperbaiki program yang salah disebut...</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz4','quiz5')">A.
+                            Drawing</button><button onclick="answerQuiz(this,false,'quiz4','quiz5')">B.
+                            Browsing</button><button onclick="answerQuiz(this,true,'quiz4','quiz5')">C.
+                            Debugging</button></div>
+                </div>
+                <div class="quiz-question" id="quiz5">
+                    <h3>5. Karakter, backdrop, GUI, dan sound adalah...</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,true,'quiz5','quizDone')">A.
+                            Asset</button><button onclick="answerQuiz(this,false,'quiz5','quizDone')">B.
+                            Password</button><button onclick="answerQuiz(this,false,'quiz5','quizDone')">C.
+                            Jaringan</button></div>
+                </div>
+                <div class="quiz-question done" id="quizDone">
+                    <div class="giant-emoji">🎉</div>
+                    <h3>Quiz Selesai!</h3>
+                    <p>Kamu sudah memahami konsep dasar coding dan algoritma.</p>
+                </div>
+                <div class="quiz-progress"><span id="quizProgressText">Soal 1 dari 5</span>
+                    <div><i id="quizProgressBar"></i></div>
+                </div>
+            </div>
+        </section><!-- Slide 50: Review Hari Ini -->
+        <section class="slide " data-title="Review Hari Ini">
+
+            <div class="slide-head center"><span class="kicker">TODAY'S REVIEW</span>
+                <h2>Apa Saja yang Sudah Kita Pelajari?</h2>
+            </div>
+            <div class="recap-path">
+                <div><span>🔢</span><b>Algoritma</b>
+                    <p>Urutan langkah untuk mencapai tujuan.</p>
+                </div>
+                <div><span>🧠</span><b>Computational Thinking</b>
+                    <p>Cara berpikir untuk memecahkan masalah.</p>
+                </div>
+                <div><span>🤖</span><b>Instruksi Robot</b>
+                    <p>Perintah harus jelas dan hemat langkah.</p>
+                </div>
+                <div><span>🔁</span><b>Repeat</b>
+                    <p>Mengulang perintah tanpa menulis berkali-kali.</p>
+                </div>
+                <div><span>🐞</span><b>Debugging</b>
+                    <p>Mencari dan memperbaiki kesalahan.</p>
+                </div>
+                <div><span>🎮</span><b>Asset & Coding</b>
+                    <p>Asset disiapkan, coding membuatnya bekerja.</p>
+                </div>
+            </div>
+        </section><!-- Slide 51: Feedback -->
+        <section class="slide feedback-final" data-title="Feedback">
+
+            <div class="feedback-slide-content"><span class="kicker">YOUR FEEDBACK</span>
+                <h2>Bagaimana Perasaanmu Setelah Belajar Hari Ini?</h2>
+                <p>Pilih satu emoji yang paling sesuai.</p>
+                <div class="emoji-feedback" id="emojiFeedback"><button onclick="sendFeedback(this)">😍<small>Sangat
+                            Seru</small></button><button onclick="sendFeedback(this)">😊<small>Aku
+                            Paham</small></button><button onclick="sendFeedback(this)">🤔<small>Masih
+                            Berpikir</small></button><button onclick="sendFeedback(this)">😴<small>Butuh
+                            Istirahat</small></button></div>
+                <div class="feedback-thanks" id="feedbackThanks"></div>
+            </div>
+        </section>
+        <div class="progress-line" id="progressLine"></div>
+        <footer class="navigation">
+            <div class="nav-title" id="navTitle">Session 1: Pengenalan Coding</div>
+            <div class="nav-controls"><button class="nav-btn" id="prevBtn" aria-label="Sebelumnya">‹</button>
+                <div class="counter"><span id="currentSlide">1</span> / <span id="totalSlides">51</span></div><button
+                    class="nav-btn next" id="nextBtn" aria-label="Berikutnya">›</button>
+            </div>
+        </footer>
+    </main>
+    <script>
+        const PRETEST_URL = '';
+        let currentSlide = 0; const slides = [...document.querySelectorAll('.slide')];
+        function showSlide(index) { if (index < 0 || index >= slides.length) return; slides.forEach((s, i) => { s.classList.toggle('active', i === index); s.classList.remove('exit-left') }); currentSlide = index; document.getElementById('currentSlide').textContent = index + 1; document.getElementById('totalSlides').textContent = slides.length; document.getElementById('prevBtn').disabled = index === 0; document.getElementById('nextBtn').disabled = index === slides.length - 1; document.getElementById('progressLine').style.width = ((index + 1) / slides.length * 100) + '%'; document.getElementById('navTitle').textContent = 'Session 1 • ' + slides[index].dataset.title; slides[index].scrollTop = 0; if (index === 42) refreshComposition(); if (index === 44 || index === 45) populateCharacterSelects(); if (index === 46) updateCelebrationCharacter(); }
+        document.getElementById('prevBtn').onclick = () => showSlide(currentSlide - 1); document.getElementById('nextBtn').onclick = () => showSlide(currentSlide + 1); document.addEventListener('keydown', e => { if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return; if (e.key === 'ArrowRight') showSlide(currentSlide + 1); if (e.key === 'ArrowLeft') showSlide(currentSlide - 1); }); showSlide(0);
+        function openPretest() { if (PRETEST_URL) window.open(PRETEST_URL, '_blank', 'noopener'); else document.getElementById('pretestNotice').classList.remove('hidden'); }
+        function submitTextAnswer(inputId, responseId, suffix) { const value = document.getElementById(inputId).value.trim(); const box = document.getElementById(responseId); box.textContent = value ? `Kamu memilih “${value}”. ${suffix}` : 'Tulis jawabanmu terlebih dahulu.'; }
+        function showComputerQuestions() { document.getElementById('computerQuestions').innerHTML = '<b>Komputer masih perlu bertanya:</b><ul><li>Aplikasi apa yang harus dibuat?</li><li>Jam berapa alarm berbunyi?</li><li>Suara apa yang digunakan?</li><li>Tombol apa saja yang dibutuhkan?</li><li>Bagaimana cara menghentikan alarm?</li></ul>'; }
+        // Sortable routine
+        let dragSortItem = null; document.querySelectorAll('.sort-item').forEach(item => { item.addEventListener('dragstart', () => dragSortItem = item); item.addEventListener('dragover', e => e.preventDefault()); item.addEventListener('drop', function (e) { e.preventDefault(); if (!dragSortItem || dragSortItem === this) return; const p = this.parentNode; const items = [...p.children]; p.insertBefore(dragSortItem, items.indexOf(dragSortItem) < items.indexOf(this) ? this.nextSibling : this); }); });
+        function checkSortable(id, feedbackId) { const el = document.getElementById(id); const expected = el.dataset.answer.split(','); const items = [...el.children]; let ok = true; items.forEach((it, i) => { const good = it.dataset.key === expected[i]; it.classList.toggle('correct', good); it.classList.toggle('wrong', !good); it.querySelector('.sort-index').textContent = i + 1; if (!good) ok = false; }); setFeedback(feedbackId, ok ? 'Urutannya sudah benar. Ini adalah algoritma yang jelas! ✅' : 'Masih ada langkah yang tertukar. Geser dan coba lagi.', 'success', 'error', ok); }
+        function shuffleSortable(id, feedbackId) { const el = document.getElementById(id);[...el.children].sort(() => Math.random() - .5).forEach(x => { x.classList.remove('correct', 'wrong'); x.querySelector('.sort-index').textContent = '?'; el.appendChild(x) }); document.getElementById(feedbackId).textContent = ''; }
+        function setFeedback(id, msg, yes = 'success', no = 'error', ok = true) { const el = document.getElementById(id); el.textContent = msg; el.className = 'feedback ' + (ok ? yes : no); }
+        function chooseTransport(btn, minutes, name) { document.querySelectorAll('#transportChoices button').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); const arrive = new Date(2000, 0, 1, 6, 25 + minutes); const time = String(arrive.getHours()).padStart(2, '0') + '.' + String(arrive.getMinutes()).padStart(2, '0'); const late = minutes > 35; const msg = late ? `${name} tiba sekitar pukul ${time}. Kemungkinan kamu terlambat, tetapi kamu tetap sampai di sekolah.` : `${name} tiba sekitar pukul ${time}. Kamu punya waktu sebelum pelajaran dimulai.`; setFeedback('transportFeedback', msg, 'success', 'error', !late); }
+        // Generic drag/click commands
+        let draggedCommand = null; document.querySelectorAll('.command-palette button').forEach(btn => { btn.addEventListener('dragstart', () => draggedCommand = btn.dataset.command); btn.addEventListener('click', () => addCommand(document.getElementById(btn.closest('.command-palette').dataset.target), btn.dataset.command)); }); document.querySelectorAll('.program-zone,.repeat-zone').forEach(zone => { zone.addEventListener('dragover', e => e.preventDefault()); zone.addEventListener('drop', e => { e.preventDefault(); if (draggedCommand) addCommand(zone, draggedCommand) }) });
+        const commandEmoji = { up: '⬆️', down: '⬇️', left: '⬅️', right: '➡️', pickup: '📦 Pick Up', drop: '🏠 Drop' };
+        function addCommand(zone, cmd) { const b = document.createElement('button'); b.className = 'program-chip ' + (['pickup', 'drop'].includes(cmd) ? 'action' : ''); b.dataset.command = cmd; b.textContent = commandEmoji[cmd]; b.draggable = true; b.title = 'Klik untuk menghapus'; b.onclick = () => b.remove(); b.addEventListener('dragstart', () => { window.draggedProgram = b }); b.addEventListener('dragover', e => e.preventDefault()); b.addEventListener('drop', function (e) { e.preventDefault(); const src = window.draggedProgram; if (src && src !== this && src.parentNode === this.parentNode) { const p = this.parentNode; const list = [...p.children]; p.insertBefore(src, list.indexOf(src) < list.indexOf(this) ? this.nextSibling : this) } }); zone.appendChild(b); }
+        const mazeConfigs = {
+            maze1: { rows: 4, cols: 5, start: [0, 3], goal: [4, 0], walls: [], best: 7 },
+            maze2: { rows: 5, cols: 6, start: [0, 4], goal: [5, 0], walls: [[1, 4], [1, 3], [3, 2], [3, 1], [4, 1]], best: 9 },
+            maze3: { rows: 4, cols: 6, start: [0, 3], goal: [5, 0], walls: [[2, 3], [2, 2], [4, 1]], best: 8, noGrid: true },
+            maze4: { rows: 6, cols: 7, start: [0, 5], goal: [6, 0], walls: [[2, 1], [2, 2], [2, 3], [4, 2], [4, 3], [4, 4]], best: 11 },
+            maze5: { rows: 5, cols: 7, start: [0, 4], goal: [6, 0], walls: [[1, 3], [2, 3], [3, 3], [3, 2], [5, 1]], battery: 11, best: 10 },
+            maze6: { rows: 6, cols: 8, start: [0, 5], goal: [7, 0], walls: [[1, 4], [1, 3], [2, 3], [3, 1], [3, 2], [4, 4], [5, 4], [6, 2]], battery: 14, best: 12 },
+            maze7: { rows: 5, cols: 7, start: [0, 4], goal: [6, 0], walls: [[2, 4], [2, 3], [4, 1], [4, 2]], package: [1, 1], drop: [6, 0], delivery: true, best: 13 },
+            maze8: { rows: 6, cols: 8, start: [0, 5], goal: [7, 0], walls: [[1, 4], [2, 4], [3, 2], [3, 3], [5, 1], [5, 2], [6, 4]], package: [2, 1], drop: [7, 0], delivery: true, battery: 17, best: 15 }
+        };
+        const mazeStates = {};
+        function renderMaze(id, pos = null, holding = false) { const c = mazeConfigs[id], board = document.getElementById(id + 'Board'); if (!board) return; pos = pos || c.start; board.innerHTML = ''; board.style.gridTemplateColumns = `repeat(${c.cols},58px)`; board.classList.toggle('no-grid', !!c.noGrid); for (let y = 0; y < c.rows; y++)for (let x = 0; x < c.cols; x++) { const cell = document.createElement('div'); cell.className = 'maze-cell'; if (c.walls.some(w => w[0] === x && w[1] === y)) cell.classList.add('wall'); if (c.delivery && c.package[0] === x && c.package[1] === y && !holding) { cell.classList.add('package'); cell.textContent = '📦' } if (c.delivery && c.drop[0] === x && c.drop[1] === y) { cell.classList.add('drop'); cell.textContent = '🏠' } else if (!c.delivery && c.goal[0] === x && c.goal[1] === y) { cell.classList.add('goal'); cell.textContent = '🔧' } if (pos[0] === x && pos[1] === y) { cell.classList.add('robot'); cell.textContent = holding ? '🚁📦' : '🤖' } board.appendChild(cell) } }
+        function initMazes() { Object.keys(mazeConfigs).forEach(id => { mazeStates[id] = { pos: [...mazeConfigs[id].start] }; renderMaze(id) }) }
+        function clearMazeProgram(id) { document.getElementById(id + 'Program').innerHTML = ''; mazeStates[id].pos = [...mazeConfigs[id].start]; renderMaze(id); setFeedback(id + 'Feedback', ''); if (mazeConfigs[id].battery) document.getElementById(id + 'Battery').textContent = mazeConfigs[id].battery; }
+        async function runMaze(id) { const c = mazeConfigs[id], zone = document.getElementById(id + 'Program'), cmds = [...zone.children].map(x => x.dataset.command); if (!cmds.length) { setFeedback(id + 'Feedback', 'Susun perintah terlebih dahulu.', 'success', 'error', false); return } let pos = [...c.start], holding = false, dropped = false, battery = c.battery ?? 999; renderMaze(id, pos, holding); if (c.battery) document.getElementById(id + 'Battery').textContent = battery; let failed = ''; for (const cmd of cmds) { await wait(260); if (['up', 'down', 'left', 'right'].includes(cmd)) { battery--; let [x, y] = pos; if (cmd === 'up') y--; if (cmd === 'down') y++; if (cmd === 'left') x--; if (cmd === 'right') x++; if (battery < 0) { failed = 'Baterai habis sebelum misi selesai.'; break } if (x < 0 || y < 0 || x >= c.cols || y >= c.rows || c.walls.some(w => w[0] === x && w[1] === y)) { failed = 'Robot menabrak tembok atau keluar area.'; break } pos = [x, y] } else if (cmd === 'pickup') { if (c.delivery && pos[0] === c.package[0] && pos[1] === c.package[1] && !holding) holding = true; else { failed = 'Pick Up hanya bisa dilakukan saat drone berada di paket.'; break } } else if (cmd === 'drop') { if (c.delivery && holding && pos[0] === c.drop[0] && pos[1] === c.drop[1]) { holding = false; dropped = true } else { failed = 'Drop hanya bisa dilakukan saat drone membawa paket dan berada di rumah.'; break } } if (c.battery) document.getElementById(id + 'Battery').textContent = Math.max(0, battery); renderMaze(id, pos, holding) } let success = c.delivery ? dropped : pos[0] === c.goal[0] && pos[1] === c.goal[1]; if (failed) { setFeedback(id + 'Feedback', failed, 'success', 'error', false); return } if (success) { const moves = cmds.filter(x => ['up', 'down', 'left', 'right'].includes(x)).length; const msg = moves <= c.best ? 'Misi berhasil dengan langkah yang singkat! ✅' : 'Misi berhasil. Coba cari rute yang lebih singkat lagi.'; setFeedback(id + 'Feedback', msg, 'success', 'error', true) } else setFeedback(id + 'Feedback', c.delivery ? 'Paket belum berhasil diantar. Periksa urutan Pick Up dan Drop.' : 'Robot belum sampai ke tool. Periksa arah dan jumlah langkah.', 'success', 'error', false); }
+        function wait(ms) { return new Promise(r => setTimeout(r, ms)) }
+        // Repeat mazes
+        const repeatConfigs = { repeat1: { rows: 1, cols: 5, start: [0, 0], goal: [4, 0], walls: [] }, repeat2: { rows: 4, cols: 4, start: [0, 0], goal: [3, 3], walls: [[0, 1], [1, 2], [2, 3]] }, repeat3: { rows: 3, cols: 5, start: [0, 0], goal: [4, 2], walls: [[1, 1]], noGrid: true } };
+        function renderRepeat(id, pos = null) { const c = repeatConfigs[id], board = document.getElementById(id + 'Board'); if (!board) return; pos = pos || c.start; board.innerHTML = ''; board.style.gridTemplateColumns = `repeat(${c.cols},58px)`; board.classList.toggle('no-grid', !!c.noGrid); for (let y = 0; y < c.rows; y++)for (let x = 0; x < c.cols; x++) { const cell = document.createElement('div'); cell.className = 'maze-cell'; if (c.walls.some(w => w[0] === x && w[1] === y)) cell.classList.add('wall'); if (c.goal[0] === x && c.goal[1] === y) { cell.classList.add('goal'); cell.textContent = '🔧' } if (pos[0] === x && pos[1] === y) { cell.classList.add('robot'); cell.textContent = '🤖' } board.appendChild(cell) } }
+        function clearRepeat(id) { document.getElementById(id + 'RepeatZone').innerHTML = ''; renderRepeat(id); setFeedback(id + 'Feedback', '') }
+        async function runRepeatMaze(id) { const c = repeatConfigs[id], count = Math.max(2, +document.getElementById(id + 'Count').value || 2), pattern = [...document.getElementById(id + 'RepeatZone').children].map(x => x.dataset.command); if (!pattern.length) { setFeedback(id + 'Feedback', 'Masukkan perintah ke dalam block Ulangi.', 'success', 'error', false); return } const cmds = Array(count).fill(pattern).flat(); let pos = [...c.start], failed = false; renderRepeat(id, pos); for (const cmd of cmds) { await wait(240); let [x, y] = pos; if (cmd === 'up') y--; if (cmd === 'down') y++; if (cmd === 'left') x--; if (cmd === 'right') x++; if (x < 0 || y < 0 || x >= c.cols || y >= c.rows || c.walls.some(w => w[0] === x && w[1] === y)) { failed = true; break } pos = [x, y]; renderRepeat(id, pos) } const ok = !failed && pos[0] === c.goal[0] && pos[1] === c.goal[1]; setFeedback(id + 'Feedback', ok ? 'Berhasil! Pola di dalam Repeat dijalankan berkali-kali. ✅' : failed ? 'Robot menabrak. Ubah pola atau jumlah pengulangannya.' : 'Belum sampai tujuan. Periksa pola dan angka Repeat.', 'success', 'error', ok); }
+        // Debug
+        const debugConfigs = { debug1: { rows: 4, cols: 5, start: [0, 3], goal: [4, 0], walls: [[1, 3], [1, 2], [3, 1]], initial: ['right', 'up', 'up', 'right', 'right', 'up', 'right'], answer: ['up', 'up', 'right', 'right', 'up', 'right', 'right'] }, debug2: { rows: 5, cols: 6, start: [0, 4], goal: [5, 0], walls: [[1, 4], [2, 3], [4, 2]], initial: ['up', 'right', 'right', 'up', 'up', 'right', 'right', 'right', 'up'], answer: ['up', 'up', 'right', 'right', 'up', 'right', 'right', 'up', 'right'] } };
+        let dragDebug = null; function renderDebugBoard(id, pos = null) { const c = debugConfigs[id], board = document.getElementById(id + 'Board'); if (!board) return; pos = pos || c.start; board.innerHTML = ''; board.style.gridTemplateColumns = `repeat(${c.cols},58px)`; for (let y = 0; y < c.rows; y++)for (let x = 0; x < c.cols; x++) { const cell = document.createElement('div'); cell.className = 'maze-cell'; if (c.walls.some(w => w[0] === x && w[1] === y)) cell.classList.add('wall'); if (c.goal[0] === x && c.goal[1] === y) { cell.classList.add('goal'); cell.textContent = '🔧' } if (pos[0] === x && pos[1] === y) { cell.classList.add('robot'); cell.textContent = '🤖' } board.appendChild(cell) } }
+        function resetDebug(id) { const p = document.getElementById(id + 'Program'); p.innerHTML = ''; debugConfigs[id].initial.forEach(cmd => { const b = document.createElement('button'); b.className = 'program-chip'; b.dataset.command = cmd; b.textContent = commandEmoji[cmd]; b.draggable = true; b.addEventListener('dragstart', () => dragDebug = b); b.addEventListener('dragover', e => e.preventDefault()); b.addEventListener('drop', function (e) { e.preventDefault(); if (dragDebug && dragDebug !== this) { const list = [...p.children]; p.insertBefore(dragDebug, list.indexOf(dragDebug) < list.indexOf(this) ? this.nextSibling : this) } }); p.appendChild(b) }); renderDebugBoard(id); setFeedback(id + 'Feedback', '') }
+        async function runDebug(id) { const c = debugConfigs[id], cmds = [...document.getElementById(id + 'Program').children].map(x => x.dataset.command); let pos = [...c.start], failed = false; renderDebugBoard(id, pos); for (const cmd of cmds) { await wait(230); let [x, y] = pos; if (cmd === 'up') y--; if (cmd === 'down') y++; if (cmd === 'left') x--; if (cmd === 'right') x++; if (x < 0 || y < 0 || x >= c.cols || y >= c.rows || c.walls.some(w => w[0] === x && w[1] === y)) { failed = true; break } pos = [x, y]; renderDebugBoard(id, pos) } const ok = !failed && pos[0] === c.goal[0] && pos[1] === c.goal[1]; setFeedback(id + 'Feedback', ok ? 'Bug berhasil diperbaiki! Program berjalan dengan benar. ✅' : failed ? 'Robot menabrak. Cari block yang berada di posisi salah.' : 'Robot belum sampai. Susun ulang programnya.', 'success', 'error', ok); }
+        // Assets
+        const appState = { assets: [], backdrop: null, guis: [], sound: null }; document.querySelectorAll('#assetPicker button').forEach(b => b.onclick = () => b.classList.toggle('selected')); function checkAssets() { const selected = [...document.querySelectorAll('#assetPicker button.selected')]; selected.forEach(b => { b.classList.toggle('correct', b.dataset.correct === 'true'); b.classList.toggle('wrong', b.dataset.correct !== 'true') }); appState.assets = selected.filter(b => b.dataset.correct === 'true').map(b => ({ name: b.dataset.name, emoji: b.dataset.emoji })); const wrong = selected.some(b => b.dataset.correct !== 'true'); const ok = appState.assets.length >= 3 && !wrong; setFeedback('assetFeedback', ok ? 'Pilihanmu cocok untuk game kerajaan. Asset tersimpan! ✅' : 'Pilih minimal tiga asset kerajaan dan hindari benda modern yang tidak sesuai.', 'success', 'error', ok); }
+        const backdrops = [{ name: 'Kastel Kerajaan', desc: 'Cocok untuk petualangan ksatria.', emoji: '🏰', bg: 'linear-gradient(#7fb8ea 0 62%,#76a15d 62%)' }, { name: 'Hutan Ajaib', desc: 'Cocok untuk penyihir dan makhluk fantasi.', emoji: '🌲🧙‍♂️🌲', bg: 'linear-gradient(#354b6d 0 58%,#315b38 58%)' }, { name: 'Ruang Bawah Tanah', desc: 'Cocok untuk pencarian harta.', emoji: '🕯️🗝️💰', bg: 'linear-gradient(#3b3546,#1f2430)' }, { name: 'Kota Modern', desc: 'Kurang cocok untuk tema kerajaan.', emoji: '🏙️🚗', bg: 'linear-gradient(#8fd3ff 0 60%,#777 60%)' }]; let backdropIndex = 0; function renderBackdrop() { const b = backdrops[backdropIndex], art = document.getElementById('backdropArt'); art.style.background = b.bg; art.textContent = b.emoji; document.getElementById('backdropName').textContent = b.name; document.getElementById('backdropDesc').textContent = b.desc } function moveBackdrop(d) { backdropIndex = (backdropIndex + d + backdrops.length) % backdrops.length; renderBackdrop() } function selectBackdrop() { appState.backdrop = backdrops[backdropIndex]; const ok = backdropIndex !== 3; setFeedback('backdropFeedback', ok ? `${appState.backdrop.name} dipilih sebagai backdrop. ✅` : 'Backdrop ini bisa dipakai, tetapi kurang sesuai dengan tema kerajaan.', 'success', 'error', ok) }
+        document.querySelectorAll('#guiPicker button').forEach(b => b.onclick = () => { b.classList.toggle('selected'); updateGuiPreview() }); function updateGuiPreview() { const selected = [...document.querySelectorAll('#guiPicker button.selected')]; appState.guis = selected.map(b => b.dataset.key); const box = document.getElementById('guiOverlayPreview'); box.innerHTML = ''; const labels = { health: '❤️ 100', level: '⭐ Level 1', name: '👤 Player', coin: '🪙 0', battery: '🔋 75%', wifi: '📶 Wi-Fi', weather: '🌦️ 28°C' }; appState.guis.forEach((k, i) => { const s = document.createElement('span'); s.className = 'gui-chip'; s.textContent = labels[k]; s.style.top = (12 + (i % 2) * 42) + 'px'; s.style[i % 2 ? 'right' : 'left'] = '12px'; box.appendChild(s) }); const wrong = selected.some(b => b.dataset.correct !== 'true'), ok = selected.filter(b => b.dataset.correct === 'true').length >= 2 && !wrong; setFeedback('guiFeedback', ok ? 'GUI pilihanmu cocok untuk game. ✅' : 'Pilih informasi yang benar-benar dibutuhkan pemain di dalam game.', 'success', 'error', ok); }
+        let audioCtx = null, selectedSoundBtn = null; function tone(freq, dur, type = 'sine', delay = 0) { audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)(); const o = audioCtx.createOscillator(), g = audioCtx.createGain(); o.type = type; o.frequency.value = freq; o.connect(g); g.connect(audioCtx.destination); const t = audioCtx.currentTime + delay; g.gain.setValueAtTime(.12, t); g.gain.exponentialRampToValueAtTime(.001, t + dur); o.start(t); o.stop(t + dur) } function playSoundChoice(btn, type) { document.querySelectorAll('#soundPicker button').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); selectedSoundBtn = btn; appState.sound = type; if (type === 'sword') { tone(250, .12, 'square'); tone(480, .16, 'square', .1) } if (type === 'magic') { tone(520, .2); tone(780, .3, 'sine', .18); tone(1040, .35, 'sine', .35) } if (type === 'hoof') { tone(120, .08, 'triangle'); tone(100, .08, 'triangle', .16); tone(120, .08, 'triangle', .32) } if (type === 'notification') { tone(900, .18); tone(1200, .18, 'sine', .22) } if (type === 'car') { tone(180, .45, 'sawtooth') } } function confirmSound() { if (!selectedSoundBtn) { setFeedback('soundFeedback', 'Dengarkan dan pilih satu sound terlebih dahulu.', 'success', 'error', false); return } const ok = selectedSoundBtn.dataset.correct === 'true'; setFeedback('soundFeedback', ok ? 'Sound ini cocok dengan tema kerajaan. ✅' : 'Sound ini terdengar modern. Coba pilih suara yang lebih cocok untuk kerajaan.', 'success', 'error', ok); }
+        function refreshComposition() { const screen = document.getElementById('compositionScreen'), objects = document.getElementById('compositionObjects'), gui = document.getElementById('compositionGui'), list = document.getElementById('compositionList'); const bg = appState.backdrop || backdrops[0]; screen.style.background = bg.bg; objects.innerHTML = (appState.assets.length ? appState.assets : [{ name: 'Ksatria', emoji: '🛡️' }, { name: 'Naga', emoji: '🐉' }, { name: 'Harta', emoji: '💰' }]).map(a => `<span title="${a.name}">${a.emoji}</span>`).join(''); gui.innerHTML = ''; const labels = { health: '❤️ 100', level: '⭐ Level 1', name: '👤 Player', coin: '🪙 0' }; (appState.guis.length ? appState.guis : ['health', 'level']).filter(k => labels[k]).forEach((k, i) => { const s = document.createElement('span'); s.className = 'gui-chip'; s.textContent = labels[k]; s.style.top = (12 + i * 40) + 'px'; s.style.left = '12px'; gui.appendChild(s) }); list.innerHTML = `<span>Backdrop: ${bg.name}</span><span>Object: ${(appState.assets.length ? appState.assets.map(a => a.name) : ['Ksatria', 'Naga', 'Harta']).join(', ')}</span><span>GUI: ${appState.guis.length ? appState.guis.join(', ') : 'Health, Level'}</span><span>Sound: ${appState.sound || 'Belum dipilih'}</span>`; }
+        function characterAssets() { const chars = appState.assets.filter(a => ['Ksatria', 'Naga', 'Penyihir'].includes(a.name)); return chars.length ? chars : [{ name: 'Ksatria', emoji: '🛡️' }, { name: 'Naga', emoji: '🐉' }, { name: 'Penyihir', emoji: '🧙‍♂️' }] }
+        function populateCharacterSelects() { ['moveCharacterSelect', 'clickCharacterSelect'].forEach(id => { const s = document.getElementById(id); if (!s) return; const old = s.value; s.innerHTML = characterAssets().map(a => `<option value="${a.emoji}">${a.name}</option>`).join(''); if ([...s.options].some(o => o.value === old)) s.value = old }); updateCodingCharacter(); updateClickCharacter(); }
+        function updateCodingCharacter() { const s = document.getElementById('moveCharacterSelect'); if (s) document.getElementById('moveCharacter').textContent = s.value || '🛡️' } function runMoveCode() { const ch = document.getElementById('moveCharacter'), dir = +document.getElementById('moveDirection').value, steps = Math.min(20, Math.max(1, +document.getElementById('moveSteps').value || 1)); ch.style.left = '50px'; setTimeout(() => ch.style.left = (50 + dir * steps * 18) + 'px', 100); setFeedback('moveCodeFeedback', `Karakter bergerak ${steps} langkah ${dir > 0 ? 'maju' : 'mundur'}. ✅`, 'success', 'error', true) } function updateClickCharacter() { const s = document.getElementById('clickCharacterSelect'); if (s) document.getElementById('clickCharacter').textContent = s.value || '🛡️' } function triggerCharacterClick() { const ch = document.getElementById('clickCharacter'), a = document.getElementById('clickAction').value; ch.classList.remove('jump', 'spin', 'grow'); void ch.offsetWidth; ch.classList.add(a); setFeedback('clickCodeFeedback', `Event klik menjalankan aksi: ${a === 'jump' ? 'melompat' : a === 'spin' ? 'berputar' : 'membesar'}. ✅`, 'success', 'error', true) } function updateCelebrationCharacter() { document.getElementById('celebrationCharacter').textContent = document.getElementById('clickCharacterSelect')?.value || '🛡️' }
+        let quizNumber = 1; function answerQuiz(btn, correct, current, next) { const q = document.getElementById(current), buttons = q.querySelectorAll('button'); buttons.forEach(b => b.disabled = true); btn.classList.add(correct ? 'correct' : 'wrong'); if (!correct) buttons.forEach(b => { if (b.getAttribute('onclick').includes('true')) b.classList.add('correct') }); setTimeout(() => { q.classList.remove('active'); document.getElementById(next).classList.add('active'); quizNumber = Math.min(5, quizNumber + 1); document.getElementById('quizProgressText').textContent = next === 'quizDone' ? 'Selesai' : 'Soal ' + quizNumber + ' dari 5'; document.getElementById('quizProgressBar').style.width = (next === 'quizDone' ? 100 : quizNumber * 20) + '%' }, 650) }
+        function sendFeedback(btn) { document.querySelectorAll('#emojiFeedback button').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); document.getElementById('feedbackThanks').textContent = 'Terima kasih sudah berbagi. Sampai jumpa pada pertemuan berikutnya!'; }
+        renderBackdrop(); initMazes(); Object.keys(repeatConfigs).forEach(id => renderRepeat(id)); Object.keys(debugConfigs).forEach(id => resetDebug(id));
+    </script>
+</body>
+
+</html>
