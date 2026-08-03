@@ -1,0 +1,4885 @@
+<!DOCTYPE html>
+
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<title>Session 1 - Pengenalan Coding dan Python | Ruangguru Coding</title>
+<link href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png" rel="icon" type="image/png"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --blue: #2f80ed;
+            --cyan: #16bde8;
+            --purple: #845ef7;
+            --orange: #ff8a34;
+            --yellow: #ffd53d;
+            --green: #28b875;
+            --red: #ef5350;
+            --ink: #20324a;
+            --muted: #66788d;
+            --cream: #fff9ed;
+            --panel: #fff;
+            --shadow: 0 22px 55px rgba(22, 44, 76, .18)
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--ink);
+            background: #f8fffe;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        /* Teal educational SVG icons scattered as background decoration */
+        body:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='600' viewBox='0 0 900 600'%3E%3Cg fill='none' stroke='%2300bcd4' stroke-width='2.2' opacity='0.18'%3E%3C!-- book left top --%3E%3Crect x='40' y='60' width='68' height='80' rx='6'/%3E%3Cline x1='40' y1='100' x2='108' y2='100'/%3E%3Cline x1='74' y1='60' x2='74' y2='140'/%3E%3C!-- atom right top --%3E%3Ccircle cx='820' cy='70' r='22'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15' transform='rotate(0 820 70)'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15' transform='rotate(60 820 70)'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15' transform='rotate(120 820 70)'/%3E%3C!-- backpack center top --%3E%3Crect x='432' y='20' width='48' height='55' rx='10'/%3E%3Crect x='446' y='10' width='20' height='14' rx='4'/%3E%3Cline x1='456' y1='40' x2='456' y2='70'/%3E%3C!-- backpack left mid --%3E%3Crect x='30' y='260' width='58' height='68' rx='10'/%3E%3Crect x='46' y='248' width='26' height='16' rx='4'/%3E%3Cline x1='59' y1='278' x2='59' y2='320'/%3E%3C!-- globe right mid --%3E%3Ccircle cx='838' cy='340' r='42'/%3E%3Cellipse cx='838' cy='340' rx='20' ry='42'/%3E%3Cline x1='796' y1='340' x2='880' y2='340'/%3E%3Cline x1='838' y1='298' x2='838' y2='382'/%3E%3Cline x1='796' y1='320' x2='880' y2='320'/%3E%3Cline x1='796' y1='360' x2='880' y2='360'/%3E%3Ccircle cx='856' cy='292' r='10'/%3E%3Cline x1='856' y1='302' x2='856' y2='320'/%3E%3C!-- open book bottom left --%3E%3Crect x='55' y='450' width='80' height='90' rx='6'/%3E%3Cline x1='55' y1='495' x2='135' y2='495'/%3E%3Cline x1='55' y1='468' x2='135' y2='468'/%3E%3Cline x1='55' y1='510' x2='135' y2='510'/%3E%3Cline x1='95' y1='450' x2='95' y2='540'/%3E%3C!-- sudoku grid bottom mid --%3E%3Crect x='390' y='480' width='72' height='72' rx='4'/%3E%3Cline x1='414' y1='480' x2='414' y2='552'/%3E%3Cline x1='438' y1='480' x2='438' y2='552'/%3E%3Cline x1='390' y1='504' x2='462' y2='504'/%3E%3Cline x1='390' y1='528' x2='462' y2='528'/%3E%3C/g%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-size: cover;
+            pointer-events: none;
+            z-index: -1
+        }
+
+        body:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at 0% 100%, rgba(0, 188, 212, .07) 0%, transparent 55%),
+                radial-gradient(ellipse at 100% 0%, rgba(0, 188, 212, .06) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1
+        }
+
+        .brand-logo {
+            position: fixed;
+            left: 22px;
+            top: 16px;
+            z-index: 2000;
+            background: #fff;
+            border: 2.5px solid rgba(0, 188, 212, .22);
+            border-radius: 22px;
+            padding: 10px 20px;
+            box-shadow: 0 8px 32px rgba(0, 188, 212, .18), 0 2px 8px rgba(0, 0, 0, .07);
+            display: flex;
+            align-items: center;
+            gap: 0;
+            transition: box-shadow .2s
+        }
+
+        .brand-logo:hover {
+            box-shadow: 0 14px 40px rgba(0, 188, 212, .28), 0 2px 8px rgba(0, 0, 0, .08)
+        }
+
+        .brand-logo img {
+            display: block;
+            height: 80px;
+            max-width: 220px;
+            object-fit: contain
+        }
+
+        .presentation-container {
+            width: 86vw;
+            height: 80vh;
+            max-width: 1500px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(30, 56, 93, .25);
+            overflow: hidden;
+            position: relative;
+            border: 4px solid rgba(255, 255, 255, .85)
+        }
+
+        .presentation-container:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 26px;
+            box-shadow: inset 0 0 0 1px rgba(91, 124, 164, .10);
+            z-index: 30
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 42px 58px 74px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(42px) scale(.985);
+            transition: .46s ease;
+            background: linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(249, 252, 255, .98));
+            overflow-y: auto;
+            overflow-x: hidden
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            z-index: 10
+        }
+
+        .slide.exit-left {
+            transform: translateX(-40px);
+            opacity: 0
+        }
+
+        .slide-head {
+            width: 100%;
+            max-width: 1180px;
+            margin-bottom: 22px
+        }
+
+        .slide-head.center {
+            text-align: center
+        }
+
+        .slide-head.compact {
+            margin-bottom: 16px
+        }
+
+        .slide-head h2,
+        .single-focus h2 {
+            font-size: clamp(2.2rem, 4vw, 4rem);
+            line-height: 1.06;
+            margin: 6px 0 12px;
+            color: #24344d
+        }
+
+        .slide-head p,
+        .single-focus p,
+        .lead {
+            font-size: clamp(1.15rem, 1.65vw, 1.55rem);
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.5
+        }
+
+        .kicker {
+            display: inline-block;
+            font-size: .92rem;
+            letter-spacing: .16em;
+            font-weight: 700;
+            color: var(--purple);
+            background: #f0eaff;
+            border-radius: 999px;
+            padding: 7px 13px
+        }
+
+        .eyebrow {
+            letter-spacing: .22em;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 0 10px
+        }
+
+        .navigation {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, .96);
+            border-top: 1px solid #e7edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 100;
+            backdrop-filter: blur(12px)
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b7d92;
+            max-width: 42%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #d9e3ef;
+            background: #fff;
+            color: #4c6077;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            border-color: var(--blue);
+            color: var(--blue)
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            color: #fff;
+            border: 0;
+            box-shadow: 0 7px 16px rgba(255, 138, 52, .3)
+        }
+
+        .nav-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed
+        }
+
+        .counter {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #53677f;
+            min-width: 74px;
+            text-align: center
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 0;
+            bottom: 62px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--orange), var(--purple), var(--cyan));
+            width: 0;
+            transition: .35s;
+            z-index: 110
+        }
+
+        .cover-slide {
+            background: linear-gradient(135deg, #172b55, #3c2a76 52%, #7646b8);
+            color: #fff
+        }
+
+        .cover-scene {
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, .14);
+            border: 1px solid rgba(255, 255, 255, .3);
+            padding: 9px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            margin-bottom: 18px
+        }
+
+        .hero-icon {
+            font-size: 7rem;
+            filter: drop-shadow(0 12px 16px rgba(0, 0, 0, .24));
+            animation: float 3s ease-in-out infinite
+        }
+
+        .display-title {
+            font-size: clamp(3.4rem, 7vw, 6.6rem);
+            line-height: .95;
+            margin: 8px 0 18px
+        }
+
+        .display-title span {
+            color: #ffd65a
+        }
+
+        .hero-subtitle {
+            font-size: 1.55rem;
+            max-width: 820px;
+            margin: 0 auto;
+            color: #edf2ff
+        }
+
+        .hero-pills {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 26px
+        }
+
+        .hero-pills span {
+            background: rgba(255, 255, 255, .13);
+            border: 1px solid rgba(255, 255, 255, .22);
+            padding: 10px 16px;
+            border-radius: 15px;
+            font-weight: 600
+        }
+
+        .orbit {
+            position: absolute;
+            font-size: 2.6rem;
+            animation: float 3.5s ease-in-out infinite
+        }
+
+        .orbit-a {
+            left: 8%;
+            top: 12%
+        }
+
+        .orbit-b {
+            right: 8%;
+            top: 18%;
+            animation-delay: .7s
+        }
+
+        .orbit-c {
+            right: 15%;
+            bottom: 10%;
+            animation-delay: 1.2s
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-12px) rotate(3deg)
+            }
+        }
+
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px
+        }
+
+        .agenda-card {
+            position: relative;
+            padding: 25px;
+            border-radius: 26px;
+            border: 2px solid;
+            min-height: 170px;
+            overflow: hidden
+        }
+
+        .agenda-card>b {
+            position: absolute;
+            right: 18px;
+            top: 10px;
+            font-size: 3rem;
+            opacity: .12
+        }
+
+        .agenda-card>span {
+            font-size: 3.2rem
+        }
+
+        .agenda-card h3 {
+            font-size: 1.6rem;
+            margin: 8px 0 3px
+        }
+
+        .agenda-card p {
+            margin: 0;
+            color: #52667c
+        }
+
+        .agenda-card.blue {
+            background: #eef7ff;
+            border-color: #b9dcff
+        }
+
+        .agenda-card.orange {
+            background: #fff4e8;
+            border-color: #ffd3a7
+        }
+
+        .agenda-card.purple {
+            background: #f5efff;
+            border-color: #d9c6ff
+        }
+
+        .agenda-card.green {
+            background: #ebfbf4;
+            border-color: #b7ebd2
+        }
+
+        .single-focus {
+            max-width: 800px;
+            text-align: center;
+            padding: 40px;
+            background: #fff;
+            border-radius: 34px;
+            box-shadow: var(--shadow);
+            border: 3px solid #d9e8ff
+        }
+
+        .giant-emoji {
+            font-size: 6rem
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            border: 0;
+            border-radius: 16px;
+            padding: 13px 22px;
+            font: 700 1rem 'Fredoka';
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(66, 92, 201, .25)
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px)
+        }
+
+        .primary-btn.large {
+            font-size: 1.25rem;
+            padding: 16px 28px
+        }
+
+        .primary-btn.small {
+            padding: 10px 16px
+        }
+
+        .secondary-btn {
+            background: #eef2f7;
+            color: #465c74;
+            border: 2px solid #d9e1ea
+        }
+
+        .notice {
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: #fff8db;
+            border: 2px solid #f7d95d;
+            color: #7b6412;
+            font-weight: 600;
+            margin-top: 14px
+        }
+
+        .hidden {
+            display: none !important
+        }
+
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+            max-width: 1100px;
+            align-items: center
+        }
+
+        .question-bubble {
+            margin-top: 25px;
+            background: #fff;
+            border: 3px solid #ffd067;
+            border-radius: 22px;
+            padding: 18px 22px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(130, 90, 20, .1)
+        }
+
+        .question-bubble.centered {
+            max-width: 850px;
+            text-align: center;
+            margin: 26px auto 0
+        }
+
+        .morning-clock {
+            height: 380px;
+            border-radius: 40px;
+            background: linear-gradient(#9edaff 0 58%, #74cb68 58%);
+            position: relative;
+            overflow: hidden;
+            border: 5px solid #fff;
+            box-shadow: var(--shadow)
+        }
+
+        .sun {
+            position: absolute;
+            right: 30px;
+            top: 25px;
+            font-size: 5rem
+        }
+
+        .bed {
+            position: absolute;
+            left: 42px;
+            bottom: 55px;
+            font-size: 7rem
+        }
+
+        .kid {
+            position: absolute;
+            right: 90px;
+            bottom: 62px;
+            font-size: 6rem
+        }
+
+        .routine-cloud {
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            top: 25px;
+            background: rgba(255, 255, 255, .92);
+            padding: 13px;
+            border-radius: 18px;
+            text-align: center;
+            font-weight: 700
+        }
+
+        .sort-shell {
+            width: 100%;
+            max-width: 970px;
+            background: #fff;
+            border: 3px solid #e3eaf3;
+            border-radius: 28px;
+            padding: 22px;
+            box-shadow: var(--shadow)
+        }
+
+        .goal-card {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            background: #fff7df;
+            border: 2px solid #f8d973;
+            border-radius: 18px;
+            padding: 12px 16px;
+            margin-bottom: 14px
+        }
+
+        .goal-card>span {
+            font-size: 2.5rem
+        }
+
+        .goal-card p {
+            margin: 2px 0 0;
+            color: #756121
+        }
+
+        .sortable {
+            display: grid;
+            gap: 10px
+        }
+
+        .sortable.four {
+            grid-template-columns: 1fr 1fr
+        }
+
+        .sort-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 15px;
+            border: 2px solid #dce4ee;
+            border-radius: 16px;
+            background: #f9fbfd;
+            cursor: grab;
+            transition: .2s;
+            min-height: 62px
+        }
+
+        .sort-item:hover {
+            transform: translateX(4px);
+            border-color: #8cbfff
+        }
+
+        .sort-item.correct {
+            border-color: #52c78a;
+            background: #effcf5
+        }
+
+        .sort-item.wrong {
+            border-color: #ef7774;
+            background: #fff1f0
+        }
+
+        .sort-index {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #e9eef5;
+            display: grid;
+            place-items: center;
+            font-weight: 700
+        }
+
+        .sort-emoji {
+            font-size: 1.8rem
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 15px
+        }
+
+        .button-row.tight {
+            margin-top: 10px
+        }
+
+        .feedback {
+            min-height: 28px;
+            margin-top: 12px;
+            text-align: center;
+            font-size: 1.08rem;
+            font-weight: 700;
+            color: #566b81
+        }
+
+        .feedback.success {
+            color: #12834e
+        }
+
+        .feedback.error {
+            color: #ce3f3c
+        }
+
+        .transport-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            width: 100%;
+            max-width: 980px
+        }
+
+        .transport-grid button {
+            border: 3px solid #dfe7f0;
+            border-radius: 26px;
+            background: #fff;
+            padding: 22px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: .2s
+        }
+
+        .transport-grid button:hover,
+        .transport-grid button.selected {
+            transform: translateY(-6px);
+            border-color: var(--purple);
+            box-shadow: 0 14px 30px rgba(76, 64, 150, .15)
+        }
+
+        .transport-grid span {
+            display: block;
+            font-size: 5rem
+        }
+
+        .transport-grid b {
+            display: block;
+            font-size: 1.35rem;
+            margin: 8px
+        }
+
+        .transport-grid small {
+            font-size: 1.05rem;
+            color: #60758c
+        }
+
+        .timeline-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            max-width: 760px;
+            margin: 25px auto 4px;
+            font-weight: 700
+        }
+
+        .timeline-line {
+            flex: 1;
+            height: 12px;
+            background: #e6edf5;
+            border-radius: 999px;
+            overflow: hidden
+        }
+
+        .timeline-line i {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--green), var(--yellow), var(--red))
+        }
+
+        .large-feedback {
+            font-size: 1.25rem
+        }
+
+        .school-scene {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(#bce7ff 0 65%, #9ed276 65%);
+            border-radius: 32px;
+            overflow: hidden
+        }
+
+        .school-building {
+            position: absolute;
+            left: 8%;
+            bottom: 15%;
+            font-size: 11rem
+        }
+
+        .school-kids {
+            position: absolute;
+            left: 17%;
+            bottom: 7%;
+            font-size: 4rem
+        }
+
+        .speech-card {
+            margin-left: 38%;
+            background: rgba(255, 255, 255, .94);
+            border-radius: 30px;
+            padding: 32px;
+            max-width: 560px;
+            box-shadow: var(--shadow)
+        }
+
+        .speech-card h2 {
+            font-size: 3rem;
+            margin: 8px 0
+        }
+
+        .concept-reveal {
+            text-align: center
+        }
+
+        .mini-scenes {
+            display: flex;
+            gap: 20px;
+            justify-content: center
+        }
+
+        .mini-scenes div {
+            background: rgba(255, 255, 255, .94);
+            padding: 20px;
+            border-radius: 24px;
+            font-size: 4rem;
+            min-width: 190px;
+            box-shadow: 0 12px 25px rgba(38, 24, 97, .15)
+        }
+
+        .mini-scenes small {
+            display: block;
+            font-size: 1rem;
+            margin-top: 8px
+        }
+
+        .arrow-down {
+            font-size: 4rem;
+            color: #fff
+        }
+
+        .reveal-word {
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 700;
+            color: #ffe562;
+            text-shadow: 0 6px 0 rgba(0, 0, 0, .15)
+        }
+
+        .concept-reveal p {
+            font-size: 1.4rem;
+            color: #fff;
+            max-width: 800px
+        }
+
+        .gradient-purple {
+            background: linear-gradient(135deg, #673ab7, #8b5cf6, #4169e1)
+        }
+
+        .mission-board {
+            width: 100%;
+            max-width: 1050px;
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 22px;
+            background: #172a49;
+            color: #fff;
+            border-radius: 32px;
+            padding: 35px;
+            box-shadow: var(--shadow)
+        }
+
+        .mission-number {
+            font-size: 6rem;
+            font-weight: 700;
+            color: #ffd34e;
+            display: grid;
+            place-items: center;
+            border-right: 2px solid rgba(255, 255, 255, .18)
+        }
+
+        .mission-board h2 {
+            font-size: 3rem;
+            margin: 7px 0
+        }
+
+        .mission-board p {
+            font-size: 1.25rem;
+            color: #cad6e8
+        }
+
+        .mission-qualities {
+            grid-column: 1/-1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+
+        .mission-qualities span {
+            background: rgba(255, 255, 255, .1);
+            padding: 15px;
+            border-radius: 14px;
+            font-size: 1.15rem
+        }
+
+        .three-step-flow {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            max-width: 1050px
+        }
+
+        .three-step-flow>div {
+            background: #fff;
+            border: 3px solid #dce7f3;
+            border-radius: 28px;
+            padding: 25px;
+            text-align: center;
+            min-width: 230px;
+            box-shadow: 0 12px 28px rgba(36, 66, 96, .1)
+        }
+
+        .three-step-flow span {
+            font-size: 4rem
+        }
+
+        .three-step-flow b {
+            display: block;
+            font-size: 1.5rem;
+            margin: 8px
+        }
+
+        .three-step-flow p {
+            margin: 0;
+            color: #64768a
+        }
+
+        .three-step-flow i {
+            font-size: 2.5rem;
+            color: var(--orange)
+        }
+
+        .problem-stack {
+            display: grid;
+            gap: 14px
+        }
+
+        .problem-card {
+            background: #fff;
+            border: 3px solid #c8e9d9;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(20, 100, 70, .08)
+        }
+
+        .simple-rule {
+            background: #eef4ff;
+            border: 2px solid #bcd5ff;
+            padding: 16px 20px;
+            border-radius: 18px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 20px
+        }
+
+        .centered-rule {
+            max-width: 850px;
+            text-align: center;
+            margin: 20px auto 0
+        }
+
+        .app-showcase {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1000px
+        }
+
+        .app-showcase>div {
+            padding: 20px;
+            border-radius: 23px;
+            background: #fff;
+            border: 2px solid #e2e9f2;
+            text-align: center;
+            box-shadow: 0 10px 22px rgba(40, 70, 100, .08)
+        }
+
+        .app-showcase span {
+            font-size: 3.5rem
+        }
+
+        .app-showcase b {
+            display: block;
+            font-size: 1.3rem;
+            margin: 6px
+        }
+
+        .app-showcase p {
+            margin: 0;
+            color: #66788d
+        }
+
+        .input-lab {
+            display: grid;
+            grid-template-columns: .7fr 1.3fr;
+            gap: 45px;
+            align-items: center;
+            max-width: 1000px;
+            width: 100%
+        }
+
+        .input-lab.reversed {
+            grid-template-columns: 1.35fr .65fr
+        }
+
+        .phone-mockup {
+            height: 380px;
+            border: 12px solid #273b56;
+            border-radius: 45px;
+            background: linear-gradient(145deg, #d9edff, #f8ecff);
+            position: relative;
+            box-shadow: var(--shadow)
+        }
+
+        .phone-top {
+            width: 100px;
+            height: 18px;
+            background: #273b56;
+            border-radius: 0 0 14px 14px;
+            margin: auto
+        }
+
+        .phone-icons {
+            font-size: 6rem;
+            text-align: center;
+            padding-top: 70px
+        }
+
+        .phone-icons span {
+            font-size: 4rem;
+            color: var(--purple)
+        }
+
+        .input-lab h2 {
+            font-size: 3.2rem;
+            margin: 8px 0
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px
+        }
+
+        .input-row input {
+            flex: 1;
+            border: 3px solid #dbe5f0;
+            border-radius: 16px;
+            padding: 14px 17px;
+            font: 600 1.05rem 'Fredoka';
+            outline: none
+        }
+
+        .input-row input:focus {
+            border-color: var(--purple)
+        }
+
+        .response-box {
+            min-height: 48px;
+            margin-top: 15px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: #fff;
+            border: 2px dashed #cdd8e5;
+            color: #50657d;
+            font-weight: 600
+        }
+
+        .controller-art {
+            font-size: 13rem;
+            text-align: center;
+            filter: drop-shadow(0 18px 12px rgba(74, 40, 120, .18));
+            animation: float 3s infinite
+        }
+
+        .game-stage {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(#6d54bb 0 60%, #3c7c43 60%);
+            border-radius: 32px;
+            position: relative;
+            overflow: hidden;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center
+        }
+
+        .game-title {
+            background: rgba(23, 27, 65, .82);
+            padding: 26px 38px;
+            border-radius: 28px;
+            max-width: 720px;
+            z-index: 3
+        }
+
+        .game-title h2 {
+            font-size: 4rem;
+            margin: 7px 0
+        }
+
+        .game-title p {
+            font-size: 1.25rem
+        }
+
+        .game-characters {
+            font-size: 5.5rem;
+            z-index: 3;
+            margin-top: 18px
+        }
+
+        .pixel-cloud {
+            position: absolute;
+            background: #fff;
+            width: 120px;
+            height: 35px;
+            border-radius: 30px;
+            opacity: .8
+        }
+
+        .c1 {
+            top: 14%;
+            left: 8%
+        }
+
+        .c2 {
+            top: 25%;
+            right: 10%;
+            transform: scale(.7)
+        }
+
+        .communication-flow {
+            display: grid;
+            grid-template-columns: 1fr .8fr 1fr;
+            align-items: center;
+            gap: 25px;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .communication-flow>div {
+            text-align: center;
+            border-radius: 28px;
+            padding: 28px
+        }
+
+        .human-side,
+        .computer-side {
+            background: #fff;
+            border: 3px solid #dfe8f3;
+            box-shadow: 0 12px 25px rgba(40, 60, 100, .09)
+        }
+
+        .communication-flow span {
+            font-size: 6rem
+        }
+
+        .communication-flow b {
+            display: block;
+            font-size: 1.5rem
+        }
+
+        .communication-flow p {
+            color: #62778e
+        }
+
+        .code-bridge {
+            background: linear-gradient(135deg, #6c4ddf, #8c66f4);
+            color: #fff;
+            box-shadow: 0 14px 28px rgba(77, 43, 170, .22)
+        }
+
+        .code-bridge small {
+            display: block;
+            margin-top: 6px
+        }
+
+        .bottom-message {
+            margin-top: 28px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: #fff7da;
+            border: 2px solid #f8d459;
+            padding: 16px 24px;
+            border-radius: 18px;
+            text-align: center
+        }
+
+        .chat-lab {
+            width: 100%;
+            max-width: 1000px;
+            display: grid;
+            gap: 18px
+        }
+
+        .chat-person,
+        .chat-computer {
+            display: flex;
+            align-items: center;
+            gap: 18px
+        }
+
+        .chat-computer {
+            justify-content: flex-end
+        }
+
+        .avatar {
+            font-size: 4.5rem;
+            background: #fff;
+            border-radius: 22px;
+            padding: 12px;
+            box-shadow: 0 8px 20px rgba(30, 50, 90, .1)
+        }
+
+        .chat-bubble,
+        .computer-questions {
+            padding: 20px 24px;
+            border-radius: 24px;
+            font-size: 1.2rem;
+            max-width: 720px
+        }
+
+        .chat-bubble.user {
+            background: #dfefff;
+            border: 3px solid #a4d0ff
+        }
+
+        .computer-questions {
+            background: #fff4df;
+            border: 3px solid #ffc86b;
+            min-width: 550px
+        }
+
+        .computer-questions ul {
+            margin: 0;
+            padding-left: 20px
+        }
+
+        .detail-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            width: 100%;
+            max-width: 1000px
+        }
+
+        .detail-comparison>div {
+            padding: 30px;
+            border-radius: 30px
+        }
+
+        .detail-comparison span {
+            font-size: 4rem
+        }
+
+        .detail-comparison h3 {
+            font-size: 2rem;
+            margin: 6px 0
+        }
+
+        .bad-instruction {
+            background: #fff0ef;
+            border: 3px solid #f5aaa7
+        }
+
+        .good-instruction {
+            background: #edfbf4;
+            border: 3px solid #a6e1c4
+        }
+
+        .good-instruction li {
+            font-size: 1.15rem;
+            margin: 8px
+        }
+
+        .ct-wheel {
+            width: 600px;
+            height: 420px;
+            position: relative
+        }
+
+        .ct-center {
+            position: absolute;
+            left: 220px;
+            top: 120px;
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7449dd, #3f8fed);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            font-size: 2.3rem;
+            box-shadow: var(--shadow)
+        }
+
+        .ct-center b {
+            font-size: 1.05rem
+        }
+
+        .ct-item {
+            position: absolute;
+            background: #fff;
+            border: 3px solid #dce6f2;
+            border-radius: 20px;
+            padding: 15px 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            box-shadow: 0 10px 23px rgba(35, 65, 100, .1)
+        }
+
+        .ct-item span {
+            font-size: 2rem
+        }
+
+        .ct-item.one {
+            left: 0;
+            top: 20px
+        }
+
+        .ct-item.two {
+            right: 0;
+            top: 30px
+        }
+
+        .ct-item.three {
+            left: 0;
+            bottom: 20px
+        }
+
+        .ct-item.four {
+            right: 0;
+            bottom: 20px
+        }
+
+        .center-note {
+            text-align: center;
+            font-size: 1.2rem;
+            max-width: 850px;
+            color: #62758b
+        }
+
+        .maze-layout,
+        .repeat-layout,
+        .debug-layout {
+            display: grid;
+            grid-template-columns: 1.15fr .85fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 1120px;
+            align-items: stretch
+        }
+
+        .maze-board-wrap {
+            position: relative;
+            background: #e9f5ff;
+            border: 4px solid #b9ddfa;
+            border-radius: 26px;
+            padding: 18px;
+            display: grid;
+            place-items: center;
+            min-height: 400px;
+            overflow: hidden
+        }
+
+        .maze-board {
+            display: grid;
+            gap: 5px;
+            padding: 8px;
+            background: #b7ddad;
+            border-radius: 18px;
+            box-shadow: inset 0 0 0 3px rgba(255, 255, 255, .55)
+        }
+
+        .maze-board.no-grid {
+            gap: 0;
+            padding: 0;
+            background: #acdca5
+        }
+
+        .maze-cell {
+            width: 58px;
+            height: 58px;
+            background: #f8f1cd;
+            display: grid;
+            place-items: center;
+            font-size: 2rem;
+            border-radius: 9px;
+            border: 2px solid rgba(121, 103, 49, .12);
+            position: relative
+        }
+
+        .maze-board.no-grid .maze-cell {
+            border: 0;
+            border-radius: 0
+        }
+
+        .maze-cell.wall {
+            background: #be5960;
+            border-color: #8a3439
+        }
+
+        .maze-cell.wall:after {
+            content: "🧱"
+        }
+
+        .maze-cell.goal {
+            background: #d7f5d7;
+            border-color: #45b862
+        }
+
+        .maze-cell.package {
+            background: #fff0b7
+        }
+
+        .maze-cell.drop {
+            background: #d7e9ff
+        }
+
+        .maze-cell.robot {
+            outline: 4px solid #ffd048;
+            z-index: 2
+        }
+
+        .maze-console,
+        .repeat-console,
+        .debug-console {
+            background: #fff;
+            border: 3px solid #e1e8f2;
+            border-radius: 26px;
+            padding: 18px;
+            box-shadow: 0 12px 26px rgba(40, 65, 100, .1)
+        }
+
+        .maze-console h3 {
+            margin: 0 0 10px;
+            font-size: 1.5rem
+        }
+
+        .command-palette {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px
+        }
+
+        .command-palette button {
+            border: 2px solid #b8d5ff;
+            background: #eef6ff;
+            border-radius: 13px;
+            padding: 10px;
+            font: 700 .95rem 'Fredoka';
+            cursor: grab
+        }
+
+        .program-label {
+            font-weight: 700;
+            margin: 12px 0 7px;
+            color: #576d84
+        }
+
+        .program-zone,
+        .repeat-zone {
+            min-height: 82px;
+            background: #f4f7fa;
+            border: 3px dashed #b9c7d7;
+            border-radius: 15px;
+            padding: 8px;
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            align-content: flex-start
+        }
+
+        .program-chip {
+            background: #4c9aff;
+            color: #fff;
+            border: 0;
+            border-radius: 10px;
+            padding: 9px 11px;
+            font: 700 .9rem 'Fredoka';
+            cursor: grab;
+            box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .12)
+        }
+
+        .program-chip.action {
+            background: #a16be8
+        }
+
+        .maze-status {
+            position: absolute;
+            top: 10px;
+            left: 14px;
+            font-weight: 700;
+            background: rgba(255, 255, 255, .9);
+            padding: 8px 12px;
+            border-radius: 13px;
+            z-index: 4
+        }
+
+        .battery-panel {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            background: #253753;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 13px;
+            font-weight: 700;
+            z-index: 4
+        }
+
+        .success-banner {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            background: linear-gradient(135deg, #234f9c, #6d4ccb);
+            color: #fff;
+            padding: 22px 30px;
+            border-radius: 28px;
+            max-width: 1000px;
+            width: 100%
+        }
+
+        .success-banner span {
+            font-size: 4.5rem
+        }
+
+        .success-banner h2 {
+            font-size: 2.6rem;
+            margin: 0
+        }
+
+        .efficiency-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 950px;
+            width: 100%;
+            margin-top: 20px
+        }
+
+        .efficiency-compare>div {
+            padding: 25px;
+            border-radius: 26px;
+            background: #fff;
+            border: 3px solid #e0e7f1;
+            text-align: center
+        }
+
+        .efficiency-compare span {
+            font-size: 4rem
+        }
+
+        .efficiency-compare b {
+            display: block;
+            font-size: 1.5rem
+        }
+
+        .repeat-block {
+            background: #ffb636;
+            border-radius: 18px;
+            padding: 8px;
+            color: #553400;
+            box-shadow: inset 0 -5px 0 rgba(0, 0, 0, .12)
+        }
+
+        .repeat-top {
+            font-weight: 700;
+            padding: 7px 9px
+        }
+
+        .repeat-top input {
+            width: 55px;
+            border: 2px solid #d58a00;
+            border-radius: 9px;
+            padding: 5px;
+            font: 700 1rem 'Fredoka'
+        }
+
+        .repeat-zone {
+            background: #fff5dc;
+            border-color: #df9525;
+            min-height: 90px
+        }
+
+        .code-comparison {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 25px;
+            align-items: center;
+            width: 100%;
+            max-width: 980px
+        }
+
+        .long-code,
+        .short-code {
+            background: #fff;
+            border: 3px solid #e1e8f1;
+            border-radius: 28px;
+            padding: 25px;
+            text-align: center
+        }
+
+        .code-comparison h3 {
+            font-size: 1.8rem;
+            margin: 0 0 14px
+        }
+
+        .block {
+            padding: 10px 16px;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 700;
+            margin: 6px auto;
+            width: max-content
+        }
+
+        .block.blue {
+            background: #4c9aff
+        }
+
+        .block.orange {
+            background: #ffaf2e;
+            color: #5e3a00
+        }
+
+        .block.big {
+            padding: 13px 20px
+        }
+
+        .block.inner {
+            margin-top: 10px
+        }
+
+        .versus {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ef7e35
+        }
+
+        .baby-explain {
+            margin-top: 20px;
+            background: #edf8ff;
+            border: 3px solid #b7e0fa;
+            padding: 18px 24px;
+            border-radius: 20px;
+            font-size: 1.25rem
+        }
+
+        .debug-program {
+            min-height: 190px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .debug-program .program-chip {
+            width: 100%;
+            text-align: left
+        }
+
+        .bug-label {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #b44c4c
+        }
+
+        .achievement-wall {
+            max-width: 1050px;
+            text-align: center
+        }
+
+        .achievement-wall h2 {
+            font-size: 3.3rem;
+            margin: 10px 0 22px
+        }
+
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px
+        }
+
+        .achievement-grid>div {
+            background: #fff;
+            border: 3px solid #e0e8f3;
+            border-radius: 24px;
+            padding: 22px;
+            font-size: 3rem;
+            box-shadow: 0 10px 22px rgba(40, 60, 100, .09)
+        }
+
+        .achievement-grid b {
+            display: block;
+            font-size: 1.1rem;
+            margin-top: 8px
+        }
+
+        .achievement-wall p {
+            font-size: 1.25rem
+        }
+
+        .asset-picker {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .asset-picker button {
+            border: 3px solid #e1e7ef;
+            background: #fff;
+            border-radius: 20px;
+            padding: 14px;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .asset-picker button small {
+            display: block;
+            font: 600 .9rem 'Fredoka';
+            margin-top: 5px
+        }
+
+        .asset-picker button.selected {
+            border-color: var(--purple);
+            background: #f4efff;
+            transform: translateY(-4px)
+        }
+
+        .asset-picker button.correct {
+            border-color: var(--green);
+            background: #edfbf4
+        }
+
+        .asset-picker button.wrong {
+            border-color: var(--red);
+            background: #fff0ef
+        }
+
+        .asset-definition {
+            text-align: center;
+            color: #fff
+        }
+
+        .asset-word {
+            font-size: 7rem;
+            font-weight: 700;
+            letter-spacing: .08em
+        }
+
+        .asset-examples {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px
+        }
+
+        .asset-examples span {
+            background: rgba(255, 255, 255, .16);
+            border: 1px solid rgba(255, 255, 255, .35);
+            border-radius: 16px;
+            padding: 13px 18px;
+            font-size: 1.2rem
+        }
+
+        .asset-definition p {
+            font-size: 1.4rem;
+            max-width: 850px
+        }
+
+        .gradient-blue {
+            background: linear-gradient(135deg, #1c5b9e, #2d92d0, #614db3)
+        }
+
+        .carousel-shell {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 18px;
+            width: 100%;
+            max-width: 950px
+        }
+
+        .carousel-arrow {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            border: 0;
+            background: #fff;
+            box-shadow: 0 8px 22px rgba(30, 50, 80, .16);
+            font-size: 2.2rem;
+            cursor: pointer
+        }
+
+        .backdrop-preview {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 28px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: var(--shadow)
+        }
+
+        .backdrop-art {
+            height: 330px;
+            border-radius: 22px;
+            display: grid;
+            place-items: center;
+            font-size: 9rem;
+            position: relative;
+            overflow: hidden
+        }
+
+        .backdrop-preview h3 {
+            font-size: 1.7rem;
+            margin: 10px 0 3px
+        }
+
+        .backdrop-preview p {
+            margin: 0 0 12px;
+            color: #64768a
+        }
+
+        .inventory-scene {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #fff1ce, #ffe0a8);
+            border: 4px solid #fff;
+            border-radius: 34px;
+            padding: 38px;
+            max-width: 1000px;
+            width: 100%;
+            box-shadow: var(--shadow)
+        }
+
+        .inventory-left h2 {
+            font-size: 3rem;
+            margin: 0 0 18px
+        }
+
+        .inventory-list {
+            display: grid;
+            gap: 9px;
+            font-size: 1.2rem
+        }
+
+        .inventory-list span {
+            background: rgba(255, 255, 255, .7);
+            padding: 10px 14px;
+            border-radius: 12px
+        }
+
+        .treasure-chest {
+            font-size: 10rem
+        }
+
+        .game-screen-picker {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .game-screen-demo {
+            height: 380px;
+            background: linear-gradient(#7ba5d9 0 60%, #6b985b 60%);
+            border: 10px solid #283a51;
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .castle-bg-mini {
+            font-size: 10rem;
+            position: absolute;
+            right: 20px;
+            bottom: 20px
+        }
+
+        .hero-mini {
+            font-size: 6rem;
+            position: absolute;
+            left: 35px;
+            bottom: 30px
+        }
+
+        #guiOverlayPreview {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none
+        }
+
+        .gui-chip {
+            position: absolute;
+            background: rgba(24, 32, 50, .85);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: .9rem
+        }
+
+        .gui-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px
+        }
+
+        .gui-options button {
+            border: 3px solid #e0e7f0;
+            background: #fff;
+            border-radius: 15px;
+            padding: 12px;
+            font: 700 1rem 'Fredoka';
+            cursor: pointer
+        }
+
+        .gui-options button.selected {
+            border-color: #805ad5;
+            background: #f5efff
+        }
+
+        .sound-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .sound-grid button {
+            border: 3px solid #e0e7ef;
+            background: #fff;
+            border-radius: 20px;
+            padding: 18px 12px;
+            cursor: pointer;
+            font-family: inherit
+        }
+
+        .sound-grid span {
+            display: block;
+            font-size: 3rem
+        }
+
+        .sound-grid b {
+            display: block;
+            margin-top: 8px
+        }
+
+        .sound-grid button.selected {
+            border-color: var(--orange);
+            background: #fff4e6;
+            transform: translateY(-4px)
+        }
+
+        .asset-composition {
+            display: grid;
+            grid-template-columns: 1.4fr .6fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .composition-screen {
+            height: 400px;
+            border: 10px solid #26394f;
+            border-radius: 26px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(#5d74a8 0 60%, #466c48 60%)
+        }
+
+        .composition-objects {
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            bottom: 35px;
+            display: flex;
+            justify-content: space-around;
+            font-size: 5rem
+        }
+
+        .composition-gui {
+            position: absolute;
+            inset: 0;
+            z-index: 3
+        }
+
+        .composition-side {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 25px;
+            padding: 20px
+        }
+
+        .composition-side h3 {
+            margin-top: 0
+        }
+
+        #compositionList {
+            display: grid;
+            gap: 8px;
+            margin-bottom: 15px
+        }
+
+        #compositionList span {
+            background: #f1f5f9;
+            border-radius: 10px;
+            padding: 9px
+        }
+
+        .coding-reveal {
+            text-align: center;
+            color: #fff;
+            position: relative
+        }
+
+        .coding-reveal h1 {
+            font-size: 8rem;
+            margin: 0;
+            color: #ffd34f;
+            text-shadow: 0 10px 0 rgba(0, 0, 0, .16)
+        }
+
+        .coding-reveal p {
+            font-size: 1.4rem
+        }
+
+        .coding-slide {
+            background: linear-gradient(135deg, #17284e, #502b78, #943d80)
+        }
+
+        .code-rain {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 25px
+        }
+
+        .code-rain span {
+            background: rgba(255, 255, 255, .14);
+            border: 1px solid rgba(255, 255, 255, .28);
+            padding: 9px 13px;
+            border-radius: 12px
+        }
+
+        .coding-lab {
+            display: grid;
+            grid-template-columns: 1.25fr .75fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .coding-stage {
+            height: 410px;
+            background: linear-gradient(#95d9ff 0 62%, #76bb65 62%);
+            border: 8px solid #2c4058;
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .stage-grid-lines {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, .35) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .35) 1px, transparent 1px);
+            background-size: 45px 45px
+        }
+
+        .coded-character {
+            position: absolute;
+            left: 50px;
+            bottom: 48px;
+            font-size: 7rem;
+            transition: .65s ease;
+            transform-origin: center
+        }
+
+        .coded-character.clickable {
+            cursor: pointer;
+            left: 45%;
+            bottom: 85px
+        }
+
+        .click-hint {
+            position: absolute;
+            left: 39%;
+            bottom: 32px;
+            background: #fff;
+            padding: 8px 13px;
+            border-radius: 12px;
+            font-weight: 700
+        }
+
+        .coding-panel {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 25px;
+            padding: 20px
+        }
+
+        .coding-panel label {
+            display: grid;
+            gap: 5px;
+            font-weight: 700;
+            margin-bottom: 12px
+        }
+
+        .coding-panel select,
+        .coding-panel input {
+            border: 2px solid #d3deea;
+            border-radius: 10px;
+            padding: 8px;
+            font: 600 1rem 'Fredoka'
+        }
+
+        .scratch-stack {
+            display: grid;
+            gap: 4px;
+            margin: 12px 0
+        }
+
+        .scratch-event,
+        .scratch-motion {
+            border-radius: 12px;
+            padding: 13px;
+            font-weight: 700;
+            box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .12)
+        }
+
+        .scratch-event {
+            background: #ffd129;
+            color: #4c3a00
+        }
+
+        .scratch-event.yellow {
+            background: #ffbf20
+        }
+
+        .scratch-motion {
+            background: #4b97ff;
+            color: #fff
+        }
+
+        .scratch-motion.purple {
+            background: #9966ff
+        }
+
+        .scratch-motion select,
+        .scratch-motion input {
+            width: auto;
+            background: rgba(255, 255, 255, .92)
+        }
+
+        .green-flag-btn {
+            width: 100%;
+            border: 0;
+            border-radius: 15px;
+            background: #27b56f;
+            color: #fff;
+            padding: 14px;
+            font: 700 1.1rem 'Fredoka';
+            cursor: pointer
+        }
+
+        .clickable.jump {
+            animation: jump .65s ease
+        }
+
+        .clickable.spin {
+            animation: spin .7s ease
+        }
+
+        .clickable.grow {
+            animation: grow .7s ease
+        }
+
+        @keyframes jump {
+            50% {
+                transform: translateY(-110px)
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        @keyframes grow {
+            50% {
+                transform: scale(1.7)
+            }
+        }
+
+        .celebration-scene {
+            text-align: center
+        }
+
+        .big-character {
+            font-size: 9rem;
+            animation: float 2.5s infinite
+        }
+
+        .celebration-scene h2 {
+            font-size: 3rem;
+            max-width: 900px;
+            margin: 5px auto
+        }
+
+        .celebration-scene p {
+            font-size: 1.2rem;
+            color: #60748a
+        }
+
+        .asset-jobs {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap
+        }
+
+        .asset-jobs span {
+            background: #fff;
+            border: 2px solid #dfe7f1;
+            border-radius: 14px;
+            padding: 10px 14px
+        }
+
+        .confetti {
+            font-size: 3rem;
+            color: #ffb728;
+            letter-spacing: 1rem
+        }
+
+        .scratch-intro {
+            display: grid;
+            grid-template-columns: .7fr 1.3fr;
+            gap: 35px;
+            align-items: center;
+            max-width: 1000px
+        }
+
+        .scratch-cat {
+            font-size: 14rem;
+            text-align: center
+        }
+
+        .scratch-intro h2 {
+            font-size: 3.3rem;
+            margin: 8px 0
+        }
+
+        .scratch-intro li {
+            font-size: 1.2rem;
+            margin: 9px
+        }
+
+        .scratch-logo-text {
+            display: inline-block;
+            background: #ff8b22;
+            color: #fff;
+            border: 5px solid #fff;
+            box-shadow: 0 8px 18px rgba(255, 120, 30, .25);
+            border-radius: 20px;
+            padding: 10px 18px;
+            font-size: 2rem;
+            font-weight: 700;
+            transform: rotate(-4deg)
+        }
+
+        .quiz-shell {
+            width: 100%;
+            max-width: 950px;
+            background: #fff;
+            border: 3px solid #e1e8f2;
+            border-radius: 30px;
+            padding: 28px;
+            box-shadow: var(--shadow)
+        }
+
+        .quiz-question {
+            display: none
+        }
+
+        .quiz-question.active {
+            display: block
+        }
+
+        .quiz-question h3 {
+            font-size: 2rem;
+            margin: 0 0 18px
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px
+        }
+
+        .quiz-options button {
+            border: 3px solid #dfe7f0;
+            background: #f9fbfd;
+            border-radius: 16px;
+            padding: 15px 18px;
+            text-align: left;
+            font: 600 1.1rem 'Fredoka';
+            cursor: pointer
+        }
+
+        .quiz-options button:hover {
+            border-color: #8f75ea;
+            background: #f5f0ff
+        }
+
+        .quiz-options button.correct {
+            border-color: var(--green);
+            background: #eafaf3
+        }
+
+        .quiz-options button.wrong {
+            border-color: var(--red);
+            background: #fff0ef
+        }
+
+        .quiz-question.done {
+            text-align: center
+        }
+
+        .quiz-progress {
+            margin-top: 20px;
+            color: #63778e;
+            font-weight: 700
+        }
+
+        .quiz-progress>div {
+            height: 10px;
+            background: #e9eef4;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 7px
+        }
+
+        .quiz-progress i {
+            display: block;
+            height: 100%;
+            width: 20%;
+            background: linear-gradient(90deg, var(--orange), var(--purple));
+            transition: .3s
+        }
+
+        .recap-path {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .recap-path>div {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 23px;
+            padding: 20px;
+            text-align: center
+        }
+
+        .recap-path span {
+            font-size: 3.5rem
+        }
+
+        .recap-path b {
+            display: block;
+            font-size: 1.25rem;
+            margin: 7px
+        }
+
+        .recap-path p {
+            margin: 0;
+            color: #61758b
+        }
+
+        .feedback-slide-content {
+            text-align: center
+        }
+
+        .feedback-slide-content h2 {
+            font-size: 3.5rem;
+            margin: 10px auto;
+            max-width: 900px
+        }
+
+        .feedback-slide-content p {
+            font-size: 1.25rem;
+            color: #65778b
+        }
+
+        .emoji-feedback {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 30px
+        }
+
+        .emoji-feedback button {
+            border: 3px solid #e0e7ef;
+            background: #fff;
+            border-radius: 25px;
+            padding: 18px;
+            font-size: 5rem;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .emoji-feedback button:hover,
+        .emoji-feedback button.selected {
+            transform: scale(1.12);
+            border-color: var(--purple);
+            background: #f5efff
+        }
+
+        .emoji-feedback small {
+            display: block;
+            font: 600 .9rem 'Fredoka'
+        }
+
+        .feedback-thanks {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c4ddd;
+            margin-top: 25px;
+            min-height: 35px
+        }
+
+        .soft-blue {
+            background: linear-gradient(145deg, #edf7ff, #f7fbff)
+        }
+
+        .soft-green {
+            background: linear-gradient(145deg, #effcf5, #fbfffd)
+        }
+
+        .soft-orange {
+            background: linear-gradient(145deg, #fff6ea, #fffdf8)
+        }
+
+        .soft-purple {
+            background: linear-gradient(145deg, #f6f0ff, #fbf9ff)
+        }
+
+        .warm-slide {
+            background: linear-gradient(145deg, #fff8e9, #fffdf6)
+        }
+
+        .dark-slide {
+            background: linear-gradient(145deg, #dfeeff, #f5efff)
+        }
+
+        .sky-slide {
+            background: #e8f7ff
+        }
+
+        .ct-slide {
+            background: linear-gradient(145deg, #fff, #edf7ff)
+        }
+
+        .achievement-slide {
+            background: linear-gradient(145deg, #f6f0ff, #eef7ff)
+        }
+
+        .celebration-slide {
+            background: linear-gradient(145deg, #fff8dc, #f3edff)
+        }
+
+        .scratch-slide {
+            background: linear-gradient(145deg, #fff4e6, #fff)
+        }
+
+        .feedback-final {
+            background: linear-gradient(145deg, #fff0f6, #eef4ff)
+        }
+
+        @media(max-width:1050px) {
+            .presentation-container {
+                width: 95vw;
+                height: 84vh
+            }
+
+            .slide {
+                padding: 32px 30px 72px
+            }
+
+            .agenda-grid,
+            .split-layout,
+            .maze-layout,
+            .repeat-layout,
+            .debug-layout,
+            .coding-lab,
+            .asset-composition,
+            .game-screen-picker {
+                grid-template-columns: 1fr
+            }
+
+            .maze-board-wrap {
+                min-height: 300px
+            }
+
+            .maze-cell {
+                width: 46px;
+                height: 46px;
+                font-size: 1.6rem
+            }
+
+            .app-showcase,
+            .recap-path {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .asset-picker {
+                grid-template-columns: repeat(4, 1fr)
+            }
+
+            .sound-grid {
+                grid-template-columns: repeat(3, 1fr)
+            }
+
+            .achievement-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .school-building {
+                font-size: 7rem
+            }
+
+            .speech-card {
+                margin-left: 28%
+            }
+        }
+
+        @media(max-width:700px) {
+            .brand-logo img {
+                height: 32px
+            }
+
+            .brand-logo {
+                left: 8px;
+                top: 6px;
+                padding: 7px 12px
+            }
+
+            .presentation-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: 0
+            }
+
+            .slide {
+                padding: 68px 18px 74px
+            }
+
+            .agenda-grid,
+            .transport-grid,
+            .app-showcase,
+            .recap-path,
+            .sortable.four {
+                grid-template-columns: 1fr
+            }
+
+            .slide-head h2,
+            .single-focus h2 {
+                font-size: 2rem
+            }
+
+            .display-title {
+                font-size: 3.4rem
+            }
+
+            .hero-icon {
+                font-size: 5rem
+            }
+
+            .asset-picker {
+                grid-template-columns: repeat(3, 1fr)
+            }
+
+            .sound-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .mini-scenes {
+                flex-wrap: wrap
+            }
+
+            .three-step-flow {
+                flex-direction: column
+            }
+
+            .three-step-flow i {
+                transform: rotate(90deg)
+            }
+
+            .ct-wheel {
+                transform: scale(.7)
+            }
+
+            .communication-flow {
+                grid-template-columns: 1fr
+            }
+
+            .code-comparison {
+                grid-template-columns: 1fr
+            }
+
+            .versus {
+                transform: rotate(90deg)
+            }
+
+            .emoji-feedback {
+                gap: 8px;
+                flex-wrap: wrap
+            }
+
+            .emoji-feedback button {
+                font-size: 3.5rem
+            }
+
+            .nav-title {
+                display: none
+            }
+        }
+
+
+        /* ===== Python SMP session-specific design ===== */
+        :root {
+            --py-blue: #3776ab;
+            --py-yellow: #ffd343;
+            --teal: #0ba7a5;
+            --navy: #2f4661;
+        }
+
+        .brand-logo {
+            left: auto !important;
+            right: 22px !important;
+            top: 16px !important;
+            padding: 9px 16px !important
+        }
+
+        .brand-logo img {
+            height: 58px !important;
+            max-width: 230px !important
+        }
+
+        .presentation-container {
+            width: 88vw;
+            height: 82vh;
+            max-width: 1500px
+        }
+
+        .slide {
+            background: linear-gradient(145deg, #ffffff, #f7fcfd) !important
+        }
+
+        .cover-slide {
+            background: linear-gradient(135deg, #f4fbff, #eefcf8 48%, #fff8df) !important;
+            color: var(--ink) !important
+        }
+
+        .cover-slide .eyebrow {
+            color: var(--py-blue) !important
+        }
+
+        .cover-slide .hero-subtitle {
+            color: #52677c !important
+        }
+
+        .cover-slide .hero-pills span,
+        .cover-slide .hero-badge {
+            background: #fff;
+            border: 2px solid #dbe9f2;
+            color: #40566d;
+            box-shadow: 0 8px 20px rgba(44, 80, 115, .08)
+        }
+
+        .cover-slide .display-title {
+            color: #233a55
+        }
+
+        .cover-slide .display-title span {
+            color: var(--py-blue)
+        }
+
+        .cover-slide .orbit {
+            filter: drop-shadow(0 8px 10px rgba(37, 91, 130, .12))
+        }
+
+        .gradient-purple,
+        .gradient-blue,
+        .coding-slide,
+        .dark-slide,
+        .game-slide {
+            background: linear-gradient(145deg, #eef7ff, #f7f2ff) !important;
+            color: var(--ink) !important
+        }
+
+        .gradient-purple .reveal-word,
+        .coding-reveal h1 {
+            color: var(--py-blue) !important;
+            text-shadow: none !important
+        }
+
+        .gradient-purple p,
+        .coding-reveal p,
+        .coding-reveal .eyebrow {
+            color: #536b82 !important
+        }
+
+        .code-rain span {
+            background: #fff !important;
+            border: 2px solid #cfe0ee !important;
+            color: #3d5971 !important
+        }
+
+        .code-font,
+        code,
+        pre,
+        .code-editor,
+        .terminal,
+        .code-line,
+        .function-chip,
+        .code-choice,
+        .drop-code,
+        .ghost-code,
+        .mini-code {
+            font-family: 'Courier New', Courier, monospace !important;
+        }
+
+        .python-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #eef7ff;
+            border: 2px solid #bcd9ef;
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-weight: 700;
+            color: #275d89
+        }
+
+        .python-logo-large {
+            width: min(420px, 65vw);
+            max-height: 190px;
+            object-fit: contain;
+            filter: drop-shadow(0 12px 18px rgba(55, 118, 171, .18))
+        }
+
+        .mature-card {
+            background: #fff;
+            border: 2px solid #dce8f0;
+            border-radius: 24px;
+            padding: 22px;
+            box-shadow: 0 12px 28px rgba(38, 73, 103, .09)
+        }
+
+        .restaurant-scene {
+            height: 390px;
+            border-radius: 32px;
+            background: linear-gradient(#d9f1ff 0 62%, #f0c78f 62%);
+            position: relative;
+            overflow: hidden;
+            border: 5px solid #fff;
+            box-shadow: var(--shadow)
+        }
+
+        .restaurant-scene .restaurant {
+            position: absolute;
+            left: 8%;
+            bottom: 15%;
+            font-size: 10rem
+        }
+
+        .restaurant-scene .family {
+            position: absolute;
+            right: 8%;
+            bottom: 12%;
+            font-size: 5.5rem
+        }
+
+        .restaurant-scene .scene-note {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            right: 25px;
+            background: rgba(255, 255, 255, .94);
+            border-radius: 18px;
+            padding: 14px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem
+        }
+
+        .decision-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            width: 100%;
+            max-width: 1080px
+        }
+
+        .decision-card {
+            border: 3px solid #dce7ef;
+            background: #fff;
+            border-radius: 24px;
+            padding: 22px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: .2s;
+            text-align: left
+        }
+
+        .decision-card:hover,
+        .decision-card.selected {
+            transform: translateY(-5px);
+            border-color: var(--teal);
+            box-shadow: 0 14px 30px rgba(11, 167, 165, .14)
+        }
+
+        .decision-card span {
+            font-size: 3.8rem;
+            display: block
+        }
+
+        .decision-card b {
+            font-size: 1.3rem;
+            display: block;
+            margin: 8px 0
+        }
+
+        .decision-card small {
+            font-size: 1rem;
+            color: #60758b
+        }
+
+        .safety-note {
+            background: #fff7df;
+            border: 2px solid #f4cf62;
+            border-radius: 16px;
+            padding: 12px 16px;
+            margin-top: 14px;
+            color: #6e5c1d;
+            font-weight: 600
+        }
+
+        .function-palette {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px
+        }
+
+        .function-palette button,
+        .function-chip {
+            border: 2px solid #aed1e7;
+            background: #eaf6ff;
+            color: #285b7d;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font: 700 .9rem 'Courier New', monospace;
+            cursor: pointer;
+            text-align: left
+        }
+
+        .function-program {
+            min-height: 190px;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            background: #f5f8fa;
+            border: 3px dashed #b9c9d7;
+            border-radius: 16px;
+            padding: 10px
+        }
+
+        .function-chip {
+            background: #3776ab;
+            color: #fff;
+            border-color: #2d6591;
+            box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .12)
+        }
+
+        .code-activity {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 1120px;
+            align-items: stretch
+        }
+
+        .code-panel,
+        .output-panel {
+            background: #fff;
+            border: 3px solid #dce7ef;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 12px 26px rgba(40, 65, 100, .09)
+        }
+
+        .code-panel h3,
+        .output-panel h3 {
+            margin: 0 0 12px;
+            font-size: 1.35rem
+        }
+
+        .code-editor {
+            width: 100%;
+            min-height: 220px;
+            resize: none;
+            border: 3px solid #cfdae5;
+            border-radius: 14px;
+            padding: 16px;
+            background: #fbfdff;
+            color: #20324a;
+            font-size: 1rem;
+            line-height: 1.55;
+            outline: none;
+            tab-size: 4
+        }
+
+        .code-editor:focus {
+            border-color: var(--py-blue);
+            box-shadow: 0 0 0 4px rgba(55, 118, 171, .12)
+        }
+
+        .terminal {
+            min-height: 220px;
+            background: #f4f7f9;
+            border: 2px solid #cbd8e2;
+            border-radius: 14px;
+            padding: 16px;
+            color: #20384e;
+            white-space: pre-wrap;
+            overflow: auto;
+            font-size: 1rem;
+            line-height: 1.55
+        }
+
+        .terminal:before {
+            content: 'OUTPUT';
+            display: block;
+            font-family: 'Fredoka';
+            font-size: .78rem;
+            letter-spacing: .15em;
+            font-weight: 700;
+            color: #71859a;
+            margin-bottom: 12px
+        }
+
+        .run-btn {
+            border: 0;
+            border-radius: 14px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #3776ab, #0ba7a5);
+            color: #fff;
+            font: 700 1rem 'Fredoka';
+            cursor: pointer;
+            box-shadow: 0 8px 17px rgba(55, 118, 171, .22)
+        }
+
+        .run-btn:hover {
+            transform: translateY(-2px)
+        }
+
+        .run-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: flex-start;
+            margin-top: 12px;
+            flex-wrap: wrap
+        }
+
+        .code-feedback {
+            font-weight: 700;
+            min-height: 26px;
+            color: #5d7187
+        }
+
+        .code-feedback.success {
+            color: #148456
+        }
+
+        .code-feedback.error {
+            color: #cf4542
+        }
+
+        .code-builder {
+            display: grid;
+            grid-template-columns: .95fr 1.05fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 1120px
+        }
+
+        .code-bank {
+            display: grid;
+            gap: 10px
+        }
+
+        .code-choice {
+            border: 2px solid #b9d4e7;
+            background: #eef8ff;
+            border-radius: 12px;
+            padding: 12px;
+            cursor: grab;
+            color: #285776;
+            font-weight: 700
+        }
+
+        .drop-code {
+            min-height: 48px;
+            border: 3px dashed #b9c9d6;
+            border-radius: 12px;
+            background: #f8fafc;
+            padding: 10px;
+            color: #7a8b9c
+        }
+
+        .code-panel .code-font .drop-code {
+            display: inline-flex;
+            align-items: center;
+            width: calc(100% - 58px);
+            vertical-align: middle;
+            margin: 4px 0
+        }
+
+        .drop-code.filled {
+            border-style: solid;
+            border-color: #7eb7dc;
+            background: #eef8ff;
+            color: #214e6d
+        }
+
+        .receipt-output {
+            white-space: pre;
+            font-family: 'Courier New', monospace;
+            background: #f7fafc;
+            border: 2px solid #cad7e2;
+            border-radius: 16px;
+            padding: 20px;
+            line-height: 1.6;
+            min-height: 260px
+        }
+
+        .sequence-code-zone {
+            min-height: 280px;
+            border: 3px dashed #b9c9d6;
+            border-radius: 16px;
+            padding: 12px;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .sequence-line {
+            font-family: 'Courier New', monospace;
+            background: #3776ab;
+            color: #fff;
+            border-radius: 10px;
+            padding: 11px 13px;
+            cursor: grab
+        }
+
+        .sequence-line.wrong {
+            background: #dc6661
+        }
+
+        .sequence-line.correct {
+            background: #2ca672
+        }
+
+        .math-choice-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+
+        .math-choice-grid button {
+            border: 3px solid #dce6ef;
+            background: #fff;
+            border-radius: 16px;
+            padding: 16px;
+            font: 700 1rem 'Courier New', monospace;
+            cursor: pointer;
+            text-align: left
+        }
+
+        .math-choice-grid button:hover {
+            border-color: #76b1d6
+        }
+
+        .math-choice-grid button.correct {
+            border-color: #34aa72;
+            background: #edfbf4
+        }
+
+        .math-choice-grid button.wrong {
+            border-color: #df6864;
+            background: #fff0ef
+        }
+
+        .loop-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 1120px
+        }
+
+        .loop-card {
+            background: #fff;
+            border: 3px solid #dfe8ef;
+            border-radius: 24px;
+            padding: 20px
+        }
+
+        .mini-code {
+            background: #f5f8fb;
+            border: 2px solid #cbd8e3;
+            border-radius: 13px;
+            padding: 15px;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            min-height: 190px
+        }
+
+        .mini-terminal {
+            background: #edf5f8;
+            border-radius: 12px;
+            padding: 12px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            min-height: 110px;
+            margin-top: 10px
+        }
+
+        .loop-label {
+            display: inline-block;
+            background: #fff4cf;
+            border: 2px solid #f0ce5c;
+            border-radius: 999px;
+            padding: 6px 11px;
+            font-weight: 700;
+            color: #6c5817
+        }
+
+        .install-checklist {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1000px
+        }
+
+        .install-check {
+            border: 3px solid #dfe8ef;
+            background: #fff;
+            border-radius: 22px;
+            padding: 20px;
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit
+        }
+
+        .install-check.done {
+            border-color: #36aa76;
+            background: #effbf5
+        }
+
+        .install-check span {
+            font-size: 2.7rem
+        }
+
+        .install-check b {
+            display: block;
+            font-size: 1.25rem;
+            margin-top: 8px
+        }
+
+        .install-check p {
+            color: #64778b;
+            margin: 5px 0 0
+        }
+
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            width: 100%;
+            max-width: 1000px
+        }
+
+        .logo-card {
+            background: #fff;
+            border: 3px solid #e0e8ef;
+            border-radius: 24px;
+            padding: 22px;
+            display: grid;
+            place-items: center;
+            min-height: 170px;
+            text-align: center
+        }
+
+        .logo-card img {
+            max-width: 130px;
+            max-height: 70px
+        }
+
+        .logo-card b {
+            margin-top: 12px;
+            color: #53677c
+        }
+
+        .logo-disclaimer {
+            font-size: .95rem;
+            color: #6c7f92;
+            text-align: center;
+            margin-top: 16px
+        }
+
+        .game-python-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px
+        }
+
+        .game-python-card {
+            background: #fff;
+            border: 3px solid #dfe8ef;
+            border-radius: 25px;
+            padding: 24px;
+            text-align: center
+        }
+
+        .game-python-card span {
+            font-size: 6rem
+        }
+
+        .game-python-card h3 {
+            font-size: 1.5rem;
+            margin: 8px
+        }
+
+        .game-python-card p {
+            color: #64778a;
+            margin: 0
+        }
+
+        .language-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+            max-width: 1000px
+        }
+
+        .language-chip {
+            background: #fff;
+            border: 3px solid #dbe6ee;
+            border-radius: 18px;
+            padding: 16px 21px;
+            font: 700 1.1rem 'Courier New', monospace
+        }
+
+        .language-chip.python {
+            background: #eef7ff;
+            border-color: #78afd2;
+            color: #275f88;
+            transform: scale(1.08)
+        }
+
+        .download-card {
+            display: grid;
+            grid-template-columns: .7fr 1.3fr;
+            gap: 30px;
+            align-items: center;
+            background: #fff;
+            border: 3px solid #dbe7ef;
+            border-radius: 30px;
+            padding: 32px;
+            max-width: 1000px;
+            width: 100%;
+            box-shadow: var(--shadow)
+        }
+
+        .download-icon {
+            font-size: 9rem;
+            text-align: center
+        }
+
+        .download-card h2 {
+            font-size: 2.8rem;
+            margin: 5px 0
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            border-radius: 16px;
+            padding: 15px 22px;
+            background: linear-gradient(135deg, #3776ab, #0ba7a5);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.15rem;
+            box-shadow: 0 9px 20px rgba(55, 118, 171, .23)
+        }
+
+        .download-meta {
+            margin-top: 12px;
+            color: #64778b
+        }
+
+        .download-alt {
+            display: inline-block;
+            margin-top: 10px;
+            color: #2f6c94;
+            font-weight: 700
+        }
+
+        .install-steps {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            width: 100%;
+            max-width: 1120px
+        }
+
+        .install-step {
+            background: #fff;
+            border: 2px solid #dce7ef;
+            border-radius: 22px;
+            padding: 14px;
+            display: grid;
+            grid-template-columns: 54px 1fr;
+            gap: 12px;
+            align-items: start
+        }
+
+        .install-step .step-no {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: #3776ab;
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-weight: 700
+        }
+
+        .install-step img {
+            width: 100%;
+            height: 165px;
+            object-fit: contain;
+            background: #f6f9fb;
+            border-radius: 12px;
+            border: 1px solid #dce5ec;
+            margin-top: 8px
+        }
+
+        .install-step h3 {
+            margin: 3px 0 4px;
+            font-size: 1.18rem
+        }
+
+        .install-step p {
+            margin: 0;
+            color: #64768a
+        }
+
+        .vscode-tour {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1120px
+        }
+
+        .tour-card {
+            background: #fff;
+            border: 2px solid #dce7ef;
+            border-radius: 22px;
+            padding: 14px
+        }
+
+        .tour-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #f6f9fb
+        }
+
+        .tour-card h3 {
+            font-size: 1.15rem;
+            margin: 9px 0 4px
+        }
+
+        .tour-card p {
+            margin: 0;
+            color: #64768a
+        }
+
+        .cli-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            width: 100%;
+            max-width: 1000px
+        }
+
+        .cli-card {
+            background: #fff;
+            border: 3px solid #dce7ef;
+            border-radius: 26px;
+            padding: 26px;
+            text-align: center
+        }
+
+        .cli-card span {
+            font-size: 5rem
+        }
+
+        .cli-card h3 {
+            font-size: 1.7rem;
+            margin: 8px
+        }
+
+        .cli-card p {
+            color: #64768b
+        }
+
+        @media(max-width:1050px) {
+
+            .code-activity,
+            .code-builder,
+            .download-card {
+                grid-template-columns: 1fr
+            }
+
+            .decision-grid,
+            .logo-grid,
+            .game-python-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .install-steps,
+            .vscode-tour {
+                grid-template-columns: 1fr
+            }
+
+            .function-program {
+                min-height: 120px
+            }
+
+            .code-editor,
+            .terminal {
+                min-height: 170px
+            }
+        }
+
+        @media(max-width:700px) {
+            .brand-logo {
+                right: 8px !important
+            }
+
+            .brand-logo img {
+                height: 34px !important
+            }
+
+            .decision-grid,
+            .logo-grid,
+            .game-python-grid,
+            .install-checklist,
+            .loop-compare,
+            .cli-compare {
+                grid-template-columns: 1fr
+            }
+
+            .code-activity,
+            .code-builder {
+                grid-template-columns: 1fr
+            }
+
+            .restaurant-scene {
+                height: 300px
+            }
+
+            .restaurant-scene .restaurant {
+                font-size: 7rem
+            }
+
+            .restaurant-scene .family {
+                font-size: 4rem
+            }
+
+            .function-palette {
+                grid-template-columns: 1fr
+            }
+
+            .math-choice-grid {
+                grid-template-columns: 1fr
+            }
+        }
+    
+
+        /* ===== Requested targeted revisions ===== */
+        .routine-sort-slide {
+            justify-content: flex-start !important;
+            padding-top: 24px !important;
+        }
+        .routine-sort-slide .slide-head { margin-bottom: 10px; }
+        .routine-sort-slide .slide-head h2 { font-size: clamp(1.9rem, 3vw, 3rem); margin-bottom: 6px; }
+        .routine-sort-slide .slide-head p { font-size: 1.05rem; }
+        .routine-sort-slide .sort-shell { padding: 14px 18px; }
+        .routine-sort-slide .sortable { gap: 7px; }
+        .routine-sort-slide .sort-item { min-height: 48px; padding: 9px 12px; }
+        .routine-sort-slide .sort-emoji { font-size: 1.45rem; }
+        .routine-sort-slide .button-row { margin-top: 10px; }
+
+        .scroll-code-slide { justify-content: flex-start !important; padding-top: 24px !important; }
+        .scroll-code-slide .slide-head { margin-bottom: 10px; }
+        .scroll-code-slide .function-program,
+        .scroll-code-slide .sequence-code-zone,
+        .scroll-code-slide .code-panel > .code-font {
+            max-height: 205px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: #8bb8d6 #edf4f8;
+        }
+        .scroll-code-slide .function-program::-webkit-scrollbar,
+        .scroll-code-slide .sequence-code-zone::-webkit-scrollbar,
+        .scroll-code-slide .code-panel > .code-font::-webkit-scrollbar { width: 9px; }
+        .scroll-code-slide .function-program::-webkit-scrollbar-thumb,
+        .scroll-code-slide .sequence-code-zone::-webkit-scrollbar-thumb,
+        .scroll-code-slide .code-panel > .code-font::-webkit-scrollbar-thumb {
+            background: #8bb8d6; border-radius: 999px;
+        }
+        .scroll-code-slide .maze-board-wrap { min-height: 340px; }
+
+        .code-hint {
+            margin-top: 10px;
+            padding: 10px 12px;
+            border: 2px solid #f1cd67;
+            border-radius: 12px;
+            background: #fff8dd;
+            color: #6b5818;
+            font-size: .93rem;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+        .target-terminal {
+            text-align: left !important;
+            white-space: pre !important;
+            tab-size: 4;
+            overflow: auto;
+        }
+        .ascii-output-slide { justify-content: flex-start !important; padding-top: 22px !important; }
+        .ascii-output-slide .slide-head { margin-bottom: 9px; }
+        .ascii-output-slide .code-activity { grid-template-columns: 1.08fr .92fr; }
+        .ascii-output-slide .code-editor { min-height: 250px; font-size: .9rem; }
+        .ascii-output-slide .ascii-target { font-size: .84rem; line-height: 1.42; min-height: 250px; }
+        .always-visible { display: block; }
+
+        .office-logo-row {
+            min-height: 115px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 12px;
+        }
+        .office-logo-row img { max-width: 135px; max-height: 86px; object-fit: contain; }
+        .tool-logo-large {
+            width: min(210px, 80%);
+            max-height: 190px;
+            object-fit: contain;
+            justify-self: center;
+            filter: drop-shadow(0 12px 20px rgba(0,122,204,.16));
+        }
+        .programming-language-image {
+            display: block;
+            width: min(720px, 82%);
+            max-height: 270px;
+            object-fit: contain;
+            border-radius: 20px;
+            border: 2px solid #dce7ef;
+            background: #fff;
+            box-shadow: 0 12px 28px rgba(38,73,103,.10);
+            margin: 0 auto 18px;
+        }
+        .language-image-slide { justify-content: flex-start !important; padding-top: 24px !important; }
+        .language-image-slide .slide-head { margin-bottom: 10px; }
+        .language-image-slide .language-cloud { gap: 9px; }
+        .language-image-slide .language-chip { padding: 10px 14px; font-size: .95rem; }
+
+        .python-reveal-slide { color: var(--ink) !important; }
+        .python-reveal-card {
+            width: min(980px, 100%);
+            background: #fff;
+            border: 3px solid #cfe2ef;
+            border-radius: 30px;
+            padding: 38px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        .python-reveal-card h2 { font-size: clamp(2.2rem,4vw,4rem); margin: 12px 0; color:#263d58; }
+        .python-reveal-card .lead { max-width: 850px; margin: 0 auto; }
+        .light-code-row { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin:24px 0; }
+        .light-code-row span {
+            font-family:'Courier New',monospace;
+            background:#edf7ff;
+            border:2px solid #b8d8eb;
+            color:#245d84;
+            padding:11px 14px;
+            border-radius:12px;
+            font-weight:700;
+        }
+
+        .compact-guide-slide { justify-content: flex-start !important; padding-top: 22px !important; }
+        .compact-guide-slide .slide-head { margin-bottom: 8px; }
+        .compact-guide-slide .slide-head h2 { font-size: clamp(1.9rem,3vw,3rem); margin-bottom:5px; }
+        .compact-guide-slide .slide-head p { font-size: 1rem; }
+        .compact-guide-slide .install-steps,
+        .compact-guide-slide .vscode-tour { gap: 10px; }
+        .compact-guide-slide .install-step,
+        .compact-guide-slide .tour-card { padding: 9px; border-radius: 16px; }
+        .compact-guide-slide .install-step { grid-template-columns: 40px 1fr; gap: 8px; }
+        .compact-guide-slide .install-step .step-no { width:36px;height:36px;border-radius:10px; }
+        .compact-guide-slide .install-step h3,
+        .compact-guide-slide .tour-card h3 { font-size: 1rem; margin: 2px 0; }
+        .compact-guide-slide .install-step p,
+        .compact-guide-slide .tour-card p { font-size: .86rem; line-height: 1.25; }
+        .compact-guide-slide .install-step img,
+        .compact-guide-slide .tour-card img { height: 105px; margin-top: 5px; cursor: zoom-in; }
+        .compact-guide-slide .notice { margin-top: 8px; padding: 8px 12px; font-size: .9rem; }
+
+        #guideImageZoom {
+            position: fixed;
+            z-index: 5000;
+            width: min(560px, 48vw);
+            max-height: 72vh;
+            object-fit: contain;
+            background: #fff;
+            border: 4px solid #7bbbdc;
+            border-radius: 18px;
+            padding: 8px;
+            box-shadow: 0 24px 70px rgba(20,45,75,.35);
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(.96);
+            transition: opacity .12s, transform .12s;
+        }
+        #guideImageZoom.show { opacity:1; visibility:visible; transform:scale(1); }
+
+        .compact-cli-slide { justify-content:flex-start !important; padding-top:24px !important; }
+        .compact-cli-slide .slide-head { margin-bottom:10px; }
+        .compact-cli-slide .slide-head h2 { font-size:clamp(2rem,3.2vw,3.2rem); margin-bottom:6px; }
+        .compact-cli-slide .cli-compare { gap:14px; }
+        .compact-cli-slide .cli-card { padding:16px 20px; }
+        .compact-cli-slide .cli-card span { font-size:3.5rem; }
+        .compact-cli-slide .cli-card h3 { font-size:1.35rem; margin:4px; }
+        .compact-cli-slide .cli-card p { margin:4px 0 8px; }
+        .compact-cli-slide .mini-code { padding:10px; font-size:.9rem; }
+        .compact-cli-slide .simple-rule { margin-top:10px; padding:11px 16px; font-size:1rem; }
+
+        @media(max-width:1050px){
+            .ascii-output-slide .code-activity { grid-template-columns:1fr; }
+            .programming-language-image { max-height:220px; }
+            .compact-guide-slide .install-step img,
+            .compact-guide-slide .tour-card img { height:130px; }
+        }
+
+        .scroll-code-slide .sequence-code-zone { min-height: 180px !important; }
+</style>
+</head>
+<body>
+<div class="brand-logo"><img alt="Ruangguru Coding" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/7e71d258-897f-42b7-9c8b-2ff76376ffc6.png"/></div>
+<main class="presentation-container" id="presentation">
+<section class="slide cover-slide" data-title="Pengenalan Coding dan Python">
+<div class="cover-scene">
+<div class="orbit orbit-a">⚙️</div>
+<div class="orbit orbit-b">🐍</div>
+<div class="orbit orbit-c">⌨️</div>
+<div class="hero-badge">SESSION 1 • INTRODUCTION</div>
+<div class="hero-icon">💻</div>
+<p class="eyebrow">PYTHON FOR BEGINNERS</p>
+<h1 class="display-title">Pengenalan Coding &amp; <span>Python</span></h1>
+<p class="hero-subtitle">Memahami cara memberi instruksi kepada komputer, menyiapkan VS Code, dan
+                    menjalankan program Python pertama melalui terminal.</p>
+<div class="hero-pills"><span>🧠 Algoritma</span><span>🧩 Problem Solving</span><span>⌨️ Python
+                        Code</span><span>🖥️ VS Code</span></div>
+</div>
+</section>
+<section class="slide" data-title="Apa yang Akan Dipelajari?">
+<div class="slide-head center"><span class="kicker">TODAY'S ROADMAP</span>
+<h2>Apa yang Akan Kita Pelajari?</h2>
+<p>Dari logika sehari-hari sampai menjalankan file Python di VS Code.</p>
+</div>
+<div class="agenda-grid">
+<div class="agenda-card blue"><b>01</b><span>📝</span>
+<h3>Pre-Test</h3>
+<p>Melihat pengetahuan awal.</p>
+</div>
+<div class="agenda-card orange"><b>02</b><span>🧠</span>
+<h3>Algoritma</h3>
+<p>Menyusun langkah dan keputusan.</p>
+</div>
+<div class="agenda-card purple"><b>03</b><span>⌨️</span>
+<h3>Python Practice</h3>
+<p>Menulis output dan mencoba loop.</p>
+</div>
+<div class="agenda-card green"><b>04</b><span>🖥️</span>
+<h3>VS Code Setup</h3>
+<p>Membuat dan menjalankan main.py.</p>
+</div>
+</div>
+</section>
+<section class="slide soft-blue" data-title="Pre-Test">
+<div class="single-focus">
+<div class="giant-emoji">📝</div><span class="kicker">BEFORE WE START</span>
+<h2>Kerjakan Pre-Test Terlebih Dahulu</h2>
+<p>Jawab berdasarkan pemahamanmu saat ini. Pre-test digunakan untuk melihat titik awal pembelajaran.</p>
+<button class="primary-btn large" onclick="openPretest()">Buka Pre-Test ↗</button>
+<div class="notice hidden" id="pretestNotice">Link pre-test belum diisi. Guru dapat menambahkannya pada
+                    konstanta <span class="code-font">PRETEST_URL</span>.</div>
+</div>
+</section>
+<section class="slide warm-slide" data-title="Cerita di Restoran">
+<div class="split-layout">
+<div><span class="kicker">DAILY ALGORITHM</span>
+<h2>Mendapatkan Makanan di Restoran</h2>
+<p class="lead">Kamu dan keluarga tiba di sebuah tempat makan. Langkah apa saja yang perlu dilakukan
+                        sampai makanan tersedia di meja?</p>
+<div class="question-bubble">Coba sebutkan urutannya sebelum melihat aktivitas berikutnya.</div>
+</div>
+<div class="restaurant-scene">
+<div class="scene-note">Tujuan: makanan dipesan dan sampai ke meja.</div>
+<div class="restaurant">🏪</div>
+<div class="family">👨‍👩‍👧‍👦 🍽️</div>
+</div>
+</div>
+</section>
+<section class="slide routine-sort-slide" data-title="Urutan Memesan Makanan">
+<div class="slide-head"><span class="kicker">DRAG &amp; ARRANGE</span>
+<h2>Susun Proses Memesan Makanan</h2>
+<p>Geser setiap langkah hingga urutannya masuk akal.</p>
+</div>
+<div class="sort-shell">
+<div class="sortable" data-answer="seat,menu,choose,order,wait,eat" id="sortOrder">
+<div class="sort-item" data-key="wait" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">⏳</span><b>Menunggu pesanan datang</b></div>
+<div class="sort-item" data-key="seat" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">🪑</span><b>Datang dan memilih tempat duduk</b></div>
+<div class="sort-item" data-key="eat" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">🍽️</span><b>Makan</b></div>
+<div class="sort-item" data-key="choose" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">🔎</span><b>Memilih makanan dari menu</b></div>
+<div class="sort-item" data-key="menu" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">📋</span><b>Meminta menu kepada waiter</b></div>
+<div class="sort-item" data-key="order" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">🗣️</span><b>Menyampaikan pesanan</b></div>
+</div>
+<div class="button-row"><button class="primary-btn" onclick="checkSortable('sortOrder','orderFeedback')">Periksa Urutan</button><button class="secondary-btn" onclick="shuffleSortable('sortOrder','orderFeedback')">Acak Lagi</button>
+</div>
+<div class="feedback" id="orderFeedback"></div>
+</div>
+</section>
+<section class="slide routine-sort-slide" data-title="Urutan Membayar">
+<div class="slide-head"><span class="kicker">SECOND ALGORITHM</span>
+<h2>Setelah Makan, Bagaimana Cara Membayar?</h2>
+<p>Susun langkah sampai pembayaran dinyatakan berhasil.</p>
+</div>
+<div class="sort-shell">
+<div class="sortable" data-answer="cashier,table,total,pay,success" id="sortPay">
+<div class="sort-item" data-key="pay" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">💳</span><b>Melakukan pembayaran</b></div>
+<div class="sort-item" data-key="cashier" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">🧾</span><b>Pergi ke kasir</b></div>
+<div class="sort-item" data-key="success" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">✅</span><b>Menunggu pembayaran berhasil</b></div>
+<div class="sort-item" data-key="total" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">💰</span><b>Kasir menyampaikan total pembayaran</b></div>
+<div class="sort-item" data-key="table" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">🔢</span><b>Menyebutkan nomor meja</b></div>
+</div>
+<div class="button-row"><button class="primary-btn" onclick="checkSortable('sortPay','payFeedback')">Periksa Urutan</button><button class="secondary-btn" onclick="shuffleSortable('sortPay','payFeedback')">Acak Lagi</button>
+</div>
+<div class="feedback" id="payFeedback"></div>
+</div>
+</section>
+<section class="slide" data-title="Memilih Perjalanan">
+<div class="slide-head center"><span class="kicker">DECISION MAKING</span>
+<h2>Acara Dimulai Pukul 14.00</h2>
+<p>Setelah selesai dari tempat makan, kamu dan keluarga akan menghadiri acara keluarga yang dimulai pukul <b>14.00</b>. Sekarang pukul <b>13.25</b>. Saat perjalanan dimulai, ban mobil terasa kurang angin sehingga kendaraan tidak dapat melaju dengan baik. Keputusan apa yang akan kamu ambil?</p>
+</div>
+<div class="decision-grid" id="travelChoices">
+<button class="decision-card" onclick="chooseTravel(this,'repair')"><span>🛠️</span><b>Mencari tempat
+                        perbaikan ban</b><small>Perkiraan 45 menit</small></button>
+<button class="decision-card" onclick="chooseTravel(this,'continue')"><span>🚗</span><b>Tetap
+                        melanjutkan dengan mobil</b><small>Perkiraan 60 menit</small></button>
+<button class="decision-card" onclick="chooseTravel(this,'public')"><span>🚌</span><b>Mencari kendaraan
+                        umum</b><small>Perkiraan 30 menit</small></button>
+</div>
+<div class="feedback large-feedback" id="travelFeedback">Setiap pilihan memiliki konsekuensi. Pilih satu
+                untuk melihat hasilnya.</div>
+<div class="safety-note">Keselamatan tetap menjadi pertimbangan utama. Kendaraan dengan kondisi ban yang
+                tidak baik sebaiknya tidak dipaksakan berjalan.</div>
+</section>
+<section class="slide sky-slide" data-title="Sampai di Acara Keluarga">
+<div class="school-scene" style="background:linear-gradient(#d8f1ff 0 64%,#a9d78c 64%)">
+<div class="school-building" style="font-size:10rem">🏡</div>
+<div class="school-kids">👨‍👩‍👧‍👦</div>
+<div class="speech-card"><span class="kicker">DESTINATION REACHED</span>
+<h2>Kamu Tetap Sampai di Acara Keluarga</h2>
+<p>Keputusan yang berbeda dapat menghasilkan waktu, risiko, dan proses yang berbeda. Inilah alasan
+                        kita perlu memikirkan langkah sebelum bertindak.</p>
+</div>
+</div>
+</section>
+<section class="slide gradient-purple" data-title="Kita Sudah Membuat Algoritma">
+<div class="concept-reveal">
+<div class="mini-scenes">
+<div>🍽️<small>Memesan makanan</small></div>
+<div>💳<small>Membayar</small></div>
+<div>🚌<small>Memilih perjalanan</small></div>
+</div>
+<div class="arrow-down" style="color:#3776ab">↓</div>
+<div class="reveal-word">ALGORITMA</div>
+<p>Kita menyusun langkah dan membuat keputusan untuk mencapai tujuan tertentu.</p>
+</div>
+</section>
+<section class="slide" data-title="Misi Belajar Hari Ini">
+<div class="mission-board" style="background:#eef7fb;color:#20324a;border:3px solid #cde1ed">
+<div class="mission-number" style="color:#3776ab;border-color:#d1e1ea">01</div>
+<div><span class="kicker">CORE MISSION</span>
+<h2 style="color:#20324a">Menyelesaikan Masalah dengan Langkah yang Tepat</h2>
+<p style="color:#5e7489">Kita akan menyusun algoritma yang:</p>
+</div>
+<div class="mission-qualities"><span style="background:#fff">✅ Berurutan</span><span style="background:#fff">✅ Jelas</span><span style="background:#fff">✅ Tidak membuang
+                        langkah</span><span style="background:#fff">✅ Sesuai tujuan</span></div>
+</div>
+</section>
+<section class="slide" data-title="Mengapa Belajar Algoritma?">
+<div class="slide-head center"><span class="kicker">WHY ALGORITHM?</span>
+<h2>Algoritma Membantu Kita Berpikir Sebelum Bertindak</h2>
+<p>Kita perlu mengetahui masalah, hasil yang ingin dicapai, dan langkah yang harus dilakukan.</p>
+</div>
+<div class="three-step-flow">
+<div><span>❓</span><b>Masalah</b>
+<p>Apa yang perlu diselesaikan?</p>
+</div><i>→</i>
+<div><span>🎯</span><b>Tujuan</b>
+<p>Hasil seperti apa yang diinginkan?</p>
+</div><i>→</i>
+<div><span>🧩</span><b>Langkah</b>
+<p>Instruksi apa yang diperlukan?</p>
+</div>
+</div>
+</section>
+<section class="slide soft-green" data-title="Program sebagai Solusi">
+<div class="split-layout">
+<div class="problem-stack">
+<div class="problem-card">😴 Sering terlambat bangun</div>
+<div class="problem-card">🌦️ Tidak tahu perkiraan cuaca</div>
+<div class="problem-card">📝 Lupa jadwal dan tugas</div>
+</div>
+<div><span class="kicker">PROGRAM = SOLUTION TOOL</span>
+<h2>Mengapa Manusia Membuat Program?</h2>
+<p class="lead">Program dibuat untuk membantu menyelesaikan masalah, mengolah informasi, atau
+                        menjalankan tugas dengan lebih teratur.</p>
+<div class="simple-rule">Masalah → Algoritma → Program → Hasil</div>
+</div>
+</div>
+</section>
+<section class="slide" data-title="Program di Sekitar Kita">
+<div class="slide-head center"><span class="kicker">REAL-WORLD PROGRAMS</span>
+<h2>Masalah Sehari-hari yang Dibantu Program</h2>
+</div>
+<div class="app-showcase">
+<div><span>⏰</span><b>Alarm</b>
+<p>Mengingatkan waktu bangun.</p>
+</div>
+<div><span>🗒️</span><b>Catatan Digital</b>
+<p>Menyimpan ide dan tugas.</p>
+</div>
+<div><span>🌦️</span><b>Weather App</b>
+<p>Memperkirakan kondisi cuaca.</p>
+</div>
+<div><span>🗺️</span><b>Maps</b>
+<p>Mencari rute perjalanan.</p>
+</div>
+<div><span>🧮</span><b>Calculator</b>
+<p>Menghitung dengan cepat.</p>
+</div>
+<div><span>📅</span><b>Calendar</b>
+<p>Mengelola jadwal kegiatan.</p>
+</div>
+</div>
+</section>
+<section class="slide soft-orange" data-title="Aplikasi yang Sering Digunakan">
+<div class="input-lab">
+<div class="phone-mockup">
+<div class="phone-top"></div>
+<div class="phone-icons">📱<br/><span>?</span></div>
+</div>
+<div><span class="kicker">YOUR INPUT</span>
+<h2>Aplikasi Apa yang Paling Sering Kamu Gunakan?</h2>
+<p>Tulis nama aplikasinya, lalu pikirkan kebutuhan apa yang dibantu aplikasi tersebut.</p>
+<div class="input-row"><input id="appInput" placeholder="Contoh: WhatsApp, Maps, YouTube..." type="text"/><button class="primary-btn" onclick="submitTextAnswer('appInput','appResponse','Setiap aplikasi memiliki tujuan, pengguna, dan instruksi yang membuat fiturnya bekerja. Jelaskan masalah apa yang terbantu oleh aplikasi yang kamu sebutkan diatas')">Kirim</button>
+</div>
+<div class="response-box" id="appResponse"></div>
+</div>
+</div>
+</section>
+<section class="slide" data-title="Program untuk Hiburan">
+<div class="game-stage" style="background:linear-gradient(#dcecff 0 60%,#c0dca0 60%);color:#20324a">
+<div class="pixel-cloud c1"></div>
+<div class="pixel-cloud c2"></div>
+<div class="game-title" style="background:rgba(255,255,255,.94);color:#20324a;border:3px solid #dce6ef">
+<span class="kicker">ENTERTAINMENT PROGRAM</span>
+<h2>Program Juga Bisa Berbentuk Game</h2>
+<p>Game adalah program yang memiliki aturan, tujuan, input pemain, tampilan, dan respons.</p>
+</div>
+<div class="game-characters">🎮 🧩 🏁</div>
+</div>
+</section>
+<section class="slide soft-purple" data-title="Game yang Sedang Dimainkan">
+<div class="input-lab reversed">
+<div><span class="kicker">GAME ANALYSIS</span>
+<h2>Game Apa yang Sedang Kamu Mainkan?</h2>
+<p>Tulis nama game, lalu perhatikan: apa tujuan pemain dan aturan yang harus dijalankan?</p>
+<div class="input-row"><input id="gameInput" placeholder="Ketik nama game..." type="text"/><button class="primary-btn" onclick="submitTextAnswer('gameInput','gameResponse','Di balik game tersebut terdapat aset, aturan, perhitungan, dan banyak instruksi program.')">Kirim</button>
+</div>
+<div class="response-box" id="gameResponse"></div>
+</div>
+<div class="controller-art">🎮</div>
+</div>
+</section>
+<section class="slide" data-title="Memberi Instruksi kepada Komputer">
+<div class="communication-flow">
+<div class="human-side"><span>🧑‍💻</span><b>Manusia</b>
+<p>Menentukan masalah dan tujuan.</p>
+</div>
+<div class="code-bridge" style="background:linear-gradient(135deg,#3776ab,#0ba7a5)"><span style="color:#fff">{ }</span><b>ALGORITMA</b><small>Instruksi yang jelas</small></div>
+<div class="computer-side"><span>💻</span><b>Komputer</b>
+<p>Menjalankan instruksi secara tepat.</p>
+</div>
+</div>
+<div class="bottom-message">Coding adalah cara menuliskan instruksi agar komputer dapat menjalankan tugas
+                yang kita rancang.</div>
+</section>
+<section class="slide" data-title="Komputer Tidak Bisa Menebak">
+<div class="chat-lab">
+<div class="chat-person">
+<div class="avatar">🧑</div>
+<div class="chat-bubble user">“Komputer, buatkan aplikasi yang bisa memberi tahu kapan hujan dan kapan panas supaya aku tahu perlu
+                        membawa payung atau memakai pakaian yang lebih ringan.”</div>
+</div>
+<div class="chat-computer">
+<div class="avatar">💻</div>
+<div class="computer-questions" id="weatherQuestions">
+<p>Instruksinya masih terlalu umum. Klik tombol untuk melihat pertanyaan komputer.</p>
+</div>
+</div><button class="primary-btn" onclick="showWeatherQuestions()">Kirim Instruksi</button>
+</div>
+</section>
+<section class="slide" data-title="Instruksi Harus Detail">
+<div class="detail-comparison">
+<div class="bad-instruction"><span>❌</span>
+<h3>Terlalu Umum</h3>
+<p>“Buat aplikasi cuaca untukku.”</p>
+</div>
+<div class="good-instruction"><span>✅</span>
+<h3>Lebih Terarah</h3>
+<ul>
+<li>Tentukan kota atau wilayah.</li>
+<li>Tampilkan kondisi hujan atau cerah.</li>
+<li>Tampilkan suhu.</li>
+<li>Berikan saran membawa payung.</li>
+<li>Tentukan kapan data diperbarui.</li>
+</ul>
+</div>
+</div>
+<div class="simple-rule centered-rule">Algoritma membantu kita menulis instruksi secara rinci, berurutan,
+                dan sesuai kebutuhan.</div>
+</section>
+<section class="slide ct-slide" data-title="Computational Thinking">
+<div class="ct-wheel">
+<div class="ct-center">🧠<b>Computational<br/>Thinking</b></div>
+<div class="ct-item one"><span>🧩</span><b>Pecah Masalah</b></div>
+<div class="ct-item two"><span>🔍</span><b>Cari Pola</b></div>
+<div class="ct-item three"><span>📝</span><b>Susun Langkah</b></div>
+<div class="ct-item four"><span>🧪</span><b>Uji &amp; Perbaiki</b></div>
+</div>
+<p class="center-note">Dengan cara berpikir ini, kita dapat mengubah masalah besar menjadi instruksi yang
+                dapat dijalankan komputer.</p>
+</section>
+<section class="slide scroll-code-slide" data-title="Robot Function Mission 1">
+<div class="slide-head compact"><span class="kicker">FUNCTION MISSION 1</span>
+<h2>Berkomunikasi dengan Robot</h2>
+<p>Susun function agar robot mencapai tool.</p>
+</div>
+<div class="maze-layout">
+<div class="maze-board-wrap">
+<div class="maze-status" id="pymaze1Status">Robot menunggu instruksi...</div>
+<div class="maze-board" id="pymaze1Board"></div>
+</div>
+<div class="maze-console">
+<h3>Function Program</h3>
+<div class="function-palette" data-target="pymaze1Program"><button data-command="up" draggable="true">moveUp()</button><button data-command="down" draggable="true">moveDown()</button><button data-command="left" draggable="true">moveLeft()</button><button data-command="right" draggable="true">moveRight()</button></div>
+<div class="program-label">Susunan instruksi</div>
+<div class="function-program" id="pymaze1Program"></div>
+<div class="button-row tight"><button class="run-btn" onclick="runPythonMaze('pymaze1')">Run
+                            ▶</button><button class="secondary-btn" onclick="clearPythonMaze('pymaze1')">Clear</button>
+</div>
+<div class="feedback" id="pymaze1Feedback"></div>
+</div>
+</div>
+</section>
+<section class="slide scroll-code-slide" data-title="Robot Function Mission 2">
+<div class="slide-head compact"><span class="kicker">FUNCTION MISSION 2</span>
+<h2>Hindari Tembok</h2>
+<p>Robot tidak boleh menabrak tembok.</p>
+</div>
+<div class="maze-layout">
+<div class="maze-board-wrap">
+<div class="maze-status" id="pymaze2Status">Robot menunggu instruksi...</div>
+<div class="maze-board" id="pymaze2Board"></div>
+</div>
+<div class="maze-console">
+<h3>Function Program</h3>
+<div class="function-palette" data-target="pymaze2Program"><button data-command="up" draggable="true">moveUp()</button><button data-command="down" draggable="true">moveDown()</button><button data-command="left" draggable="true">moveLeft()</button><button data-command="right" draggable="true">moveRight()</button></div>
+<div class="program-label">Susunan instruksi</div>
+<div class="function-program" id="pymaze2Program"></div>
+<div class="button-row tight"><button class="run-btn" onclick="runPythonMaze('pymaze2')">Run
+                            ▶</button><button class="secondary-btn" onclick="clearPythonMaze('pymaze2')">Clear</button>
+</div>
+<div class="feedback" id="pymaze2Feedback"></div>
+</div>
+</div>
+</section>
+<section class="slide scroll-code-slide" data-title="Robot Function Mission 3">
+<div class="slide-head compact"><span class="kicker">FUNCTION MISSION 3</span>
+<h2>Tanpa Garis Grid</h2>
+<p>Garis grid dihilangkan. Perkirakan jumlah langkah dengan lebih teliti.</p>
+</div>
+<div class="maze-layout">
+<div class="maze-board-wrap">
+<div class="maze-status" id="pymaze3Status">Robot menunggu instruksi...</div>
+<div class="maze-board no-grid" id="pymaze3Board"></div>
+</div>
+<div class="maze-console">
+<h3>Function Program</h3>
+<div class="function-palette" data-target="pymaze3Program"><button data-command="up" draggable="true">moveUp()</button><button data-command="down" draggable="true">moveDown()</button><button data-command="left" draggable="true">moveLeft()</button><button data-command="right" draggable="true">moveRight()</button></div>
+<div class="program-label">Susunan instruksi</div>
+<div class="function-program" id="pymaze3Program"></div>
+<div class="button-row tight"><button class="run-btn" onclick="runPythonMaze('pymaze3')">Run
+                            ▶</button><button class="secondary-btn" onclick="clearPythonMaze('pymaze3')">Clear</button>
+</div>
+<div class="feedback" id="pymaze3Feedback"></div>
+</div>
+</div>
+</section>
+<section class="slide scroll-code-slide" data-title="Lengkapi Program Struk">
+<div class="slide-head compact"><span class="kicker">PRINT BUILDER</span>
+<h2>Lengkapi Program Struk Lemonade</h2>
+<p>Drag pilihan teks ke bagian kosong, lalu klik Run.</p>
+</div>
+<div class="code-builder">
+<div class="code-panel">
+<h3>Kode Python</h3>
+<div class="code-font" style="line-height:2">
+                        print(<div class="drop-code" data-slot="0" id="receiptSlot1">Drop teks di sini</div>)<br/>
+                        print("Item : Lemonade")<br/>
+                        print(<div class="drop-code" data-slot="1" id="receiptSlot2">Drop teks di sini</div>)<br/>
+                        print("Price : Rp10.000 each")<br/>
+                        print("Total : Rp20.000")<br/>
+                        print("=============================")<br/>
+                        print(<div class="drop-code" data-slot="2" id="receiptSlot3">Drop teks di sini</div>)</div>
+<div class="run-row"><button class="run-btn" onclick="runReceiptBuilder()">Run ▶</button><span class="code-feedback" id="receiptBuilderFeedback"></span></div>
+</div>
+<div>
+<div class="code-bank" id="receiptBank">
+<div class="code-choice" data-text='"===== FRESH DRINK STORE ====="' draggable="true">"=====
+                            FRESH DRINK STORE ====="</div>
+<div class="code-choice" data-text='"Quantity  : 2"' draggable="true">"Quantity : 2"</div>
+<div class="code-choice" data-text='"Thank you for shopping!"' draggable="true">"Thank you for
+                            shopping!"</div>
+</div>
+<h3 style="margin:15px 0 8px">Output</h3>
+<div class="receipt-output" id="receiptBuilderOutput">
+===== FRESH DRINK STORE =====
+Item      : Lemonade
+Quantity  : 2
+Price     : Rp10.000 each
+Total     : Rp20.000
+=============================
+Thank you for shopping!
+</div>
+</div>
+</div>
+</section>
+<section class="slide scroll-code-slide" data-title="Susun Program Cara Membuat Lemonade">
+<div class="slide-head compact"><span class="kicker">CODE SEQUENCE</span>
+<h2>Susun Program Sesuai Urutan Output</h2>
+<p>Geser baris kode hingga langkah membuat lemonade tampil berurutan.</p>
+</div>
+<div class="code-activity">
+<div class="code-panel">
+<h3>Program Python</h3>
+<div class="sequence-code-zone" id="lemonSequence">
+<div class="sequence-line" data-order="3" draggable="true">print("3. Add sugar and water.")
+                        </div>
+<div class="sequence-line" data-order="0" draggable="true">print("How to Make Lemonade")</div>
+<div class="sequence-line" data-order="5" draggable="true">print("5. Add ice cubes and enjoy!")
+                        </div>
+<div class="sequence-line" data-order="1" draggable="true">print("1. Prepare a glass.")</div>
+<div class="sequence-line" data-order="4" draggable="true">print("4. Stir well.")</div>
+<div class="sequence-line" data-order="2" draggable="true">print("2. Add lemon juice.")</div>
+</div>
+<div class="run-row"><button class="run-btn" onclick="runSequenceCode()">Run ▶</button><button class="secondary-btn" onclick="shuffleSequence()">Acak</button><span class="code-feedback" id="lemonSequenceFeedback"></span></div>
+</div>
+<div class="output-panel">
+<h3>Target Output</h3>
+<div class="terminal">
+How to Make Lemonade
+1. Prepare a glass.
+2. Add lemon juice.
+3. Add sugar and water.
+4. Stir well.
+5. Add ice cubes and enjoy!</div>
+</div>
+</div>
+</section>
+<section class="slide" data-title="Tulis Program Hello World">
+<div class="slide-head compact"><span class="kicker">PYTHON PRACTICE 1</span>
+<h2>Tampilkan Tulisan <span class="code-font">Hello World!</span></h2>
+<p>Tulis kode Python di editor tanpa melihat contoh. Klik Run untuk memeriksa hasilnya.</p>
+</div>
+<div class="code-activity">
+<div class="code-panel">
+<h3>Editor</h3><textarea class="code-editor" id="helloEditor" placeholder="Tulis kode Python di sini..." spellcheck="false"></textarea>
+<div class="code-hint">Hint: gunakan fungsi print() dan letakkan teks di dalam tanda kutip.</div><div class="run-row"><button class="run-btn" onclick="runExactChallenge('helloEditor','helloOutput','helloFeedback','Hello World!')">Run
+                            ▶</button><span class="code-feedback" id="helloFeedback"></span></div>
+</div>
+<div class="output-panel">
+<h3>Target Output</h3>
+<div class="terminal target-terminal" id="helloOutput">Hello World!</div>
+</div>
+</div>
+</section>
+<section class="slide" data-title="Tulis Output Tiga Baris">
+<div class="slide-head compact"><span class="kicker">PYTHON PRACTICE 2</span>
+<h2>Buat Tiga Baris Output</h2>
+<p>Setiap kalimat harus muncul pada baris yang berbeda.</p>
+</div>
+<div class="code-activity">
+<div class="code-panel">
+<h3>Editor</h3><textarea class="code-editor" id="welcomeEditor" placeholder="Tulis programmu..." spellcheck="false"></textarea>
+<div class="code-hint">Hint: gunakan tiga baris print(). Setiap kalimat harus ditulis pada baris kode yang berbeda.</div><div class="run-row"><button class="run-btn" onclick="runExactChallenge('welcomeEditor','welcomeOutput','welcomeFeedback','Hello World!\nWelcome to Python\nEnjoy!')">Run
+                            ▶</button><span class="code-feedback" id="welcomeFeedback"></span></div>
+</div>
+<div class="output-panel">
+<h3>Target Output</h3>
+<div class="terminal target-terminal" id="welcomeOutput">Hello World!
+Welcome to Python
+Enjoy!</div>
+</div>
+</div>
+</section>
+<section class="slide ascii-output-slide" data-title="Membuat Layout dengan Print">
+<div class="slide-head compact"><span class="kicker">PYTHON PRACTICE 3</span>
+<h2>Buat Output Lemonade Day</h2>
+<p>Gunakan satu <span class="code-font">print()</span> untuk setiap baris. Gunakan tombol hint hanya
+                    jika diperlukan.</p>
+</div>
+<div class="code-activity">
+<div class="code-panel">
+<h3>Editor</h3><textarea class="code-editor" id="asciiEditor" placeholder="Tulis semua baris print() di sini..." spellcheck="false"></textarea>
+<div class="code-hint always-visible">Petunjuk awal: buat satu print() untuk setiap baris. Salin semua simbol, spasi, dan teks agar bentuk kotaknya sama.</div><div class="run-row"><button class="run-btn" onclick="runExactChallenge('asciiEditor','asciiOutput','asciiFeedback',ASCII_TARGET)">Run
+                            ▶</button><button class="secondary-btn" onclick="showAsciiHint()">Hint</button><span class="code-feedback" id="asciiFeedback"></span></div>
+<div class="notice hidden code-font" id="asciiHint"></div>
+</div>
+<div class="output-panel">
+<h3>Target Output</h3>
+<div class="terminal target-terminal ascii-target" id="asciiOutput">+------------------------------+
+|        LEMONADE DAY          |
++------------------------------+
+| Drink   : Fresh Lemonade     |
+| Amount  : 2 Glasses          |
+| Flavor  : Sweet and Sour     |
+| Topping : Ice Cubes          |
++------------------------------+
+|     Enjoy your drinks!       |
++------------------------------+</div>
+</div>
+</div>
+</section>
+<section class="slide" data-title="Python Menghitung Ekspresi">
+<div class="slide-head compact"><span class="kicker">DRAG THE CODE</span>
+<h2>Buat Komputer Menghitung 112 + 24</h2>
+<p>Susun dua baris kode. Jangan menuliskan hasil 136 secara langsung—biarkan Python menghitungnya.</p>
+</div>
+<div class="code-builder">
+<div class="code-panel">
+<h3>Program</h3>
+<div class="drop-code" data-slot="0" id="mathSlot1">Baris pertama</div>
+<div class="drop-code" data-slot="1" id="mathSlot2" style="margin-top:10px">Baris kedua</div>
+<div class="code-hint">Hint: baris pertama menampilkan teks “112 + 24 =”. Baris kedua meminta Python menghitung 112 + 24.</div><div class="run-row"><button class="run-btn" onclick="runMathBuilder()">Run ▶</button><span class="code-feedback" id="mathBuilderFeedback"></span></div>
+</div>
+<div>
+<div class="code-bank" id="mathBank">
+<div class="code-choice" data-text='print("112 + 24 =")' draggable="true">print("112 + 24 =")
+                        </div>
+<div class="code-choice" data-text="print(112 + 24)" draggable="true">print(112 + 24)</div>
+<div class="code-choice" data-text="print(112 - 24)" draggable="true">print(112 - 24)</div>
+<div class="code-choice" data-text='print("112 + 24")' draggable="true">print("112 + 24")</div>
+</div>
+<h3 style="margin:15px 0 8px">Target Output</h3>
+<div class="terminal target-terminal" id="mathBuilderOutput">112 + 24 =
+136</div>
+</div>
+</div>
+</section>
+<section class="slide" data-title="Pilih Kode yang Menghasilkan 1342">
+<div class="slide-head center"><span class="kicker">PREDICT THE OUTPUT</span>
+<h2>Output yang Dicari: <span class="code-font">1342</span></h2>
+<p>Klik kode yang menghitung dan menghasilkan angka tersebut.</p>
+</div>
+<div class="math-choice-grid" id="math1342"><button onclick="checkMathChoice(this,false)">print("1200 +
+                    142")</button><button onclick="checkMathChoice(this,true)">print(1200 + 142)</button><button onclick="checkMathChoice(this,false)">print(1340 - 2)</button><button onclick="checkMathChoice(this,false)">print(1300 + 24)</button></div>
+<div class="feedback" id="math1342Feedback"></div>
+</section>
+<section class="slide achievement-slide" data-title="Program yang Jelas dan Ringkas">
+<div class="achievement-wall"><span class="kicker">CHECKPOINT</span>
+<h2>Kamu Sudah Bisa Memberi Instruksi kepada Komputer</h2>
+<div class="achievement-grid">
+<div>⌨️<b>Menulis print()</b></div>
+<div>🧾<b>Membuat output rapi</b></div>
+<div>➕<b>Meminta komputer menghitung</b></div>
+<div>🧠<b>Menyusun langkah</b></div>
+</div>
+<p>Selanjutnya, kita melihat cara membuat program lebih singkat, mudah dibaca, dan tidak menulis
+                    instruksi yang sama berulang kali.</p>
+</div>
+</section>
+<section class="slide" data-title="Looping: Output Sama, Kode Lebih Ringkas">
+<div class="slide-head compact center"><span class="kicker">LOOPING CONCEPT</span>
+<h2>Dua Program, Output yang Sama</h2>
+<p>Run kedua program dan bandingkan jumlah baris kodenya.</p>
+</div>
+<div class="loop-compare">
+<div class="loop-card"><span class="loop-label">Tanpa Loop</span>
+<pre class="mini-code">print("Hello World!")
+print("Hello World!")
+print("Hello World!")
+print("Hello World!")
+print("Hello World!")</pre><button class="run-btn" onclick="runFixedCode('loopLong1','print(&quot;Hello World!&quot;)\nprint(&quot;Hello World!&quot;)\nprint(&quot;Hello World!&quot;)\nprint(&quot;Hello World!&quot;)\nprint(&quot;Hello World!&quot;)')">Run</button>
+<div class="mini-terminal" id="loopLong1"></div>
+</div>
+<div class="loop-card"><span class="loop-label">Dengan Loop</span>
+<pre class="mini-code">for i in range(5):
+    print("Hello World!")</pre><button class="run-btn" onclick="runFixedCode('loopShort1','for i in range(5):\n    print(&quot;Hello World!&quot;)')">Run</button>
+<div class="mini-terminal" id="loopShort1"></div>
+</div>
+</div>
+</section>
+<section class="slide" data-title="Looping untuk Output yang Berubah">
+<div class="slide-head compact center"><span class="kicker">LOOPING CONCEPT 2</span>
+<h2>Loop Juga Bisa Menghasilkan Nilai Berbeda</h2>
+<p>Kedua program menampilkan angka 1 sampai 5.</p>
+</div>
+<div class="loop-compare">
+<div class="loop-card"><span class="loop-label">Tanpa Loop</span>
+<pre class="mini-code">print(1)
+print(2)
+print(3)
+print(4)
+print(5)</pre><button class="run-btn" onclick="runFixedCode('loopLong2','print(1)\nprint(2)\nprint(3)\nprint(4)\nprint(5)')">Run</button>
+<div class="mini-terminal" id="loopLong2"></div>
+</div>
+<div class="loop-card"><span class="loop-label">Dengan Loop</span>
+<pre class="mini-code">for i in range(1, 6):
+    print(i)</pre><button class="run-btn" onclick="runFixedCode('loopShort2','for i in range(1, 6):\n    print(i)')">Run</button>
+<div class="mini-terminal" id="loopShort2"></div>
+</div>
+</div>
+<div class="baby-explain">Looping menjalankan pola yang sama beberapa kali. Nilai <span class="code-font">i</span> dapat berubah pada setiap pengulangan.</div>
+</section>
+<section class="slide" data-title="Ketik Program Loop Pertamamu">
+<div class="slide-head compact"><span class="kicker">GUIDED CODING</span>
+<h2>Tampilkan Kalimat Empat Kali</h2>
+<p>Ikuti shadow text di editor, lalu klik Run.</p>
+</div>
+<div class="code-activity">
+<div class="code-panel">
+<h3>Editor</h3><textarea class="code-editor ghost-code" id="guidedLoopEditor" placeholder='for i in range(4):
+    print("Programming with Python")' spellcheck="false"></textarea>
+<div class="code-hint">Hint: ikuti shadow text. Perhatikan titik dua setelah range(4) dan indentasi pada baris print().</div><div class="run-row"><button class="run-btn" onclick="runExactChallenge('guidedLoopEditor','guidedLoopOutput','guidedLoopFeedback','Programming with Python\nProgramming with Python\nProgramming with Python\nProgramming with Python')">Run
+                            ▶</button><span class="code-feedback" id="guidedLoopFeedback"></span></div>
+</div>
+<div class="output-panel">
+<h3>Target Output</h3>
+<div class="terminal target-terminal" id="guidedLoopOutput">Programming with Python
+Programming with Python
+Programming with Python
+Programming with Python</div>
+</div>
+</div>
+</section>
+<section class="slide" data-title="Debugging Mesin Struk 1">
+<div class="slide-head compact"><span class="kicker">DEBUGGING MISSION 1</span>
+<h2>Mesin Struk Toko Buah Mengalami Error</h2>
+<p>Edit kode sampai program dapat dijalankan dan output sesuai target.</p>
+</div>
+<div class="code-activity">
+<div class="code-panel">
+<h3>Kode Bermasalah</h3><textarea class="code-editor" id="debugBill1" spellcheck="false">print("===== TOKO BUAH SEGAR =====")
+print("Item      : Apel)
+print("Quantity  : 3")
+print("Total     : Rp30.000")
+print("Terima kasih!")</textarea>
+<div class="code-hint">Hint: periksa tanda kutip yang belum ditutup pada baris Item.</div><div class="run-row"><button class="run-btn" onclick="runExactChallenge('debugBill1','debugBill1Output','debugBill1Feedback','===== TOKO BUAH SEGAR =====\nItem      : Apel\nQuantity  : 3\nTotal     : Rp30.000\nTerima kasih!')">Run
+                            ▶</button><span class="code-feedback" id="debugBill1Feedback"></span></div>
+</div>
+<div class="output-panel">
+<h3>Target Struk</h3>
+<div class="terminal target-terminal" id="debugBill1Output">===== TOKO BUAH SEGAR =====
+Item      : Apel
+Quantity  : 3
+Total     : Rp30.000
+Terima kasih!</div>
+</div>
+</div>
+</section>
+<section class="slide" data-title="Debugging Mesin Struk 2">
+<div class="slide-head compact"><span class="kicker">DEBUGGING MISSION 2</span>
+<h2>Program Berjalan, tetapi Hasilnya Salah</h2>
+<p>Tidak semua bug menampilkan pesan error. Periksa informasi pada struk.</p>
+</div>
+<div class="code-activity">
+<div class="code-panel">
+<h3>Kode Bermasalah</h3><textarea class="code-editor" id="debugBill2" spellcheck="false">print("===== TOKO BUAH SEGAR =====")
+print("Item      : Jeruk")
+print("Quantity  : 4")
+print("Price     : Rp8.000")
+print("Total     : Rp24.000")
+print("Terima kasih!")</textarea>
+<div class="code-hint">Hint: program dapat berjalan, tetapi nilai Total belum sesuai dengan Quantity × Price.</div><div class="run-row"><button class="run-btn" onclick="runExactChallenge('debugBill2','debugBill2Output','debugBill2Feedback','===== TOKO BUAH SEGAR =====\nItem      : Jeruk\nQuantity  : 4\nPrice     : Rp8.000\nTotal     : Rp32.000\nTerima kasih!')">Run
+                            ▶</button><span class="code-feedback" id="debugBill2Feedback"></span></div>
+</div>
+<div class="output-panel">
+<h3>Target Struk</h3>
+<div class="terminal target-terminal" id="debugBill2Output">===== TOKO BUAH SEGAR =====
+Item      : Jeruk
+Quantity  : 4
+Price     : Rp8.000
+Total     : Rp32.000
+Terima kasih!</div>
+</div>
+</div>
+</section>
+<section class="slide achievement-slide" data-title="Kemampuan yang Sudah Dilatih">
+<div class="achievement-wall"><span class="kicker">PROGRESS CHECK</span>
+<h2>Tanpa Disadari, Kamu Sudah Berlatih...</h2>
+<div class="achievement-grid">
+<div>🧠<b>Menyusun algoritma</b></div>
+<div>⌨️<b>Menulis program</b></div>
+<div>🔁<b>Menggunakan loop</b></div>
+<div>🐞<b>Memperbaiki bug</b></div>
+</div>
+<p>Semua kegiatan tersebut adalah cara berkomunikasi dengan komputer melalui instruksi yang dapat
+                    dipahami.</p>
+</div>
+</section>
+<section class="slide soft-blue" data-title="Prepare Your Environment">
+<div class="single-focus">
+<div class="giant-emoji">🖥️</div><span class="kicker">PREPARE YOUR ENVIRONMENT</span>
+<h2>Di Mana Kita Menulis Program?</h2>
+<p>Kita membutuhkan tempat untuk menulis file kode, menyimpannya, lalu meminta komputer menjalankannya.
+                </p>
+<div class="question-bubble centered">Menurutmu, software seperti apa yang diperlukan seorang
+                    programmer?</div>
+</div>
+</section>
+<section class="slide" data-title="Dari Word Processor ke Code Editor">
+<div class="split-layout">
+<div class="mature-card" style="text-align:center">
+<div class="office-logo-row"><img alt="Microsoft Word" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Microsoft_Office_Word_%282025%E2%80%93present%29.svg/1280px-Microsoft_Office_Word_%282025%E2%80%93present%29.svg.png"/><img alt="WPS Office" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnnoUFgMICQrsC6QEC7mUolbDW9j0N3sYbD6pzetweifMCuP3vcZdzrcI&amp;s=10"/></div>
+<h2 style="font-size:2.3rem">Word / WPS Office</h2>
+<p>Digunakan untuk menulis dokumen, menyimpan, membagikan, dan mencetak.</p>
+</div>
+<div><span class="kicker">SIMILAR IDEA, DIFFERENT TOOL</span>
+<h2>Program Juga Perlu Tempat untuk Ditulis</h2>
+<p class="lead">Kode tidak ditulis di Word. Programmer menggunakan <b>code editor</b> yang dapat
+                        mengenali file dan struktur bahasa pemrograman.</p>
+<div class="simple-rule">Dokumen → Word Processor<br/>Kode Program → Code Editor</div>
+</div>
+</div>
+</section>
+<section class="slide" data-title="Apa Itu VS Code?">
+<div class="download-card">
+<img alt="Visual Studio Code" class="tool-logo-large" src="https://www.codingexercises.com/img/2021-02-24/vs-code-logo.png"/>
+<div><span class="kicker">VISUAL STUDIO CODE</span>
+<h2>Code Editor untuk Menulis Program</h2>
+<p class="lead">VS Code adalah aplikasi untuk membuka folder project, membuat file kode, membaca
+                        struktur program, dan menggunakan terminal dalam satu tempat.</p>
+<div class="hero-pills" style="justify-content:flex-start"><span>📁 Project Folder</span><span>⌨️
+                            Code Editor</span><span>▶ Run</span><span>🖥️ Terminal</span></div>
+</div>
+</div>
+</section>
+<section class="slide" data-title="Checklist Sebelum Mulai">
+<div class="slide-head center"><span class="kicker">DEVICE READINESS</span>
+<h2>Apa Saja yang Perlu Disiapkan?</h2>
+<p>Klik setiap item setelah perangkatmu siap.</p>
+</div>
+<div class="install-checklist" id="setupChecklist"><button class="install-check" onclick="toggleCheck(this)"><span>🐍</span><b>Python Terpasang</b>
+<p>Gunakan versi Python stabil yang sesuai Windows.</p>
+</button><button class="install-check" onclick="toggleCheck(this)"><span>✅</span><b>Python Dapat
+                        Dijalankan</b>
+<p>Periksa versi melalui Command Prompt.</p>
+</button><button class="install-check" onclick="toggleCheck(this)"><span>🖥️</span><b>VS Code
+                        Terpasang</b>
+<p>Code editor siap dibuka.</p>
+</button><button class="install-check" onclick="toggleCheck(this)"><span>📁</span><b>Folder Belajar
+                        Disiapkan</b>
+<p>Tempat menyimpan semua file Python.</p>
+</button></div>
+<div class="feedback" id="setupFeedback">0 dari 4 siap.</div>
+</section>
+<section class="slide soft-blue" data-title="Apa Itu Python?">
+<div class="single-focus" style="max-width:950px"><img alt="Python" class="python-logo-large" src="https://www.python.org/static/community_logos/python-logo-master-v3-TM.png"/><span class="kicker">PROGRAMMING LANGUAGE</span>
+<h2>Pernah Mendengar Python?</h2>
+<p>Python adalah bahasa pemrograman yang digunakan untuk menuliskan instruksi agar komputer dapat
+                    menjalankan tugas.</p>
+<div class="question-bubble centered">Apa yang pertama kali kamu bayangkan ketika mendengar kata Python?
+                </div>
+</div>
+</section>
+<section class="slide" data-title="Python sebagai Bahasa Komputer">
+<div class="communication-flow">
+<div class="human-side"><span>🗣️</span><b>Bahasa Manusia</b>
+<p>Bahasa Indonesia, Inggris, Jepang, dan lainnya.</p>
+</div>
+<div class="code-bridge" style="background:linear-gradient(135deg,#3776ab,#ffd343);color:#20324a">
+<span>🐍</span><b>PYTHON</b><small>Bahasa untuk menulis instruksi</small></div>
+<div class="computer-side"><span>💻</span><b>Komputer</b>
+<p>Membaca aturan bahasa pemrograman.</p>
+</div>
+</div>
+<div class="bottom-message">Agar instruksi dapat dijalankan, kita harus menulis dengan aturan dan syntax
+                yang dikenali Python.</div>
+</section>
+<section class="slide" data-title="Python di Dunia Teknologi">
+<div class="slide-head center"><span class="kicker">PYTHON IN TECHNOLOGY</span>
+<h2>Pernah Menggunakan Salah Satu Layanan Ini?</h2>
+<p>Python digunakan pada sebagian sistem dan proses di banyak perusahaan teknologi.</p>
+</div>
+<div class="logo-grid">
+<div class="logo-card"><img alt="YouTube" src="https://cdn.simpleicons.org/youtube/FF0000"/><b>YouTube</b></div>
+<div class="logo-card"><img alt="Spotify" src="https://cdn.simpleicons.org/spotify/1DB954"/><b>Spotify</b></div>
+<div class="logo-card"><img alt="Netflix" src="https://cdn.simpleicons.org/netflix/E50914"/><b>Netflix</b></div>
+<div class="logo-card"><img alt="Dropbox" src="https://cdn.simpleicons.org/dropbox/0061FF"/><b>Dropbox</b></div>
+</div>
+<p class="logo-disclaimer">Catatan: layanan besar biasanya menggunakan banyak bahasa dan teknologi
+                sekaligus—bukan hanya Python.</p>
+</section>
+<section class="slide" data-title="Membuat Game dengan Pygame">
+<div class="slide-head center"><span class="kicker">PYTHON + PYGAME</span>
+<h2>Python Juga Dapat Digunakan untuk Membuat Game</h2>
+<p>Pygame adalah kumpulan modul Python untuk membuat game dan program multimedia.</p>
+</div>
+<div class="game-python-grid">
+<div class="game-python-card"><span>🐍</span>
+<h3>Snake Style</h3>
+<p>Gerakan, makanan, skor, dan collision.</p>
+</div>
+<div class="game-python-card"><span>🐦</span>
+<h3>Flappy Style</h3>
+<p>Physics sederhana, rintangan, dan score.</p>
+</div>
+<div class="game-python-card"><span>🟡</span>
+<h3>Arcade Maze</h3>
+<p>Maze, musuh, item, dan level.</p>
+</div>
+</div>
+<div class="simple-rule centered-rule">Game klasik seperti ini dapat dibuat ulang sebagai project belajar
+                menggunakan Python dan Pygame.</div>
+</section>
+<section class="slide language-image-slide" data-title="Bahasa Pemrograman Itu Banyak">
+<div class="slide-head center"><span class="kicker">PROGRAMMING LANGUAGES</span>
+<h2>Python Hanya Salah Satu Bahasa Pemrograman</h2>
+<p>Setiap bahasa memiliki aturan, alat, dan penggunaan yang berbeda.</p>
+</div><img alt="Berbagai bahasa pemrograman" class="programming-language-image" src="https://media.licdn.com/dms/image/v2/D4D12AQExd0s7g9AxpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1703166341281?e=2147483647&amp;v=beta&amp;t=6FY186NBgvVVlmCtZ5O3pa6DhK-seHvfeKHaYQXwVsg"/>
+<div class="language-cloud">
+<div class="language-chip python">Python</div>
+<div class="language-chip">JavaScript</div>
+<div class="language-chip">Java</div>
+<div class="language-chip">C++</div>
+<div class="language-chip">C#</div>
+<div class="language-chip">Go</div>
+<div class="language-chip">Swift</div>
+<div class="language-chip">Kotlin</div>
+</div>
+</section>
+<section class="slide" data-title="Mengapa Kita Memilih Python?">
+<div class="slide-head center"><span class="kicker">WHY PYTHON?</span>
+<h2>Python Cocok untuk Memulai Coding</h2>
+</div>
+<div class="agenda-grid">
+<div class="agenda-card blue"><span>📖</span>
+<h3>Lebih Mudah Dibaca</h3>
+<p>Syntax-nya cukup dekat dengan bahasa manusia.</p>
+</div>
+<div class="agenda-card orange"><span>⚡</span>
+<h3>Cepat Dicoba</h3>
+<p>Program sederhana dapat dibuat dengan sedikit baris.</p>
+</div>
+<div class="agenda-card purple"><span>🧰</span>
+<h3>Banyak Library</h3>
+<p>Dapat dikembangkan untuk data, game, AI, dan otomasi.</p>
+</div>
+<div class="agenda-card green"><span>🌍</span>
+<h3>Digunakan Luas</h3>
+<p>Banyak dokumentasi dan komunitas belajar.</p>
+</div>
+</div>
+</section>
+<section class="slide soft-blue python-reveal-slide" data-title="Kamu Sudah Menulis Python"><div class="python-reveal-card"><span class="kicker">PYTHON CHECKPOINT</span><h2>Kode yang Tadi Kamu Tulis adalah Python</h2><p class="lead">Aktivitas print(), perhitungan, dan looping sebelumnya sudah menggunakan syntax Python. Kamu sudah mulai membaca dan menulis instruksi dalam bahasa pemrograman ini.</p><div class="light-code-row"><span>print("Hello World!")</span><span>print(112 + 24)</span><span>for i in range(5):</span></div><div class="simple-rule centered-rule">Langkah berikutnya adalah menyiapkan Python dan VS Code agar kode dapat dijalankan langsung di perangkat.</div></div></section>
+<section class="slide soft-blue" data-title="Download Python">
+<div class="download-card">
+<div><img alt="Python" class="python-logo-large" src="https://www.python.org/static/community_logos/python-logo-master-v3-TM.png" style="width:280px"/>
+</div>
+<div><span class="kicker">WINDOWS 64-BIT</span>
+<h2>Download Python 3.14.6</h2>
+<p>Gunakan installer resmi Python untuk Windows 64-bit.</p><a class="download-btn" download="" href="https://www.python.org/ftp/python/3.14.6/python-3.14.6-amd64.exe">⬇ Download
+                        Python</a>
+<div class="download-meta">Tautan langsung installer resmi • Python 3.14.6 • 64-bit</div><a class="download-alt" href="https://www.python.org/downloads/windows/">Lihat pilihan installer
+                        lain</a>
+</div>
+</div>
+</section>
+<section class="slide compact-guide-slide" data-title="Install Python di Windows">
+<div class="slide-head compact"><span class="kicker">INSTALLATION GUIDE</span>
+<h2>Ikuti Langkah Instalasi Python</h2>
+<p>Lakukan secara berurutan dan tunggu setiap proses selesai.</p>
+</div>
+<div class="install-steps">
+<div class="install-step">
+<div class="step-no">1</div>
+<div>
+<h3>Tunggu download selesai</h3>
+<p>Pastikan file installer sudah tersimpan.</p><img alt="Download Python selesai" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/b6fd2f09-beec-4c07-8c7f-749aede23f63.png" tabindex="0"/>
+</div>
+</div>
+<div class="install-step">
+<div class="step-no">2</div>
+<div>
+<h3>Jalankan installer</h3>
+<p>Pilih Install, lalu tunggu proses selesai.</p><img alt="Installer Python" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/1516e81e-5822-4cb0-910e-f67ef348d173.png" tabindex="0"/>
+</div>
+</div>
+<div class="install-step">
+<div class="step-no">3</div>
+<div>
+<h3>Buka Command Prompt</h3>
+<p>Cari CMD dari menu Start.</p><img alt="Buka CMD" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/79b2a378-3251-44d1-bd05-686b38a0ad4b.png" tabindex="0"/>
+</div>
+</div>
+<div class="install-step">
+<div class="step-no">4</div>
+<div>
+<h3>Periksa versi Python</h3>
+<p>Ketik <span class="code-font">python --version</span> lalu tekan Enter.</p><img alt="Periksa versi Python" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/933432a0-a6e7-461e-a02d-5d3bc82ea123.png" tabindex="0"/>
+</div>
+</div>
+</div>
+</section>
+<section class="slide soft-blue" data-title="Download Visual Studio Code">
+<div class="download-card">
+<img alt="Visual Studio Code" class="tool-logo-large" src="https://www.codingexercises.com/img/2021-02-24/vs-code-logo.png"/>
+<div><span class="kicker">CODE EDITOR</span>
+<h2>Download VS Code Versi Stabil</h2>
+<p>Tombol akan memilih installer Windows berdasarkan arsitektur perangkat jika informasi tersedia.
+                        Jika tidak, versi 64-bit digunakan.</p><button class="download-btn" onclick="downloadVSCode()" style="border:0;cursor:pointer">⬇ Download VS Code</button>
+<div class="download-meta" id="vscodeDownloadStatus">User Setup direkomendasikan untuk sebagian
+                        besar pengguna Windows.</div><a class="download-alt" href="https://code.visualstudio.com/download?_exp_download=fb315fc982#">Buka halaman pilihan
+                        download</a>
+</div>
+</div>
+</section>
+<section class="slide compact-guide-slide" data-title="Install VS Code di Windows">
+<div class="slide-head compact"><span class="kicker">INSTALLATION GUIDE</span>
+<h2>Ikuti Langkah Instalasi VS Code</h2>
+<p>Jika ada bagian yang berbeda pada perangkatmu, minta bantuan guru.</p>
+</div>
+<div class="install-steps">
+<div class="install-step">
+<div class="step-no">1</div>
+<div>
+<h3>Tunggu download selesai</h3>
+<p>Pastikan installer VS Code sudah tersimpan.</p><img alt="Download VS Code" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/6f0ce203-f1aa-45f1-ab8c-b37619649a4f.png" tabindex="0"/>
+</div>
+</div>
+<div class="install-step">
+<div class="step-no">2</div>
+<div>
+<h3>Buka file installer</h3>
+<p>Ikuti pilihan instalasi sampai proses dimulai.</p><img alt="Installer VS Code" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/d95983dd-e128-4c17-912c-530f57c0a274.png" tabindex="0"/>
+</div>
+</div>
+<div class="install-step">
+<div class="step-no">3</div>
+<div>
+<h3>Buka VS Code</h3>
+<p>Jalankan aplikasi setelah instalasi selesai.</p><img alt="Buka VS Code" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/4a69dc52-8f73-44f5-be46-91ef2ed2cdcc.png" tabindex="0"/>
+</div>
+</div>
+<div class="install-step">
+<div class="step-no">4</div>
+<div>
+<h3>Pastikan VS Code siap</h3>
+<p>Jika halaman awal terbuka, instalasi berhasil.</p><img alt="VS Code siap" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/2cbbc42e-7966-46db-adad-6f3d6c88bd51.png" tabindex="0"/>
+</div>
+</div>
+</div>
+<div class="notice">Sudah berhasil membuka Python dan VS Code? Jika belum, tanyakan kepada guru atau
+                diskusikan dengan teman di sebelahmu.</div>
+</section>
+<section class="slide compact-guide-slide" data-title="Membuat dan Menjalankan main.py">
+<div class="slide-head compact"><span class="kicker">VS CODE TOUR</span>
+<h2>Dari Folder Kosong sampai Program Berjalan</h2>
+<p>Ikuti empat langkah berikut secara berurutan.</p>
+</div>
+<div class="vscode-tour">
+<div class="tour-card"><img alt="Open Folder" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/156d040a-963c-49f2-b1fb-324c7d7614ea.png" tabindex="0"/>
+<h3>1. Pilih Open Folder</h3>
+<p>Buka lokasi project yang akan digunakan.</p>
+</div>
+<div class="tour-card"><img alt="Pilih folder" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/6b3222d9-189c-4fd1-a522-89b29937967c.png" tabindex="0"/>
+<h3>2. Pilih Lokasi Folder</h3>
+<p>Gunakan folder khusus untuk latihan Python.</p>
+</div>
+<div class="tour-card"><img alt="Buat main.py" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/90a01dc8-b2f1-42c1-ae76-c361d8c20f8c.png" tabindex="0"/>
+<h3>3. Buat File main.py</h3>
+<p>Tulis <span class="code-font">print("Hello World!")</span> lalu simpan.</p>
+</div>
+<div class="tour-card"><img alt="Run terminal" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/6a62048a-e694-41a8-974e-4340d2de44b7.png" tabindex="0"/>
+<h3>4. Jalankan dari Terminal</h3>
+<p>Ketik <span class="code-font">python main.py</span> dan tekan Enter.</p>
+</div>
+</div>
+</section>
+<section class="slide soft-green" data-title="Checkpoint: Program Pertama">
+<div class="single-focus">
+<div class="giant-emoji">✅</div><span class="kicker">CHECKPOINT</span>
+<h2>Sudah Melihat Output di Terminal?</h2>
+<p>Pastikan file bernama <span class="code-font">main.py</span>, sudah disimpan, dan terminal berada di
+                    folder yang sama.</p>
+<div class="button-row"><button class="primary-btn" onclick="checkpointAnswer(true)">Sudah
+                        Berhasil</button><button class="secondary-btn" onclick="checkpointAnswer(false)">Masih Ada
+                        Kendala</button></div>
+<div class="feedback" id="checkpointFeedback"></div>
+</div>
+</section>
+<section class="slide" data-title="Project CLI: Langkah Menanam Tanaman">
+<div class="slide-head compact"><span class="kicker">FIRST MINI PROJECT</span>
+<h2>Lanjutkan Instruksi Menanam Tanaman</h2>
+<p>Tambahkan minimal tiga langkah baru menggunakan <span class="code-font">print()</span>, lalu jalankan
+                    program.</p>
+</div>
+<div class="code-activity">
+<div class="code-panel">
+<h3>main.py</h3><textarea class="code-editor" id="plantEditor" spellcheck="false">print("Siapkan pot yang memiliki lubang di bagian bawah.")
+print("Masukkan tanah yang sudah dicampur dengan kompos.")
+print("Buat lubang kecil di tengah tanah.")
+print("Masukkan benih atau bibit bunga ke dalam lubang.")
+print("Tutup kembali dengan tanah secara perlahan.")
+print("Siram dengan sedikit air sampai tanah lembap.")
+print(".....")
+print(".....")
+print(".....")</textarea>
+<div class="run-row"><button class="run-btn" onclick="runPlantProject()">Run ▶</button><span class="code-feedback" id="plantFeedback"></span></div>
+</div>
+<div class="output-panel">
+<h3>Terminal</h3>
+<div class="terminal" id="plantOutput">Output program akan muncul di sini.</div>
+</div>
+</div>
+</section>
+<section class="slide compact-cli-slide" data-title="CLI dan Pertemuan Berikutnya">
+<div class="slide-head center"><span class="kicker">WHAT IS CLI?</span>
+<h2>Program Hari Ini Menggunakan Output CLI</h2>
+<p>CLI menampilkan hasil dalam bentuk teks di terminal. Ini adalah langkah awal sebelum membuat program
+                    dengan tampilan visual.</p>
+</div>
+<div class="cli-compare">
+<div class="cli-card"><span>⌨️</span>
+<h3>CLI</h3>
+<p>Input dan output berbentuk teks melalui terminal.</p>
+<pre class="mini-code" style="min-height:auto;text-align:left">python main.py
+Hello World!</pre>
+</div>
+<div class="cli-card"><span>🖼️</span>
+<h3>Graphical Interface</h3>
+<p>Program memiliki tombol, gambar, form, dan tampilan yang dapat diklik.</p>
+<div style="display:flex;gap:10px;justify-content:center;margin-top:18px"><button class="primary-btn small">Button</button><input placeholder="Input" style="border:2px solid #d6e1ea;border-radius:10px;padding:8px;width:120px"/></div>
+</div>
+</div>
+<div class="simple-rule centered-rule">Pertemuan berikutnya: mengenal lebih banyak syntax Python dan
+                membangun program melalui VS Code.</div>
+</section>
+<section class="slide" data-title="Quick Quiz">
+<div class="slide-head compact center"><span class="kicker">QUICK QUIZ</span>
+<h2>Cek Pemahamanmu</h2>
+<p>Pilih jawaban yang paling tepat.</p>
+</div>
+<div class="quiz-shell">
+<div class="quiz-question active" id="quiz1">
+<h3>1. Urutan langkah untuk mencapai tujuan disebut...</h3>
+<div class="quiz-options"><button onclick="answerQuiz(this,true,'quiz1','quiz2')">A.
+                            Algoritma</button><button onclick="answerQuiz(this,false,'quiz1','quiz2')">B.
+                            Folder</button><button onclick="answerQuiz(this,false,'quiz1','quiz2')">C. Terminal</button>
+</div>
+</div>
+<div class="quiz-question" id="quiz2">
+<h3>2. Perintah Python untuk menampilkan teks adalah...</h3>
+<div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz2','quiz3')">A.
+                            move()</button><button onclick="answerQuiz(this,true,'quiz2','quiz3')">B.
+                            print()</button><button onclick="answerQuiz(this,false,'quiz2','quiz3')">C. open()</button>
+</div>
+</div>
+<div class="quiz-question" id="quiz3">
+<h3>3. Tempat melihat output program teks di VS Code adalah...</h3>
+<div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz3','quizDone')">A.
+                            Backdrop</button><button onclick="answerQuiz(this,false,'quiz3','quizDone')">B.
+                            Toolbar</button><button onclick="answerQuiz(this,true,'quiz3','quizDone')">C.
+                            Terminal</button></div>
+</div>
+<div class="quiz-question done" id="quizDone">
+<div class="giant-emoji">🎯</div>
+<h3>Quiz Selesai</h3>
+<p>Kamu sudah mengenal algoritma, Python, VS Code, dan terminal.</p>
+</div>
+<div class="quiz-progress"><span id="quizProgressText">Soal 1 dari 3</span>
+<div><i id="quizProgressBar" style="width:33%"></i></div>
+</div>
+</div>
+</section>
+<section class="slide" data-title="Review Hari Ini">
+<div class="slide-head center"><span class="kicker">SESSION REVIEW</span>
+<h2>Apa Saja yang Sudah Dipelajari?</h2>
+</div>
+<div class="recap-path">
+<div><span>🧠</span><b>Algoritma</b>
+<p>Langkah teratur untuk mencapai tujuan.</p>
+</div>
+<div><span>🧩</span><b>Computational Thinking</b>
+<p>Memecah, menyusun, menguji, dan memperbaiki.</p>
+</div>
+<div><span>🐍</span><b>Python</b>
+<p>Bahasa untuk menulis instruksi komputer.</p>
+</div>
+<div><span>⌨️</span><b>print()</b>
+<p>Menampilkan teks dan hasil perhitungan.</p>
+</div>
+<div><span>🔁</span><b>Looping</b>
+<p>Menyederhanakan instruksi berulang.</p>
+</div>
+<div><span>🖥️</span><b>VS Code &amp; Terminal</b>
+<p>Menulis, menyimpan, dan menjalankan main.py.</p>
+</div>
+</div>
+</section>
+<section class="slide feedback-final" data-title="Feedback">
+<div class="feedback-slide-content"><span class="kicker">YOUR FEEDBACK</span>
+<h2>Bagaimana Pengalaman Belajarmu Hari Ini?</h2>
+<p>Pilih satu respons yang paling sesuai.</p>
+<div class="emoji-feedback" id="emojiFeedback"><button onclick="sendFeedback(this)">😄<small>Sangat
+                            Menarik</small></button><button onclick="sendFeedback(this)">🙂<small>Cukup
+                            Paham</small></button><button onclick="sendFeedback(this)">🤔<small>Perlu
+                            Latihan</small></button><button onclick="sendFeedback(this)">🆘<small>Perlu
+                            Bantuan</small></button></div>
+<div class="feedback-thanks" id="feedbackThanks"></div>
+</div>
+</section>
+<div class="progress-line" id="progressLine"></div>
+<footer class="navigation">
+<div class="nav-title" id="navTitle">Session 1: Pengenalan Coding dan Python</div>
+<div class="nav-controls"><button aria-label="Sebelumnya" class="nav-btn" id="prevBtn">‹</button>
+<div class="counter"><span id="currentSlide">1</span> / <span id="totalSlides">59</span></div><button aria-label="Berikutnya" class="nav-btn next" id="nextBtn">›</button>
+</div>
+</footer>
+</main>
+<script>
+        const PRETEST_URL = '';
+        const ASCII_TARGET = `+------------------------------+
+|        LEMONADE DAY          |
++------------------------------+
+| Drink   : Fresh Lemonade     |
+| Amount  : 2 Glasses          |
+| Flavor  : Sweet and Sour     |
+| Topping : Ice Cubes          |
++------------------------------+
+|     Enjoy your drinks!       |
++------------------------------+`;
+        let currentSlide = 0;
+        const slides = [...document.querySelectorAll('.slide')];
+        function showSlide(index) { if (index < 0 || index >= slides.length) return; slides.forEach((s, i) => s.classList.toggle('active', i === index)); currentSlide = index; document.getElementById('currentSlide').textContent = index + 1; document.getElementById('totalSlides').textContent = slides.length; document.getElementById('prevBtn').disabled = index === 0; document.getElementById('nextBtn').disabled = index === slides.length - 1; document.getElementById('progressLine').style.width = ((index + 1) / slides.length * 100) + '%'; document.getElementById('navTitle').textContent = 'Session 1 • ' + slides[index].dataset.title; slides[index].scrollTop = 0; }
+        document.getElementById('prevBtn').onclick = () => showSlide(currentSlide - 1); document.getElementById('nextBtn').onclick = () => showSlide(currentSlide + 1); document.addEventListener('keydown', e => { if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return; if (e.key === 'ArrowRight') showSlide(currentSlide + 1); if (e.key === 'ArrowLeft') showSlide(currentSlide - 1) }); showSlide(0);
+        function openPretest() { if (PRETEST_URL) window.open(PRETEST_URL, '_blank', 'noopener'); else document.getElementById('pretestNotice').classList.remove('hidden') }
+        function submitTextAnswer(inputId, responseId, suffix) { const value = document.getElementById(inputId).value.trim(); document.getElementById(responseId).textContent = value ? `Kamu menulis “${value}”. ${suffix}` : 'Tulis jawabanmu terlebih dahulu.' }
+        function setFeedback(id, msg, ok = true) { const el = document.getElementById(id); if (!el) return; el.textContent = msg; el.className = (el.classList.contains('code-feedback') ? 'code-feedback ' : 'feedback ') + (ok ? 'success' : 'error') }
+        function showWeatherQuestions() { document.getElementById('weatherQuestions').innerHTML = '<b>Komputer masih membutuhkan informasi:</b><ul><li>Wilayah atau kota mana?</li><li>Informasi apa yang harus ditampilkan?</li><li>Kapan data perlu diperbarui?</li><li>Apakah perlu saran membawa payung?</li><li>Bagaimana tampilan hasilnya?</li></ul><small>Aplikasi cuaca tidak perlu meminta identitas pribadi jika tidak dibutuhkan.</small>' }
+        // Sortable routines
+        let dragSortItem = null; document.querySelectorAll('.sort-item').forEach(item => { item.addEventListener('dragstart', () => dragSortItem = item); item.addEventListener('dragover', e => e.preventDefault()); item.addEventListener('drop', function (e) { e.preventDefault(); if (!dragSortItem || dragSortItem === this) return; const p = this.parentNode, items = [...p.children]; p.insertBefore(dragSortItem, items.indexOf(dragSortItem) < items.indexOf(this) ? this.nextSibling : this) }) });
+        function checkSortable(id, feedbackId) { const el = document.getElementById(id), expected = el.dataset.answer.split(','), items = [...el.children]; let ok = true; items.forEach((it, i) => { const good = it.dataset.key === expected[i]; it.classList.toggle('correct', good); it.classList.toggle('wrong', !good); it.querySelector('.sort-index').textContent = i + 1; if (!good) ok = false }); setFeedback(feedbackId, ok ? 'Urutannya tepat. Langkah-langkahnya membentuk algoritma yang jelas.' : 'Masih ada langkah yang tertukar. Periksa hubungan antarproses.', ok) }
+        function shuffleSortable(id, feedbackId) { const el = document.getElementById(id);[...el.children].sort(() => Math.random() - .5).forEach(x => { x.classList.remove('correct', 'wrong'); x.querySelector('.sort-index').textContent = '?'; el.appendChild(x) }); document.getElementById(feedbackId).textContent = '' }
+        function chooseTravel(btn, type) { document.querySelectorAll('#travelChoices .decision-card').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); const messages = { repair: 'Keputusan aman untuk kendaraan, tetapi perkiraan tiba pukul 14.10 sehingga kemungkinan terlambat.', continue: 'Perkiraan tiba pukul 14.25 dan kondisi ban membuat perjalanan tidak aman. Pilihan ini perlu dipertimbangkan ulang.', public: 'Perkiraan tiba pukul 13.55. Kamu dapat sampai sebelum acara dimulai dan tidak memaksakan kendaraan bermasalah.' }; setFeedback('travelFeedback', messages[type], type === 'public') }
+        // Python maze
+        const mazeConfigs = { pymaze1: { rows: 4, cols: 5, start: [0, 3], goal: [4, 0], walls: [], noGrid: false }, pymaze2: { rows: 5, cols: 6, start: [0, 4], goal: [5, 0], walls: [[1, 4], [1, 3], [3, 2], [3, 1], [4, 1]], noGrid: false }, pymaze3: { rows: 4, cols: 6, start: [0, 3], goal: [5, 0], walls: [[2, 3], [2, 2], [4, 1]], noGrid: true } };
+        const functionText = { up: 'moveUp()', down: 'moveDown()', left: 'moveLeft()', right: 'moveRight()' };
+        let draggedFunction = null, draggedFunctionChip = null;
+        document.querySelectorAll('.function-palette button').forEach(btn => { btn.addEventListener('dragstart', () => draggedFunction = btn.dataset.command); btn.addEventListener('click', () => addFunction(document.getElementById(btn.closest('.function-palette').dataset.target), btn.dataset.command)) });
+        document.querySelectorAll('.function-program').forEach(zone => { zone.addEventListener('dragover', e => e.preventDefault()); zone.addEventListener('drop', e => { e.preventDefault(); if (draggedFunction) addFunction(zone, draggedFunction) }) });
+        function addFunction(zone, cmd) { const b = document.createElement('button'); b.className = 'function-chip'; b.dataset.command = cmd; b.textContent = functionText[cmd]; b.draggable = true; b.title = 'Klik untuk menghapus'; b.onclick = () => b.remove(); b.addEventListener('dragstart', () => draggedFunctionChip = b); b.addEventListener('dragover', e => e.preventDefault()); b.addEventListener('drop', function (e) { e.preventDefault(); if (draggedFunctionChip && draggedFunctionChip !== this && draggedFunctionChip.parentNode === this.parentNode) { const p = this.parentNode, list = [...p.children]; p.insertBefore(draggedFunctionChip, list.indexOf(draggedFunctionChip) < list.indexOf(this) ? this.nextSibling : this) } }); zone.appendChild(b) }
+        function renderPythonMaze(id, pos = null) { const c = mazeConfigs[id], board = document.getElementById(id + 'Board'); pos = pos || c.start; board.innerHTML = ''; board.style.gridTemplateColumns = `repeat(${c.cols},58px)`; board.classList.toggle('no-grid', c.noGrid); for (let y = 0; y < c.rows; y++)for (let x = 0; x < c.cols; x++) { const cell = document.createElement('div'); cell.className = 'maze-cell'; if (c.walls.some(w => w[0] === x && w[1] === y)) cell.classList.add('wall'); if (c.goal[0] === x && c.goal[1] === y) { cell.classList.add('goal'); cell.textContent = '🔧' } if (pos[0] === x && pos[1] === y) { cell.classList.add('robot'); cell.textContent = '🤖' } board.appendChild(cell) } }
+        async function runPythonMaze(id) { const c = mazeConfigs[id], cmds = [...document.getElementById(id + 'Program').children].map(x => x.dataset.command); if (!cmds.length) { setFeedback(id + 'Feedback', 'Tambahkan function sebelum menjalankan program.', false); return } let pos = [...c.start], failed = ''; renderPythonMaze(id, pos); for (const cmd of cmds) { await wait(250); let [x, y] = pos; if (cmd === 'up') y--; if (cmd === 'down') y++; if (cmd === 'left') x--; if (cmd === 'right') x++; if (x < 0 || y < 0 || x >= c.cols || y >= c.rows || c.walls.some(w => w[0] === x && w[1] === y)) { failed = 'Robot menabrak tembok atau keluar area.'; break } pos = [x, y]; renderPythonMaze(id, pos) } const ok = !failed && pos[0] === c.goal[0] && pos[1] === c.goal[1]; setFeedback(id + 'Feedback', failed || (ok ? 'Program berhasil. Robot mencapai tool.' : 'Robot belum mencapai tool. Periksa urutan function.'), ok) }
+        function clearPythonMaze(id) { document.getElementById(id + 'Program').innerHTML = ''; renderPythonMaze(id); setFeedback(id + 'Feedback', '') }
+        function wait(ms) { return new Promise(r => setTimeout(r, ms)) }
+        Object.keys(mazeConfigs).forEach(id => renderPythonMaze(id));
+        // Drag-drop generic code builders
+        let draggedCodeText = ''; document.querySelectorAll('.code-choice').forEach(c => c.addEventListener('dragstart', () => draggedCodeText = c.dataset.text)); document.querySelectorAll('.drop-code').forEach(z => { z.addEventListener('dragover', e => e.preventDefault()); z.addEventListener('drop', e => { e.preventDefault(); z.dataset.text = draggedCodeText; z.textContent = draggedCodeText; z.classList.add('filled') }) });
+        function runReceiptBuilder() { const values = [1, 2, 3].map(i => document.getElementById('receiptSlot' + i).dataset.text || ''); const expected = ['"===== FRESH DRINK STORE ====="', '"Quantity  : 2"', '"Thank you for shopping!"']; const output = `${stripQuotes(values[0])}\nItem      : Lemonade\n${stripQuotes(values[1])}\nPrice     : Rp10.000 each\nTotal     : Rp20.000\n=============================\n${stripQuotes(values[2])}`; document.getElementById('receiptBuilderOutput').textContent = output; const ok = values.every((v, i) => v === expected[i]); setFeedback('receiptBuilderFeedback', ok ? 'Program lengkap dan output struk sudah benar.' : 'Urutan teks pada bagian kosong belum tepat.', ok) }
+        function stripQuotes(s) { return /^(["']).*\1$/.test(s) ? s.slice(1, -1) : s }
+        // Sequence code
+        let dragSequence = null; document.querySelectorAll('.sequence-line').forEach(x => { x.addEventListener('dragstart', () => dragSequence = x); x.addEventListener('dragover', e => e.preventDefault()); x.addEventListener('drop', function (e) { e.preventDefault(); if (!dragSequence || dragSequence === this) return; const p = this.parentNode, list = [...p.children]; p.insertBefore(dragSequence, list.indexOf(dragSequence) < list.indexOf(this) ? this.nextSibling : this) }) });
+        function runSequenceCode() { const lines = [...document.getElementById('lemonSequence').children]; const ok = lines.every((x, i) => +x.dataset.order === i); lines.forEach((x, i) => { x.classList.toggle('correct', +x.dataset.order === i); x.classList.toggle('wrong', +x.dataset.order !== i) }); setFeedback('lemonSequenceFeedback', ok ? 'Urutan kode benar. Output akan tampil sesuai langkah.' : 'Masih ada baris yang tidak sesuai urutan target.', ok) }
+        function shuffleSequence() { const z = document.getElementById('lemonSequence');[...z.children].sort(() => Math.random() - .5).forEach(x => { x.classList.remove('correct', 'wrong'); z.appendChild(x) }); setFeedback('lemonSequenceFeedback', '') }
+        // Mini Python interpreter: print(), arithmetic, simple for range()
+        function runMiniPython(code) { const raw = code.replace(/\r/g, '').split('\n'); const out = []; for (let i = 0; i < raw.length; i++) { const line = raw[i]; if (!line.trim()) continue; const indent = line.match(/^\s*/)[0].length; const t = line.trim(); let m = t.match(/^print\((.*)\)$/); if (m) { out.push(evalPrintExpr(m[1], {})); continue } m = t.match(/^for\s+(\w+)\s+in\s+range\(([^)]*)\):$/); if (m) { const variable = m[1], args = m[2].split(',').map(x => Number(x.trim())); if (args.some(Number.isNaN) || !(args.length === 1 || args.length === 2)) throw new Error(`SyntaxError pada baris ${i + 1}`); if (i + 1 >= raw.length || raw[i + 1].match(/^\s*/)[0].length <= indent) throw new Error(`IndentationError pada baris ${i + 2}`); const body = raw[++i].trim(), pm = body.match(/^print\((.*)\)$/); if (!pm) throw new Error(`Hanya print() yang didukung di dalam loop latihan ini.`); const start = args.length === 1 ? 0 : args[0], end = args.length === 1 ? args[0] : args[1]; for (let v = start; v < end; v++)out.push(evalPrintExpr(pm[1], { [variable]: v })); continue } throw new Error(`SyntaxError pada baris ${i + 1}: ${t}`) } return out.join('\n') }
+        function evalPrintExpr(expr, scope) { expr = expr.trim(); if ((expr.startsWith('"') && expr.endsWith('"')) || (expr.startsWith("'") && expr.endsWith("'"))) return expr.slice(1, -1); if (Object.prototype.hasOwnProperty.call(scope, expr)) return String(scope[expr]); if (/^[0-9+\-*/ ().]+$/.test(expr)) { try { return String(Function(`"use strict";return (${expr})`)()) } catch (e) { throw new Error('Ekspresi matematika belum benar.') } } throw new Error(`NameError: ${expr} belum dikenali`) }
+        function runExactChallenge(editorId, outputId, feedbackId, target) { const code = document.getElementById(editorId).value; try { const result = runMiniPython(code); document.getElementById(outputId).textContent = result || '(tidak ada output)'; const ok = result === target; setFeedback(feedbackId, ok ? 'Program berjalan dan output sesuai target.' : 'Program berjalan, tetapi output belum sama dengan target.', ok) } catch (err) { document.getElementById(outputId).textContent = err.message; setFeedback(feedbackId, 'Program belum dapat dijalankan. Periksa tanda kutip, kurung, titik dua, dan indentasi.', false) } }
+        let hintLevel = 0; function showAsciiHint() { hintLevel = Math.min(3, hintLevel + 1); const hints = ['Gunakan 10 baris print(). Setiap garis dan teks harus berada di dalam tanda kutip.', 'Dua baris pertama:\nprint("+------------------------------+")\nprint("|        LEMONADE DAY          |")', 'Perhatikan jumlah spasi di setiap baris agar sisi kanan dan kiri sejajar.']; const el = document.getElementById('asciiHint'); el.classList.remove('hidden'); el.textContent = hints[hintLevel - 1] }
+        function runMathBuilder() { const vals = [1, 2].map(i => document.getElementById('mathSlot' + i).dataset.text || ''); const code = vals.join('\n'); try { const result = runMiniPython(code); document.getElementById('mathBuilderOutput').textContent = result || '(tidak ada output)'; const ok = result === '112 + 24 =\n136'; setFeedback('mathBuilderFeedback', ok ? 'Benar. Python menghitung 112 + 24 menjadi 136.' : 'Susunan kode belum menghasilkan target output.', ok) } catch (e) { document.getElementById('mathBuilderOutput').textContent = e.message; setFeedback('mathBuilderFeedback', 'Lengkapi kedua baris program terlebih dahulu.', false) } }
+        function checkMathChoice(btn, ok) { document.querySelectorAll('#math1342 button').forEach(b => b.disabled = true); btn.classList.add(ok ? 'correct' : 'wrong'); if (!ok) document.querySelectorAll('#math1342 button')[1].classList.add('correct'); setFeedback('math1342Feedback', ok ? 'Tepat. Python menghitung 1200 + 142 menjadi 1342.' : 'Pilihan tersebut tidak menghasilkan 1342. Perhatikan tanda kutip dan operasinya.', ok) }
+        function runFixedCode(outputId, code) { try { document.getElementById(outputId).textContent = runMiniPython(code) } catch (e) { document.getElementById(outputId).textContent = e.message } }
+        function toggleCheck(btn) { btn.classList.toggle('done'); const count = document.querySelectorAll('#setupChecklist .done').length; setFeedback('setupFeedback', `${count} dari 4 siap.${count === 4 ? ' Perangkat siap digunakan.' : ''}`, count === 4) }
+        function checkpointAnswer(ok) { setFeedback('checkpointFeedback', ok ? 'Bagus. Simpan file dan jangan tutup folder project.' : 'Periksa nama file, lokasi folder, apakah file sudah disimpan, dan perintah python main.py. Minta bantuan jika masih terkendala.', ok) }
+        async function downloadVSCode() { let arch = 'x64'; try { if (navigator.userAgentData?.getHighEntropyValues) { const data = await navigator.userAgentData.getHighEntropyValues(['architecture']); if ((data.architecture || '').toLowerCase().includes('arm')) arch = 'arm64' } } catch (e) { } const url = arch === 'arm64' ? 'https://update.code.visualstudio.com/latest/win32-arm64-user/stable' : 'https://update.code.visualstudio.com/latest/win32-x64-user/stable'; document.getElementById('vscodeDownloadStatus').textContent = `Memulai download VS Code Windows ${arch.toUpperCase()} User Setup...`; window.location.href = url }
+        function runPlantProject() { const code = document.getElementById('plantEditor').value; try { const result = runMiniPython(code); document.getElementById('plantOutput').textContent = result || '(tidak ada output)'; const lines = result.split('\n').filter(Boolean), hasPlaceholder = result.includes('.....'); const ok = lines.length >= 9 && !hasPlaceholder; setFeedback('plantFeedback', ok ? 'Program berhasil. Kamu menambahkan langkah sendiri dan menampilkannya di terminal.' : 'Program dapat dijalankan, tetapi ganti semua tanda ..... dengan minimal tiga langkah nyata.', ok) } catch (e) { document.getElementById('plantOutput').textContent = e.message; setFeedback('plantFeedback', 'Periksa kembali setiap print(), tanda kutip, dan kurung.', false) } }
+        let quizNumber = 1; function answerQuiz(btn, correct, current, next) { const q = document.getElementById(current), buttons = q.querySelectorAll('button'); buttons.forEach(b => b.disabled = true); btn.classList.add(correct ? 'correct' : 'wrong'); if (!correct) buttons.forEach(b => { if (b.getAttribute('onclick').includes('true')) b.classList.add('correct') }); setTimeout(() => { q.classList.remove('active'); document.getElementById(next).classList.add('active'); quizNumber = Math.min(3, quizNumber + 1); document.getElementById('quizProgressText').textContent = next === 'quizDone' ? 'Selesai' : 'Soal ' + quizNumber + ' dari 3'; document.getElementById('quizProgressBar').style.width = (next === 'quizDone' ? 100 : quizNumber * 33.34) + '%' }, 650) }
+        function sendFeedback(btn) { document.querySelectorAll('#emojiFeedback button').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); document.getElementById('feedbackThanks').textContent = 'Terima kasih. Responsmu membantu guru menyesuaikan pembelajaran berikutnya.' }
+    
+
+        // Zoom preview for installation and VS Code guide images (slides 50, 52, 53 only)
+        const guideImageZoom = document.getElementById('guideImageZoom');
+        function moveGuideZoom(event) {
+            const gap = 22;
+            const boxW = Math.min(560, window.innerWidth * .48);
+            const boxH = Math.min(window.innerHeight * .72, 520);
+            let left = event.clientX + gap;
+            let top = event.clientY + gap;
+            if (left + boxW > window.innerWidth - 12) left = event.clientX - boxW - gap;
+            if (top + boxH > window.innerHeight - 12) top = window.innerHeight - boxH - 12;
+            guideImageZoom.style.left = Math.max(12, left) + 'px';
+            guideImageZoom.style.top = Math.max(12, top) + 'px';
+        }
+        document.querySelectorAll('.zoomable-guide-image').forEach(img => {
+            const show = event => {
+                guideImageZoom.src = img.src;
+                guideImageZoom.alt = img.alt || 'Preview gambar diperbesar';
+                guideImageZoom.classList.add('show');
+                moveGuideZoom(event);
+            };
+            img.addEventListener('mouseenter', show);
+            img.addEventListener('mousemove', moveGuideZoom);
+            img.addEventListener('mouseleave', () => guideImageZoom.classList.remove('show'));
+            img.addEventListener('focus', event => {
+                const r = img.getBoundingClientRect();
+                show({clientX:r.right, clientY:r.top});
+            });
+            img.addEventListener('blur', () => guideImageZoom.classList.remove('show'));
+        });
+</script>
+<img alt="Preview gambar diperbesar" id="guideImageZoom"/></body>
+</html>
