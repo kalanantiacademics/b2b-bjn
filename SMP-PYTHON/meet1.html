@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 
 <html lang="id">
+
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
-<title>Session 1 - Pengenalan Coding dan Python | Ruangguru Coding</title>
-<link href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png" rel="icon" type="image/png"/>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<style>
+    <meta charset="utf-8" />
+    <meta content="width=device-width,initial-scale=1.0" name="viewport" />
+    <title>Session 1 - Pengenalan Coding dan Python | Ruangguru Coding</title>
+    <link href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        rel="icon" type="image/png" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <style>
         :root {
             --blue: #2f80ed;
             --cyan: #16bde8;
@@ -2632,15 +2635,15 @@
         }
 
         .brand-logo {
-            left: auto !important;
-            right: 22px !important;
+            left: 22px !important;
+            right: auto !important;
             top: 16px !important;
-            padding: 9px 16px !important
+            padding: 10px 20px !important
         }
 
         .brand-logo img {
-            height: 58px !important;
-            max-width: 230px !important
+            height: 80px !important;
+            max-width: 220px !important
         }
 
         .presentation-container {
@@ -3507,42 +3510,83 @@
                 grid-template-columns: 1fr
             }
         }
-    
+
 
         /* ===== Requested targeted revisions ===== */
         .routine-sort-slide {
             justify-content: flex-start !important;
             padding-top: 24px !important;
         }
-        .routine-sort-slide .slide-head { margin-bottom: 10px; }
-        .routine-sort-slide .slide-head h2 { font-size: clamp(1.9rem, 3vw, 3rem); margin-bottom: 6px; }
-        .routine-sort-slide .slide-head p { font-size: 1.05rem; }
-        .routine-sort-slide .sort-shell { padding: 14px 18px; }
-        .routine-sort-slide .sortable { gap: 7px; }
-        .routine-sort-slide .sort-item { min-height: 48px; padding: 9px 12px; }
-        .routine-sort-slide .sort-emoji { font-size: 1.45rem; }
-        .routine-sort-slide .button-row { margin-top: 10px; }
 
-        .scroll-code-slide { justify-content: flex-start !important; padding-top: 24px !important; }
-        .scroll-code-slide .slide-head { margin-bottom: 10px; }
+        .routine-sort-slide .slide-head {
+            margin-bottom: 10px;
+        }
+
+        .routine-sort-slide .slide-head h2 {
+            font-size: clamp(1.9rem, 3vw, 3rem);
+            margin-bottom: 6px;
+        }
+
+        .routine-sort-slide .slide-head p {
+            font-size: 1.05rem;
+        }
+
+        .routine-sort-slide .sort-shell {
+            padding: 14px 18px;
+        }
+
+        .routine-sort-slide .sortable {
+            gap: 7px;
+        }
+
+        .routine-sort-slide .sort-item {
+            min-height: 48px;
+            padding: 9px 12px;
+        }
+
+        .routine-sort-slide .sort-emoji {
+            font-size: 1.45rem;
+        }
+
+        .routine-sort-slide .button-row {
+            margin-top: 10px;
+        }
+
+        .scroll-code-slide {
+            justify-content: flex-start !important;
+            padding-top: 24px !important;
+        }
+
+        .scroll-code-slide .slide-head {
+            margin-bottom: 10px;
+        }
+
         .scroll-code-slide .function-program,
         .scroll-code-slide .sequence-code-zone,
-        .scroll-code-slide .code-panel > .code-font {
+        .scroll-code-slide .code-panel>.code-font {
             max-height: 205px;
             overflow-y: auto;
             overflow-x: hidden;
             scrollbar-width: thin;
             scrollbar-color: #8bb8d6 #edf4f8;
         }
+
         .scroll-code-slide .function-program::-webkit-scrollbar,
         .scroll-code-slide .sequence-code-zone::-webkit-scrollbar,
-        .scroll-code-slide .code-panel > .code-font::-webkit-scrollbar { width: 9px; }
+        .scroll-code-slide .code-panel>.code-font::-webkit-scrollbar {
+            width: 9px;
+        }
+
         .scroll-code-slide .function-program::-webkit-scrollbar-thumb,
         .scroll-code-slide .sequence-code-zone::-webkit-scrollbar-thumb,
-        .scroll-code-slide .code-panel > .code-font::-webkit-scrollbar-thumb {
-            background: #8bb8d6; border-radius: 999px;
+        .scroll-code-slide .code-panel>.code-font::-webkit-scrollbar-thumb {
+            background: #8bb8d6;
+            border-radius: 999px;
         }
-        .scroll-code-slide .maze-board-wrap { min-height: 340px; }
+
+        .scroll-code-slide .maze-board-wrap {
+            min-height: 340px;
+        }
 
         .code-hint {
             margin-top: 10px;
@@ -3555,18 +3599,41 @@
             line-height: 1.4;
             font-weight: 600;
         }
+
         .target-terminal {
             text-align: left !important;
             white-space: pre !important;
             tab-size: 4;
             overflow: auto;
         }
-        .ascii-output-slide { justify-content: flex-start !important; padding-top: 22px !important; }
-        .ascii-output-slide .slide-head { margin-bottom: 9px; }
-        .ascii-output-slide .code-activity { grid-template-columns: 1.08fr .92fr; }
-        .ascii-output-slide .code-editor { min-height: 250px; font-size: .9rem; }
-        .ascii-output-slide .ascii-target { font-size: .84rem; line-height: 1.42; min-height: 250px; }
-        .always-visible { display: block; }
+
+        .ascii-output-slide {
+            justify-content: flex-start !important;
+            padding-top: 22px !important;
+        }
+
+        .ascii-output-slide .slide-head {
+            margin-bottom: 9px;
+        }
+
+        .ascii-output-slide .code-activity {
+            grid-template-columns: 1.08fr .92fr;
+        }
+
+        .ascii-output-slide .code-editor {
+            min-height: 250px;
+            font-size: .9rem;
+        }
+
+        .ascii-output-slide .ascii-target {
+            font-size: .84rem;
+            line-height: 1.42;
+            min-height: 250px;
+        }
+
+        .always-visible {
+            display: block;
+        }
 
         .office-logo-row {
             min-height: 115px;
@@ -3576,14 +3643,21 @@
             gap: 30px;
             margin-bottom: 12px;
         }
-        .office-logo-row img { max-width: 135px; max-height: 86px; object-fit: contain; }
+
+        .office-logo-row img {
+            max-width: 135px;
+            max-height: 86px;
+            object-fit: contain;
+        }
+
         .tool-logo-large {
             width: min(210px, 80%);
             max-height: 190px;
             object-fit: contain;
             justify-self: center;
-            filter: drop-shadow(0 12px 20px rgba(0,122,204,.16));
+            filter: drop-shadow(0 12px 20px rgba(0, 122, 204, .16));
         }
+
         .programming-language-image {
             display: block;
             width: min(720px, 82%);
@@ -3592,15 +3666,32 @@
             border-radius: 20px;
             border: 2px solid #dce7ef;
             background: #fff;
-            box-shadow: 0 12px 28px rgba(38,73,103,.10);
+            box-shadow: 0 12px 28px rgba(38, 73, 103, .10);
             margin: 0 auto 18px;
         }
-        .language-image-slide { justify-content: flex-start !important; padding-top: 24px !important; }
-        .language-image-slide .slide-head { margin-bottom: 10px; }
-        .language-image-slide .language-cloud { gap: 9px; }
-        .language-image-slide .language-chip { padding: 10px 14px; font-size: .95rem; }
 
-        .python-reveal-slide { color: var(--ink) !important; }
+        .language-image-slide {
+            justify-content: flex-start !important;
+            padding-top: 24px !important;
+        }
+
+        .language-image-slide .slide-head {
+            margin-bottom: 10px;
+        }
+
+        .language-image-slide .language-cloud {
+            gap: 9px;
+        }
+
+        .language-image-slide .language-chip {
+            padding: 10px 14px;
+            font-size: .95rem;
+        }
+
+        .python-reveal-slide {
+            color: var(--ink) !important;
+        }
+
         .python-reveal-card {
             width: min(980px, 100%);
             background: #fff;
@@ -3610,36 +3701,100 @@
             text-align: center;
             box-shadow: var(--shadow);
         }
-        .python-reveal-card h2 { font-size: clamp(2.2rem,4vw,4rem); margin: 12px 0; color:#263d58; }
-        .python-reveal-card .lead { max-width: 850px; margin: 0 auto; }
-        .light-code-row { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin:24px 0; }
-        .light-code-row span {
-            font-family:'Courier New',monospace;
-            background:#edf7ff;
-            border:2px solid #b8d8eb;
-            color:#245d84;
-            padding:11px 14px;
-            border-radius:12px;
-            font-weight:700;
+
+        .python-reveal-card h2 {
+            font-size: clamp(2.2rem, 4vw, 4rem);
+            margin: 12px 0;
+            color: #263d58;
         }
 
-        .compact-guide-slide { justify-content: flex-start !important; padding-top: 22px !important; }
-        .compact-guide-slide .slide-head { margin-bottom: 8px; }
-        .compact-guide-slide .slide-head h2 { font-size: clamp(1.9rem,3vw,3rem); margin-bottom:5px; }
-        .compact-guide-slide .slide-head p { font-size: 1rem; }
+        .python-reveal-card .lead {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .light-code-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin: 24px 0;
+        }
+
+        .light-code-row span {
+            font-family: 'Courier New', monospace;
+            background: #edf7ff;
+            border: 2px solid #b8d8eb;
+            color: #245d84;
+            padding: 11px 14px;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+
+        .compact-guide-slide {
+            justify-content: flex-start !important;
+            padding-top: 22px !important;
+        }
+
+        .compact-guide-slide .slide-head {
+            margin-bottom: 8px;
+        }
+
+        .compact-guide-slide .slide-head h2 {
+            font-size: clamp(1.9rem, 3vw, 3rem);
+            margin-bottom: 5px;
+        }
+
+        .compact-guide-slide .slide-head p {
+            font-size: 1rem;
+        }
+
         .compact-guide-slide .install-steps,
-        .compact-guide-slide .vscode-tour { gap: 10px; }
+        .compact-guide-slide .vscode-tour {
+            gap: 10px;
+        }
+
         .compact-guide-slide .install-step,
-        .compact-guide-slide .tour-card { padding: 9px; border-radius: 16px; }
-        .compact-guide-slide .install-step { grid-template-columns: 40px 1fr; gap: 8px; }
-        .compact-guide-slide .install-step .step-no { width:36px;height:36px;border-radius:10px; }
+        .compact-guide-slide .tour-card {
+            padding: 9px;
+            border-radius: 16px;
+        }
+
+        .compact-guide-slide .install-step {
+            grid-template-columns: 40px 1fr;
+            gap: 8px;
+        }
+
+        .compact-guide-slide .install-step .step-no {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+        }
+
         .compact-guide-slide .install-step h3,
-        .compact-guide-slide .tour-card h3 { font-size: 1rem; margin: 2px 0; }
+        .compact-guide-slide .tour-card h3 {
+            font-size: 1rem;
+            margin: 2px 0;
+        }
+
         .compact-guide-slide .install-step p,
-        .compact-guide-slide .tour-card p { font-size: .86rem; line-height: 1.25; }
+        .compact-guide-slide .tour-card p {
+            font-size: .86rem;
+            line-height: 1.25;
+        }
+
         .compact-guide-slide .install-step img,
-        .compact-guide-slide .tour-card img { height: 105px; margin-top: 5px; cursor: zoom-in; }
-        .compact-guide-slide .notice { margin-top: 8px; padding: 8px 12px; font-size: .9rem; }
+        .compact-guide-slide .tour-card img {
+            height: 105px;
+            margin-top: 5px;
+            cursor: zoom-in;
+        }
+
+        .compact-guide-slide .notice {
+            margin-top: 8px;
+            padding: 8px 12px;
+            font-size: .9rem;
+        }
 
         #guideImageZoom {
             position: fixed;
@@ -3651,1025 +3806,1209 @@
             border: 4px solid #7bbbdc;
             border-radius: 18px;
             padding: 8px;
-            box-shadow: 0 24px 70px rgba(20,45,75,.35);
+            box-shadow: 0 24px 70px rgba(20, 45, 75, .35);
             pointer-events: none;
             opacity: 0;
             visibility: hidden;
             transform: scale(.96);
             transition: opacity .12s, transform .12s;
         }
-        #guideImageZoom.show { opacity:1; visibility:visible; transform:scale(1); }
 
-        .compact-cli-slide { justify-content:flex-start !important; padding-top:24px !important; }
-        .compact-cli-slide .slide-head { margin-bottom:10px; }
-        .compact-cli-slide .slide-head h2 { font-size:clamp(2rem,3.2vw,3.2rem); margin-bottom:6px; }
-        .compact-cli-slide .cli-compare { gap:14px; }
-        .compact-cli-slide .cli-card { padding:16px 20px; }
-        .compact-cli-slide .cli-card span { font-size:3.5rem; }
-        .compact-cli-slide .cli-card h3 { font-size:1.35rem; margin:4px; }
-        .compact-cli-slide .cli-card p { margin:4px 0 8px; }
-        .compact-cli-slide .mini-code { padding:10px; font-size:.9rem; }
-        .compact-cli-slide .simple-rule { margin-top:10px; padding:11px 16px; font-size:1rem; }
-
-        @media(max-width:1050px){
-            .ascii-output-slide .code-activity { grid-template-columns:1fr; }
-            .programming-language-image { max-height:220px; }
-            .compact-guide-slide .install-step img,
-            .compact-guide-slide .tour-card img { height:130px; }
+        #guideImageZoom.show {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
         }
 
-        .scroll-code-slide .sequence-code-zone { min-height: 180px !important; }
-</style>
+        .compact-cli-slide {
+            justify-content: flex-start !important;
+            padding-top: 24px !important;
+        }
+
+        .compact-cli-slide .slide-head {
+            margin-bottom: 10px;
+        }
+
+        .compact-cli-slide .slide-head h2 {
+            font-size: clamp(2rem, 3.2vw, 3.2rem);
+            margin-bottom: 6px;
+        }
+
+        .compact-cli-slide .cli-compare {
+            gap: 14px;
+        }
+
+        .compact-cli-slide .cli-card {
+            padding: 16px 20px;
+        }
+
+        .compact-cli-slide .cli-card span {
+            font-size: 3.5rem;
+        }
+
+        .compact-cli-slide .cli-card h3 {
+            font-size: 1.35rem;
+            margin: 4px;
+        }
+
+        .compact-cli-slide .cli-card p {
+            margin: 4px 0 8px;
+        }
+
+        .compact-cli-slide .mini-code {
+            padding: 10px;
+            font-size: .9rem;
+        }
+
+        .compact-cli-slide .simple-rule {
+            margin-top: 10px;
+            padding: 11px 16px;
+            font-size: 1rem;
+        }
+
+        @media(max-width:1050px) {
+            .ascii-output-slide .code-activity {
+                grid-template-columns: 1fr;
+            }
+
+            .programming-language-image {
+                max-height: 220px;
+            }
+
+            .compact-guide-slide .install-step img,
+            .compact-guide-slide .tour-card img {
+                height: 130px;
+            }
+        }
+
+        .scroll-code-slide .sequence-code-zone {
+            min-height: 180px !important;
+        }
+    </style>
 </head>
+
 <body>
-<div class="brand-logo"><img alt="Ruangguru Coding" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/7e71d258-897f-42b7-9c8b-2ff76376ffc6.png"/></div>
-<main class="presentation-container" id="presentation">
-<section class="slide cover-slide" data-title="Pengenalan Coding dan Python">
-<div class="cover-scene">
-<div class="orbit orbit-a">⚙️</div>
-<div class="orbit orbit-b">🐍</div>
-<div class="orbit orbit-c">⌨️</div>
-<div class="hero-badge">SESSION 1 • INTRODUCTION</div>
-<div class="hero-icon">💻</div>
-<p class="eyebrow">PYTHON FOR BEGINNERS</p>
-<h1 class="display-title">Pengenalan Coding &amp; <span>Python</span></h1>
-<p class="hero-subtitle">Memahami cara memberi instruksi kepada komputer, menyiapkan VS Code, dan
+    <div class="brand-logo"><img
+            src="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+            alt="Ruangguru"></div>
+    <main class="presentation-container" id="presentation">
+        <section class="slide cover-slide" data-title="Pengenalan Coding dan Python">
+            <div class="cover-scene">
+                <div class="orbit orbit-a">⚙️</div>
+                <div class="orbit orbit-b">🐍</div>
+                <div class="orbit orbit-c">⌨️</div>
+                <div class="hero-badge">SESSION 1 • INTRODUCTION</div>
+                <div class="hero-icon">💻</div>
+                <p class="eyebrow">PYTHON FOR BEGINNERS</p>
+                <h1 class="display-title">Pengenalan Coding &amp; <span>Python</span></h1>
+                <p class="hero-subtitle">Memahami cara memberi instruksi kepada komputer, menyiapkan VS Code, dan
                     menjalankan program Python pertama melalui terminal.</p>
-<div class="hero-pills"><span>🧠 Algoritma</span><span>🧩 Problem Solving</span><span>⌨️ Python
+                <div class="hero-pills"><span>🧠 Algoritma</span><span>🧩 Problem Solving</span><span>⌨️ Python
                         Code</span><span>🖥️ VS Code</span></div>
-</div>
-</section>
-<section class="slide" data-title="Apa yang Akan Dipelajari?">
-<div class="slide-head center"><span class="kicker">TODAY'S ROADMAP</span>
-<h2>Apa yang Akan Kita Pelajari?</h2>
-<p>Dari logika sehari-hari sampai menjalankan file Python di VS Code.</p>
-</div>
-<div class="agenda-grid">
-<div class="agenda-card blue"><b>01</b><span>📝</span>
-<h3>Pre-Test</h3>
-<p>Melihat pengetahuan awal.</p>
-</div>
-<div class="agenda-card orange"><b>02</b><span>🧠</span>
-<h3>Algoritma</h3>
-<p>Menyusun langkah dan keputusan.</p>
-</div>
-<div class="agenda-card purple"><b>03</b><span>⌨️</span>
-<h3>Python Practice</h3>
-<p>Menulis output dan mencoba loop.</p>
-</div>
-<div class="agenda-card green"><b>04</b><span>🖥️</span>
-<h3>VS Code Setup</h3>
-<p>Membuat dan menjalankan main.py.</p>
-</div>
-</div>
-</section>
-<section class="slide soft-blue" data-title="Pre-Test">
-<div class="single-focus">
-<div class="giant-emoji">📝</div><span class="kicker">BEFORE WE START</span>
-<h2>Kerjakan Pre-Test Terlebih Dahulu</h2>
-<p>Jawab berdasarkan pemahamanmu saat ini. Pre-test digunakan untuk melihat titik awal pembelajaran.</p>
-<button class="primary-btn large" onclick="openPretest()">Buka Pre-Test ↗</button>
-<div class="notice hidden" id="pretestNotice">Link pre-test belum diisi. Guru dapat menambahkannya pada
+            </div>
+        </section>
+        <section class="slide" data-title="Apa yang Akan Dipelajari?">
+            <div class="slide-head center"><span class="kicker">TODAY'S ROADMAP</span>
+                <h2>Apa yang Akan Kita Pelajari?</h2>
+                <p>Dari logika sehari-hari sampai menjalankan file Python di VS Code.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><b>01</b><span>📝</span>
+                    <h3>Pre-Test</h3>
+                    <p>Melihat pengetahuan awal.</p>
+                </div>
+                <div class="agenda-card orange"><b>02</b><span>🧠</span>
+                    <h3>Algoritma</h3>
+                    <p>Menyusun langkah dan keputusan.</p>
+                </div>
+                <div class="agenda-card purple"><b>03</b><span>⌨️</span>
+                    <h3>Python Practice</h3>
+                    <p>Menulis output dan mencoba loop.</p>
+                </div>
+                <div class="agenda-card green"><b>04</b><span>🖥️</span>
+                    <h3>VS Code Setup</h3>
+                    <p>Membuat dan menjalankan main.py.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Pre-Test">
+            <div class="single-focus">
+                <div class="giant-emoji">📝</div><span class="kicker">BEFORE WE START</span>
+                <h2>Kerjakan Pre-Test Terlebih Dahulu</h2>
+                <p>Jawab berdasarkan pemahamanmu saat ini. Pre-test digunakan untuk melihat titik awal pembelajaran.</p>
+                <button class="primary-btn large" onclick="openPretest()">Buka Pre-Test ↗</button>
+                <div class="notice hidden" id="pretestNotice">Link pre-test belum diisi. Guru dapat menambahkannya pada
                     konstanta <span class="code-font">PRETEST_URL</span>.</div>
-</div>
-</section>
-<section class="slide warm-slide" data-title="Cerita di Restoran">
-<div class="split-layout">
-<div><span class="kicker">DAILY ALGORITHM</span>
-<h2>Mendapatkan Makanan di Restoran</h2>
-<p class="lead">Kamu dan keluarga tiba di sebuah tempat makan. Langkah apa saja yang perlu dilakukan
+            </div>
+        </section>
+        <section class="slide warm-slide" data-title="Cerita di Restoran">
+            <div class="split-layout">
+                <div><span class="kicker">DAILY ALGORITHM</span>
+                    <h2>Mendapatkan Makanan di Restoran</h2>
+                    <p class="lead">Kamu dan keluarga tiba di sebuah tempat makan. Langkah apa saja yang perlu dilakukan
                         sampai makanan tersedia di meja?</p>
-<div class="question-bubble">Coba sebutkan urutannya sebelum melihat aktivitas berikutnya.</div>
-</div>
-<div class="restaurant-scene">
-<div class="scene-note">Tujuan: makanan dipesan dan sampai ke meja.</div>
-<div class="restaurant">🏪</div>
-<div class="family">👨‍👩‍👧‍👦 🍽️</div>
-</div>
-</div>
-</section>
-<section class="slide routine-sort-slide" data-title="Urutan Memesan Makanan">
-<div class="slide-head"><span class="kicker">DRAG &amp; ARRANGE</span>
-<h2>Susun Proses Memesan Makanan</h2>
-<p>Geser setiap langkah hingga urutannya masuk akal.</p>
-</div>
-<div class="sort-shell">
-<div class="sortable" data-answer="seat,menu,choose,order,wait,eat" id="sortOrder">
-<div class="sort-item" data-key="wait" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">⏳</span><b>Menunggu pesanan datang</b></div>
-<div class="sort-item" data-key="seat" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">🪑</span><b>Datang dan memilih tempat duduk</b></div>
-<div class="sort-item" data-key="eat" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">🍽️</span><b>Makan</b></div>
-<div class="sort-item" data-key="choose" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">🔎</span><b>Memilih makanan dari menu</b></div>
-<div class="sort-item" data-key="menu" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">📋</span><b>Meminta menu kepada waiter</b></div>
-<div class="sort-item" data-key="order" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">🗣️</span><b>Menyampaikan pesanan</b></div>
-</div>
-<div class="button-row"><button class="primary-btn" onclick="checkSortable('sortOrder','orderFeedback')">Periksa Urutan</button><button class="secondary-btn" onclick="shuffleSortable('sortOrder','orderFeedback')">Acak Lagi</button>
-</div>
-<div class="feedback" id="orderFeedback"></div>
-</div>
-</section>
-<section class="slide routine-sort-slide" data-title="Urutan Membayar">
-<div class="slide-head"><span class="kicker">SECOND ALGORITHM</span>
-<h2>Setelah Makan, Bagaimana Cara Membayar?</h2>
-<p>Susun langkah sampai pembayaran dinyatakan berhasil.</p>
-</div>
-<div class="sort-shell">
-<div class="sortable" data-answer="cashier,table,total,pay,success" id="sortPay">
-<div class="sort-item" data-key="pay" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">💳</span><b>Melakukan pembayaran</b></div>
-<div class="sort-item" data-key="cashier" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">🧾</span><b>Pergi ke kasir</b></div>
-<div class="sort-item" data-key="success" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">✅</span><b>Menunggu pembayaran berhasil</b></div>
-<div class="sort-item" data-key="total" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">💰</span><b>Kasir menyampaikan total pembayaran</b></div>
-<div class="sort-item" data-key="table" draggable="true"><span class="sort-index">?</span><span class="sort-emoji">🔢</span><b>Menyebutkan nomor meja</b></div>
-</div>
-<div class="button-row"><button class="primary-btn" onclick="checkSortable('sortPay','payFeedback')">Periksa Urutan</button><button class="secondary-btn" onclick="shuffleSortable('sortPay','payFeedback')">Acak Lagi</button>
-</div>
-<div class="feedback" id="payFeedback"></div>
-</div>
-</section>
-<section class="slide" data-title="Memilih Perjalanan">
-<div class="slide-head center"><span class="kicker">DECISION MAKING</span>
-<h2>Acara Dimulai Pukul 14.00</h2>
-<p>Setelah selesai dari tempat makan, kamu dan keluarga akan menghadiri acara keluarga yang dimulai pukul <b>14.00</b>. Sekarang pukul <b>13.25</b>. Saat perjalanan dimulai, ban mobil terasa kurang angin sehingga kendaraan tidak dapat melaju dengan baik. Keputusan apa yang akan kamu ambil?</p>
-</div>
-<div class="decision-grid" id="travelChoices">
-<button class="decision-card" onclick="chooseTravel(this,'repair')"><span>🛠️</span><b>Mencari tempat
+                    <div class="question-bubble">Coba sebutkan urutannya sebelum melihat aktivitas berikutnya.</div>
+                </div>
+                <div class="restaurant-scene">
+                    <div class="scene-note">Tujuan: makanan dipesan dan sampai ke meja.</div>
+                    <div class="restaurant">🏪</div>
+                    <div class="family">👨‍👩‍👧‍👦 🍽️</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide routine-sort-slide" data-title="Urutan Memesan Makanan">
+            <div class="slide-head"><span class="kicker">DRAG &amp; ARRANGE</span>
+                <h2>Susun Proses Memesan Makanan</h2>
+                <p>Geser setiap langkah hingga urutannya masuk akal.</p>
+            </div>
+            <div class="sort-shell">
+                <div class="sortable" data-answer="seat,menu,choose,order,wait,eat" id="sortOrder">
+                    <div class="sort-item" data-key="wait" draggable="true"><span class="sort-index">?</span><span
+                            class="sort-emoji">⏳</span><b>Menunggu pesanan datang</b></div>
+                    <div class="sort-item" data-key="seat" draggable="true"><span class="sort-index">?</span><span
+                            class="sort-emoji">🪑</span><b>Datang dan memilih tempat duduk</b></div>
+                    <div class="sort-item" data-key="eat" draggable="true"><span class="sort-index">?</span><span
+                            class="sort-emoji">🍽️</span><b>Makan</b></div>
+                    <div class="sort-item" data-key="choose" draggable="true"><span class="sort-index">?</span><span
+                            class="sort-emoji">🔎</span><b>Memilih makanan dari menu</b></div>
+                    <div class="sort-item" data-key="menu" draggable="true"><span class="sort-index">?</span><span
+                            class="sort-emoji">📋</span><b>Meminta menu kepada waiter</b></div>
+                    <div class="sort-item" data-key="order" draggable="true"><span class="sort-index">?</span><span
+                            class="sort-emoji">🗣️</span><b>Menyampaikan pesanan</b></div>
+                </div>
+                <div class="button-row"><button class="primary-btn"
+                        onclick="checkSortable('sortOrder','orderFeedback')">Periksa Urutan</button><button
+                        class="secondary-btn" onclick="shuffleSortable('sortOrder','orderFeedback')">Acak Lagi</button>
+                </div>
+                <div class="feedback" id="orderFeedback"></div>
+            </div>
+        </section>
+        <section class="slide routine-sort-slide" data-title="Urutan Membayar">
+            <div class="slide-head"><span class="kicker">SECOND ALGORITHM</span>
+                <h2>Setelah Makan, Bagaimana Cara Membayar?</h2>
+                <p>Susun langkah sampai pembayaran dinyatakan berhasil.</p>
+            </div>
+            <div class="sort-shell">
+                <div class="sortable" data-answer="cashier,table,total,pay,success" id="sortPay">
+                    <div class="sort-item" data-key="pay" draggable="true"><span class="sort-index">?</span><span
+                            class="sort-emoji">💳</span><b>Melakukan pembayaran</b></div>
+                    <div class="sort-item" data-key="cashier" draggable="true"><span class="sort-index">?</span><span
+                            class="sort-emoji">🧾</span><b>Pergi ke kasir</b></div>
+                    <div class="sort-item" data-key="success" draggable="true"><span class="sort-index">?</span><span
+                            class="sort-emoji">✅</span><b>Menunggu pembayaran berhasil</b></div>
+                    <div class="sort-item" data-key="total" draggable="true"><span class="sort-index">?</span><span
+                            class="sort-emoji">💰</span><b>Kasir menyampaikan total pembayaran</b></div>
+                    <div class="sort-item" data-key="table" draggable="true"><span class="sort-index">?</span><span
+                            class="sort-emoji">🔢</span><b>Menyebutkan nomor meja</b></div>
+                </div>
+                <div class="button-row"><button class="primary-btn"
+                        onclick="checkSortable('sortPay','payFeedback')">Periksa Urutan</button><button
+                        class="secondary-btn" onclick="shuffleSortable('sortPay','payFeedback')">Acak Lagi</button>
+                </div>
+                <div class="feedback" id="payFeedback"></div>
+            </div>
+        </section>
+        <section class="slide" data-title="Memilih Perjalanan">
+            <div class="slide-head center"><span class="kicker">DECISION MAKING</span>
+                <h2>Acara Dimulai Pukul 14.00</h2>
+                <p>Setelah selesai dari tempat makan, kamu dan keluarga akan menghadiri acara keluarga yang dimulai
+                    pukul <b>14.00</b>. Sekarang pukul <b>13.25</b>. Saat perjalanan dimulai, ban mobil terasa kurang
+                    angin sehingga kendaraan tidak dapat melaju dengan baik. Keputusan apa yang akan kamu ambil?</p>
+            </div>
+            <div class="decision-grid" id="travelChoices">
+                <button class="decision-card" onclick="chooseTravel(this,'repair')"><span>🛠️</span><b>Mencari tempat
                         perbaikan ban</b><small>Perkiraan 45 menit</small></button>
-<button class="decision-card" onclick="chooseTravel(this,'continue')"><span>🚗</span><b>Tetap
+                <button class="decision-card" onclick="chooseTravel(this,'continue')"><span>🚗</span><b>Tetap
                         melanjutkan dengan mobil</b><small>Perkiraan 60 menit</small></button>
-<button class="decision-card" onclick="chooseTravel(this,'public')"><span>🚌</span><b>Mencari kendaraan
+                <button class="decision-card" onclick="chooseTravel(this,'public')"><span>🚌</span><b>Mencari kendaraan
                         umum</b><small>Perkiraan 30 menit</small></button>
-</div>
-<div class="feedback large-feedback" id="travelFeedback">Setiap pilihan memiliki konsekuensi. Pilih satu
+            </div>
+            <div class="feedback large-feedback" id="travelFeedback">Setiap pilihan memiliki konsekuensi. Pilih satu
                 untuk melihat hasilnya.</div>
-<div class="safety-note">Keselamatan tetap menjadi pertimbangan utama. Kendaraan dengan kondisi ban yang
+            <div class="safety-note">Keselamatan tetap menjadi pertimbangan utama. Kendaraan dengan kondisi ban yang
                 tidak baik sebaiknya tidak dipaksakan berjalan.</div>
-</section>
-<section class="slide sky-slide" data-title="Sampai di Acara Keluarga">
-<div class="school-scene" style="background:linear-gradient(#d8f1ff 0 64%,#a9d78c 64%)">
-<div class="school-building" style="font-size:10rem">🏡</div>
-<div class="school-kids">👨‍👩‍👧‍👦</div>
-<div class="speech-card"><span class="kicker">DESTINATION REACHED</span>
-<h2>Kamu Tetap Sampai di Acara Keluarga</h2>
-<p>Keputusan yang berbeda dapat menghasilkan waktu, risiko, dan proses yang berbeda. Inilah alasan
+        </section>
+        <section class="slide sky-slide" data-title="Sampai di Acara Keluarga">
+            <div class="school-scene" style="background:linear-gradient(#d8f1ff 0 64%,#a9d78c 64%)">
+                <div class="school-building" style="font-size:10rem">🏡</div>
+                <div class="school-kids">👨‍👩‍👧‍👦</div>
+                <div class="speech-card"><span class="kicker">DESTINATION REACHED</span>
+                    <h2>Kamu Tetap Sampai di Acara Keluarga</h2>
+                    <p>Keputusan yang berbeda dapat menghasilkan waktu, risiko, dan proses yang berbeda. Inilah alasan
                         kita perlu memikirkan langkah sebelum bertindak.</p>
-</div>
-</div>
-</section>
-<section class="slide gradient-purple" data-title="Kita Sudah Membuat Algoritma">
-<div class="concept-reveal">
-<div class="mini-scenes">
-<div>🍽️<small>Memesan makanan</small></div>
-<div>💳<small>Membayar</small></div>
-<div>🚌<small>Memilih perjalanan</small></div>
-</div>
-<div class="arrow-down" style="color:#3776ab">↓</div>
-<div class="reveal-word">ALGORITMA</div>
-<p>Kita menyusun langkah dan membuat keputusan untuk mencapai tujuan tertentu.</p>
-</div>
-</section>
-<section class="slide" data-title="Misi Belajar Hari Ini">
-<div class="mission-board" style="background:#eef7fb;color:#20324a;border:3px solid #cde1ed">
-<div class="mission-number" style="color:#3776ab;border-color:#d1e1ea">01</div>
-<div><span class="kicker">CORE MISSION</span>
-<h2 style="color:#20324a">Menyelesaikan Masalah dengan Langkah yang Tepat</h2>
-<p style="color:#5e7489">Kita akan menyusun algoritma yang:</p>
-</div>
-<div class="mission-qualities"><span style="background:#fff">✅ Berurutan</span><span style="background:#fff">✅ Jelas</span><span style="background:#fff">✅ Tidak membuang
+                </div>
+            </div>
+        </section>
+        <section class="slide gradient-purple" data-title="Kita Sudah Membuat Algoritma">
+            <div class="concept-reveal">
+                <div class="mini-scenes">
+                    <div>🍽️<small>Memesan makanan</small></div>
+                    <div>💳<small>Membayar</small></div>
+                    <div>🚌<small>Memilih perjalanan</small></div>
+                </div>
+                <div class="arrow-down" style="color:#3776ab">↓</div>
+                <div class="reveal-word">ALGORITMA</div>
+                <p>Kita menyusun langkah dan membuat keputusan untuk mencapai tujuan tertentu.</p>
+            </div>
+        </section>
+        <section class="slide" data-title="Misi Belajar Hari Ini">
+            <div class="mission-board" style="background:#eef7fb;color:#20324a;border:3px solid #cde1ed">
+                <div class="mission-number" style="color:#3776ab;border-color:#d1e1ea">01</div>
+                <div><span class="kicker">CORE MISSION</span>
+                    <h2 style="color:#20324a">Menyelesaikan Masalah dengan Langkah yang Tepat</h2>
+                    <p style="color:#5e7489">Kita akan menyusun algoritma yang:</p>
+                </div>
+                <div class="mission-qualities"><span style="background:#fff">✅ Berurutan</span><span
+                        style="background:#fff">✅ Jelas</span><span style="background:#fff">✅ Tidak membuang
                         langkah</span><span style="background:#fff">✅ Sesuai tujuan</span></div>
-</div>
-</section>
-<section class="slide" data-title="Mengapa Belajar Algoritma?">
-<div class="slide-head center"><span class="kicker">WHY ALGORITHM?</span>
-<h2>Algoritma Membantu Kita Berpikir Sebelum Bertindak</h2>
-<p>Kita perlu mengetahui masalah, hasil yang ingin dicapai, dan langkah yang harus dilakukan.</p>
-</div>
-<div class="three-step-flow">
-<div><span>❓</span><b>Masalah</b>
-<p>Apa yang perlu diselesaikan?</p>
-</div><i>→</i>
-<div><span>🎯</span><b>Tujuan</b>
-<p>Hasil seperti apa yang diinginkan?</p>
-</div><i>→</i>
-<div><span>🧩</span><b>Langkah</b>
-<p>Instruksi apa yang diperlukan?</p>
-</div>
-</div>
-</section>
-<section class="slide soft-green" data-title="Program sebagai Solusi">
-<div class="split-layout">
-<div class="problem-stack">
-<div class="problem-card">😴 Sering terlambat bangun</div>
-<div class="problem-card">🌦️ Tidak tahu perkiraan cuaca</div>
-<div class="problem-card">📝 Lupa jadwal dan tugas</div>
-</div>
-<div><span class="kicker">PROGRAM = SOLUTION TOOL</span>
-<h2>Mengapa Manusia Membuat Program?</h2>
-<p class="lead">Program dibuat untuk membantu menyelesaikan masalah, mengolah informasi, atau
+            </div>
+        </section>
+        <section class="slide" data-title="Mengapa Belajar Algoritma?">
+            <div class="slide-head center"><span class="kicker">WHY ALGORITHM?</span>
+                <h2>Algoritma Membantu Kita Berpikir Sebelum Bertindak</h2>
+                <p>Kita perlu mengetahui masalah, hasil yang ingin dicapai, dan langkah yang harus dilakukan.</p>
+            </div>
+            <div class="three-step-flow">
+                <div><span>❓</span><b>Masalah</b>
+                    <p>Apa yang perlu diselesaikan?</p>
+                </div><i>→</i>
+                <div><span>🎯</span><b>Tujuan</b>
+                    <p>Hasil seperti apa yang diinginkan?</p>
+                </div><i>→</i>
+                <div><span>🧩</span><b>Langkah</b>
+                    <p>Instruksi apa yang diperlukan?</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-green" data-title="Program sebagai Solusi">
+            <div class="split-layout">
+                <div class="problem-stack">
+                    <div class="problem-card">😴 Sering terlambat bangun</div>
+                    <div class="problem-card">🌦️ Tidak tahu perkiraan cuaca</div>
+                    <div class="problem-card">📝 Lupa jadwal dan tugas</div>
+                </div>
+                <div><span class="kicker">PROGRAM = SOLUTION TOOL</span>
+                    <h2>Mengapa Manusia Membuat Program?</h2>
+                    <p class="lead">Program dibuat untuk membantu menyelesaikan masalah, mengolah informasi, atau
                         menjalankan tugas dengan lebih teratur.</p>
-<div class="simple-rule">Masalah → Algoritma → Program → Hasil</div>
-</div>
-</div>
-</section>
-<section class="slide" data-title="Program di Sekitar Kita">
-<div class="slide-head center"><span class="kicker">REAL-WORLD PROGRAMS</span>
-<h2>Masalah Sehari-hari yang Dibantu Program</h2>
-</div>
-<div class="app-showcase">
-<div><span>⏰</span><b>Alarm</b>
-<p>Mengingatkan waktu bangun.</p>
-</div>
-<div><span>🗒️</span><b>Catatan Digital</b>
-<p>Menyimpan ide dan tugas.</p>
-</div>
-<div><span>🌦️</span><b>Weather App</b>
-<p>Memperkirakan kondisi cuaca.</p>
-</div>
-<div><span>🗺️</span><b>Maps</b>
-<p>Mencari rute perjalanan.</p>
-</div>
-<div><span>🧮</span><b>Calculator</b>
-<p>Menghitung dengan cepat.</p>
-</div>
-<div><span>📅</span><b>Calendar</b>
-<p>Mengelola jadwal kegiatan.</p>
-</div>
-</div>
-</section>
-<section class="slide soft-orange" data-title="Aplikasi yang Sering Digunakan">
-<div class="input-lab">
-<div class="phone-mockup">
-<div class="phone-top"></div>
-<div class="phone-icons">📱<br/><span>?</span></div>
-</div>
-<div><span class="kicker">YOUR INPUT</span>
-<h2>Aplikasi Apa yang Paling Sering Kamu Gunakan?</h2>
-<p>Tulis nama aplikasinya, lalu pikirkan kebutuhan apa yang dibantu aplikasi tersebut.</p>
-<div class="input-row"><input id="appInput" placeholder="Contoh: WhatsApp, Maps, YouTube..." type="text"/><button class="primary-btn" onclick="submitTextAnswer('appInput','appResponse','Setiap aplikasi memiliki tujuan, pengguna, dan instruksi yang membuat fiturnya bekerja. Jelaskan masalah apa yang terbantu oleh aplikasi yang kamu sebutkan diatas')">Kirim</button>
-</div>
-<div class="response-box" id="appResponse"></div>
-</div>
-</div>
-</section>
-<section class="slide" data-title="Program untuk Hiburan">
-<div class="game-stage" style="background:linear-gradient(#dcecff 0 60%,#c0dca0 60%);color:#20324a">
-<div class="pixel-cloud c1"></div>
-<div class="pixel-cloud c2"></div>
-<div class="game-title" style="background:rgba(255,255,255,.94);color:#20324a;border:3px solid #dce6ef">
-<span class="kicker">ENTERTAINMENT PROGRAM</span>
-<h2>Program Juga Bisa Berbentuk Game</h2>
-<p>Game adalah program yang memiliki aturan, tujuan, input pemain, tampilan, dan respons.</p>
-</div>
-<div class="game-characters">🎮 🧩 🏁</div>
-</div>
-</section>
-<section class="slide soft-purple" data-title="Game yang Sedang Dimainkan">
-<div class="input-lab reversed">
-<div><span class="kicker">GAME ANALYSIS</span>
-<h2>Game Apa yang Sedang Kamu Mainkan?</h2>
-<p>Tulis nama game, lalu perhatikan: apa tujuan pemain dan aturan yang harus dijalankan?</p>
-<div class="input-row"><input id="gameInput" placeholder="Ketik nama game..." type="text"/><button class="primary-btn" onclick="submitTextAnswer('gameInput','gameResponse','Di balik game tersebut terdapat aset, aturan, perhitungan, dan banyak instruksi program.')">Kirim</button>
-</div>
-<div class="response-box" id="gameResponse"></div>
-</div>
-<div class="controller-art">🎮</div>
-</div>
-</section>
-<section class="slide" data-title="Memberi Instruksi kepada Komputer">
-<div class="communication-flow">
-<div class="human-side"><span>🧑‍💻</span><b>Manusia</b>
-<p>Menentukan masalah dan tujuan.</p>
-</div>
-<div class="code-bridge" style="background:linear-gradient(135deg,#3776ab,#0ba7a5)"><span style="color:#fff">{ }</span><b>ALGORITMA</b><small>Instruksi yang jelas</small></div>
-<div class="computer-side"><span>💻</span><b>Komputer</b>
-<p>Menjalankan instruksi secara tepat.</p>
-</div>
-</div>
-<div class="bottom-message">Coding adalah cara menuliskan instruksi agar komputer dapat menjalankan tugas
+                    <div class="simple-rule">Masalah → Algoritma → Program → Hasil</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Program di Sekitar Kita">
+            <div class="slide-head center"><span class="kicker">REAL-WORLD PROGRAMS</span>
+                <h2>Masalah Sehari-hari yang Dibantu Program</h2>
+            </div>
+            <div class="app-showcase">
+                <div><span>⏰</span><b>Alarm</b>
+                    <p>Mengingatkan waktu bangun.</p>
+                </div>
+                <div><span>🗒️</span><b>Catatan Digital</b>
+                    <p>Menyimpan ide dan tugas.</p>
+                </div>
+                <div><span>🌦️</span><b>Weather App</b>
+                    <p>Memperkirakan kondisi cuaca.</p>
+                </div>
+                <div><span>🗺️</span><b>Maps</b>
+                    <p>Mencari rute perjalanan.</p>
+                </div>
+                <div><span>🧮</span><b>Calculator</b>
+                    <p>Menghitung dengan cepat.</p>
+                </div>
+                <div><span>📅</span><b>Calendar</b>
+                    <p>Mengelola jadwal kegiatan.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-orange" data-title="Aplikasi yang Sering Digunakan">
+            <div class="input-lab">
+                <div class="phone-mockup">
+                    <div class="phone-top"></div>
+                    <div class="phone-icons">📱<br /><span>?</span></div>
+                </div>
+                <div><span class="kicker">YOUR INPUT</span>
+                    <h2>Aplikasi Apa yang Paling Sering Kamu Gunakan?</h2>
+                    <p>Tulis nama aplikasinya, lalu pikirkan kebutuhan apa yang dibantu aplikasi tersebut.</p>
+                    <div class="input-row"><input id="appInput" placeholder="Contoh: WhatsApp, Maps, YouTube..."
+                            type="text" /><button class="primary-btn"
+                            onclick="submitTextAnswer('appInput','appResponse','Setiap aplikasi memiliki tujuan, pengguna, dan instruksi yang membuat fiturnya bekerja. Jelaskan masalah apa yang terbantu oleh aplikasi yang kamu sebutkan diatas')">Kirim</button>
+                    </div>
+                    <div class="response-box" id="appResponse"></div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Program untuk Hiburan">
+            <div class="game-stage" style="background:linear-gradient(#dcecff 0 60%,#c0dca0 60%);color:#20324a">
+                <div class="pixel-cloud c1"></div>
+                <div class="pixel-cloud c2"></div>
+                <div class="game-title" style="background:rgba(255,255,255,.94);color:#20324a;border:3px solid #dce6ef">
+                    <span class="kicker">ENTERTAINMENT PROGRAM</span>
+                    <h2>Program Juga Bisa Berbentuk Game</h2>
+                    <p>Game adalah program yang memiliki aturan, tujuan, input pemain, tampilan, dan respons.</p>
+                </div>
+                <div class="game-characters">🎮 🧩 🏁</div>
+            </div>
+        </section>
+        <section class="slide soft-purple" data-title="Game yang Sedang Dimainkan">
+            <div class="input-lab reversed">
+                <div><span class="kicker">GAME ANALYSIS</span>
+                    <h2>Game Apa yang Sedang Kamu Mainkan?</h2>
+                    <p>Tulis nama game, lalu perhatikan: apa tujuan pemain dan aturan yang harus dijalankan?</p>
+                    <div class="input-row"><input id="gameInput" placeholder="Ketik nama game..." type="text" /><button
+                            class="primary-btn"
+                            onclick="submitTextAnswer('gameInput','gameResponse','Di balik game tersebut terdapat aset, aturan, perhitungan, dan banyak instruksi program.')">Kirim</button>
+                    </div>
+                    <div class="response-box" id="gameResponse"></div>
+                </div>
+                <div class="controller-art">🎮</div>
+            </div>
+        </section>
+        <section class="slide" data-title="Memberi Instruksi kepada Komputer">
+            <div class="communication-flow">
+                <div class="human-side"><span>🧑‍💻</span><b>Manusia</b>
+                    <p>Menentukan masalah dan tujuan.</p>
+                </div>
+                <div class="code-bridge" style="background:linear-gradient(135deg,#3776ab,#0ba7a5)"><span
+                        style="color:#fff">{ }</span><b>ALGORITMA</b><small>Instruksi yang jelas</small></div>
+                <div class="computer-side"><span>💻</span><b>Komputer</b>
+                    <p>Menjalankan instruksi secara tepat.</p>
+                </div>
+            </div>
+            <div class="bottom-message">Coding adalah cara menuliskan instruksi agar komputer dapat menjalankan tugas
                 yang kita rancang.</div>
-</section>
-<section class="slide" data-title="Komputer Tidak Bisa Menebak">
-<div class="chat-lab">
-<div class="chat-person">
-<div class="avatar">🧑</div>
-<div class="chat-bubble user">“Komputer, buatkan aplikasi yang bisa memberi tahu kapan hujan dan kapan panas supaya aku tahu perlu
+        </section>
+        <section class="slide" data-title="Komputer Tidak Bisa Menebak">
+            <div class="chat-lab">
+                <div class="chat-person">
+                    <div class="avatar">🧑</div>
+                    <div class="chat-bubble user">“Komputer, buatkan aplikasi yang bisa memberi tahu kapan hujan dan
+                        kapan panas supaya aku tahu perlu
                         membawa payung atau memakai pakaian yang lebih ringan.”</div>
-</div>
-<div class="chat-computer">
-<div class="avatar">💻</div>
-<div class="computer-questions" id="weatherQuestions">
-<p>Instruksinya masih terlalu umum. Klik tombol untuk melihat pertanyaan komputer.</p>
-</div>
-</div><button class="primary-btn" onclick="showWeatherQuestions()">Kirim Instruksi</button>
-</div>
-</section>
-<section class="slide" data-title="Instruksi Harus Detail">
-<div class="detail-comparison">
-<div class="bad-instruction"><span>❌</span>
-<h3>Terlalu Umum</h3>
-<p>“Buat aplikasi cuaca untukku.”</p>
-</div>
-<div class="good-instruction"><span>✅</span>
-<h3>Lebih Terarah</h3>
-<ul>
-<li>Tentukan kota atau wilayah.</li>
-<li>Tampilkan kondisi hujan atau cerah.</li>
-<li>Tampilkan suhu.</li>
-<li>Berikan saran membawa payung.</li>
-<li>Tentukan kapan data diperbarui.</li>
-</ul>
-</div>
-</div>
-<div class="simple-rule centered-rule">Algoritma membantu kita menulis instruksi secara rinci, berurutan,
+                </div>
+                <div class="chat-computer">
+                    <div class="avatar">💻</div>
+                    <div class="computer-questions" id="weatherQuestions">
+                        <p>Instruksinya masih terlalu umum. Klik tombol untuk melihat pertanyaan komputer.</p>
+                    </div>
+                </div><button class="primary-btn" onclick="showWeatherQuestions()">Kirim Instruksi</button>
+            </div>
+        </section>
+        <section class="slide" data-title="Instruksi Harus Detail">
+            <div class="detail-comparison">
+                <div class="bad-instruction"><span>❌</span>
+                    <h3>Terlalu Umum</h3>
+                    <p>“Buat aplikasi cuaca untukku.”</p>
+                </div>
+                <div class="good-instruction"><span>✅</span>
+                    <h3>Lebih Terarah</h3>
+                    <ul>
+                        <li>Tentukan kota atau wilayah.</li>
+                        <li>Tampilkan kondisi hujan atau cerah.</li>
+                        <li>Tampilkan suhu.</li>
+                        <li>Berikan saran membawa payung.</li>
+                        <li>Tentukan kapan data diperbarui.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="simple-rule centered-rule">Algoritma membantu kita menulis instruksi secara rinci, berurutan,
                 dan sesuai kebutuhan.</div>
-</section>
-<section class="slide ct-slide" data-title="Computational Thinking">
-<div class="ct-wheel">
-<div class="ct-center">🧠<b>Computational<br/>Thinking</b></div>
-<div class="ct-item one"><span>🧩</span><b>Pecah Masalah</b></div>
-<div class="ct-item two"><span>🔍</span><b>Cari Pola</b></div>
-<div class="ct-item three"><span>📝</span><b>Susun Langkah</b></div>
-<div class="ct-item four"><span>🧪</span><b>Uji &amp; Perbaiki</b></div>
-</div>
-<p class="center-note">Dengan cara berpikir ini, kita dapat mengubah masalah besar menjadi instruksi yang
+        </section>
+        <section class="slide ct-slide" data-title="Computational Thinking">
+            <div class="ct-wheel">
+                <div class="ct-center">🧠<b>Computational<br />Thinking</b></div>
+                <div class="ct-item one"><span>🧩</span><b>Pecah Masalah</b></div>
+                <div class="ct-item two"><span>🔍</span><b>Cari Pola</b></div>
+                <div class="ct-item three"><span>📝</span><b>Susun Langkah</b></div>
+                <div class="ct-item four"><span>🧪</span><b>Uji &amp; Perbaiki</b></div>
+            </div>
+            <p class="center-note">Dengan cara berpikir ini, kita dapat mengubah masalah besar menjadi instruksi yang
                 dapat dijalankan komputer.</p>
-</section>
-<section class="slide scroll-code-slide" data-title="Robot Function Mission 1">
-<div class="slide-head compact"><span class="kicker">FUNCTION MISSION 1</span>
-<h2>Berkomunikasi dengan Robot</h2>
-<p>Susun function agar robot mencapai tool.</p>
-</div>
-<div class="maze-layout">
-<div class="maze-board-wrap">
-<div class="maze-status" id="pymaze1Status">Robot menunggu instruksi...</div>
-<div class="maze-board" id="pymaze1Board"></div>
-</div>
-<div class="maze-console">
-<h3>Function Program</h3>
-<div class="function-palette" data-target="pymaze1Program"><button data-command="up" draggable="true">moveUp()</button><button data-command="down" draggable="true">moveDown()</button><button data-command="left" draggable="true">moveLeft()</button><button data-command="right" draggable="true">moveRight()</button></div>
-<div class="program-label">Susunan instruksi</div>
-<div class="function-program" id="pymaze1Program"></div>
-<div class="button-row tight"><button class="run-btn" onclick="runPythonMaze('pymaze1')">Run
+        </section>
+        <section class="slide scroll-code-slide" data-title="Robot Function Mission 1">
+            <div class="slide-head compact"><span class="kicker">FUNCTION MISSION 1</span>
+                <h2>Berkomunikasi dengan Robot</h2>
+                <p>Susun function agar robot mencapai tool.</p>
+            </div>
+            <div class="maze-layout">
+                <div class="maze-board-wrap">
+                    <div class="maze-status" id="pymaze1Status">Robot menunggu instruksi...</div>
+                    <div class="maze-board" id="pymaze1Board"></div>
+                </div>
+                <div class="maze-console">
+                    <h3>Function Program</h3>
+                    <div class="function-palette" data-target="pymaze1Program"><button data-command="up"
+                            draggable="true">moveUp()</button><button data-command="down"
+                            draggable="true">moveDown()</button><button data-command="left"
+                            draggable="true">moveLeft()</button><button data-command="right"
+                            draggable="true">moveRight()</button></div>
+                    <div class="program-label">Susunan instruksi</div>
+                    <div class="function-program" id="pymaze1Program"></div>
+                    <div class="button-row tight"><button class="run-btn" onclick="runPythonMaze('pymaze1')">Run
                             ▶</button><button class="secondary-btn" onclick="clearPythonMaze('pymaze1')">Clear</button>
-</div>
-<div class="feedback" id="pymaze1Feedback"></div>
-</div>
-</div>
-</section>
-<section class="slide scroll-code-slide" data-title="Robot Function Mission 2">
-<div class="slide-head compact"><span class="kicker">FUNCTION MISSION 2</span>
-<h2>Hindari Tembok</h2>
-<p>Robot tidak boleh menabrak tembok.</p>
-</div>
-<div class="maze-layout">
-<div class="maze-board-wrap">
-<div class="maze-status" id="pymaze2Status">Robot menunggu instruksi...</div>
-<div class="maze-board" id="pymaze2Board"></div>
-</div>
-<div class="maze-console">
-<h3>Function Program</h3>
-<div class="function-palette" data-target="pymaze2Program"><button data-command="up" draggable="true">moveUp()</button><button data-command="down" draggable="true">moveDown()</button><button data-command="left" draggable="true">moveLeft()</button><button data-command="right" draggable="true">moveRight()</button></div>
-<div class="program-label">Susunan instruksi</div>
-<div class="function-program" id="pymaze2Program"></div>
-<div class="button-row tight"><button class="run-btn" onclick="runPythonMaze('pymaze2')">Run
+                    </div>
+                    <div class="feedback" id="pymaze1Feedback"></div>
+                </div>
+            </div>
+        </section>
+        <section class="slide scroll-code-slide" data-title="Robot Function Mission 2">
+            <div class="slide-head compact"><span class="kicker">FUNCTION MISSION 2</span>
+                <h2>Hindari Tembok</h2>
+                <p>Robot tidak boleh menabrak tembok.</p>
+            </div>
+            <div class="maze-layout">
+                <div class="maze-board-wrap">
+                    <div class="maze-status" id="pymaze2Status">Robot menunggu instruksi...</div>
+                    <div class="maze-board" id="pymaze2Board"></div>
+                </div>
+                <div class="maze-console">
+                    <h3>Function Program</h3>
+                    <div class="function-palette" data-target="pymaze2Program"><button data-command="up"
+                            draggable="true">moveUp()</button><button data-command="down"
+                            draggable="true">moveDown()</button><button data-command="left"
+                            draggable="true">moveLeft()</button><button data-command="right"
+                            draggable="true">moveRight()</button></div>
+                    <div class="program-label">Susunan instruksi</div>
+                    <div class="function-program" id="pymaze2Program"></div>
+                    <div class="button-row tight"><button class="run-btn" onclick="runPythonMaze('pymaze2')">Run
                             ▶</button><button class="secondary-btn" onclick="clearPythonMaze('pymaze2')">Clear</button>
-</div>
-<div class="feedback" id="pymaze2Feedback"></div>
-</div>
-</div>
-</section>
-<section class="slide scroll-code-slide" data-title="Robot Function Mission 3">
-<div class="slide-head compact"><span class="kicker">FUNCTION MISSION 3</span>
-<h2>Tanpa Garis Grid</h2>
-<p>Garis grid dihilangkan. Perkirakan jumlah langkah dengan lebih teliti.</p>
-</div>
-<div class="maze-layout">
-<div class="maze-board-wrap">
-<div class="maze-status" id="pymaze3Status">Robot menunggu instruksi...</div>
-<div class="maze-board no-grid" id="pymaze3Board"></div>
-</div>
-<div class="maze-console">
-<h3>Function Program</h3>
-<div class="function-palette" data-target="pymaze3Program"><button data-command="up" draggable="true">moveUp()</button><button data-command="down" draggable="true">moveDown()</button><button data-command="left" draggable="true">moveLeft()</button><button data-command="right" draggable="true">moveRight()</button></div>
-<div class="program-label">Susunan instruksi</div>
-<div class="function-program" id="pymaze3Program"></div>
-<div class="button-row tight"><button class="run-btn" onclick="runPythonMaze('pymaze3')">Run
+                    </div>
+                    <div class="feedback" id="pymaze2Feedback"></div>
+                </div>
+            </div>
+        </section>
+        <section class="slide scroll-code-slide" data-title="Robot Function Mission 3">
+            <div class="slide-head compact"><span class="kicker">FUNCTION MISSION 3</span>
+                <h2>Tanpa Garis Grid</h2>
+                <p>Garis grid dihilangkan. Perkirakan jumlah langkah dengan lebih teliti.</p>
+            </div>
+            <div class="maze-layout">
+                <div class="maze-board-wrap">
+                    <div class="maze-status" id="pymaze3Status">Robot menunggu instruksi...</div>
+                    <div class="maze-board no-grid" id="pymaze3Board"></div>
+                </div>
+                <div class="maze-console">
+                    <h3>Function Program</h3>
+                    <div class="function-palette" data-target="pymaze3Program"><button data-command="up"
+                            draggable="true">moveUp()</button><button data-command="down"
+                            draggable="true">moveDown()</button><button data-command="left"
+                            draggable="true">moveLeft()</button><button data-command="right"
+                            draggable="true">moveRight()</button></div>
+                    <div class="program-label">Susunan instruksi</div>
+                    <div class="function-program" id="pymaze3Program"></div>
+                    <div class="button-row tight"><button class="run-btn" onclick="runPythonMaze('pymaze3')">Run
                             ▶</button><button class="secondary-btn" onclick="clearPythonMaze('pymaze3')">Clear</button>
-</div>
-<div class="feedback" id="pymaze3Feedback"></div>
-</div>
-</div>
-</section>
-<section class="slide scroll-code-slide" data-title="Lengkapi Program Struk">
-<div class="slide-head compact"><span class="kicker">PRINT BUILDER</span>
-<h2>Lengkapi Program Struk Lemonade</h2>
-<p>Drag pilihan teks ke bagian kosong, lalu klik Run.</p>
-</div>
-<div class="code-builder">
-<div class="code-panel">
-<h3>Kode Python</h3>
-<div class="code-font" style="line-height:2">
-                        print(<div class="drop-code" data-slot="0" id="receiptSlot1">Drop teks di sini</div>)<br/>
-                        print("Item : Lemonade")<br/>
-                        print(<div class="drop-code" data-slot="1" id="receiptSlot2">Drop teks di sini</div>)<br/>
-                        print("Price : Rp10.000 each")<br/>
-                        print("Total : Rp20.000")<br/>
-                        print("=============================")<br/>
+                    </div>
+                    <div class="feedback" id="pymaze3Feedback"></div>
+                </div>
+            </div>
+        </section>
+        <section class="slide scroll-code-slide" data-title="Lengkapi Program Struk">
+            <div class="slide-head compact"><span class="kicker">PRINT BUILDER</span>
+                <h2>Lengkapi Program Struk Lemonade</h2>
+                <p>Drag pilihan teks ke bagian kosong, lalu klik Run.</p>
+            </div>
+            <div class="code-builder">
+                <div class="code-panel">
+                    <h3>Kode Python</h3>
+                    <div class="code-font" style="line-height:2">
+                        print(<div class="drop-code" data-slot="0" id="receiptSlot1">Drop teks di sini</div>)<br />
+                        print("Item : Lemonade")<br />
+                        print(<div class="drop-code" data-slot="1" id="receiptSlot2">Drop teks di sini</div>)<br />
+                        print("Price : Rp10.000 each")<br />
+                        print("Total : Rp20.000")<br />
+                        print("=============================")<br />
                         print(<div class="drop-code" data-slot="2" id="receiptSlot3">Drop teks di sini</div>)</div>
-<div class="run-row"><button class="run-btn" onclick="runReceiptBuilder()">Run ▶</button><span class="code-feedback" id="receiptBuilderFeedback"></span></div>
-</div>
-<div>
-<div class="code-bank" id="receiptBank">
-<div class="code-choice" data-text='"===== FRESH DRINK STORE ====="' draggable="true">"=====
+                    <div class="run-row"><button class="run-btn" onclick="runReceiptBuilder()">Run ▶</button><span
+                            class="code-feedback" id="receiptBuilderFeedback"></span></div>
+                </div>
+                <div>
+                    <div class="code-bank" id="receiptBank">
+                        <div class="code-choice" data-text='"===== FRESH DRINK STORE ====="' draggable="true">"=====
                             FRESH DRINK STORE ====="</div>
-<div class="code-choice" data-text='"Quantity  : 2"' draggable="true">"Quantity : 2"</div>
-<div class="code-choice" data-text='"Thank you for shopping!"' draggable="true">"Thank you for
+                        <div class="code-choice" data-text='"Quantity  : 2"' draggable="true">"Quantity : 2"</div>
+                        <div class="code-choice" data-text='"Thank you for shopping!"' draggable="true">"Thank you for
                             shopping!"</div>
-</div>
-<h3 style="margin:15px 0 8px">Output</h3>
-<div class="receipt-output" id="receiptBuilderOutput">
-===== FRESH DRINK STORE =====
-Item      : Lemonade
-Quantity  : 2
-Price     : Rp10.000 each
-Total     : Rp20.000
-=============================
-Thank you for shopping!
-</div>
-</div>
-</div>
-</section>
-<section class="slide scroll-code-slide" data-title="Susun Program Cara Membuat Lemonade">
-<div class="slide-head compact"><span class="kicker">CODE SEQUENCE</span>
-<h2>Susun Program Sesuai Urutan Output</h2>
-<p>Geser baris kode hingga langkah membuat lemonade tampil berurutan.</p>
-</div>
-<div class="code-activity">
-<div class="code-panel">
-<h3>Program Python</h3>
-<div class="sequence-code-zone" id="lemonSequence">
-<div class="sequence-line" data-order="3" draggable="true">print("3. Add sugar and water.")
+                    </div>
+                    <h3 style="margin:15px 0 8px">Output</h3>
+                    <div class="receipt-output" id="receiptBuilderOutput">
+                        ===== FRESH DRINK STORE =====
+                        Item : Lemonade
+                        Quantity : 2
+                        Price : Rp10.000 each
+                        Total : Rp20.000
+                        =============================
+                        Thank you for shopping!
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="slide scroll-code-slide" data-title="Susun Program Cara Membuat Lemonade">
+            <div class="slide-head compact"><span class="kicker">CODE SEQUENCE</span>
+                <h2>Susun Program Sesuai Urutan Output</h2>
+                <p>Geser baris kode hingga langkah membuat lemonade tampil berurutan.</p>
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>Program Python</h3>
+                    <div class="sequence-code-zone" id="lemonSequence">
+                        <div class="sequence-line" data-order="3" draggable="true">print("3. Add sugar and water.")
                         </div>
-<div class="sequence-line" data-order="0" draggable="true">print("How to Make Lemonade")</div>
-<div class="sequence-line" data-order="5" draggable="true">print("5. Add ice cubes and enjoy!")
+                        <div class="sequence-line" data-order="0" draggable="true">print("How to Make Lemonade")</div>
+                        <div class="sequence-line" data-order="5" draggable="true">print("5. Add ice cubes and enjoy!")
                         </div>
-<div class="sequence-line" data-order="1" draggable="true">print("1. Prepare a glass.")</div>
-<div class="sequence-line" data-order="4" draggable="true">print("4. Stir well.")</div>
-<div class="sequence-line" data-order="2" draggable="true">print("2. Add lemon juice.")</div>
-</div>
-<div class="run-row"><button class="run-btn" onclick="runSequenceCode()">Run ▶</button><button class="secondary-btn" onclick="shuffleSequence()">Acak</button><span class="code-feedback" id="lemonSequenceFeedback"></span></div>
-</div>
-<div class="output-panel">
-<h3>Target Output</h3>
-<div class="terminal">
-How to Make Lemonade
-1. Prepare a glass.
-2. Add lemon juice.
-3. Add sugar and water.
-4. Stir well.
-5. Add ice cubes and enjoy!</div>
-</div>
-</div>
-</section>
-<section class="slide" data-title="Tulis Program Hello World">
-<div class="slide-head compact"><span class="kicker">PYTHON PRACTICE 1</span>
-<h2>Tampilkan Tulisan <span class="code-font">Hello World!</span></h2>
-<p>Tulis kode Python di editor tanpa melihat contoh. Klik Run untuk memeriksa hasilnya.</p>
-</div>
-<div class="code-activity">
-<div class="code-panel">
-<h3>Editor</h3><textarea class="code-editor" id="helloEditor" placeholder="Tulis kode Python di sini..." spellcheck="false"></textarea>
-<div class="code-hint">Hint: gunakan fungsi print() dan letakkan teks di dalam tanda kutip.</div><div class="run-row"><button class="run-btn" onclick="runExactChallenge('helloEditor','helloOutput','helloFeedback','Hello World!')">Run
+                        <div class="sequence-line" data-order="1" draggable="true">print("1. Prepare a glass.")</div>
+                        <div class="sequence-line" data-order="4" draggable="true">print("4. Stir well.")</div>
+                        <div class="sequence-line" data-order="2" draggable="true">print("2. Add lemon juice.")</div>
+                    </div>
+                    <div class="run-row"><button class="run-btn" onclick="runSequenceCode()">Run ▶</button><button
+                            class="secondary-btn" onclick="shuffleSequence()">Acak</button><span class="code-feedback"
+                            id="lemonSequenceFeedback"></span></div>
+                </div>
+                <div class="output-panel">
+                    <h3>Target Output</h3>
+                    <div class="terminal">
+                        How to Make Lemonade
+                        1. Prepare a glass.
+                        2. Add lemon juice.
+                        3. Add sugar and water.
+                        4. Stir well.
+                        5. Add ice cubes and enjoy!</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Tulis Program Hello World">
+            <div class="slide-head compact"><span class="kicker">PYTHON PRACTICE 1</span>
+                <h2>Tampilkan Tulisan <span class="code-font">Hello World!</span></h2>
+                <p>Tulis kode Python di editor tanpa melihat contoh. Klik Run untuk memeriksa hasilnya.</p>
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>Editor</h3><textarea class="code-editor" id="helloEditor"
+                        placeholder="Tulis kode Python di sini..." spellcheck="false"></textarea>
+                    <div class="code-hint">Hint: gunakan fungsi print() dan letakkan teks di dalam tanda kutip.</div>
+                    <div class="run-row"><button class="run-btn"
+                            onclick="runExactChallenge('helloEditor','helloOutput','helloFeedback','Hello World!')">Run
                             ▶</button><span class="code-feedback" id="helloFeedback"></span></div>
-</div>
-<div class="output-panel">
-<h3>Target Output</h3>
-<div class="terminal target-terminal" id="helloOutput">Hello World!</div>
-</div>
-</div>
-</section>
-<section class="slide" data-title="Tulis Output Tiga Baris">
-<div class="slide-head compact"><span class="kicker">PYTHON PRACTICE 2</span>
-<h2>Buat Tiga Baris Output</h2>
-<p>Setiap kalimat harus muncul pada baris yang berbeda.</p>
-</div>
-<div class="code-activity">
-<div class="code-panel">
-<h3>Editor</h3><textarea class="code-editor" id="welcomeEditor" placeholder="Tulis programmu..." spellcheck="false"></textarea>
-<div class="code-hint">Hint: gunakan tiga baris print(). Setiap kalimat harus ditulis pada baris kode yang berbeda.</div><div class="run-row"><button class="run-btn" onclick="runExactChallenge('welcomeEditor','welcomeOutput','welcomeFeedback','Hello World!\nWelcome to Python\nEnjoy!')">Run
+                </div>
+                <div class="output-panel">
+                    <h3>Target Output</h3>
+                    <div class="terminal target-terminal" id="helloOutput">Hello World!</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Tulis Output Tiga Baris">
+            <div class="slide-head compact"><span class="kicker">PYTHON PRACTICE 2</span>
+                <h2>Buat Tiga Baris Output</h2>
+                <p>Setiap kalimat harus muncul pada baris yang berbeda.</p>
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>Editor</h3><textarea class="code-editor" id="welcomeEditor" placeholder="Tulis programmu..."
+                        spellcheck="false"></textarea>
+                    <div class="code-hint">Hint: gunakan tiga baris print(). Setiap kalimat harus ditulis pada baris
+                        kode yang berbeda.</div>
+                    <div class="run-row"><button class="run-btn"
+                            onclick="runExactChallenge('welcomeEditor','welcomeOutput','welcomeFeedback','Hello World!\nWelcome to Python\nEnjoy!')">Run
                             ▶</button><span class="code-feedback" id="welcomeFeedback"></span></div>
-</div>
-<div class="output-panel">
-<h3>Target Output</h3>
-<div class="terminal target-terminal" id="welcomeOutput">Hello World!
-Welcome to Python
-Enjoy!</div>
-</div>
-</div>
-</section>
-<section class="slide ascii-output-slide" data-title="Membuat Layout dengan Print">
-<div class="slide-head compact"><span class="kicker">PYTHON PRACTICE 3</span>
-<h2>Buat Output Lemonade Day</h2>
-<p>Gunakan satu <span class="code-font">print()</span> untuk setiap baris. Gunakan tombol hint hanya
+                </div>
+                <div class="output-panel">
+                    <h3>Target Output</h3>
+                    <div class="terminal target-terminal" id="welcomeOutput">Hello World!
+                        Welcome to Python
+                        Enjoy!</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide ascii-output-slide" data-title="Membuat Layout dengan Print">
+            <div class="slide-head compact"><span class="kicker">PYTHON PRACTICE 3</span>
+                <h2>Buat Output Lemonade Day</h2>
+                <p>Gunakan satu <span class="code-font">print()</span> untuk setiap baris. Gunakan tombol hint hanya
                     jika diperlukan.</p>
-</div>
-<div class="code-activity">
-<div class="code-panel">
-<h3>Editor</h3><textarea class="code-editor" id="asciiEditor" placeholder="Tulis semua baris print() di sini..." spellcheck="false"></textarea>
-<div class="code-hint always-visible">Petunjuk awal: buat satu print() untuk setiap baris. Salin semua simbol, spasi, dan teks agar bentuk kotaknya sama.</div><div class="run-row"><button class="run-btn" onclick="runExactChallenge('asciiEditor','asciiOutput','asciiFeedback',ASCII_TARGET)">Run
-                            ▶</button><button class="secondary-btn" onclick="showAsciiHint()">Hint</button><span class="code-feedback" id="asciiFeedback"></span></div>
-<div class="notice hidden code-font" id="asciiHint"></div>
-</div>
-<div class="output-panel">
-<h3>Target Output</h3>
-<div class="terminal target-terminal ascii-target" id="asciiOutput">+------------------------------+
-|        LEMONADE DAY          |
-+------------------------------+
-| Drink   : Fresh Lemonade     |
-| Amount  : 2 Glasses          |
-| Flavor  : Sweet and Sour     |
-| Topping : Ice Cubes          |
-+------------------------------+
-|     Enjoy your drinks!       |
-+------------------------------+</div>
-</div>
-</div>
-</section>
-<section class="slide" data-title="Python Menghitung Ekspresi">
-<div class="slide-head compact"><span class="kicker">DRAG THE CODE</span>
-<h2>Buat Komputer Menghitung 112 + 24</h2>
-<p>Susun dua baris kode. Jangan menuliskan hasil 136 secara langsung—biarkan Python menghitungnya.</p>
-</div>
-<div class="code-builder">
-<div class="code-panel">
-<h3>Program</h3>
-<div class="drop-code" data-slot="0" id="mathSlot1">Baris pertama</div>
-<div class="drop-code" data-slot="1" id="mathSlot2" style="margin-top:10px">Baris kedua</div>
-<div class="code-hint">Hint: baris pertama menampilkan teks “112 + 24 =”. Baris kedua meminta Python menghitung 112 + 24.</div><div class="run-row"><button class="run-btn" onclick="runMathBuilder()">Run ▶</button><span class="code-feedback" id="mathBuilderFeedback"></span></div>
-</div>
-<div>
-<div class="code-bank" id="mathBank">
-<div class="code-choice" data-text='print("112 + 24 =")' draggable="true">print("112 + 24 =")
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>Editor</h3><textarea class="code-editor" id="asciiEditor"
+                        placeholder="Tulis semua baris print() di sini..." spellcheck="false"></textarea>
+                    <div class="code-hint always-visible">Petunjuk awal: buat satu print() untuk setiap baris. Salin
+                        semua simbol, spasi, dan teks agar bentuk kotaknya sama.</div>
+                    <div class="run-row"><button class="run-btn"
+                            onclick="runExactChallenge('asciiEditor','asciiOutput','asciiFeedback',ASCII_TARGET)">Run
+                            ▶</button><button class="secondary-btn" onclick="showAsciiHint()">Hint</button><span
+                            class="code-feedback" id="asciiFeedback"></span></div>
+                    <div class="notice hidden code-font" id="asciiHint"></div>
+                </div>
+                <div class="output-panel">
+                    <h3>Target Output</h3>
+                    <div class="terminal target-terminal ascii-target" id="asciiOutput">+------------------------------+
+                        | LEMONADE DAY |
+                        +------------------------------+
+                        | Drink : Fresh Lemonade |
+                        | Amount : 2 Glasses |
+                        | Flavor : Sweet and Sour |
+                        | Topping : Ice Cubes |
+                        +------------------------------+
+                        | Enjoy your drinks! |
+                        +------------------------------+</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Python Menghitung Ekspresi">
+            <div class="slide-head compact"><span class="kicker">DRAG THE CODE</span>
+                <h2>Buat Komputer Menghitung 112 + 24</h2>
+                <p>Susun dua baris kode. Jangan menuliskan hasil 136 secara langsung—biarkan Python menghitungnya.</p>
+            </div>
+            <div class="code-builder">
+                <div class="code-panel">
+                    <h3>Program</h3>
+                    <div class="drop-code" data-slot="0" id="mathSlot1">Baris pertama</div>
+                    <div class="drop-code" data-slot="1" id="mathSlot2" style="margin-top:10px">Baris kedua</div>
+                    <div class="code-hint">Hint: baris pertama menampilkan teks “112 + 24 =”. Baris kedua meminta Python
+                        menghitung 112 + 24.</div>
+                    <div class="run-row"><button class="run-btn" onclick="runMathBuilder()">Run ▶</button><span
+                            class="code-feedback" id="mathBuilderFeedback"></span></div>
+                </div>
+                <div>
+                    <div class="code-bank" id="mathBank">
+                        <div class="code-choice" data-text='print("112 + 24 =")' draggable="true">print("112 + 24 =")
                         </div>
-<div class="code-choice" data-text="print(112 + 24)" draggable="true">print(112 + 24)</div>
-<div class="code-choice" data-text="print(112 - 24)" draggable="true">print(112 - 24)</div>
-<div class="code-choice" data-text='print("112 + 24")' draggable="true">print("112 + 24")</div>
-</div>
-<h3 style="margin:15px 0 8px">Target Output</h3>
-<div class="terminal target-terminal" id="mathBuilderOutput">112 + 24 =
-136</div>
-</div>
-</div>
-</section>
-<section class="slide" data-title="Pilih Kode yang Menghasilkan 1342">
-<div class="slide-head center"><span class="kicker">PREDICT THE OUTPUT</span>
-<h2>Output yang Dicari: <span class="code-font">1342</span></h2>
-<p>Klik kode yang menghitung dan menghasilkan angka tersebut.</p>
-</div>
-<div class="math-choice-grid" id="math1342"><button onclick="checkMathChoice(this,false)">print("1200 +
-                    142")</button><button onclick="checkMathChoice(this,true)">print(1200 + 142)</button><button onclick="checkMathChoice(this,false)">print(1340 - 2)</button><button onclick="checkMathChoice(this,false)">print(1300 + 24)</button></div>
-<div class="feedback" id="math1342Feedback"></div>
-</section>
-<section class="slide achievement-slide" data-title="Program yang Jelas dan Ringkas">
-<div class="achievement-wall"><span class="kicker">CHECKPOINT</span>
-<h2>Kamu Sudah Bisa Memberi Instruksi kepada Komputer</h2>
-<div class="achievement-grid">
-<div>⌨️<b>Menulis print()</b></div>
-<div>🧾<b>Membuat output rapi</b></div>
-<div>➕<b>Meminta komputer menghitung</b></div>
-<div>🧠<b>Menyusun langkah</b></div>
-</div>
-<p>Selanjutnya, kita melihat cara membuat program lebih singkat, mudah dibaca, dan tidak menulis
+                        <div class="code-choice" data-text="print(112 + 24)" draggable="true">print(112 + 24)</div>
+                        <div class="code-choice" data-text="print(112 - 24)" draggable="true">print(112 - 24)</div>
+                        <div class="code-choice" data-text='print("112 + 24")' draggable="true">print("112 + 24")</div>
+                    </div>
+                    <h3 style="margin:15px 0 8px">Target Output</h3>
+                    <div class="terminal target-terminal" id="mathBuilderOutput">112 + 24 =
+                        136</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Pilih Kode yang Menghasilkan 1342">
+            <div class="slide-head center"><span class="kicker">PREDICT THE OUTPUT</span>
+                <h2>Output yang Dicari: <span class="code-font">1342</span></h2>
+                <p>Klik kode yang menghitung dan menghasilkan angka tersebut.</p>
+            </div>
+            <div class="math-choice-grid" id="math1342"><button onclick="checkMathChoice(this,false)">print("1200 +
+                    142")</button><button onclick="checkMathChoice(this,true)">print(1200 + 142)</button><button
+                    onclick="checkMathChoice(this,false)">print(1340 - 2)</button><button
+                    onclick="checkMathChoice(this,false)">print(1300 + 24)</button></div>
+            <div class="feedback" id="math1342Feedback"></div>
+        </section>
+        <section class="slide achievement-slide" data-title="Program yang Jelas dan Ringkas">
+            <div class="achievement-wall"><span class="kicker">CHECKPOINT</span>
+                <h2>Kamu Sudah Bisa Memberi Instruksi kepada Komputer</h2>
+                <div class="achievement-grid">
+                    <div>⌨️<b>Menulis print()</b></div>
+                    <div>🧾<b>Membuat output rapi</b></div>
+                    <div>➕<b>Meminta komputer menghitung</b></div>
+                    <div>🧠<b>Menyusun langkah</b></div>
+                </div>
+                <p>Selanjutnya, kita melihat cara membuat program lebih singkat, mudah dibaca, dan tidak menulis
                     instruksi yang sama berulang kali.</p>
-</div>
-</section>
-<section class="slide" data-title="Looping: Output Sama, Kode Lebih Ringkas">
-<div class="slide-head compact center"><span class="kicker">LOOPING CONCEPT</span>
-<h2>Dua Program, Output yang Sama</h2>
-<p>Run kedua program dan bandingkan jumlah baris kodenya.</p>
-</div>
-<div class="loop-compare">
-<div class="loop-card"><span class="loop-label">Tanpa Loop</span>
-<pre class="mini-code">print("Hello World!")
+            </div>
+        </section>
+        <section class="slide" data-title="Looping: Output Sama, Kode Lebih Ringkas">
+            <div class="slide-head compact center"><span class="kicker">LOOPING CONCEPT</span>
+                <h2>Dua Program, Output yang Sama</h2>
+                <p>Run kedua program dan bandingkan jumlah baris kodenya.</p>
+            </div>
+            <div class="loop-compare">
+                <div class="loop-card"><span class="loop-label">Tanpa Loop</span>
+                    <pre class="mini-code">print("Hello World!")
 print("Hello World!")
 print("Hello World!")
 print("Hello World!")
-print("Hello World!")</pre><button class="run-btn" onclick="runFixedCode('loopLong1','print(&quot;Hello World!&quot;)\nprint(&quot;Hello World!&quot;)\nprint(&quot;Hello World!&quot;)\nprint(&quot;Hello World!&quot;)\nprint(&quot;Hello World!&quot;)')">Run</button>
-<div class="mini-terminal" id="loopLong1"></div>
-</div>
-<div class="loop-card"><span class="loop-label">Dengan Loop</span>
-<pre class="mini-code">for i in range(5):
-    print("Hello World!")</pre><button class="run-btn" onclick="runFixedCode('loopShort1','for i in range(5):\n    print(&quot;Hello World!&quot;)')">Run</button>
-<div class="mini-terminal" id="loopShort1"></div>
-</div>
-</div>
-</section>
-<section class="slide" data-title="Looping untuk Output yang Berubah">
-<div class="slide-head compact center"><span class="kicker">LOOPING CONCEPT 2</span>
-<h2>Loop Juga Bisa Menghasilkan Nilai Berbeda</h2>
-<p>Kedua program menampilkan angka 1 sampai 5.</p>
-</div>
-<div class="loop-compare">
-<div class="loop-card"><span class="loop-label">Tanpa Loop</span>
-<pre class="mini-code">print(1)
+print("Hello World!")</pre><button class="run-btn"
+                        onclick="runFixedCode('loopLong1','print(&quot;Hello World!&quot;)\nprint(&quot;Hello World!&quot;)\nprint(&quot;Hello World!&quot;)\nprint(&quot;Hello World!&quot;)\nprint(&quot;Hello World!&quot;)')">Run</button>
+                    <div class="mini-terminal" id="loopLong1"></div>
+                </div>
+                <div class="loop-card"><span class="loop-label">Dengan Loop</span>
+                    <pre class="mini-code">for i in range(5):
+    print("Hello World!")</pre><button class="run-btn"
+                        onclick="runFixedCode('loopShort1','for i in range(5):\n    print(&quot;Hello World!&quot;)')">Run</button>
+                    <div class="mini-terminal" id="loopShort1"></div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Looping untuk Output yang Berubah">
+            <div class="slide-head compact center"><span class="kicker">LOOPING CONCEPT 2</span>
+                <h2>Loop Juga Bisa Menghasilkan Nilai Berbeda</h2>
+                <p>Kedua program menampilkan angka 1 sampai 5.</p>
+            </div>
+            <div class="loop-compare">
+                <div class="loop-card"><span class="loop-label">Tanpa Loop</span>
+                    <pre class="mini-code">print(1)
 print(2)
 print(3)
 print(4)
-print(5)</pre><button class="run-btn" onclick="runFixedCode('loopLong2','print(1)\nprint(2)\nprint(3)\nprint(4)\nprint(5)')">Run</button>
-<div class="mini-terminal" id="loopLong2"></div>
-</div>
-<div class="loop-card"><span class="loop-label">Dengan Loop</span>
-<pre class="mini-code">for i in range(1, 6):
-    print(i)</pre><button class="run-btn" onclick="runFixedCode('loopShort2','for i in range(1, 6):\n    print(i)')">Run</button>
-<div class="mini-terminal" id="loopShort2"></div>
-</div>
-</div>
-<div class="baby-explain">Looping menjalankan pola yang sama beberapa kali. Nilai <span class="code-font">i</span> dapat berubah pada setiap pengulangan.</div>
-</section>
-<section class="slide" data-title="Ketik Program Loop Pertamamu">
-<div class="slide-head compact"><span class="kicker">GUIDED CODING</span>
-<h2>Tampilkan Kalimat Empat Kali</h2>
-<p>Ikuti shadow text di editor, lalu klik Run.</p>
-</div>
-<div class="code-activity">
-<div class="code-panel">
-<h3>Editor</h3><textarea class="code-editor ghost-code" id="guidedLoopEditor" placeholder='for i in range(4):
+print(5)</pre><button class="run-btn"
+                        onclick="runFixedCode('loopLong2','print(1)\nprint(2)\nprint(3)\nprint(4)\nprint(5)')">Run</button>
+                    <div class="mini-terminal" id="loopLong2"></div>
+                </div>
+                <div class="loop-card"><span class="loop-label">Dengan Loop</span>
+                    <pre class="mini-code">for i in range(1, 6):
+    print(i)</pre><button class="run-btn"
+                        onclick="runFixedCode('loopShort2','for i in range(1, 6):\n    print(i)')">Run</button>
+                    <div class="mini-terminal" id="loopShort2"></div>
+                </div>
+            </div>
+            <div class="baby-explain">Looping menjalankan pola yang sama beberapa kali. Nilai <span
+                    class="code-font">i</span> dapat berubah pada setiap pengulangan.</div>
+        </section>
+        <section class="slide" data-title="Ketik Program Loop Pertamamu">
+            <div class="slide-head compact"><span class="kicker">GUIDED CODING</span>
+                <h2>Tampilkan Kalimat Empat Kali</h2>
+                <p>Ikuti shadow text di editor, lalu klik Run.</p>
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>Editor</h3><textarea class="code-editor ghost-code" id="guidedLoopEditor" placeholder='for i in range(4):
     print("Programming with Python")' spellcheck="false"></textarea>
-<div class="code-hint">Hint: ikuti shadow text. Perhatikan titik dua setelah range(4) dan indentasi pada baris print().</div><div class="run-row"><button class="run-btn" onclick="runExactChallenge('guidedLoopEditor','guidedLoopOutput','guidedLoopFeedback','Programming with Python\nProgramming with Python\nProgramming with Python\nProgramming with Python')">Run
+                    <div class="code-hint">Hint: ikuti shadow text. Perhatikan titik dua setelah range(4) dan indentasi
+                        pada baris print().</div>
+                    <div class="run-row"><button class="run-btn"
+                            onclick="runExactChallenge('guidedLoopEditor','guidedLoopOutput','guidedLoopFeedback','Programming with Python\nProgramming with Python\nProgramming with Python\nProgramming with Python')">Run
                             ▶</button><span class="code-feedback" id="guidedLoopFeedback"></span></div>
-</div>
-<div class="output-panel">
-<h3>Target Output</h3>
-<div class="terminal target-terminal" id="guidedLoopOutput">Programming with Python
-Programming with Python
-Programming with Python
-Programming with Python</div>
-</div>
-</div>
-</section>
-<section class="slide" data-title="Debugging Mesin Struk 1">
-<div class="slide-head compact"><span class="kicker">DEBUGGING MISSION 1</span>
-<h2>Mesin Struk Toko Buah Mengalami Error</h2>
-<p>Edit kode sampai program dapat dijalankan dan output sesuai target.</p>
-</div>
-<div class="code-activity">
-<div class="code-panel">
-<h3>Kode Bermasalah</h3><textarea class="code-editor" id="debugBill1" spellcheck="false">print("===== TOKO BUAH SEGAR =====")
+                </div>
+                <div class="output-panel">
+                    <h3>Target Output</h3>
+                    <div class="terminal target-terminal" id="guidedLoopOutput">Programming with Python
+                        Programming with Python
+                        Programming with Python
+                        Programming with Python</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Debugging Mesin Struk 1">
+            <div class="slide-head compact"><span class="kicker">DEBUGGING MISSION 1</span>
+                <h2>Mesin Struk Toko Buah Mengalami Error</h2>
+                <p>Edit kode sampai program dapat dijalankan dan output sesuai target.</p>
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>Kode Bermasalah</h3><textarea class="code-editor" id="debugBill1" spellcheck="false">print("===== TOKO BUAH SEGAR =====")
 print("Item      : Apel)
 print("Quantity  : 3")
 print("Total     : Rp30.000")
 print("Terima kasih!")</textarea>
-<div class="code-hint">Hint: periksa tanda kutip yang belum ditutup pada baris Item.</div><div class="run-row"><button class="run-btn" onclick="runExactChallenge('debugBill1','debugBill1Output','debugBill1Feedback','===== TOKO BUAH SEGAR =====\nItem      : Apel\nQuantity  : 3\nTotal     : Rp30.000\nTerima kasih!')">Run
+                    <div class="code-hint">Hint: periksa tanda kutip yang belum ditutup pada baris Item.</div>
+                    <div class="run-row"><button class="run-btn"
+                            onclick="runExactChallenge('debugBill1','debugBill1Output','debugBill1Feedback','===== TOKO BUAH SEGAR =====\nItem      : Apel\nQuantity  : 3\nTotal     : Rp30.000\nTerima kasih!')">Run
                             ▶</button><span class="code-feedback" id="debugBill1Feedback"></span></div>
-</div>
-<div class="output-panel">
-<h3>Target Struk</h3>
-<div class="terminal target-terminal" id="debugBill1Output">===== TOKO BUAH SEGAR =====
-Item      : Apel
-Quantity  : 3
-Total     : Rp30.000
-Terima kasih!</div>
-</div>
-</div>
-</section>
-<section class="slide" data-title="Debugging Mesin Struk 2">
-<div class="slide-head compact"><span class="kicker">DEBUGGING MISSION 2</span>
-<h2>Program Berjalan, tetapi Hasilnya Salah</h2>
-<p>Tidak semua bug menampilkan pesan error. Periksa informasi pada struk.</p>
-</div>
-<div class="code-activity">
-<div class="code-panel">
-<h3>Kode Bermasalah</h3><textarea class="code-editor" id="debugBill2" spellcheck="false">print("===== TOKO BUAH SEGAR =====")
+                </div>
+                <div class="output-panel">
+                    <h3>Target Struk</h3>
+                    <div class="terminal target-terminal" id="debugBill1Output">===== TOKO BUAH SEGAR =====
+                        Item : Apel
+                        Quantity : 3
+                        Total : Rp30.000
+                        Terima kasih!</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Debugging Mesin Struk 2">
+            <div class="slide-head compact"><span class="kicker">DEBUGGING MISSION 2</span>
+                <h2>Program Berjalan, tetapi Hasilnya Salah</h2>
+                <p>Tidak semua bug menampilkan pesan error. Periksa informasi pada struk.</p>
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>Kode Bermasalah</h3><textarea class="code-editor" id="debugBill2" spellcheck="false">print("===== TOKO BUAH SEGAR =====")
 print("Item      : Jeruk")
 print("Quantity  : 4")
 print("Price     : Rp8.000")
 print("Total     : Rp24.000")
 print("Terima kasih!")</textarea>
-<div class="code-hint">Hint: program dapat berjalan, tetapi nilai Total belum sesuai dengan Quantity × Price.</div><div class="run-row"><button class="run-btn" onclick="runExactChallenge('debugBill2','debugBill2Output','debugBill2Feedback','===== TOKO BUAH SEGAR =====\nItem      : Jeruk\nQuantity  : 4\nPrice     : Rp8.000\nTotal     : Rp32.000\nTerima kasih!')">Run
+                    <div class="code-hint">Hint: program dapat berjalan, tetapi nilai Total belum sesuai dengan Quantity
+                        × Price.</div>
+                    <div class="run-row"><button class="run-btn"
+                            onclick="runExactChallenge('debugBill2','debugBill2Output','debugBill2Feedback','===== TOKO BUAH SEGAR =====\nItem      : Jeruk\nQuantity  : 4\nPrice     : Rp8.000\nTotal     : Rp32.000\nTerima kasih!')">Run
                             ▶</button><span class="code-feedback" id="debugBill2Feedback"></span></div>
-</div>
-<div class="output-panel">
-<h3>Target Struk</h3>
-<div class="terminal target-terminal" id="debugBill2Output">===== TOKO BUAH SEGAR =====
-Item      : Jeruk
-Quantity  : 4
-Price     : Rp8.000
-Total     : Rp32.000
-Terima kasih!</div>
-</div>
-</div>
-</section>
-<section class="slide achievement-slide" data-title="Kemampuan yang Sudah Dilatih">
-<div class="achievement-wall"><span class="kicker">PROGRESS CHECK</span>
-<h2>Tanpa Disadari, Kamu Sudah Berlatih...</h2>
-<div class="achievement-grid">
-<div>🧠<b>Menyusun algoritma</b></div>
-<div>⌨️<b>Menulis program</b></div>
-<div>🔁<b>Menggunakan loop</b></div>
-<div>🐞<b>Memperbaiki bug</b></div>
-</div>
-<p>Semua kegiatan tersebut adalah cara berkomunikasi dengan komputer melalui instruksi yang dapat
-                    dipahami.</p>
-</div>
-</section>
-<section class="slide soft-blue" data-title="Prepare Your Environment">
-<div class="single-focus">
-<div class="giant-emoji">🖥️</div><span class="kicker">PREPARE YOUR ENVIRONMENT</span>
-<h2>Di Mana Kita Menulis Program?</h2>
-<p>Kita membutuhkan tempat untuk menulis file kode, menyimpannya, lalu meminta komputer menjalankannya.
-                </p>
-<div class="question-bubble centered">Menurutmu, software seperti apa yang diperlukan seorang
-                    programmer?</div>
-</div>
-</section>
-<section class="slide" data-title="Dari Word Processor ke Code Editor">
-<div class="split-layout">
-<div class="mature-card" style="text-align:center">
-<div class="office-logo-row"><img alt="Microsoft Word" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Microsoft_Office_Word_%282025%E2%80%93present%29.svg/1280px-Microsoft_Office_Word_%282025%E2%80%93present%29.svg.png"/><img alt="WPS Office" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnnoUFgMICQrsC6QEC7mUolbDW9j0N3sYbD6pzetweifMCuP3vcZdzrcI&amp;s=10"/></div>
-<h2 style="font-size:2.3rem">Word / WPS Office</h2>
-<p>Digunakan untuk menulis dokumen, menyimpan, membagikan, dan mencetak.</p>
-</div>
-<div><span class="kicker">SIMILAR IDEA, DIFFERENT TOOL</span>
-<h2>Program Juga Perlu Tempat untuk Ditulis</h2>
-<p class="lead">Kode tidak ditulis di Word. Programmer menggunakan <b>code editor</b> yang dapat
-                        mengenali file dan struktur bahasa pemrograman.</p>
-<div class="simple-rule">Dokumen → Word Processor<br/>Kode Program → Code Editor</div>
-</div>
-</div>
-</section>
-<section class="slide" data-title="Apa Itu VS Code?">
-<div class="download-card">
-<img alt="Visual Studio Code" class="tool-logo-large" src="https://www.codingexercises.com/img/2021-02-24/vs-code-logo.png"/>
-<div><span class="kicker">VISUAL STUDIO CODE</span>
-<h2>Code Editor untuk Menulis Program</h2>
-<p class="lead">VS Code adalah aplikasi untuk membuka folder project, membuat file kode, membaca
-                        struktur program, dan menggunakan terminal dalam satu tempat.</p>
-<div class="hero-pills" style="justify-content:flex-start"><span>📁 Project Folder</span><span>⌨️
-                            Code Editor</span><span>▶ Run</span><span>🖥️ Terminal</span></div>
-</div>
-</div>
-</section>
-<section class="slide" data-title="Checklist Sebelum Mulai">
-<div class="slide-head center"><span class="kicker">DEVICE READINESS</span>
-<h2>Apa Saja yang Perlu Disiapkan?</h2>
-<p>Klik setiap item setelah perangkatmu siap.</p>
-</div>
-<div class="install-checklist" id="setupChecklist"><button class="install-check" onclick="toggleCheck(this)"><span>🐍</span><b>Python Terpasang</b>
-<p>Gunakan versi Python stabil yang sesuai Windows.</p>
-</button><button class="install-check" onclick="toggleCheck(this)"><span>✅</span><b>Python Dapat
-                        Dijalankan</b>
-<p>Periksa versi melalui Command Prompt.</p>
-</button><button class="install-check" onclick="toggleCheck(this)"><span>🖥️</span><b>VS Code
-                        Terpasang</b>
-<p>Code editor siap dibuka.</p>
-</button><button class="install-check" onclick="toggleCheck(this)"><span>📁</span><b>Folder Belajar
-                        Disiapkan</b>
-<p>Tempat menyimpan semua file Python.</p>
-</button></div>
-<div class="feedback" id="setupFeedback">0 dari 4 siap.</div>
-</section>
-<section class="slide soft-blue" data-title="Apa Itu Python?">
-<div class="single-focus" style="max-width:950px"><img alt="Python" class="python-logo-large" src="https://www.python.org/static/community_logos/python-logo-master-v3-TM.png"/><span class="kicker">PROGRAMMING LANGUAGE</span>
-<h2>Pernah Mendengar Python?</h2>
-<p>Python adalah bahasa pemrograman yang digunakan untuk menuliskan instruksi agar komputer dapat
-                    menjalankan tugas.</p>
-<div class="question-bubble centered">Apa yang pertama kali kamu bayangkan ketika mendengar kata Python?
                 </div>
-</div>
-</section>
-<section class="slide" data-title="Python sebagai Bahasa Komputer">
-<div class="communication-flow">
-<div class="human-side"><span>🗣️</span><b>Bahasa Manusia</b>
-<p>Bahasa Indonesia, Inggris, Jepang, dan lainnya.</p>
-</div>
-<div class="code-bridge" style="background:linear-gradient(135deg,#3776ab,#ffd343);color:#20324a">
-<span>🐍</span><b>PYTHON</b><small>Bahasa untuk menulis instruksi</small></div>
-<div class="computer-side"><span>💻</span><b>Komputer</b>
-<p>Membaca aturan bahasa pemrograman.</p>
-</div>
-</div>
-<div class="bottom-message">Agar instruksi dapat dijalankan, kita harus menulis dengan aturan dan syntax
+                <div class="output-panel">
+                    <h3>Target Struk</h3>
+                    <div class="terminal target-terminal" id="debugBill2Output">===== TOKO BUAH SEGAR =====
+                        Item : Jeruk
+                        Quantity : 4
+                        Price : Rp8.000
+                        Total : Rp32.000
+                        Terima kasih!</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide achievement-slide" data-title="Kemampuan yang Sudah Dilatih">
+            <div class="achievement-wall"><span class="kicker">PROGRESS CHECK</span>
+                <h2>Tanpa Disadari, Kamu Sudah Berlatih...</h2>
+                <div class="achievement-grid">
+                    <div>🧠<b>Menyusun algoritma</b></div>
+                    <div>⌨️<b>Menulis program</b></div>
+                    <div>🔁<b>Menggunakan loop</b></div>
+                    <div>🐞<b>Memperbaiki bug</b></div>
+                </div>
+                <p>Semua kegiatan tersebut adalah cara berkomunikasi dengan komputer melalui instruksi yang dapat
+                    dipahami.</p>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Prepare Your Environment">
+            <div class="single-focus">
+                <div class="giant-emoji">🖥️</div><span class="kicker">PREPARE YOUR ENVIRONMENT</span>
+                <h2>Di Mana Kita Menulis Program?</h2>
+                <p>Kita membutuhkan tempat untuk menulis file kode, menyimpannya, lalu meminta komputer menjalankannya.
+                </p>
+                <div class="question-bubble centered">Menurutmu, software seperti apa yang diperlukan seorang
+                    programmer?</div>
+            </div>
+        </section>
+        <section class="slide" data-title="Dari Word Processor ke Code Editor">
+            <div class="split-layout">
+                <div class="mature-card" style="text-align:center">
+                    <div class="office-logo-row"><img alt="Microsoft Word"
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Microsoft_Office_Word_%282025%E2%80%93present%29.svg/1280px-Microsoft_Office_Word_%282025%E2%80%93present%29.svg.png" /><img
+                            alt="WPS Office"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnnoUFgMICQrsC6QEC7mUolbDW9j0N3sYbD6pzetweifMCuP3vcZdzrcI&amp;s=10" />
+                    </div>
+                    <h2 style="font-size:2.3rem">Word / WPS Office</h2>
+                    <p>Digunakan untuk menulis dokumen, menyimpan, membagikan, dan mencetak.</p>
+                </div>
+                <div><span class="kicker">SIMILAR IDEA, DIFFERENT TOOL</span>
+                    <h2>Program Juga Perlu Tempat untuk Ditulis</h2>
+                    <p class="lead">Kode tidak ditulis di Word. Programmer menggunakan <b>code editor</b> yang dapat
+                        mengenali file dan struktur bahasa pemrograman.</p>
+                    <div class="simple-rule">Dokumen → Word Processor<br />Kode Program → Code Editor</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Apa Itu VS Code?">
+            <div class="download-card">
+                <img alt="Visual Studio Code" class="tool-logo-large"
+                    src="https://www.codingexercises.com/img/2021-02-24/vs-code-logo.png" />
+                <div><span class="kicker">VISUAL STUDIO CODE</span>
+                    <h2>Code Editor untuk Menulis Program</h2>
+                    <p class="lead">VS Code adalah aplikasi untuk membuka folder project, membuat file kode, membaca
+                        struktur program, dan menggunakan terminal dalam satu tempat.</p>
+                    <div class="hero-pills" style="justify-content:flex-start"><span>📁 Project Folder</span><span>⌨️
+                            Code Editor</span><span>▶ Run</span><span>🖥️ Terminal</span></div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Checklist Sebelum Mulai">
+            <div class="slide-head center"><span class="kicker">DEVICE READINESS</span>
+                <h2>Apa Saja yang Perlu Disiapkan?</h2>
+                <p>Klik setiap item setelah perangkatmu siap.</p>
+            </div>
+            <div class="install-checklist" id="setupChecklist"><button class="install-check"
+                    onclick="toggleCheck(this)"><span>🐍</span><b>Python Terpasang</b>
+                    <p>Gunakan versi Python stabil yang sesuai Windows.</p>
+                </button><button class="install-check" onclick="toggleCheck(this)"><span>✅</span><b>Python Dapat
+                        Dijalankan</b>
+                    <p>Periksa versi melalui Command Prompt.</p>
+                </button><button class="install-check" onclick="toggleCheck(this)"><span>🖥️</span><b>VS Code
+                        Terpasang</b>
+                    <p>Code editor siap dibuka.</p>
+                </button><button class="install-check" onclick="toggleCheck(this)"><span>📁</span><b>Folder Belajar
+                        Disiapkan</b>
+                    <p>Tempat menyimpan semua file Python.</p>
+                </button></div>
+            <div class="feedback" id="setupFeedback">0 dari 4 siap.</div>
+        </section>
+        <section class="slide soft-blue" data-title="Apa Itu Python?">
+            <div class="single-focus" style="max-width:950px"><img alt="Python" class="python-logo-large"
+                    src="https://www.python.org/static/community_logos/python-logo-master-v3-TM.png" /><span
+                    class="kicker">PROGRAMMING LANGUAGE</span>
+                <h2>Pernah Mendengar Python?</h2>
+                <p>Python adalah bahasa pemrograman yang digunakan untuk menuliskan instruksi agar komputer dapat
+                    menjalankan tugas.</p>
+                <div class="question-bubble centered">Apa yang pertama kali kamu bayangkan ketika mendengar kata Python?
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Python sebagai Bahasa Komputer">
+            <div class="communication-flow">
+                <div class="human-side"><span>🗣️</span><b>Bahasa Manusia</b>
+                    <p>Bahasa Indonesia, Inggris, Jepang, dan lainnya.</p>
+                </div>
+                <div class="code-bridge" style="background:linear-gradient(135deg,#3776ab,#ffd343);color:#20324a">
+                    <span>🐍</span><b>PYTHON</b><small>Bahasa untuk menulis instruksi</small>
+                </div>
+                <div class="computer-side"><span>💻</span><b>Komputer</b>
+                    <p>Membaca aturan bahasa pemrograman.</p>
+                </div>
+            </div>
+            <div class="bottom-message">Agar instruksi dapat dijalankan, kita harus menulis dengan aturan dan syntax
                 yang dikenali Python.</div>
-</section>
-<section class="slide" data-title="Python di Dunia Teknologi">
-<div class="slide-head center"><span class="kicker">PYTHON IN TECHNOLOGY</span>
-<h2>Pernah Menggunakan Salah Satu Layanan Ini?</h2>
-<p>Python digunakan pada sebagian sistem dan proses di banyak perusahaan teknologi.</p>
-</div>
-<div class="logo-grid">
-<div class="logo-card"><img alt="YouTube" src="https://cdn.simpleicons.org/youtube/FF0000"/><b>YouTube</b></div>
-<div class="logo-card"><img alt="Spotify" src="https://cdn.simpleicons.org/spotify/1DB954"/><b>Spotify</b></div>
-<div class="logo-card"><img alt="Netflix" src="https://cdn.simpleicons.org/netflix/E50914"/><b>Netflix</b></div>
-<div class="logo-card"><img alt="Dropbox" src="https://cdn.simpleicons.org/dropbox/0061FF"/><b>Dropbox</b></div>
-</div>
-<p class="logo-disclaimer">Catatan: layanan besar biasanya menggunakan banyak bahasa dan teknologi
+        </section>
+        <section class="slide" data-title="Python di Dunia Teknologi">
+            <div class="slide-head center"><span class="kicker">PYTHON IN TECHNOLOGY</span>
+                <h2>Pernah Menggunakan Salah Satu Layanan Ini?</h2>
+                <p>Python digunakan pada sebagian sistem dan proses di banyak perusahaan teknologi.</p>
+            </div>
+            <div class="logo-grid">
+                <div class="logo-card"><img alt="YouTube"
+                        src="https://cdn.simpleicons.org/youtube/FF0000" /><b>YouTube</b></div>
+                <div class="logo-card"><img alt="Spotify"
+                        src="https://cdn.simpleicons.org/spotify/1DB954" /><b>Spotify</b></div>
+                <div class="logo-card"><img alt="Netflix"
+                        src="https://cdn.simpleicons.org/netflix/E50914" /><b>Netflix</b></div>
+                <div class="logo-card"><img alt="Dropbox"
+                        src="https://cdn.simpleicons.org/dropbox/0061FF" /><b>Dropbox</b></div>
+            </div>
+            <p class="logo-disclaimer">Catatan: layanan besar biasanya menggunakan banyak bahasa dan teknologi
                 sekaligus—bukan hanya Python.</p>
-</section>
-<section class="slide" data-title="Membuat Game dengan Pygame">
-<div class="slide-head center"><span class="kicker">PYTHON + PYGAME</span>
-<h2>Python Juga Dapat Digunakan untuk Membuat Game</h2>
-<p>Pygame adalah kumpulan modul Python untuk membuat game dan program multimedia.</p>
-</div>
-<div class="game-python-grid">
-<div class="game-python-card"><span>🐍</span>
-<h3>Snake Style</h3>
-<p>Gerakan, makanan, skor, dan collision.</p>
-</div>
-<div class="game-python-card"><span>🐦</span>
-<h3>Flappy Style</h3>
-<p>Physics sederhana, rintangan, dan score.</p>
-</div>
-<div class="game-python-card"><span>🟡</span>
-<h3>Arcade Maze</h3>
-<p>Maze, musuh, item, dan level.</p>
-</div>
-</div>
-<div class="simple-rule centered-rule">Game klasik seperti ini dapat dibuat ulang sebagai project belajar
+        </section>
+        <section class="slide" data-title="Membuat Game dengan Pygame">
+            <div class="slide-head center"><span class="kicker">PYTHON + PYGAME</span>
+                <h2>Python Juga Dapat Digunakan untuk Membuat Game</h2>
+                <p>Pygame adalah kumpulan modul Python untuk membuat game dan program multimedia.</p>
+            </div>
+            <div class="game-python-grid">
+                <div class="game-python-card"><span>🐍</span>
+                    <h3>Snake Style</h3>
+                    <p>Gerakan, makanan, skor, dan collision.</p>
+                </div>
+                <div class="game-python-card"><span>🐦</span>
+                    <h3>Flappy Style</h3>
+                    <p>Physics sederhana, rintangan, dan score.</p>
+                </div>
+                <div class="game-python-card"><span>🟡</span>
+                    <h3>Arcade Maze</h3>
+                    <p>Maze, musuh, item, dan level.</p>
+                </div>
+            </div>
+            <div class="simple-rule centered-rule">Game klasik seperti ini dapat dibuat ulang sebagai project belajar
                 menggunakan Python dan Pygame.</div>
-</section>
-<section class="slide language-image-slide" data-title="Bahasa Pemrograman Itu Banyak">
-<div class="slide-head center"><span class="kicker">PROGRAMMING LANGUAGES</span>
-<h2>Python Hanya Salah Satu Bahasa Pemrograman</h2>
-<p>Setiap bahasa memiliki aturan, alat, dan penggunaan yang berbeda.</p>
-</div><img alt="Berbagai bahasa pemrograman" class="programming-language-image" src="https://media.licdn.com/dms/image/v2/D4D12AQExd0s7g9AxpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1703166341281?e=2147483647&amp;v=beta&amp;t=6FY186NBgvVVlmCtZ5O3pa6DhK-seHvfeKHaYQXwVsg"/>
-<div class="language-cloud">
-<div class="language-chip python">Python</div>
-<div class="language-chip">JavaScript</div>
-<div class="language-chip">Java</div>
-<div class="language-chip">C++</div>
-<div class="language-chip">C#</div>
-<div class="language-chip">Go</div>
-<div class="language-chip">Swift</div>
-<div class="language-chip">Kotlin</div>
-</div>
-</section>
-<section class="slide" data-title="Mengapa Kita Memilih Python?">
-<div class="slide-head center"><span class="kicker">WHY PYTHON?</span>
-<h2>Python Cocok untuk Memulai Coding</h2>
-</div>
-<div class="agenda-grid">
-<div class="agenda-card blue"><span>📖</span>
-<h3>Lebih Mudah Dibaca</h3>
-<p>Syntax-nya cukup dekat dengan bahasa manusia.</p>
-</div>
-<div class="agenda-card orange"><span>⚡</span>
-<h3>Cepat Dicoba</h3>
-<p>Program sederhana dapat dibuat dengan sedikit baris.</p>
-</div>
-<div class="agenda-card purple"><span>🧰</span>
-<h3>Banyak Library</h3>
-<p>Dapat dikembangkan untuk data, game, AI, dan otomasi.</p>
-</div>
-<div class="agenda-card green"><span>🌍</span>
-<h3>Digunakan Luas</h3>
-<p>Banyak dokumentasi dan komunitas belajar.</p>
-</div>
-</div>
-</section>
-<section class="slide soft-blue python-reveal-slide" data-title="Kamu Sudah Menulis Python"><div class="python-reveal-card"><span class="kicker">PYTHON CHECKPOINT</span><h2>Kode yang Tadi Kamu Tulis adalah Python</h2><p class="lead">Aktivitas print(), perhitungan, dan looping sebelumnya sudah menggunakan syntax Python. Kamu sudah mulai membaca dan menulis instruksi dalam bahasa pemrograman ini.</p><div class="light-code-row"><span>print("Hello World!")</span><span>print(112 + 24)</span><span>for i in range(5):</span></div><div class="simple-rule centered-rule">Langkah berikutnya adalah menyiapkan Python dan VS Code agar kode dapat dijalankan langsung di perangkat.</div></div></section>
-<section class="slide soft-blue" data-title="Download Python">
-<div class="download-card">
-<div><img alt="Python" class="python-logo-large" src="https://www.python.org/static/community_logos/python-logo-master-v3-TM.png" style="width:280px"/>
-</div>
-<div><span class="kicker">WINDOWS 64-BIT</span>
-<h2>Download Python 3.14.6</h2>
-<p>Gunakan installer resmi Python untuk Windows 64-bit.</p><a class="download-btn" download="" href="https://www.python.org/ftp/python/3.14.6/python-3.14.6-amd64.exe">⬇ Download
+        </section>
+        <section class="slide language-image-slide" data-title="Bahasa Pemrograman Itu Banyak">
+            <div class="slide-head center"><span class="kicker">PROGRAMMING LANGUAGES</span>
+                <h2>Python Hanya Salah Satu Bahasa Pemrograman</h2>
+                <p>Setiap bahasa memiliki aturan, alat, dan penggunaan yang berbeda.</p>
+            </div><img alt="Berbagai bahasa pemrograman" class="programming-language-image"
+                src="https://media.licdn.com/dms/image/v2/D4D12AQExd0s7g9AxpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1703166341281?e=2147483647&amp;v=beta&amp;t=6FY186NBgvVVlmCtZ5O3pa6DhK-seHvfeKHaYQXwVsg" />
+            <div class="language-cloud">
+                <div class="language-chip python">Python</div>
+                <div class="language-chip">JavaScript</div>
+                <div class="language-chip">Java</div>
+                <div class="language-chip">C++</div>
+                <div class="language-chip">C#</div>
+                <div class="language-chip">Go</div>
+                <div class="language-chip">Swift</div>
+                <div class="language-chip">Kotlin</div>
+            </div>
+        </section>
+        <section class="slide" data-title="Mengapa Kita Memilih Python?">
+            <div class="slide-head center"><span class="kicker">WHY PYTHON?</span>
+                <h2>Python Cocok untuk Memulai Coding</h2>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><span>📖</span>
+                    <h3>Lebih Mudah Dibaca</h3>
+                    <p>Syntax-nya cukup dekat dengan bahasa manusia.</p>
+                </div>
+                <div class="agenda-card orange"><span>⚡</span>
+                    <h3>Cepat Dicoba</h3>
+                    <p>Program sederhana dapat dibuat dengan sedikit baris.</p>
+                </div>
+                <div class="agenda-card purple"><span>🧰</span>
+                    <h3>Banyak Library</h3>
+                    <p>Dapat dikembangkan untuk data, game, AI, dan otomasi.</p>
+                </div>
+                <div class="agenda-card green"><span>🌍</span>
+                    <h3>Digunakan Luas</h3>
+                    <p>Banyak dokumentasi dan komunitas belajar.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-blue python-reveal-slide" data-title="Kamu Sudah Menulis Python">
+            <div class="python-reveal-card"><span class="kicker">PYTHON CHECKPOINT</span>
+                <h2>Kode yang Tadi Kamu Tulis adalah Python</h2>
+                <p class="lead">Aktivitas print(), perhitungan, dan looping sebelumnya sudah menggunakan syntax Python.
+                    Kamu sudah mulai membaca dan menulis instruksi dalam bahasa pemrograman ini.</p>
+                <div class="light-code-row"><span>print("Hello World!")</span><span>print(112 + 24)</span><span>for i in
+                        range(5):</span></div>
+                <div class="simple-rule centered-rule">Langkah berikutnya adalah menyiapkan Python dan VS Code agar kode
+                    dapat dijalankan langsung di perangkat.</div>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Download Python">
+            <div class="download-card">
+                <div><img alt="Python" class="python-logo-large"
+                        src="https://www.python.org/static/community_logos/python-logo-master-v3-TM.png"
+                        style="width:280px" />
+                </div>
+                <div><span class="kicker">WINDOWS 64-BIT</span>
+                    <h2>Download Python 3.14.6</h2>
+                    <p>Gunakan installer resmi Python untuk Windows 64-bit.</p><a class="download-btn" download=""
+                        href="https://www.python.org/ftp/python/3.14.6/python-3.14.6-amd64.exe">⬇ Download
                         Python</a>
-<div class="download-meta">Tautan langsung installer resmi • Python 3.14.6 • 64-bit</div><a class="download-alt" href="https://www.python.org/downloads/windows/">Lihat pilihan installer
+                    <div class="download-meta">Tautan langsung installer resmi • Python 3.14.6 • 64-bit</div><a
+                        class="download-alt" href="https://www.python.org/downloads/windows/">Lihat pilihan installer
                         lain</a>
-</div>
-</div>
-</section>
-<section class="slide compact-guide-slide" data-title="Install Python di Windows">
-<div class="slide-head compact"><span class="kicker">INSTALLATION GUIDE</span>
-<h2>Ikuti Langkah Instalasi Python</h2>
-<p>Lakukan secara berurutan dan tunggu setiap proses selesai.</p>
-</div>
-<div class="install-steps">
-<div class="install-step">
-<div class="step-no">1</div>
-<div>
-<h3>Tunggu download selesai</h3>
-<p>Pastikan file installer sudah tersimpan.</p><img alt="Download Python selesai" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/b6fd2f09-beec-4c07-8c7f-749aede23f63.png" tabindex="0"/>
-</div>
-</div>
-<div class="install-step">
-<div class="step-no">2</div>
-<div>
-<h3>Jalankan installer</h3>
-<p>Pilih Install, lalu tunggu proses selesai.</p><img alt="Installer Python" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/1516e81e-5822-4cb0-910e-f67ef348d173.png" tabindex="0"/>
-</div>
-</div>
-<div class="install-step">
-<div class="step-no">3</div>
-<div>
-<h3>Buka Command Prompt</h3>
-<p>Cari CMD dari menu Start.</p><img alt="Buka CMD" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/79b2a378-3251-44d1-bd05-686b38a0ad4b.png" tabindex="0"/>
-</div>
-</div>
-<div class="install-step">
-<div class="step-no">4</div>
-<div>
-<h3>Periksa versi Python</h3>
-<p>Ketik <span class="code-font">python --version</span> lalu tekan Enter.</p><img alt="Periksa versi Python" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/933432a0-a6e7-461e-a02d-5d3bc82ea123.png" tabindex="0"/>
-</div>
-</div>
-</div>
-</section>
-<section class="slide soft-blue" data-title="Download Visual Studio Code">
-<div class="download-card">
-<img alt="Visual Studio Code" class="tool-logo-large" src="https://www.codingexercises.com/img/2021-02-24/vs-code-logo.png"/>
-<div><span class="kicker">CODE EDITOR</span>
-<h2>Download VS Code Versi Stabil</h2>
-<p>Tombol akan memilih installer Windows berdasarkan arsitektur perangkat jika informasi tersedia.
-                        Jika tidak, versi 64-bit digunakan.</p><button class="download-btn" onclick="downloadVSCode()" style="border:0;cursor:pointer">⬇ Download VS Code</button>
-<div class="download-meta" id="vscodeDownloadStatus">User Setup direkomendasikan untuk sebagian
-                        besar pengguna Windows.</div><a class="download-alt" href="https://code.visualstudio.com/download?_exp_download=fb315fc982#">Buka halaman pilihan
+                </div>
+            </div>
+        </section>
+        <section class="slide compact-guide-slide" data-title="Install Python di Windows">
+            <div class="slide-head compact"><span class="kicker">INSTALLATION GUIDE</span>
+                <h2>Ikuti Langkah Instalasi Python</h2>
+                <p>Lakukan secara berurutan dan tunggu setiap proses selesai.</p>
+            </div>
+            <div class="install-steps">
+                <div class="install-step">
+                    <div class="step-no">1</div>
+                    <div>
+                        <h3>Tunggu download selesai</h3>
+                        <p>Pastikan file installer sudah tersimpan.</p><img alt="Download Python selesai"
+                            class="zoomable-guide-image"
+                            src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/b6fd2f09-beec-4c07-8c7f-749aede23f63.png"
+                            tabindex="0" />
+                    </div>
+                </div>
+                <div class="install-step">
+                    <div class="step-no">2</div>
+                    <div>
+                        <h3>Jalankan installer</h3>
+                        <p>Pilih Install, lalu tunggu proses selesai.</p><img alt="Installer Python"
+                            class="zoomable-guide-image"
+                            src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/1516e81e-5822-4cb0-910e-f67ef348d173.png"
+                            tabindex="0" />
+                    </div>
+                </div>
+                <div class="install-step">
+                    <div class="step-no">3</div>
+                    <div>
+                        <h3>Buka Command Prompt</h3>
+                        <p>Cari CMD dari menu Start.</p><img alt="Buka CMD" class="zoomable-guide-image"
+                            src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/79b2a378-3251-44d1-bd05-686b38a0ad4b.png"
+                            tabindex="0" />
+                    </div>
+                </div>
+                <div class="install-step">
+                    <div class="step-no">4</div>
+                    <div>
+                        <h3>Periksa versi Python</h3>
+                        <p>Ketik <span class="code-font">python --version</span> lalu tekan Enter.</p><img
+                            alt="Periksa versi Python" class="zoomable-guide-image"
+                            src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/933432a0-a6e7-461e-a02d-5d3bc82ea123.png"
+                            tabindex="0" />
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Download Visual Studio Code">
+            <div class="download-card">
+                <img alt="Visual Studio Code" class="tool-logo-large"
+                    src="https://www.codingexercises.com/img/2021-02-24/vs-code-logo.png" />
+                <div><span class="kicker">CODE EDITOR</span>
+                    <h2>Download VS Code Versi Stabil</h2>
+                    <p>Tombol akan memilih installer Windows berdasarkan arsitektur perangkat jika informasi tersedia.
+                        Jika tidak, versi 64-bit digunakan.</p><button class="download-btn" onclick="downloadVSCode()"
+                        style="border:0;cursor:pointer">⬇ Download VS Code</button>
+                    <div class="download-meta" id="vscodeDownloadStatus">User Setup direkomendasikan untuk sebagian
+                        besar pengguna Windows.</div><a class="download-alt"
+                        href="https://code.visualstudio.com/download?_exp_download=fb315fc982#">Buka halaman pilihan
                         download</a>
-</div>
-</div>
-</section>
-<section class="slide compact-guide-slide" data-title="Install VS Code di Windows">
-<div class="slide-head compact"><span class="kicker">INSTALLATION GUIDE</span>
-<h2>Ikuti Langkah Instalasi VS Code</h2>
-<p>Jika ada bagian yang berbeda pada perangkatmu, minta bantuan guru.</p>
-</div>
-<div class="install-steps">
-<div class="install-step">
-<div class="step-no">1</div>
-<div>
-<h3>Tunggu download selesai</h3>
-<p>Pastikan installer VS Code sudah tersimpan.</p><img alt="Download VS Code" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/6f0ce203-f1aa-45f1-ab8c-b37619649a4f.png" tabindex="0"/>
-</div>
-</div>
-<div class="install-step">
-<div class="step-no">2</div>
-<div>
-<h3>Buka file installer</h3>
-<p>Ikuti pilihan instalasi sampai proses dimulai.</p><img alt="Installer VS Code" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/d95983dd-e128-4c17-912c-530f57c0a274.png" tabindex="0"/>
-</div>
-</div>
-<div class="install-step">
-<div class="step-no">3</div>
-<div>
-<h3>Buka VS Code</h3>
-<p>Jalankan aplikasi setelah instalasi selesai.</p><img alt="Buka VS Code" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/4a69dc52-8f73-44f5-be46-91ef2ed2cdcc.png" tabindex="0"/>
-</div>
-</div>
-<div class="install-step">
-<div class="step-no">4</div>
-<div>
-<h3>Pastikan VS Code siap</h3>
-<p>Jika halaman awal terbuka, instalasi berhasil.</p><img alt="VS Code siap" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/2cbbc42e-7966-46db-adad-6f3d6c88bd51.png" tabindex="0"/>
-</div>
-</div>
-</div>
-<div class="notice">Sudah berhasil membuka Python dan VS Code? Jika belum, tanyakan kepada guru atau
+                </div>
+            </div>
+        </section>
+        <section class="slide compact-guide-slide" data-title="Install VS Code di Windows">
+            <div class="slide-head compact"><span class="kicker">INSTALLATION GUIDE</span>
+                <h2>Ikuti Langkah Instalasi VS Code</h2>
+                <p>Jika ada bagian yang berbeda pada perangkatmu, minta bantuan guru.</p>
+            </div>
+            <div class="install-steps">
+                <div class="install-step">
+                    <div class="step-no">1</div>
+                    <div>
+                        <h3>Tunggu download selesai</h3>
+                        <p>Pastikan installer VS Code sudah tersimpan.</p><img alt="Download VS Code"
+                            class="zoomable-guide-image"
+                            src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/6f0ce203-f1aa-45f1-ab8c-b37619649a4f.png"
+                            tabindex="0" />
+                    </div>
+                </div>
+                <div class="install-step">
+                    <div class="step-no">2</div>
+                    <div>
+                        <h3>Buka file installer</h3>
+                        <p>Ikuti pilihan instalasi sampai proses dimulai.</p><img alt="Installer VS Code"
+                            class="zoomable-guide-image"
+                            src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/d95983dd-e128-4c17-912c-530f57c0a274.png"
+                            tabindex="0" />
+                    </div>
+                </div>
+                <div class="install-step">
+                    <div class="step-no">3</div>
+                    <div>
+                        <h3>Buka VS Code</h3>
+                        <p>Jalankan aplikasi setelah instalasi selesai.</p><img alt="Buka VS Code"
+                            class="zoomable-guide-image"
+                            src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/4a69dc52-8f73-44f5-be46-91ef2ed2cdcc.png"
+                            tabindex="0" />
+                    </div>
+                </div>
+                <div class="install-step">
+                    <div class="step-no">4</div>
+                    <div>
+                        <h3>Pastikan VS Code siap</h3>
+                        <p>Jika halaman awal terbuka, instalasi berhasil.</p><img alt="VS Code siap"
+                            class="zoomable-guide-image"
+                            src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/2cbbc42e-7966-46db-adad-6f3d6c88bd51.png"
+                            tabindex="0" />
+                    </div>
+                </div>
+            </div>
+            <div class="notice">Sudah berhasil membuka Python dan VS Code? Jika belum, tanyakan kepada guru atau
                 diskusikan dengan teman di sebelahmu.</div>
-</section>
-<section class="slide compact-guide-slide" data-title="Membuat dan Menjalankan main.py">
-<div class="slide-head compact"><span class="kicker">VS CODE TOUR</span>
-<h2>Dari Folder Kosong sampai Program Berjalan</h2>
-<p>Ikuti empat langkah berikut secara berurutan.</p>
-</div>
-<div class="vscode-tour">
-<div class="tour-card"><img alt="Open Folder" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/156d040a-963c-49f2-b1fb-324c7d7614ea.png" tabindex="0"/>
-<h3>1. Pilih Open Folder</h3>
-<p>Buka lokasi project yang akan digunakan.</p>
-</div>
-<div class="tour-card"><img alt="Pilih folder" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/6b3222d9-189c-4fd1-a522-89b29937967c.png" tabindex="0"/>
-<h3>2. Pilih Lokasi Folder</h3>
-<p>Gunakan folder khusus untuk latihan Python.</p>
-</div>
-<div class="tour-card"><img alt="Buat main.py" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/90a01dc8-b2f1-42c1-ae76-c361d8c20f8c.png" tabindex="0"/>
-<h3>3. Buat File main.py</h3>
-<p>Tulis <span class="code-font">print("Hello World!")</span> lalu simpan.</p>
-</div>
-<div class="tour-card"><img alt="Run terminal" class="zoomable-guide-image" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/6a62048a-e694-41a8-974e-4340d2de44b7.png" tabindex="0"/>
-<h3>4. Jalankan dari Terminal</h3>
-<p>Ketik <span class="code-font">python main.py</span> dan tekan Enter.</p>
-</div>
-</div>
-</section>
-<section class="slide soft-green" data-title="Checkpoint: Program Pertama">
-<div class="single-focus">
-<div class="giant-emoji">✅</div><span class="kicker">CHECKPOINT</span>
-<h2>Sudah Melihat Output di Terminal?</h2>
-<p>Pastikan file bernama <span class="code-font">main.py</span>, sudah disimpan, dan terminal berada di
+        </section>
+        <section class="slide compact-guide-slide" data-title="Membuat dan Menjalankan main.py">
+            <div class="slide-head compact"><span class="kicker">VS CODE TOUR</span>
+                <h2>Dari Folder Kosong sampai Program Berjalan</h2>
+                <p>Ikuti empat langkah berikut secara berurutan.</p>
+            </div>
+            <div class="vscode-tour">
+                <div class="tour-card"><img alt="Open Folder" class="zoomable-guide-image"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/156d040a-963c-49f2-b1fb-324c7d7614ea.png"
+                        tabindex="0" />
+                    <h3>1. Pilih Open Folder</h3>
+                    <p>Buka lokasi project yang akan digunakan.</p>
+                </div>
+                <div class="tour-card"><img alt="Pilih folder" class="zoomable-guide-image"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/6b3222d9-189c-4fd1-a522-89b29937967c.png"
+                        tabindex="0" />
+                    <h3>2. Pilih Lokasi Folder</h3>
+                    <p>Gunakan folder khusus untuk latihan Python.</p>
+                </div>
+                <div class="tour-card"><img alt="Buat main.py" class="zoomable-guide-image"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/90a01dc8-b2f1-42c1-ae76-c361d8c20f8c.png"
+                        tabindex="0" />
+                    <h3>3. Buat File main.py</h3>
+                    <p>Tulis <span class="code-font">print("Hello World!")</span> lalu simpan.</p>
+                </div>
+                <div class="tour-card"><img alt="Run terminal" class="zoomable-guide-image"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/6a62048a-e694-41a8-974e-4340d2de44b7.png"
+                        tabindex="0" />
+                    <h3>4. Jalankan dari Terminal</h3>
+                    <p>Ketik <span class="code-font">python main.py</span> dan tekan Enter.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-green" data-title="Checkpoint: Program Pertama">
+            <div class="single-focus">
+                <div class="giant-emoji">✅</div><span class="kicker">CHECKPOINT</span>
+                <h2>Sudah Melihat Output di Terminal?</h2>
+                <p>Pastikan file bernama <span class="code-font">main.py</span>, sudah disimpan, dan terminal berada di
                     folder yang sama.</p>
-<div class="button-row"><button class="primary-btn" onclick="checkpointAnswer(true)">Sudah
+                <div class="button-row"><button class="primary-btn" onclick="checkpointAnswer(true)">Sudah
                         Berhasil</button><button class="secondary-btn" onclick="checkpointAnswer(false)">Masih Ada
                         Kendala</button></div>
-<div class="feedback" id="checkpointFeedback"></div>
-</div>
-</section>
-<section class="slide" data-title="Project CLI: Langkah Menanam Tanaman">
-<div class="slide-head compact"><span class="kicker">FIRST MINI PROJECT</span>
-<h2>Lanjutkan Instruksi Menanam Tanaman</h2>
-<p>Tambahkan minimal tiga langkah baru menggunakan <span class="code-font">print()</span>, lalu jalankan
+                <div class="feedback" id="checkpointFeedback"></div>
+            </div>
+        </section>
+        <section class="slide" data-title="Project CLI: Langkah Menanam Tanaman">
+            <div class="slide-head compact"><span class="kicker">FIRST MINI PROJECT</span>
+                <h2>Lanjutkan Instruksi Menanam Tanaman</h2>
+                <p>Tambahkan minimal tiga langkah baru menggunakan <span class="code-font">print()</span>, lalu jalankan
                     program.</p>
-</div>
-<div class="code-activity">
-<div class="code-panel">
-<h3>main.py</h3><textarea class="code-editor" id="plantEditor" spellcheck="false">print("Siapkan pot yang memiliki lubang di bagian bawah.")
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>main.py</h3><textarea class="code-editor" id="plantEditor" spellcheck="false">print("Siapkan pot yang memiliki lubang di bagian bawah.")
 print("Masukkan tanah yang sudah dicampur dengan kompos.")
 print("Buat lubang kecil di tengah tanah.")
 print("Masukkan benih atau bibit bunga ke dalam lubang.")
@@ -4678,119 +5017,123 @@ print("Siram dengan sedikit air sampai tanah lembap.")
 print(".....")
 print(".....")
 print(".....")</textarea>
-<div class="run-row"><button class="run-btn" onclick="runPlantProject()">Run ▶</button><span class="code-feedback" id="plantFeedback"></span></div>
-</div>
-<div class="output-panel">
-<h3>Terminal</h3>
-<div class="terminal" id="plantOutput">Output program akan muncul di sini.</div>
-</div>
-</div>
-</section>
-<section class="slide compact-cli-slide" data-title="CLI dan Pertemuan Berikutnya">
-<div class="slide-head center"><span class="kicker">WHAT IS CLI?</span>
-<h2>Program Hari Ini Menggunakan Output CLI</h2>
-<p>CLI menampilkan hasil dalam bentuk teks di terminal. Ini adalah langkah awal sebelum membuat program
+                    <div class="run-row"><button class="run-btn" onclick="runPlantProject()">Run ▶</button><span
+                            class="code-feedback" id="plantFeedback"></span></div>
+                </div>
+                <div class="output-panel">
+                    <h3>Terminal</h3>
+                    <div class="terminal" id="plantOutput">Output program akan muncul di sini.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide compact-cli-slide" data-title="CLI dan Pertemuan Berikutnya">
+            <div class="slide-head center"><span class="kicker">WHAT IS CLI?</span>
+                <h2>Program Hari Ini Menggunakan Output CLI</h2>
+                <p>CLI menampilkan hasil dalam bentuk teks di terminal. Ini adalah langkah awal sebelum membuat program
                     dengan tampilan visual.</p>
-</div>
-<div class="cli-compare">
-<div class="cli-card"><span>⌨️</span>
-<h3>CLI</h3>
-<p>Input dan output berbentuk teks melalui terminal.</p>
-<pre class="mini-code" style="min-height:auto;text-align:left">python main.py
+            </div>
+            <div class="cli-compare">
+                <div class="cli-card"><span>⌨️</span>
+                    <h3>CLI</h3>
+                    <p>Input dan output berbentuk teks melalui terminal.</p>
+                    <pre class="mini-code" style="min-height:auto;text-align:left">python main.py
 Hello World!</pre>
-</div>
-<div class="cli-card"><span>🖼️</span>
-<h3>Graphical Interface</h3>
-<p>Program memiliki tombol, gambar, form, dan tampilan yang dapat diklik.</p>
-<div style="display:flex;gap:10px;justify-content:center;margin-top:18px"><button class="primary-btn small">Button</button><input placeholder="Input" style="border:2px solid #d6e1ea;border-radius:10px;padding:8px;width:120px"/></div>
-</div>
-</div>
-<div class="simple-rule centered-rule">Pertemuan berikutnya: mengenal lebih banyak syntax Python dan
+                </div>
+                <div class="cli-card"><span>🖼️</span>
+                    <h3>Graphical Interface</h3>
+                    <p>Program memiliki tombol, gambar, form, dan tampilan yang dapat diklik.</p>
+                    <div style="display:flex;gap:10px;justify-content:center;margin-top:18px"><button
+                            class="primary-btn small">Button</button><input placeholder="Input"
+                            style="border:2px solid #d6e1ea;border-radius:10px;padding:8px;width:120px" /></div>
+                </div>
+            </div>
+            <div class="simple-rule centered-rule">Pertemuan berikutnya: mengenal lebih banyak syntax Python dan
                 membangun program melalui VS Code.</div>
-</section>
-<section class="slide" data-title="Quick Quiz">
-<div class="slide-head compact center"><span class="kicker">QUICK QUIZ</span>
-<h2>Cek Pemahamanmu</h2>
-<p>Pilih jawaban yang paling tepat.</p>
-</div>
-<div class="quiz-shell">
-<div class="quiz-question active" id="quiz1">
-<h3>1. Urutan langkah untuk mencapai tujuan disebut...</h3>
-<div class="quiz-options"><button onclick="answerQuiz(this,true,'quiz1','quiz2')">A.
+        </section>
+        <section class="slide" data-title="Quick Quiz">
+            <div class="slide-head compact center"><span class="kicker">QUICK QUIZ</span>
+                <h2>Cek Pemahamanmu</h2>
+                <p>Pilih jawaban yang paling tepat.</p>
+            </div>
+            <div class="quiz-shell">
+                <div class="quiz-question active" id="quiz1">
+                    <h3>1. Urutan langkah untuk mencapai tujuan disebut...</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,true,'quiz1','quiz2')">A.
                             Algoritma</button><button onclick="answerQuiz(this,false,'quiz1','quiz2')">B.
                             Folder</button><button onclick="answerQuiz(this,false,'quiz1','quiz2')">C. Terminal</button>
-</div>
-</div>
-<div class="quiz-question" id="quiz2">
-<h3>2. Perintah Python untuk menampilkan teks adalah...</h3>
-<div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz2','quiz3')">A.
+                    </div>
+                </div>
+                <div class="quiz-question" id="quiz2">
+                    <h3>2. Perintah Python untuk menampilkan teks adalah...</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz2','quiz3')">A.
                             move()</button><button onclick="answerQuiz(this,true,'quiz2','quiz3')">B.
                             print()</button><button onclick="answerQuiz(this,false,'quiz2','quiz3')">C. open()</button>
-</div>
-</div>
-<div class="quiz-question" id="quiz3">
-<h3>3. Tempat melihat output program teks di VS Code adalah...</h3>
-<div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz3','quizDone')">A.
+                    </div>
+                </div>
+                <div class="quiz-question" id="quiz3">
+                    <h3>3. Tempat melihat output program teks di VS Code adalah...</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz3','quizDone')">A.
                             Backdrop</button><button onclick="answerQuiz(this,false,'quiz3','quizDone')">B.
                             Toolbar</button><button onclick="answerQuiz(this,true,'quiz3','quizDone')">C.
                             Terminal</button></div>
-</div>
-<div class="quiz-question done" id="quizDone">
-<div class="giant-emoji">🎯</div>
-<h3>Quiz Selesai</h3>
-<p>Kamu sudah mengenal algoritma, Python, VS Code, dan terminal.</p>
-</div>
-<div class="quiz-progress"><span id="quizProgressText">Soal 1 dari 3</span>
-<div><i id="quizProgressBar" style="width:33%"></i></div>
-</div>
-</div>
-</section>
-<section class="slide" data-title="Review Hari Ini">
-<div class="slide-head center"><span class="kicker">SESSION REVIEW</span>
-<h2>Apa Saja yang Sudah Dipelajari?</h2>
-</div>
-<div class="recap-path">
-<div><span>🧠</span><b>Algoritma</b>
-<p>Langkah teratur untuk mencapai tujuan.</p>
-</div>
-<div><span>🧩</span><b>Computational Thinking</b>
-<p>Memecah, menyusun, menguji, dan memperbaiki.</p>
-</div>
-<div><span>🐍</span><b>Python</b>
-<p>Bahasa untuk menulis instruksi komputer.</p>
-</div>
-<div><span>⌨️</span><b>print()</b>
-<p>Menampilkan teks dan hasil perhitungan.</p>
-</div>
-<div><span>🔁</span><b>Looping</b>
-<p>Menyederhanakan instruksi berulang.</p>
-</div>
-<div><span>🖥️</span><b>VS Code &amp; Terminal</b>
-<p>Menulis, menyimpan, dan menjalankan main.py.</p>
-</div>
-</div>
-</section>
-<section class="slide feedback-final" data-title="Feedback">
-<div class="feedback-slide-content"><span class="kicker">YOUR FEEDBACK</span>
-<h2>Bagaimana Pengalaman Belajarmu Hari Ini?</h2>
-<p>Pilih satu respons yang paling sesuai.</p>
-<div class="emoji-feedback" id="emojiFeedback"><button onclick="sendFeedback(this)">😄<small>Sangat
+                </div>
+                <div class="quiz-question done" id="quizDone">
+                    <div class="giant-emoji">🎯</div>
+                    <h3>Quiz Selesai</h3>
+                    <p>Kamu sudah mengenal algoritma, Python, VS Code, dan terminal.</p>
+                </div>
+                <div class="quiz-progress"><span id="quizProgressText">Soal 1 dari 3</span>
+                    <div><i id="quizProgressBar" style="width:33%"></i></div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Review Hari Ini">
+            <div class="slide-head center"><span class="kicker">SESSION REVIEW</span>
+                <h2>Apa Saja yang Sudah Dipelajari?</h2>
+            </div>
+            <div class="recap-path">
+                <div><span>🧠</span><b>Algoritma</b>
+                    <p>Langkah teratur untuk mencapai tujuan.</p>
+                </div>
+                <div><span>🧩</span><b>Computational Thinking</b>
+                    <p>Memecah, menyusun, menguji, dan memperbaiki.</p>
+                </div>
+                <div><span>🐍</span><b>Python</b>
+                    <p>Bahasa untuk menulis instruksi komputer.</p>
+                </div>
+                <div><span>⌨️</span><b>print()</b>
+                    <p>Menampilkan teks dan hasil perhitungan.</p>
+                </div>
+                <div><span>🔁</span><b>Looping</b>
+                    <p>Menyederhanakan instruksi berulang.</p>
+                </div>
+                <div><span>🖥️</span><b>VS Code &amp; Terminal</b>
+                    <p>Menulis, menyimpan, dan menjalankan main.py.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide feedback-final" data-title="Feedback">
+            <div class="feedback-slide-content"><span class="kicker">YOUR FEEDBACK</span>
+                <h2>Bagaimana Pengalaman Belajarmu Hari Ini?</h2>
+                <p>Pilih satu respons yang paling sesuai.</p>
+                <div class="emoji-feedback" id="emojiFeedback"><button onclick="sendFeedback(this)">😄<small>Sangat
                             Menarik</small></button><button onclick="sendFeedback(this)">🙂<small>Cukup
                             Paham</small></button><button onclick="sendFeedback(this)">🤔<small>Perlu
                             Latihan</small></button><button onclick="sendFeedback(this)">🆘<small>Perlu
                             Bantuan</small></button></div>
-<div class="feedback-thanks" id="feedbackThanks"></div>
-</div>
-</section>
-<div class="progress-line" id="progressLine"></div>
-<footer class="navigation">
-<div class="nav-title" id="navTitle">Session 1: Pengenalan Coding dan Python</div>
-<div class="nav-controls"><button aria-label="Sebelumnya" class="nav-btn" id="prevBtn">‹</button>
-<div class="counter"><span id="currentSlide">1</span> / <span id="totalSlides">59</span></div><button aria-label="Berikutnya" class="nav-btn next" id="nextBtn">›</button>
-</div>
-</footer>
-</main>
-<script>
+                <div class="feedback-thanks" id="feedbackThanks"></div>
+            </div>
+        </section>
+        <div class="progress-line" id="progressLine"></div>
+        <footer class="navigation">
+            <div class="nav-title" id="navTitle">Session 1: Pengenalan Coding dan Python</div>
+            <div class="nav-controls"><button aria-label="Sebelumnya" class="nav-btn" id="prevBtn">‹</button>
+                <div class="counter"><span id="currentSlide">1</span> / <span id="totalSlides">59</span></div><button
+                    aria-label="Berikutnya" class="nav-btn next" id="nextBtn">›</button>
+            </div>
+        </footer>
+    </main>
+    <script>
         const PRETEST_URL = '';
         const ASCII_TARGET = `+------------------------------+
 |        LEMONADE DAY          |
@@ -4849,7 +5192,7 @@ Hello World!</pre>
         function runPlantProject() { const code = document.getElementById('plantEditor').value; try { const result = runMiniPython(code); document.getElementById('plantOutput').textContent = result || '(tidak ada output)'; const lines = result.split('\n').filter(Boolean), hasPlaceholder = result.includes('.....'); const ok = lines.length >= 9 && !hasPlaceholder; setFeedback('plantFeedback', ok ? 'Program berhasil. Kamu menambahkan langkah sendiri dan menampilkannya di terminal.' : 'Program dapat dijalankan, tetapi ganti semua tanda ..... dengan minimal tiga langkah nyata.', ok) } catch (e) { document.getElementById('plantOutput').textContent = e.message; setFeedback('plantFeedback', 'Periksa kembali setiap print(), tanda kutip, dan kurung.', false) } }
         let quizNumber = 1; function answerQuiz(btn, correct, current, next) { const q = document.getElementById(current), buttons = q.querySelectorAll('button'); buttons.forEach(b => b.disabled = true); btn.classList.add(correct ? 'correct' : 'wrong'); if (!correct) buttons.forEach(b => { if (b.getAttribute('onclick').includes('true')) b.classList.add('correct') }); setTimeout(() => { q.classList.remove('active'); document.getElementById(next).classList.add('active'); quizNumber = Math.min(3, quizNumber + 1); document.getElementById('quizProgressText').textContent = next === 'quizDone' ? 'Selesai' : 'Soal ' + quizNumber + ' dari 3'; document.getElementById('quizProgressBar').style.width = (next === 'quizDone' ? 100 : quizNumber * 33.34) + '%' }, 650) }
         function sendFeedback(btn) { document.querySelectorAll('#emojiFeedback button').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); document.getElementById('feedbackThanks').textContent = 'Terima kasih. Responsmu membantu guru menyesuaikan pembelajaran berikutnya.' }
-    
+
 
         // Zoom preview for installation and VS Code guide images (slides 50, 52, 53 only)
         const guideImageZoom = document.getElementById('guideImageZoom');
@@ -4876,10 +5219,12 @@ Hello World!</pre>
             img.addEventListener('mouseleave', () => guideImageZoom.classList.remove('show'));
             img.addEventListener('focus', event => {
                 const r = img.getBoundingClientRect();
-                show({clientX:r.right, clientY:r.top});
+                show({ clientX: r.right, clientY: r.top });
             });
             img.addEventListener('blur', () => guideImageZoom.classList.remove('show'));
         });
-</script>
-<img alt="Preview gambar diperbesar" id="guideImageZoom"/></body>
+    </script>
+    <img alt="Preview gambar diperbesar" id="guideImageZoom" />
+</body>
+
 </html>
