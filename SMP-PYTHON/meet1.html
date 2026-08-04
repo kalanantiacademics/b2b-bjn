@@ -2980,7 +2980,7 @@
                 <div class="orbit orbit-a">🐍</div>
                 <div class="orbit orbit-b">⌨️</div>
                 <div class="orbit orbit-c">⚙️</div>
-                <div class="hero-badge">MEET 1 • LET'S GET READY</div>
+                <div class="hero-badge">Session 1 • LET'S GET READY</div>
                 <div class="hero-icon">💻</div>
                 <h1 class="display-title">Coding Environment <span>Preparation</span></h1>
                 <p class="hero-subtitle">Menyiapkan komputer, internet, Python, VS Code, folder project, dan terminal
@@ -3674,7 +3674,7 @@
         <section class="slide" data-title="Tulis Program Pemeriksaan">
             <div class="slide-head center compact"><span class="kicker">FIRST CODE CHECK</span>
                 <h2>Tulis Program Pemeriksaan Sederhana</h2>
-                <p>Ketik kode berikut di file main.py.</p>
+                <p>Ketik kode berikut di file main.py. Target Output: "Perangkat siap digunakan"</p>
             </div>
             <div class="code-workspace">
                 <div class="code-panel">
@@ -3768,7 +3768,7 @@
 
         <section class="slide" data-title="Latihan Mouse">
             <div class="slide-head compact center"><span class="kicker">MOUSE PRACTICE</span>
-                <h2>Latihan Menggerakkan dan Mengklik Mouse</h2>
+                <h2>Warming Up: Move & Click</h2>
                 <p>Klik target sebanyak lima kali.</p>
             </div>
             <div class="mouse-lab" id="mouseLab">
@@ -3840,7 +3840,7 @@
 
         <section class="slide soft-green" data-title="Environment Siap">
             <div class="single-focus" style="max-width:950px">
-                <div class="giant-emoji">🎯</div><span class="kicker">MEET 1 COMPLETE</span>
+                <div class="giant-emoji">🎯</div><span class="kicker">Session 1 COMPLETE</span>
                 <h2>Lingkungan Coding-mu Sudah Siap</h2>
                 <p>Kamu sudah mengecek perangkat, internet, Python, VS Code, folder project, file main.py, dan terminal.
                 </p>
@@ -3928,7 +3928,7 @@
 
         <div class="progress-line" id="progressLine"></div>
         <footer class="navigation">
-            <div class="nav-title" id="navTitle">Meet 1: Persiapan Perangkat, Python, dan VS Code</div>
+            <div class="nav-title" id="navTitle">Session 1: Persiapan Perangkat, Python, dan VS Code</div>
             <div class="nav-controls"><button class="nav-btn" id="prevBtn" aria-label="Sebelumnya">‹</button>
                 <div class="counter"><span id="currentSlide">1</span> / <span id="totalSlides">0</span></div><button
                     class="nav-btn next" id="nextBtn" aria-label="Berikutnya">›</button>
@@ -3938,11 +3938,11 @@
     <img id="imageZoom" alt="Preview gambar panduan">
 
     <script>
-        const PRETEST_URL = '';
-        const INS_URL = '';
+        const PRETEST_URL = 'https://bit.ly/smp-py-pretest';
+        const INS_URL = 'https://bit.ly/py-meet1';
         let currentSlide = 0;
         const slides = [...document.querySelectorAll('.slide')];
-        function showSlide(index) { if (index < 0 || index >= slides.length) return; slides.forEach((s, i) => s.classList.toggle('active', i === index)); currentSlide = index; document.getElementById('currentSlide').textContent = index + 1; document.getElementById('totalSlides').textContent = slides.length; document.getElementById('prevBtn').disabled = index === 0; document.getElementById('nextBtn').disabled = index === slides.length - 1; document.getElementById('progressLine').style.width = ((index + 1) / slides.length * 100) + '%'; document.getElementById('navTitle').textContent = 'Meet 1 • ' + slides[index].dataset.title; slides[index].scrollTop = 0; }
+        function showSlide(index) { if (index < 0 || index >= slides.length) return; slides.forEach((s, i) => s.classList.toggle('active', i === index)); currentSlide = index; document.getElementById('currentSlide').textContent = index + 1; document.getElementById('totalSlides').textContent = slides.length; document.getElementById('prevBtn').disabled = index === 0; document.getElementById('nextBtn').disabled = index === slides.length - 1; document.getElementById('progressLine').style.width = ((index + 1) / slides.length * 100) + '%'; document.getElementById('navTitle').textContent = 'Session 1 • ' + slides[index].dataset.title; slides[index].scrollTop = 0; }
         document.getElementById('prevBtn').onclick = () => showSlide(currentSlide - 1); document.getElementById('nextBtn').onclick = () => showSlide(currentSlide + 1); document.addEventListener('keydown', e => { if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return; if (e.key === 'ArrowRight') showSlide(currentSlide + 1); if (e.key === 'ArrowLeft') showSlide(currentSlide - 1) }); showSlide(0);
         function setFeedback(id, msg, ok = true) { const el = document.getElementById(id); if (!el) return; el.textContent = msg; el.className = 'feedback ' + (ok ? 'success' : 'error') }
         function toggleCheck(btn, feedbackId, groupId) { btn.classList.toggle('done'); const group = document.getElementById(groupId), total = group.querySelectorAll('.check-card').length, done = group.querySelectorAll('.check-card.done').length; setFeedback(feedbackId, `${done} dari ${total} bagian selesai.${done === total ? ' Semuanya siap!' : ''}`, done === total) }

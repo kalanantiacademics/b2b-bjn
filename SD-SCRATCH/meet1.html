@@ -283,7 +283,7 @@
 <div class="orbit orbit-a">🖱️</div>
 <div class="orbit orbit-b">🌐</div>
 <div class="orbit orbit-c">🐱</div>
-<div class="hero-badge">SESSION 0 • LET'S GET READY</div>
+<div class="hero-badge">SESSION 1 • LET'S GET READY</div>
 <div class="hero-icon">💻</div>
 <h1 class="display-title">Class &amp; Platform<span> Preparation</span></h1>
 <p class="hero-subtitle">Welcome to Coding Class! Pastikan perangkat, internet, browser, akun, dan platform belajar siap digunakan.</p>
@@ -838,7 +838,7 @@
 <section class="slide soft-blue" data-title="Perangkat dan Akun Siap">
 <div class="single-focus" style="max-width:950px">
 <div class="giant-emoji">🎯</div>
-<span class="kicker">SESSION 0 COMPLETE</span>
+<span class="kicker">SESSION 1 COMPLETE</span>
 <h2>Perangkat dan Akunmu Sudah Siap</h2>
 <p>Kamu sudah mengecek komputer, internet, browser, akun Scratch, pre-test, interactive slide, mouse, keyboard, dan beberapa aktivitas interaktif.</p>
 <div class="notice">Pada sesi berikutnya, kita mulai belajar coding dan memahami cara memberi instruksi kepada komputer.</div>
@@ -913,7 +913,7 @@
 </section>
 <div class="progress-line" id="progressLine"></div>
 <footer class="navigation">
-<div class="nav-title" id="navTitle">Session 0: Persiapan Perangkat dan Akun Scratch</div>
+<div class="nav-title" id="navTitle">Session 1: Persiapan Perangkat dan Akun Scratch</div>
 <div class="nav-controls">
 <button aria-label="Sebelumnya" class="nav-btn" id="prevBtn">‹</button>
 <div class="counter"><span id="currentSlide">1</span> / <span id="totalSlides">41</span></div>
@@ -922,8 +922,8 @@
 </footer>
 </main>
 <script>
-    const PRETEST_URL = '';
-    const INS_URL = '';
+    const PRETEST_URL = 'https://bit.ly/sd-sc-pretest';
+    const INS_URL = 'https://bit.ly/sc-meet1';
     const SCRATCH_URL = 'https://scratch.mit.edu';
 
     let currentSlide = 0;
@@ -938,7 +938,7 @@
       document.getElementById('prevBtn').disabled=index===0;
       document.getElementById('nextBtn').disabled=index===slides.length-1;
       document.getElementById('progressLine').style.width=((index+1)/slides.length*100)+'%';
-      document.getElementById('navTitle').textContent='Session 0 • '+slides[index].dataset.title;
+      document.getElementById('navTitle').textContent='Session 1 • '+slides[index].dataset.title;
       slides[index].scrollTop=0;
     }
     document.getElementById('prevBtn').onclick=()=>showSlide(currentSlide-1);

@@ -3897,7 +3897,7 @@
                 <div class="orbit orbit-a">⚙️</div>
                 <div class="orbit orbit-b">🐍</div>
                 <div class="orbit orbit-c">⌨️</div>
-                <div class="hero-badge">SESSION 1 • INTRODUCTION</div>
+                <div class="hero-badge">SESSION 2 • INTRODUCTION</div>
                 <div class="hero-icon">💻</div>
                 <p class="eyebrow">PYTHON FOR BEGINNERS</p>
                 <h1 class="display-title">Pengenalan Coding &amp; <span>Python</span></h1>
@@ -3931,7 +3931,7 @@
                 </div>
             </div>
         </section>
-        <section class="slide soft-blue" data-title="Pre-Test">
+        <!-- <section class="slide soft-blue" data-title="Pre-Test">
             <div class="single-focus">
                 <div class="giant-emoji">📝</div><span class="kicker">BEFORE WE START</span>
                 <h2>Kerjakan Pre-Test Terlebih Dahulu</h2>
@@ -3940,7 +3940,7 @@
                 <div class="notice hidden" id="pretestNotice">Link pre-test belum diisi. Guru dapat menambahkannya pada
                     konstanta <span class="code-font">PRETEST_URL</span>.</div>
             </div>
-        </section>
+        </section> -->
         <section class="slide warm-slide" data-title="Cerita di Restoran">
             <div class="split-layout">
                 <div><span class="kicker">DAILY ALGORITHM</span>
@@ -4391,8 +4391,16 @@
                             ▶</button><span class="code-feedback" id="helloFeedback"></span></div>
                 </div>
                 <div class="output-panel">
-                    <h3>Target Output</h3>
-                    <div class="terminal target-terminal" id="helloOutput">Hello World!</div>
+                    <div class="output-cols" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div>
+                            <h3>Target Output</h3>
+                            <div class="terminal target-terminal">Hello World!</div>
+                        </div>
+                        <div>
+                            <h3>Run Output</h3>
+                            <div class="terminal target-terminal" id="helloOutput"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -4412,10 +4420,18 @@
                             ▶</button><span class="code-feedback" id="welcomeFeedback"></span></div>
                 </div>
                 <div class="output-panel">
-                    <h3>Target Output</h3>
-                    <div class="terminal target-terminal" id="welcomeOutput">Hello World!
-                        Welcome to Python
-                        Enjoy!</div>
+                    <div class="output-cols" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div>
+                            <h3>Target Output</h3>
+                            <div class="terminal target-terminal">Hello World!
+Welcome to Python
+Enjoy!</div>
+                        </div>
+                        <div>
+                            <h3>Run Output</h3>
+                            <div class="terminal target-terminal" id="welcomeOutput"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -4438,17 +4454,25 @@
                     <div class="notice hidden code-font" id="asciiHint"></div>
                 </div>
                 <div class="output-panel">
-                    <h3>Target Output</h3>
-                    <div class="terminal target-terminal ascii-target" id="asciiOutput">+------------------------------+
-                        | LEMONADE DAY |
-                        +------------------------------+
-                        | Drink : Fresh Lemonade |
-                        | Amount : 2 Glasses |
-                        | Flavor : Sweet and Sour |
-                        | Topping : Ice Cubes |
-                        +------------------------------+
-                        | Enjoy your drinks! |
-                        +------------------------------+</div>
+                    <div class="output-cols" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div>
+                            <h3>Target Output</h3>
+                            <div class="terminal target-terminal ascii-target">+------------------------------+
+|        LEMONADE DAY          |
++------------------------------+
+| Drink   : Fresh Lemonade     |
+| Amount  : 2 Glasses          |
+| Flavor  : Sweet and Sour     |
+| Topping : Ice Cubes          |
++------------------------------+
+|     Enjoy your drinks!       |
++------------------------------+</div>
+                        </div>
+                        <div>
+                            <h3>Run Output</h3>
+                            <div class="terminal target-terminal ascii-target" id="asciiOutput"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -4475,9 +4499,17 @@
                         <div class="code-choice" data-text="print(112 - 24)" draggable="true">print(112 - 24)</div>
                         <div class="code-choice" data-text='print("112 + 24")' draggable="true">print("112 + 24")</div>
                     </div>
-                    <h3 style="margin:15px 0 8px">Target Output</h3>
-                    <div class="terminal target-terminal" id="mathBuilderOutput">112 + 24 =
-                        136</div>
+                    <div class="output-cols" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                        <div>
+                            <h3 style="margin:0 0 8px">Target Output</h3>
+                            <div class="terminal target-terminal">112 + 24 =
+136</div>
+                        </div>
+                        <div>
+                            <h3 style="margin:0 0 8px">Run Output</h3>
+                            <div class="terminal target-terminal" id="mathBuilderOutput"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -4569,11 +4601,19 @@ print(5)</pre><button class="run-btn"
                             ▶</button><span class="code-feedback" id="guidedLoopFeedback"></span></div>
                 </div>
                 <div class="output-panel">
-                    <h3>Target Output</h3>
-                    <div class="terminal target-terminal" id="guidedLoopOutput">Programming with Python
-                        Programming with Python
-                        Programming with Python
-                        Programming with Python</div>
+                    <div class="output-cols" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div>
+                            <h3>Target Output</h3>
+                            <div class="terminal target-terminal">Programming with Python
+Programming with Python
+Programming with Python
+Programming with Python</div>
+                        </div>
+                        <div>
+                            <h3>Run Output</h3>
+                            <div class="terminal target-terminal" id="guidedLoopOutput"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -4595,12 +4635,20 @@ print("Terima kasih!")</textarea>
                             ▶</button><span class="code-feedback" id="debugBill1Feedback"></span></div>
                 </div>
                 <div class="output-panel">
-                    <h3>Target Struk</h3>
-                    <div class="terminal target-terminal" id="debugBill1Output">===== TOKO BUAH SEGAR =====
-                        Item : Apel
-                        Quantity : 3
-                        Total : Rp30.000
-                        Terima kasih!</div>
+                    <div class="output-cols" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div>
+                            <h3>Target Struk</h3>
+                            <div class="terminal target-terminal">===== TOKO BUAH SEGAR =====
+Item      : Apel
+Quantity  : 3
+Total     : Rp30.000
+Terima kasih!</div>
+                        </div>
+                        <div>
+                            <h3>Run Output</h3>
+                            <div class="terminal target-terminal" id="debugBill1Output"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -4624,13 +4672,21 @@ print("Terima kasih!")</textarea>
                             ▶</button><span class="code-feedback" id="debugBill2Feedback"></span></div>
                 </div>
                 <div class="output-panel">
-                    <h3>Target Struk</h3>
-                    <div class="terminal target-terminal" id="debugBill2Output">===== TOKO BUAH SEGAR =====
-                        Item : Jeruk
-                        Quantity : 4
-                        Price : Rp8.000
-                        Total : Rp32.000
-                        Terima kasih!</div>
+                    <div class="output-cols" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div>
+                            <h3>Target Struk</h3>
+                            <div class="terminal target-terminal">===== TOKO BUAH SEGAR =====
+Item      : Jeruk
+Quantity  : 4
+Price     : Rp8.000
+Total     : Rp32.000
+Terima kasih!</div>
+                        </div>
+                        <div>
+                            <h3>Run Output</h3>
+                            <div class="terminal target-terminal" id="debugBill2Output"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -5126,7 +5182,7 @@ Hello World!</pre>
         </section>
         <div class="progress-line" id="progressLine"></div>
         <footer class="navigation">
-            <div class="nav-title" id="navTitle">Session 1: Pengenalan Coding dan Python</div>
+            <div class="nav-title" id="navTitle">Session 2: Pengenalan Coding dan Python</div>
             <div class="nav-controls"><button aria-label="Sebelumnya" class="nav-btn" id="prevBtn">‹</button>
                 <div class="counter"><span id="currentSlide">1</span> / <span id="totalSlides">59</span></div><button
                     aria-label="Berikutnya" class="nav-btn next" id="nextBtn">›</button>
@@ -5134,7 +5190,7 @@ Hello World!</pre>
         </footer>
     </main>
     <script>
-        const PRETEST_URL = '';
+        // const PRETEST_URL = '';
         const ASCII_TARGET = `+------------------------------+
 |        LEMONADE DAY          |
 +------------------------------+
@@ -5147,7 +5203,7 @@ Hello World!</pre>
 +------------------------------+`;
         let currentSlide = 0;
         const slides = [...document.querySelectorAll('.slide')];
-        function showSlide(index) { if (index < 0 || index >= slides.length) return; slides.forEach((s, i) => s.classList.toggle('active', i === index)); currentSlide = index; document.getElementById('currentSlide').textContent = index + 1; document.getElementById('totalSlides').textContent = slides.length; document.getElementById('prevBtn').disabled = index === 0; document.getElementById('nextBtn').disabled = index === slides.length - 1; document.getElementById('progressLine').style.width = ((index + 1) / slides.length * 100) + '%'; document.getElementById('navTitle').textContent = 'Session 1 • ' + slides[index].dataset.title; slides[index].scrollTop = 0; }
+        function showSlide(index) { if (index < 0 || index >= slides.length) return; slides.forEach((s, i) => s.classList.toggle('active', i === index)); currentSlide = index; document.getElementById('currentSlide').textContent = index + 1; document.getElementById('totalSlides').textContent = slides.length; document.getElementById('prevBtn').disabled = index === 0; document.getElementById('nextBtn').disabled = index === slides.length - 1; document.getElementById('progressLine').style.width = ((index + 1) / slides.length * 100) + '%'; document.getElementById('navTitle').textContent = 'Session 2 • ' + slides[index].dataset.title; slides[index].scrollTop = 0; }
         document.getElementById('prevBtn').onclick = () => showSlide(currentSlide - 1); document.getElementById('nextBtn').onclick = () => showSlide(currentSlide + 1); document.addEventListener('keydown', e => { if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return; if (e.key === 'ArrowRight') showSlide(currentSlide + 1); if (e.key === 'ArrowLeft') showSlide(currentSlide - 1) }); showSlide(0);
         function openPretest() { if (PRETEST_URL) window.open(PRETEST_URL, '_blank', 'noopener'); else document.getElementById('pretestNotice').classList.remove('hidden') }
         function submitTextAnswer(inputId, responseId, suffix) { const value = document.getElementById(inputId).value.trim(); document.getElementById(responseId).textContent = value ? `Kamu menulis “${value}”. ${suffix}` : 'Tulis jawabanmu terlebih dahulu.' }
