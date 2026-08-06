@@ -1,0 +1,2319 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Session 4 - Operator dan Perhitungan | Ruangguru Coding</title>
+    <link rel="icon"
+        href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --blue: #2f80ed;
+            --cyan: #16bde8;
+            --purple: #845ef7;
+            --orange: #ff8a34;
+            --yellow: #ffd53d;
+            --green: #28b875;
+            --red: #ef5350;
+            --ink: #20324a;
+            --muted: #66788d;
+            --panel: #fff;
+            --shadow: 0 22px 55px rgba(22, 44, 76, .18);
+            --py-blue: #3776ab;
+            --py-yellow: #ffd343;
+            --teal: #0ba7a5;
+            --navy: #2f4661
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--ink);
+            background: #f8fffe;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        body:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='600' viewBox='0 0 900 600'%3E%3Cg fill='none' stroke='%2300bcd4' stroke-width='2.2' opacity='0.18'%3E%3Crect x='40' y='60' width='68' height='80' rx='6'/%3E%3Cline x1='40' y1='100' x2='108' y2='100'/%3E%3Cline x1='74' y1='60' x2='74' y2='140'/%3E%3Ccircle cx='820' cy='70' r='22'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15' transform='rotate(60 820 70)'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15' transform='rotate(120 820 70)'/%3E%3Crect x='432' y='20' width='48' height='55' rx='10'/%3E%3Crect x='30' y='260' width='58' height='68' rx='10'/%3E%3Ccircle cx='838' cy='340' r='42'/%3E%3Cellipse cx='838' cy='340' rx='20' ry='42'/%3E%3Cline x1='796' y1='340' x2='880' y2='340'/%3E%3Crect x='55' y='450' width='80' height='90' rx='6'/%3E%3Cline x1='95' y1='450' x2='95' y2='540'/%3E%3Crect x='390' y='480' width='72' height='72' rx='4'/%3E%3Cline x1='414' y1='480' x2='414' y2='552'/%3E%3Cline x1='438' y1='480' x2='438' y2='552'/%3E%3Cline x1='390' y1='504' x2='462' y2='504'/%3E%3Cline x1='390' y1='528' x2='462' y2='528'/%3E%3C/g%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-size: cover;
+            pointer-events: none;
+            z-index: -2
+        }
+
+        body:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at 0% 100%, rgba(0, 188, 212, .07), transparent 55%), radial-gradient(ellipse at 100% 0%, rgba(255, 211, 67, .1), transparent 50%);
+            pointer-events: none;
+            z-index: -1
+        }
+
+        .brand-logo {
+            position: fixed;
+            left: 22px;
+            top: 16px;
+            z-index: 2000;
+            background: #fff;
+            border: 2.5px solid rgba(0, 188, 212, .22);
+            border-radius: 22px;
+            padding: 10px 20px;
+            box-shadow: 0 8px 32px rgba(0, 188, 212, .18);
+            display: flex;
+            align-items: center
+        }
+
+        .brand-logo img {
+            height: 80px;
+            max-width: 220px;
+            object-fit: contain
+        }
+
+        .presentation-container {
+            width: 88vw;
+            height: 82vh;
+            max-width: 1500px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(30, 56, 93, .25);
+            overflow: hidden;
+            position: relative;
+            border: 4px solid rgba(255, 255, 255, .85)
+        }
+
+        .presentation-container:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 26px;
+            box-shadow: inset 0 0 0 1px rgba(91, 124, 164, .10);
+            z-index: 30
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 42px 58px 74px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(42px) scale(.985);
+            transition: .46s ease;
+            background: linear-gradient(145deg, #ffffff, #f7fcfd);
+            overflow-y: auto;
+            overflow-x: hidden
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            z-index: 10
+        }
+
+        .navigation {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, .96);
+            border-top: 1px solid #e7edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 100;
+            backdrop-filter: blur(12px)
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b7d92;
+            max-width: 42%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #d9e3ef;
+            background: #fff;
+            color: #4c6077;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            border-color: var(--blue);
+            color: var(--blue)
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            color: #fff;
+            border: 0;
+            box-shadow: 0 7px 16px rgba(255, 138, 52, .3)
+        }
+
+        .nav-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed
+        }
+
+        .counter {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #53677f;
+            min-width: 74px;
+            text-align: center
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 0;
+            bottom: 62px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--orange), var(--purple), var(--cyan));
+            width: 0;
+            transition: .35s;
+            z-index: 110
+        }
+
+        .slide-head {
+            width: 100%;
+            max-width: 1180px;
+            margin-bottom: 22px
+        }
+
+        .slide-head.center {
+            text-align: center
+        }
+
+        .slide-head.compact {
+            margin-bottom: 14px
+        }
+
+        .slide-head h2,
+        .single-focus h2 {
+            font-size: clamp(2.2rem, 4vw, 4rem);
+            line-height: 1.06;
+            margin: 6px 0 12px;
+            color: #24344d
+        }
+
+        .slide-head p,
+        .single-focus p,
+        .lead {
+            font-size: clamp(1.1rem, 1.55vw, 1.45rem);
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.5
+        }
+
+        .kicker {
+            display: inline-block;
+            font-size: .92rem;
+            letter-spacing: .16em;
+            font-weight: 700;
+            color: var(--purple);
+            background: #f0eaff;
+            border-radius: 999px;
+            padding: 7px 13px
+        }
+
+        .cover-slide {
+            background: linear-gradient(135deg, #f4fbff, #eefcf8 48%, #fff8df) !important;
+            color: var(--ink) !important
+        }
+
+        .cover-scene {
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #fff;
+            border: 2px solid #dbe9f2;
+            color: #40566d;
+            box-shadow: 0 8px 20px rgba(44, 80, 115, .08);
+            padding: 9px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            margin-bottom: 18px
+        }
+
+        .hero-icon {
+            font-size: 7rem;
+            filter: drop-shadow(0 12px 16px rgba(55, 118, 171, .18));
+            animation: float 3s ease-in-out infinite
+        }
+
+        .eyebrow {
+            letter-spacing: .22em;
+            font-weight: 700;
+            color: var(--py-blue);
+            margin: 0 0 10px
+        }
+
+        .display-title {
+            font-size: clamp(3.4rem, 7vw, 6.2rem);
+            line-height: .95;
+            margin: 8px 0 18px;
+            color: #233a55
+        }
+
+        .display-title span {
+            color: var(--py-blue)
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            max-width: 880px;
+            margin: 0 auto;
+            color: #52677c
+        }
+
+        .hero-pills {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 26px
+        }
+
+        .hero-pills span {
+            background: #fff;
+            border: 2px solid #dbe9f2;
+            color: #40566d;
+            box-shadow: 0 8px 20px rgba(44, 80, 115, .08);
+            padding: 10px 16px;
+            border-radius: 15px;
+            font-weight: 600
+        }
+
+        .orbit {
+            position: absolute;
+            font-size: 2.6rem;
+            animation: float 3.5s ease-in-out infinite
+        }
+
+        .orbit-a {
+            left: 8%;
+            top: 12%
+        }
+
+        .orbit-b {
+            right: 8%;
+            top: 18%;
+            animation-delay: .7s
+        }
+
+        .orbit-c {
+            right: 15%;
+            bottom: 10%;
+            animation-delay: 1.2s
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-12px) rotate(3deg)
+            }
+        }
+
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px
+        }
+
+        .agenda-card {
+            position: relative;
+            padding: 25px;
+            border-radius: 26px;
+            border: 2px solid;
+            min-height: 158px;
+            overflow: hidden;
+            background: #fff
+        }
+
+        .agenda-card>b {
+            position: absolute;
+            right: 18px;
+            top: 10px;
+            font-size: 3rem;
+            opacity: .12
+        }
+
+        .agenda-card>span {
+            font-size: 3.2rem
+        }
+
+        .agenda-card h3 {
+            font-size: 1.55rem;
+            margin: 8px 0 3px
+        }
+
+        .agenda-card p {
+            margin: 0;
+            color: #52667c
+        }
+
+        .blue {
+            background: #eef7ff !important;
+            border-color: #b9dcff !important
+        }
+
+        .orange {
+            background: #fff4e8 !important;
+            border-color: #ffd3a7 !important
+        }
+
+        .purple {
+            background: #f5efff !important;
+            border-color: #d9c6ff !important
+        }
+
+        .green {
+            background: #ebfbf4 !important;
+            border-color: #b7ebd2 !important
+        }
+
+        .yellow {
+            background: #fff8db !important;
+            border-color: #f5d86d !important
+        }
+
+        .red {
+            background: #fff0ef !important;
+            border-color: #f5aaa7 !important
+        }
+
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 34px;
+            width: 100%;
+            max-width: 1120px;
+            align-items: center
+        }
+
+        .mature-card,
+        .code-panel,
+        .output-panel,
+        .single-focus {
+            background: #fff;
+            border: 3px solid #dce8f0;
+            border-radius: 24px;
+            padding: 22px;
+            box-shadow: 0 12px 28px rgba(38, 73, 103, .09)
+        }
+
+        .single-focus {
+            max-width: 860px;
+            text-align: center;
+            padding: 40px;
+            border-radius: 34px
+        }
+
+        .giant-emoji {
+            font-size: 6rem
+        }
+
+        .primary-btn,
+        .secondary-btn,
+        .run-btn {
+            border: 0;
+            border-radius: 16px;
+            padding: 13px 22px;
+            font: 700 1rem 'Fredoka';
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .primary-btn,
+        .run-btn {
+            background: linear-gradient(135deg, var(--py-blue), var(--teal));
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(55, 118, 171, .25)
+        }
+
+        .primary-btn:hover,
+        .run-btn:hover {
+            transform: translateY(-2px)
+        }
+
+        .secondary-btn {
+            background: #eef2f7;
+            color: #465c74;
+            border: 2px solid #d9e1ea
+        }
+
+        .notice,
+        .code-hint {
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: #fff8db;
+            border: 2px solid #f7d95d;
+            color: #7b6412;
+            font-weight: 600;
+            margin-top: 14px
+        }
+
+        .code-font,
+        code,
+        pre,
+        .code-editor,
+        .terminal,
+        .mini-code,
+        .syntax-chip {
+            font-family: 'Courier New', Courier, monospace !important
+        }
+
+        .code-activity {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 1140px;
+            align-items: stretch
+        }
+
+        .code-panel h3,
+        .output-panel h3 {
+            margin: 0 0 12px;
+            font-size: 1.32rem
+        }
+
+        .code-editor {
+            width: 100%;
+            min-height: 220px;
+            resize: none;
+            border: 3px solid #cfdae5;
+            border-radius: 14px;
+            padding: 16px;
+            background: #fbfdff;
+            color: #20324a;
+            font-size: 1rem;
+            line-height: 1.55;
+            outline: none;
+            tab-size: 4
+        }
+
+        .code-editor:focus {
+            border-color: var(--py-blue);
+            box-shadow: 0 0 0 4px rgba(55, 118, 171, .12)
+        }
+
+        .terminal {
+            min-height: 220px;
+            background: #f4f7f9;
+            border: 2px solid #cbd8e2;
+            border-radius: 14px;
+            padding: 16px;
+            color: #20384e;
+            white-space: pre-wrap;
+            overflow: auto;
+            font-size: .98rem;
+            line-height: 1.55
+        }
+
+        .terminal:before {
+            content: 'OUTPUT';
+            display: block;
+            font-family: 'Fredoka';
+            font-size: .78rem;
+            letter-spacing: .15em;
+            font-weight: 700;
+            color: #71859a;
+            margin-bottom: 12px
+        }
+
+        .target-terminal {
+            white-space: pre-wrap !important
+        }
+
+        .output-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px
+        }
+
+        .run-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: flex-start;
+            margin-top: 12px;
+            flex-wrap: wrap
+        }
+
+        .code-feedback,
+        .feedback {
+            font-weight: 700;
+            min-height: 26px;
+            color: #5d7187
+        }
+
+        .code-feedback.success,
+        .feedback.success {
+            color: #148456
+        }
+
+        .code-feedback.error,
+        .feedback.error {
+            color: #cf4542
+        }
+
+        .vscode-tour {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            width: 100%;
+            max-width: 1120px
+        }
+
+        .tour-card {
+            background: #fff;
+            border: 2px solid #dce7ef;
+            border-radius: 22px;
+            padding: 14px
+        }
+
+        .tour-card img {
+            width: 100%;
+            height: 170px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #f6f9fb
+        }
+
+        .tour-card h3 {
+            font-size: 1.15rem;
+            margin: 9px 0 4px
+        }
+
+        .tour-card p {
+            margin: 0;
+            color: #64768a
+        }
+
+        .mini-code {
+            background: #f5f8fb;
+            border: 2px solid #cbd8e3;
+            border-radius: 13px;
+            padding: 15px;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            overflow: auto
+        }
+
+        .reveal-box {
+            display: none;
+            margin-top: 14px
+        }
+
+        .reveal-box.show {
+            display: block
+        }
+
+        .game-login {
+            width: min(860px, 100%);
+            background: linear-gradient(135deg, #283c86, #45a8bf);
+            border-radius: 34px;
+            padding: 30px;
+            color: #fff;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden
+        }
+
+        .game-login:before {
+            content: '✨ 🎮 🐍 ✨';
+            position: absolute;
+            right: 20px;
+            top: 12px;
+            font-size: 2.2rem;
+            opacity: .35
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, .92);
+            color: #20324a;
+            border-radius: 26px;
+            padding: 24px;
+            position: relative;
+            z-index: 2
+        }
+
+        .game-card input {
+            width: 100%;
+            border: 3px solid #dbe5f0;
+            border-radius: 16px;
+            padding: 14px 17px;
+            font: 600 1.05rem 'Fredoka';
+            outline: none;
+            margin: 12px 0
+        }
+
+        .response-box {
+            min-height: 48px;
+            margin-top: 15px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: #fff;
+            border: 2px dashed #cdd8e5;
+            color: #50657d;
+            font-weight: 600
+        }
+
+        .compare-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 950px
+        }
+
+        .compare-card {
+            background: #fff;
+            border: 3px solid #dfe8ef;
+            border-radius: 26px;
+            padding: 26px;
+            text-align: center
+        }
+
+        .compare-card span {
+            font-size: 5rem
+        }
+
+        .compare-card h3 {
+            font-size: 1.8rem;
+            margin: 8px
+        }
+
+        .drop-layout {
+            width: 100%;
+            max-width: 1040px
+        }
+
+        .drop-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px
+        }
+
+        .drop-grid.four {
+            grid-template-columns: repeat(4, 1fr)
+        }
+
+        .drop-target {
+            min-height: 145px;
+            background: #fcfdfe;
+            border: 3px dashed #cfd9e4;
+            border-radius: 20px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 9px;
+            position: relative;
+            box-shadow: inset 0 -12px 20px rgba(0, 0, 0, 0.02);
+        }
+
+        .drop-target::before {
+            content: '📦';
+            font-size: 2.2rem;
+            opacity: 0.3;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+        }
+
+        .drop-target.active {
+            border-color: #0ba7a5;
+            background: #effcfb
+        }
+
+        .drop-target .label {
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: #26405e
+        }
+
+        .drop-target .filled {
+            background: #eaf6ff;
+            border: 2px solid #9ac5e3;
+            color: #285b7d;
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-weight: 700
+        }
+
+        .drag-pool {
+            margin-top: 18px;
+            background: #fff;
+            border: 3px dashed #cbd8e2;
+            border-radius: 20px;
+            padding: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center
+        }
+
+        .draggable {
+            background: #3776ab;
+            color: #fff;
+            border-radius: 12px;
+            padding: 11px 18px;
+            cursor: grab;
+            font-weight: 700;
+            user-select: none
+        }
+
+        .syntax-lab {
+            display: grid;
+            grid-template-columns: 1.1fr .5fr 1fr;
+            gap: 18px;
+            width: 100%;
+            max-width: 1120px;
+            align-items: stretch
+        }
+
+        .syntax-list {
+            display: grid;
+            gap: 8px
+        }
+
+        .syntax-chip {
+            background: #fff;
+            border: 2px solid #d6e2eb;
+            border-radius: 12px;
+            padding: 12px;
+            font-weight: 700;
+            color: #253d55;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .syntax-chip.active {
+            background: #eef7ff;
+            border-color: #70aed3
+        }
+
+        .type-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            width: 100%;
+            max-width: 1000px
+        }
+
+        .type-card {
+            background: #fff;
+            border: 3px solid #dfe8ef;
+            border-radius: 20px;
+            padding: 16px 20px;
+        }
+
+        .type-card span {
+            font-size: 3rem
+        }
+
+        .type-card h3 {
+            font-size: 1.5rem;
+            margin: 4px 0
+        }
+
+        .type-card p {
+            color: #60758b;
+            margin: 0
+        }
+
+        .quiz-shell {
+            width: 100%;
+            max-width: 950px;
+            background: #fff;
+            border: 3px solid #e1e8f2;
+            border-radius: 30px;
+            padding: 28px;
+            box-shadow: var(--shadow)
+        }
+
+        .quiz-question {
+            display: none
+        }
+
+        .quiz-question.active {
+            display: block
+        }
+
+        .quiz-question h3 {
+            font-size: 2rem;
+            margin: 0 0 18px
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px
+        }
+
+        .quiz-options button {
+            border: 3px solid #dfe7f0;
+            background: #f9fbfd;
+            border-radius: 16px;
+            padding: 15px 18px;
+            text-align: left;
+            font: 600 1.1rem 'Fredoka';
+            cursor: pointer
+        }
+
+        .quiz-options button:hover {
+            border-color: #8f75ea;
+            background: #f5f0ff
+        }
+
+        .quiz-options button.correct {
+            border-color: var(--green);
+            background: #eafaf3
+        }
+
+        .quiz-options button.wrong {
+            border-color: var(--red);
+            background: #fff0ef
+        }
+
+        .quiz-progress {
+            margin-top: 20px;
+            color: #63778e;
+            font-weight: 700
+        }
+
+        .quiz-progress>div {
+            height: 10px;
+            background: #e9eef4;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 7px
+        }
+
+        .quiz-progress i {
+            display: block;
+            height: 100%;
+            width: 33%;
+            background: linear-gradient(90deg, var(--orange), var(--purple));
+            transition: .3s
+        }
+
+        .recap-path {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .recap-path>div {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 23px;
+            padding: 20px;
+            text-align: center
+        }
+
+        .recap-path span {
+            font-size: 3.5rem
+        }
+
+        .recap-path b {
+            display: block;
+            font-size: 1.25rem;
+            margin: 7px
+        }
+
+        .recap-path p {
+            margin: 0;
+            color: #61758b
+        }
+
+        .emoji-feedback {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 30px
+        }
+
+        .emoji-feedback button {
+            border: 3px solid #e0e7ef;
+            background: #fff;
+            border-radius: 25px;
+            padding: 18px;
+            font-size: 5rem;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .emoji-feedback button:hover,
+        .emoji-feedback button.selected {
+            transform: scale(1.12);
+            border-color: var(--purple);
+            background: #f5efff
+        }
+
+        .emoji-feedback small {
+            display: block;
+            font: 600 .9rem 'Fredoka'
+        }
+
+        .feedback-thanks {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c4ddd;
+            margin-top: 25px;
+            min-height: 35px
+        }
+
+        .soft-blue {
+            background: linear-gradient(145deg, #edf7ff, #f7fbff) !important
+        }
+
+        .soft-green {
+            background: linear-gradient(145deg, #effcf5, #fbfffd) !important
+        }
+
+        .soft-orange {
+            background: linear-gradient(145deg, #fff6ea, #fffdf8) !important
+        }
+
+        .soft-purple {
+            background: linear-gradient(145deg, #f6f0ff, #fbf9ff) !important
+        }
+
+        .feedback-final {
+            background: linear-gradient(145deg, #fff0f6, #eef4ff) !important
+        }
+
+        @media(max-width:1050px) {
+            .presentation-container {
+                width: 95vw;
+                height: 84vh
+            }
+
+            .slide {
+                padding: 32px 30px 72px
+            }
+
+            .agenda-grid,
+            .split-layout,
+            .code-activity,
+            .vscode-tour,
+            .syntax-lab {
+                grid-template-columns: 1fr
+            }
+
+            .drop-grid,
+            .drop-grid.four,
+            .type-grid,
+            .recap-path {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .output-cols {
+                grid-template-columns: 1fr
+            }
+
+            .brand-logo img {
+                height: 50px
+            }
+        }
+
+        @media(max-width:700px) {
+            .brand-logo {
+                left: 8px;
+                top: 6px;
+                padding: 7px 12px
+            }
+
+            .brand-logo img {
+                height: 34px
+            }
+
+            .presentation-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: 0
+            }
+
+            .slide {
+                padding: 68px 18px 74px
+            }
+
+            .agenda-grid,
+            .drop-grid,
+            .drop-grid.four,
+            .type-grid,
+            .recap-path,
+            .compare-cards {
+                grid-template-columns: 1fr
+            }
+
+            .display-title {
+                font-size: 3.2rem
+            }
+
+            .hero-icon {
+                font-size: 5rem
+            }
+
+            .emoji-feedback {
+                gap: 8px;
+                flex-wrap: wrap
+            }
+
+            .emoji-feedback button {
+                font-size: 3.5rem
+            }
+
+            .nav-title {
+                display: none
+            }
+        }
+
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(14, 25, 41, 0.85);
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+            animation: zoomIn 0.3s ease;
+        }
+
+        .image-modal.show {
+            display: flex;
+        }
+
+        .tour-card img {
+            cursor: zoom-in;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .operator-symbol {
+            font-size: 5rem;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--py-blue);
+            filter: drop-shadow(0 10px 10px rgba(55, 118, 171, .13));
+        }
+
+        .calc-stage {
+            width: min(900px, 100%);
+            background: linear-gradient(135deg, #273b58, #0ba7a5);
+            color: white;
+            border-radius: 32px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .calc-row {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: 16px;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .calc-row input,
+        .calc-row select,
+        .mini-input {
+            border: 3px solid rgba(255, 255, 255, .45);
+            border-radius: 16px;
+            padding: 14px 18px;
+            font: 700 1.25rem 'Fredoka';
+            outline: none;
+            min-width: 0;
+        }
+
+        .calc-result {
+            background: rgba(255, 255, 255, .18);
+            border: 2px solid rgba(255, 255, 255, .28);
+            border-radius: 20px;
+            padding: 18px;
+            font: 700 1.5rem 'Courier New', monospace;
+            min-height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: pre-wrap;
+        }
+
+        .op-chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .op-chip {
+            background: #fff;
+            border: 3px solid #dce8f0;
+            border-radius: 18px;
+            padding: 14px 18px;
+            font: 700 1.15rem 'Courier New', monospace;
+            cursor: pointer;
+            transition: .2s;
+            color: #24344d;
+        }
+
+        .op-chip:hover,
+        .op-chip.active {
+            transform: translateY(-2px);
+            border-color: var(--orange);
+            background: #fff4e8;
+        }
+
+        .formula-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1080px;
+        }
+
+        .formula-card {
+            background: #fff;
+            border: 3px solid #dfe8ef;
+            border-radius: 24px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 12px 28px rgba(38, 73, 103, .08);
+        }
+
+        .formula-card span {
+            font-size: 4rem;
+            display: block;
+        }
+
+        .formula-card h3 {
+            margin: 6px 0;
+            font-size: 1.35rem;
+        }
+
+        .formula-card pre {
+            margin: 10px 0 0;
+        }
+
+        .garden-box {
+            background: linear-gradient(135deg, #e9fff5, #fffbea);
+            border: 3px solid #b7ebd2;
+            border-radius: 28px;
+            padding: 24px;
+            width: 100%;
+            max-width: 1040px;
+            box-shadow: var(--shadow);
+        }
+
+        .garden-form {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .garden-form label {
+            font-weight: 700;
+            color: #38516a;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .garden-form input {
+            border: 3px solid #dbe5f0;
+            border-radius: 14px;
+            padding: 12px;
+            font: 700 1rem 'Fredoka';
+        }
+
+        .garden-report {
+            margin-top: 18px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .report-card {
+            background: #fff;
+            border: 2px solid #dfe8ef;
+            border-radius: 18px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .report-card b {
+            display: block;
+            font-size: 1.7rem;
+            color: var(--py-blue);
+        }
+
+        .comparison-board {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 920px;
+        }
+
+        .comparison-case {
+            background: #fff;
+            border: 3px solid #dfe8ef;
+            border-radius: 24px;
+            padding: 22px;
+            text-align: center;
+        }
+
+        .comparison-case h3 {
+            margin-top: 0;
+        }
+
+        .comparison-case button {
+            margin: 7px;
+        }
+
+        .image-card {
+            background: #fff;
+            border: 3px solid #dce8f0;
+            border-radius: 26px;
+            padding: 16px;
+            box-shadow: 0 12px 28px rgba(38, 73, 103, .09);
+            text-align: center;
+        }
+
+        .image-card img {
+            max-width: 100%;
+            max-height: 310px;
+            object-fit: contain;
+            border-radius: 18px;
+        }
+
+        @media(max-width:1050px) {
+
+            .formula-grid,
+            .garden-form,
+            .garden-report {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .calc-row {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-board {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="brand-logo"><img
+            src="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+            alt="Ruangguru Coding"></div>
+    <main class="presentation-container" id="presentation">
+        <section class="slide cover-slide" data-title="Operator dan Perhitungan">
+            <div class="cover-scene">
+                <div class="orbit orbit-a">➕</div>
+                <div class="orbit orbit-b">🧮</div>
+                <div class="orbit orbit-c">🌿</div>
+                <div class="hero-badge">SESSION 4 • PYTHON BEGINNER</div>
+                <div class="hero-icon"><img
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/3840px-Python-logo-notext.svg.png"
+                        alt="Python" style="height: 1em; width: auto;"></div>
+                <p class="eyebrow">OPERATORS</p>
+                <h1 class="display-title">Operator & <span>Calculation</span></h1>
+                <p class="hero-subtitle">Menggunakan operator matematika dan operator perbandingan untuk mengolah data
+                    menjadi hasil yang bisa dipakai.</p>
+                <div class="hero-pills"><span>➕ +</span><span>➖ -</span><span>✖️ *</span><span>➗ /</span><span>🔍
+                        comparison</span></div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Review Sesi Sebelumnya">
+            <div class="slide-head center"><span class="kicker">REVIEW</span>
+                <h2>Apa yang Kita Pelajari Sebelumnya?</h2>
+                <p>Sebelum menghitung, kita perlu ingat lagi cara Python menerima dan menyimpan data.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><b>01</b><span>⌨️</span>
+                    <h3>input()</h3>
+                    <p>Menerima data dari user melalui terminal.</p>
+                </div>
+                <div class="agenda-card orange"><b>02</b><span>📦</span>
+                    <h3>Variable</h3>
+                    <p>Menyimpan value dengan label agar bisa dipakai lagi.</p>
+                </div>
+                <div class="agenda-card purple"><b>03</b><span>🔢</span>
+                    <h3>int() dan float()</h3>
+                    <p>Mengubah input string menjadi angka yang bisa dihitung.</p>
+                </div>
+                <div class="agenda-card green"><b>04</b><span>🖥️</span>
+                    <h3>Terminal</h3>
+                    <p>Menjalankan file Python dan membaca output program.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Agenda Hari Ini">
+            <div class="slide-head center"><span class="kicker">TODAY'S AGENDA</span>
+                <h2>Rencana Belajar Hari Ini</h2>
+                <p>Kita akan belajar cara membuat program yang bisa menghitung data sederhana.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><b>01</b><span>🧮</span>
+                    <h3>Operator Matematika</h3>
+                    <p>Menggunakan +, -, *, dan / untuk menghitung.</p>
+                </div>
+                <div class="agenda-card orange"><b>02</b><span>🔍</span>
+                    <h3>Operator Perbandingan</h3>
+                    <p>Membandingkan nilai dan menghasilkan True atau False.</p>
+                </div>
+                <div class="agenda-card purple"><b>03</b><span>🌱</span>
+                    <h3>Kalkulator Kebun</h3>
+                    <p>Menghitung luas, biaya bibit, dan kebutuhan air.</p>
+                </div>
+                <div class="agenda-card green"><b>04</b><span>📐</span>
+                    <h3>Area Calculator</h3>
+                    <p>Menghitung luas beberapa bentuk sederhana.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Siapkan Folder PythonDay4">
+            <div class="slide-head compact center"><span class="kicker">SETUP PROJECT</span>
+                <h2>Buka VS Code dan Buat Folder Baru</h2>
+                <p>Di dalam folder <span class="code-font">project-python</span>, buat folder baru untuk latihan hari
+                    ini.</p>
+            </div>
+            <div class="vscode-tour">
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/156d040a-963c-49f2-b1fb-324c7d7614ea.png"
+                        alt="Open Folder">
+                    <h3>1. Buka VS Code</h3>
+                    <p>Pilih folder <span class="code-font">project-python</span>.</p>
+                </div>
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/ec43540f-3628-4785-a5f1-42f1016c843a.png"
+                        alt="Create folder">
+                    <h3>2. Buat PythonDay4</h3>
+                    <p>Buat folder baru bernama <span class="code-font">PythonDay4</span>.</p>
+                </div>
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/90a01dc8-b2f1-42c1-ae76-c361d8c20f8c.png"
+                        alt="Create file">
+                    <h3>3. Siapkan File</h3>
+                    <p>Nanti kita buat <span class="code-font">learn-operator.py</span>, <span
+                            class="code-font">count-garden.py</span>, dan <span class="code-font">count-area.py</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Kenapa Perlu Operator">
+            <div class="split-layout">
+                <div class="single-focus" style="box-shadow:none">
+                    <div class="giant-emoji">📦➡️🧮</div><span class="kicker">WHY OPERATORS?</span>
+                    <h2>Data Perlu Diolah</h2>
+                    <p>Input dan variabel baru menyimpan data. Operator membantu program <b>menghitung</b>,
+                        <b>membandingkan</b>, dan <b>menghasilkan informasi baru</b>.</p>
+                </div>
+                <div class="image-card"><img
+                        src="https://cdn.sanity.io/images/do2rqv0h/production/3356021b2d743e60cb89b0b97196fb2b2b0b44a0-800x800.gif?w=1116&fit=max&auto=format"
+                        alt="Bongo cat typing">
+                    <h3>Python tidak hanya menyimpan data.</h3>
+                    <p class="lead">Python bisa mengolah data menjadi hasil yang berguna.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Operator Matematika">
+            <div class="slide-head center"><span class="kicker">MATH OPERATORS</span>
+                <h2>Simbol untuk Menghitung di Python</h2>
+                <p>Python menggunakan simbol operator untuk melakukan operasi matematika.</p>
+            </div>
+            <div class="formula-grid">
+                <div class="formula-card blue"><span>➕</span>
+                    <h3>Tambah</h3>
+                    <pre class="mini-code">a + b</pre>
+                </div>
+                <div class="formula-card orange"><span>➖</span>
+                    <h3>Kurang</h3>
+                    <pre class="mini-code">a - b</pre>
+                </div>
+                <div class="formula-card purple"><span>✖️</span>
+                    <h3>Kali</h3>
+                    <pre class="mini-code">a * b</pre>
+                </div>
+                <div class="formula-card green"><span>➗</span>
+                    <h3>Bagi</h3>
+                    <pre class="mini-code">a / b</pre>
+                </div>
+            </div>
+            <div class="notice" style="max-width:900px">Di Python, perkalian ditulis dengan <span
+                    class="code-font">*</span>, bukan huruf x.</div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Coba Hitung dengan Operator">
+            <div class="slide-head compact center"><span class="kicker">INTERACTIVE CALCULATOR</span>
+                <h2>Coba Operasikan Dua Angka</h2>
+                <p>Ubah angka dan operator, lalu lihat hasilnya.</p>
+            </div>
+            <div class="calc-stage">
+                <div class="calc-row">
+                    <input id="numA" type="number" value="12">
+                    <select id="opSelect">
+                        <option value="+">+</option>
+                        <option value="-">-</option>
+                        <option value="*">*</option>
+                        <option value="/">/</option>
+                    </select>
+                    <input id="numB" type="number" value="4">
+                    <button class="run-btn" onclick="calculateDemo()">Run ▶</button>
+                    <div class="calc-result" id="calcResult">12 + 4 = 16</div>
+                </div>
+                <div class="note">Perhatikan: operator yang berbeda menghasilkan proses yang berbeda walaupun angkanya
+                    sama.</div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="print Angka vs print Teks">
+            <div class="slide-head center"><span class="kicker">REMEMBER DATA TYPES</span>
+                <h2>Angka Tanpa Kutip Bisa Dihitung</h2>
+                <p>Kalau angka ditulis sebagai string, Python akan memperlakukannya sebagai teks.</p>
+            </div>
+            <div class="syntax-lab">
+                <div class="code-panel">
+                    <h3>Run Syntax</h3>
+                    <div class="syntax-list" id="syntaxListOps">
+                        <div class="syntax-chip" data-out="15"><span>print(10 + 5)</span><button class="run-btn"
+                                onclick="runSpecificSyntax(this,'operatorSyntaxOutput')">Run ▶</button></div>
+                        <div class="syntax-chip" data-out="10 + 5"><span>print("10 + 5")</span><button class="run-btn"
+                                onclick="runSpecificSyntax(this,'operatorSyntaxOutput')">Run ▶</button></div>
+                        <div class="syntax-chip" data-out="105"><span>print("10" + "5")</span><button class="run-btn"
+                                onclick="runSpecificSyntax(this,'operatorSyntaxOutput')">Run ▶</button></div>
+                        <div class="syntax-chip" data-out="50"><span>print(10 * 5)</span><button class="run-btn"
+                                onclick="runSpecificSyntax(this,'operatorSyntaxOutput')">Run ▶</button></div>
+                    </div>
+                </div>
+                <div class="single-focus" style="box-shadow:none;padding:25px">
+                    <div class="notice">Investigate: apakah Python menghitung, menampilkan teks, atau menggabungkan
+                        teks?</div>
+                </div>
+                <div class="output-panel">
+                    <h3>Output</h3>
+                    <div class="terminal target-terminal" id="operatorSyntaxOutput">Klik Run pada salah satu syntax.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Type Casting Saat Menghitung">
+            <div class="split-layout">
+                <div><span class="kicker">IMPORTANT</span>
+                    <h2>Input dari User Masih Berupa String</h2>
+                    <p class="lead">Kalau ingin menghitung hasil input, kita perlu mengubahnya menjadi angka.</p>
+                    <div class="notice">Gunakan <span class="code-font">int(input(...))</span> untuk bilangan bulat dan
+                        <span class="code-font">float(input(...))</span> untuk bilangan desimal.</div>
+                </div>
+                <div class="mature-card">
+                    <h3>Contoh</h3>
+                    <pre class="mini-code">num1 = int(input("Enter number: "))
+num2 = int(input("Enter number: "))
+print(num1 + num2)</pre>
+                    <p class="lead">Tanpa <span class="code-font">int()</span>, angka dari input belum siap dihitung.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Fix the Code">
+            <div class="slide-head compact center"><span class="kicker">DEBUG MINI ACTIVITY</span>
+                <h2>Kenapa Hasilnya Jadi 1020?</h2>
+                <p>Pilih versi kode yang benar agar input bisa dihitung sebagai angka.</p>
+            </div>
+            <div class="compare-cards">
+                <div class="compare-card red"><span>⚠️</span>
+                    <h3>Versi A</h3>
+                    <pre class="mini-code">a = input("A: ")
+b = input("B: ")
+print(a + b)</pre><button class="secondary-btn"
+                        onclick="setFeedback('fixFeedback','Versi A belum tepat. Input masih string, jadi hasilnya digabung.',false)">Pilih
+                        A</button>
+                </div>
+                <div class="compare-card green"><span>✅</span>
+                    <h3>Versi B</h3>
+                    <pre class="mini-code">a = int(input("A: "))
+b = int(input("B: "))
+print(a + b)</pre><button class="primary-btn"
+                        onclick="setFeedback('fixFeedback','Tepat. int() membuat input siap dihitung sebagai angka.',true)">Pilih
+                        B</button>
+                </div>
+            </div>
+            <div class="feedback" id="fixFeedback" style="margin-top:20px">Pilih kode yang menurutmu benar.</div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Operator Perbandingan">
+            <div class="slide-head center"><span class="kicker">COMPARISON OPERATORS</span>
+                <h2>Operator untuk Membandingkan</h2>
+                <p>Selain menghitung, Python juga bisa membandingkan nilai dan menghasilkan <span
+                        class="code-font">True</span> atau <span class="code-font">False</span>.</p>
+            </div>
+            <div class="op-chip-row">
+                <div class="op-chip">10 &gt; 5 → True</div>
+                <div class="op-chip">3 &lt; 2 → False</div>
+                <div class="op-chip">8 == 8 → True</div>
+                <div class="op-chip">7 != 9 → True</div>
+                <div class="op-chip">5 &gt;= 5 → True</div>
+                <div class="op-chip">4 &lt;= 1 → False</div>
+            </div>
+            <div class="notice" style="max-width:900px">Operator perbandingan sering dipakai nanti saat kita belajar
+                conditional: <span class="code-font">if</span>.</div>
+        </section>
+
+        <section class="slide" data-title="Coba Comparison">
+            <div class="slide-head compact center"><span class="kicker">TRUE OR FALSE</span>
+                <h2>Prediksi Hasil Perbandingan</h2>
+                <p>Klik jawaban yang menurutmu benar.</p>
+            </div>
+            <div class="comparison-board">
+                <div class="comparison-case blue">
+                    <h3 class="code-font">12 &gt; 8</h3><button class="primary-btn"
+                        onclick="setFeedback('cmp1','Benar. 12 lebih besar dari 8, hasilnya True.',true)">True</button><button
+                        class="secondary-btn"
+                        onclick="setFeedback('cmp1','Cek lagi. 12 lebih besar dari 8.',false)">False</button>
+                    <div class="feedback" id="cmp1"></div>
+                </div>
+                <div class="comparison-case orange">
+                    <h3 class="code-font">5 == 7</h3><button class="secondary-btn"
+                        onclick="setFeedback('cmp2','Cek lagi. 5 tidak sama dengan 7.',false)">True</button><button
+                        class="primary-btn"
+                        onclick="setFeedback('cmp2','Benar. 5 tidak sama dengan 7, hasilnya False.',true)">False</button>
+                    <div class="feedback" id="cmp2"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Project 1 learn-operator.py">
+            <div class="slide-head compact center"><span class="kicker">PRACTICE 1</span>
+                <h2>Buat File: <span class="code-font">learn-operator.py</span></h2>
+                <p>Program ini meminta dua angka, lalu menampilkan hasil tambah, kurang, kali, dan bagi.</p>
+            </div>
+            <div class="code-activity">
+                <div class="output-panel">
+                    <h3>Target Output Contoh</h3>
+                    <div class="terminal target-terminal">
+                        Enter the first number: 10
+                        Enter the second number: 5
+                        10 + 5 = 15
+                        10 - 5 = 5
+                        10 x 5 = 50
+                        10 / 5 = 2.0</div>
+                </div>
+                <div class="single-focus" style="box-shadow:none">
+                    <div class="giant-emoji">🧮</div>
+                    <h2 style="font-size:2.3rem">Tantangan</h2>
+                    <p>Gunakan <span class="code-font">int(input())</span>, variabel, dan operator matematika.</p>
+                    <button class="primary-btn" onclick="showSlide(currentSlide+1)">Lihat Contoh Kode</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Kode learn-operator.py">
+            <div class="slide-head compact center"><span class="kicker">CODE STEP</span>
+                <h2>Isi File <span class="code-font">learn-operator.py</span></h2>
+                <p>Ketik kode berikut di VS Code. Perhatikan simbol perkalian dan pembagian.</p>
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>Program</h3>
+                    <pre class="mini-code">num1 = int(input("Enter the first number: "))
+num2 = int(input("Enter the second number: "))
+print(num1, '+', num2, '=', num1 + num2)
+print(num1, '-', num2, '=', num1 - num2)
+print(num1, 'x', num2, '=', num1 * num2)
+print(num1, '/', num2, '=', num1 / num2)</pre>
+                </div>
+                <div class="output-panel">
+                    <h3>Catatan</h3>
+                    <div class="agenda-grid" style="grid-template-columns:1fr">
+                        <div class="agenda-card blue"><span>🔢</span>
+                            <h3>int()</h3>
+                            <p>Karena input perlu dihitung sebagai bilangan bulat.</p>
+                        </div>
+                        <div class="agenda-card green"><span>🖨️</span>
+                            <h3>print dengan koma</h3>
+                            <p>Koma membantu menggabungkan teks dan angka dalam satu baris output.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Run learn-operator.py">
+            <div class="slide-head compact center"><span class="kicker">HOW TO RUN</span>
+                <h2>Cara Run <span class="code-font">learn-operator.py</span></h2>
+                <p>Pastikan terminal berada di folder PythonDay4.</p>
+            </div>
+            <div class="vscode-tour" style="grid-template-columns:1fr 1fr">
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/833d13c3-c2f5-4575-80c2-3e09934fb091.png"
+                        alt="Terminal">
+                    <h3>1. Open Integrated Terminal</h3>
+                    <p>Buka terminal dari folder PythonDay4.</p>
+                </div>
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/8b2be699-fafc-402c-aab0-f15cddf31583.png"
+                        alt="Run command">
+                    <h3>2. Ketik Command</h3>
+                    <p>Tulis <span class="code-font">python learn-operator.py</span>, lalu tekan Enter.</p>
+                    <div class="notice">Coba angka berbeda agar terlihat hasil operatornya berubah.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Simulator learn-operator.py">
+            <div class="slide-head compact center"><span class="kicker">RUN SIMULATOR</span>
+                <h2>Coba Jalankan Program Operator</h2>
+                <p>Simulator ini membantu melihat alur input dan output sebelum dicoba di VS Code.</p>
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>Editor</h3><textarea class="code-editor" id="operatorEditor" spellcheck="false">num1 = int(input("Enter the first number: "))
+num2 = int(input("Enter the second number: "))
+print(num1, '+', num2, '=', num1 + num2)
+print(num1, '-', num2, '=', num1 - num2)
+print(num1, 'x', num2, '=', num1 * num2)
+print(num1, '/', num2, '=', num1 / num2)</textarea>
+                    <div class="run-row"><button class="run-btn"
+                            onclick="runPythonSim('operatorEditor','operatorRunOutput','operatorFeedback')">Run
+                            ▶</button><span class="code-feedback" id="operatorFeedback"></span></div>
+                </div>
+                <div class="output-panel">
+                    <h3>Run Output</h3>
+                    <div class="terminal target-terminal" id="operatorRunOutput"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Project 2 count-garden.py">
+            <div class="slide-head compact center"><span class="kicker">PRACTICE 2</span>
+                <h2>Buat File: <span class="code-font">count-garden.py</span></h2>
+                <p>Kita akan membuat kalkulator sederhana untuk menghitung data kebun.</p>
+            </div>
+            <div class="split-layout">
+                <div class="image-card"><img src="https://files.realpython.com/media/pycalc.9572fb3104cb.gif"
+                        alt="Python calculator gif">
+                    <h3>Program sebagai kalkulator kecil</h3>
+                    <p class="lead">Input data → hitung dengan operator → tampilkan hasil.</p>
+                </div>
+                <div class="mature-card">
+                    <h3>Yang Dihitung</h3>
+                    <pre class="mini-code">area = length * width
+total_price = seeds * seeds_price
+water_needs = area * water_per_meter</pre>
+                    <div class="notice">Kita akan menggunakan <span class="code-font">float()</span> untuk ukuran meter
+                        dan <span class="code-font">int()</span> untuk jumlah bibit serta harga.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Rumus Kalkulator Kebun">
+            <div class="slide-head center"><span class="kicker">FORMULA BREAKDOWN</span>
+                <h2>Apa Arti Rumusnya?</h2>
+                <p>Sebelum mengetik kode panjang, pahami dulu fungsi setiap rumus.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><span>📏</span>
+                    <h3>Luas Kebun</h3>
+                    <p><span class="code-font">length * width</span><br>panjang dikali lebar.</p>
+                </div>
+                <div class="agenda-card orange"><span>🌱</span>
+                    <h3>Biaya Bibit</h3>
+                    <p><span class="code-font">seeds * seeds_price</span><br>jumlah bibit dikali harga.</p>
+                </div>
+                <div class="agenda-card green"><span>💧</span>
+                    <h3>Kebutuhan Air</h3>
+                    <p><span class="code-font">area * 2</span><br>setiap 1 m² butuh 2 liter.</p>
+                </div>
+                <div class="agenda-card purple"><span>📢</span>
+                    <h3>Output</h3>
+                    <p>Hasil perhitungan ditampilkan dengan <span class="code-font">print()</span>.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Mini Kalkulator Kebun">
+            <div class="slide-head compact center"><span class="kicker">INTERACTIVE GARDEN CALCULATOR</span>
+                <h2>Coba Hitung Data Kebun</h2>
+                <p>Masukkan nilai, lalu lihat bagaimana operator mengolah data.</p>
+            </div>
+            <div class="garden-box">
+                <div class="garden-form">
+                    <label>Panjang (m)<input id="gLength" type="number" value="8"></label>
+                    <label>Lebar (m)<input id="gWidth" type="number" value="5"></label>
+                    <label>Jumlah bibit<input id="gSeeds" type="number" value="20"></label>
+                    <label>Harga/bibit<input id="gPrice" type="number" value="1500"></label>
+                </div>
+                <div style="text-align:center;margin-top:16px"><button class="primary-btn"
+                        onclick="countGardenDemo()">Hitung Kebun ▶</button></div>
+                <div class="garden-report">
+                    <div class="report-card">Luas Kebun<b id="gArea">40 m²</b></div>
+                    <div class="report-card">Biaya Bibit<b id="gTotal">Rp 30000</b></div>
+                    <div class="report-card">Kebutuhan Air<b id="gWater">80 liter</b></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Kode count-garden.py">
+            <div class="slide-head compact center"><span class="kicker">CODE STEP</span>
+                <h2>Isi File <span class="code-font">count-garden.py</span></h2>
+                <p>Ketik kode berikut untuk membuat kalkulator kebun.</p>
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>Program</h3>
+                    <pre class="mini-code" style="max-height:420px; overflow:auto">print("KALKULATOR KEBUN")
+print("====================")
+
+length = float(input("Panjang kebun (meter): "))
+width = float(input("Lebar kebun (meter): "))
+
+area = length * width
+
+seeds = int(input("Jumlah bibit: "))
+seeds_price = int(input("Harga satu bibit: Rp"))
+
+total_price = seeds * seeds_price
+
+water_per_meter = 2
+water_needs = area * water_per_meter
+
+print("HASIL PERHITUNGAN")
+print("====================")
+print("Luas kebun       :", area, "m²")
+print("Total biaya bibit: Rp", total_price)
+print("Kebutuhan air    :", water_needs, "liter")</pre>
+                </div>
+                <div class="output-panel">
+                    <h3>Fokus Coding</h3>
+                    <div class="agenda-grid" style="grid-template-columns:1fr">
+                        <div class="agenda-card orange"><span>📏</span>
+                            <h3>float()</h3>
+                            <p>Panjang dan lebar bisa berupa angka desimal.</p>
+                        </div>
+                        <div class="agenda-card green"><span>🔢</span>
+                            <h3>int()</h3>
+                            <p>Jumlah bibit dan harga biasanya bilangan bulat.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Run count-garden.py">
+            <div class="slide-head compact center"><span class="kicker">HOW TO RUN</span>
+                <h2>Cara Run <span class="code-font">count-garden.py</span></h2>
+                <p>Command berubah sesuai nama file yang sedang dijalankan.</p>
+            </div>
+            <div class="vscode-tour" style="grid-template-columns:1fr 1fr">
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/833d13c3-c2f5-4575-80c2-3e09934fb091.png"
+                        alt="Terminal">
+                    <h3>1. Buka Terminal</h3>
+                    <p>Pastikan terminal berada di folder PythonDay4.</p>
+                </div>
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/8b2be699-fafc-402c-aab0-f15cddf31583.png"
+                        alt="Run">
+                    <h3>2. Ketik Command</h3>
+                    <p>Tulis <span class="code-font">python count-garden.py</span>, lalu tekan Enter.</p>
+                    <div class="notice">Isi input sesuai pertanyaan yang muncul di terminal.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Simulator count-garden.py">
+            <div class="slide-head compact center"><span class="kicker">RUN SIMULATOR</span>
+                <h2>Coba Jalankan Kalkulator Kebun</h2>
+                <p>Jalankan, lalu isi panjang, lebar, jumlah bibit, dan harga bibit.</p>
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>Editor</h3><textarea class="code-editor" id="gardenEditor" spellcheck="false"
+                        style="min-height:340px">print("KALKULATOR KEBUN")
+print("====================")
+
+length = float(input("Panjang kebun (meter): "))
+width = float(input("Lebar kebun (meter): "))
+
+area = length * width
+
+seeds = int(input("Jumlah bibit: "))
+seeds_price = int(input("Harga satu bibit: Rp"))
+
+total_price = seeds * seeds_price
+
+water_per_meter = 2
+water_needs = area * water_per_meter
+
+print("HASIL PERHITUNGAN")
+print("====================")
+print("Luas kebun       :", area, "m²")
+print("Total biaya bibit: Rp", total_price)
+print("Kebutuhan air    :", water_needs, "liter")</textarea>
+                    <div class="run-row"><button class="run-btn"
+                            onclick="runPythonSim('gardenEditor','gardenRunOutput','gardenFeedback')">Run
+                            ▶</button><span class="code-feedback" id="gardenFeedback"></span></div>
+                </div>
+                <div class="output-panel">
+                    <h3>Run Output</h3>
+                    <div class="terminal target-terminal" id="gardenRunOutput"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Project 3 count-area.py">
+            <div class="slide-head compact center"><span class="kicker">PRACTICE 3</span>
+                <h2>Buat File: <span class="code-font">count-area.py</span></h2>
+                <p>Kita akan menghitung luas beberapa bentuk menggunakan rumus dan operator.</p>
+            </div>
+            <div class="formula-grid">
+                <div class="formula-card blue"><span>◼️</span>
+                    <h3>Square</h3>
+                    <pre class="mini-code">side * side</pre>
+                </div>
+                <div class="formula-card orange"><span>🔺</span>
+                    <h3>Triangle</h3>
+                    <pre class="mini-code">0.5 * base * height</pre>
+                </div>
+                <div class="formula-card green"><span>▭</span>
+                    <h3>Rectangle</h3>
+                    <pre class="mini-code">length * width</pre>
+                </div>
+                <div class="formula-card purple"><span>⚪</span>
+                    <h3>Circle</h3>
+                    <pre class="mini-code">3.14 * radius * radius</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Match Rumus Luas">
+            <div class="slide-head compact center"><span class="kicker">MATCH FORMULA</span>
+                <h2>Cocokkan Bentuk dengan Rumus</h2>
+                <p>Tarik rumus ke bentuk yang sesuai.</p>
+            </div>
+            <div class="drop-layout">
+                <div class="drop-grid four">
+                    <div class="drop-target" data-accept="side * side"><span class="label">◼️ Square</span></div>
+                    <div class="drop-target" data-accept="0.5 * base * height"><span class="label">🔺 Triangle</span>
+                    </div>
+                    <div class="drop-target" data-accept="length * width"><span class="label">▭ Rectangle</span></div>
+                    <div class="drop-target" data-accept="3.14 * radius * radius"><span class="label">⚪ Circle</span>
+                    </div>
+                </div>
+                <div class="drag-pool">
+                    <div class="draggable" draggable="true" data-value="length * width">length * width</div>
+                    <div class="draggable" draggable="true" data-value="3.14 * radius * radius">3.14 * radius * radius
+                    </div>
+                    <div class="draggable" draggable="true" data-value="side * side">side * side</div>
+                    <div class="draggable" draggable="true" data-value="0.5 * base * height">0.5 * base * height</div>
+                </div>
+                <div class="feedback" id="formulaFeedback">Tarik rumus ke bentuk yang cocok.</div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Kode count-area.py">
+            <div class="slide-head compact center"><span class="kicker">CODE STEP</span>
+                <h2>Isi File <span class="code-font">count-area.py</span></h2>
+                <p>Kode ini lebih panjang, jadi ketik pelan-pelan dan cek setiap bagian.</p>
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>Program</h3>
+                    <pre class="mini-code" style="max-height:430px; overflow:auto">print("AREA CALCULATOR")
+print("========================")
+
+# Square
+print("1. SQUARE")
+side = float(input("Masukkan panjang sisi: "))
+square_area = side * side
+print("Square area =", square_area)
+
+# Triangle
+print("2. TRIANGLE")
+base = float(input("Masukkan panjang alas: "))
+height = float(input("Masukkan tinggi: "))
+triangle_area = 0.5 * base * height
+print("Triangle area =", triangle_area)
+
+# Rectangle
+print("3. RECTANGLE")
+length = float(input("Masukkan panjang: "))
+width = float(input("Masukkan lebar: "))
+rectangle_area = length * width
+print("Rectangle area =", rectangle_area)
+
+# Circle
+print("4. CIRCLE")
+radius = float(input("Masukkan jari-jari: "))
+circle_area = 3.14 * radius * radius
+print("Circle area =", circle_area)
+
+print("========================")
+print("ALL CALCULATIONS COMPLETE")</pre>
+                </div>
+                <div class="output-panel">
+                    <h3>Strategi Mengetik</h3>
+                    <div class="agenda-grid" style="grid-template-columns:1fr">
+                        <div class="agenda-card blue"><span>1️⃣</span>
+                            <h3>Ketik per bagian</h3>
+                            <p>Square dulu, run. Lanjut Triangle, run lagi.</p>
+                        </div>
+                        <div class="agenda-card green"><span>✅</span>
+                            <h3>Test bertahap</h3>
+                            <p>Jangan tunggu semua selesai baru dites.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Run count-area.py">
+            <div class="slide-head compact center"><span class="kicker">HOW TO RUN</span>
+                <h2>Cara Run <span class="code-font">count-area.py</span></h2>
+                <p>Jalankan file terakhir untuk menghitung luas beberapa bentuk.</p>
+            </div>
+            <div class="vscode-tour" style="grid-template-columns:1fr 1fr">
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/833d13c3-c2f5-4575-80c2-3e09934fb091.png"
+                        alt="Terminal">
+                    <h3>1. Open Integrated Terminal</h3>
+                    <p>Buka terminal dari folder PythonDay4.</p>
+                </div>
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/8b2be699-fafc-402c-aab0-f15cddf31583.png"
+                        alt="Run">
+                    <h3>2. Ketik Command</h3>
+                    <p>Tulis <span class="code-font">python count-area.py</span>, lalu tekan Enter.</p>
+                    <div class="notice">Masukkan angka sesuai bentuk yang sedang dihitung.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Simulator count-area.py">
+            <div class="slide-head compact center"><span class="kicker">RUN SIMULATOR</span>
+                <h2>Coba Jalankan Area Calculator</h2>
+                <p>Jalankan dan isi input satu per satu.</p>
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>Editor</h3><textarea class="code-editor" id="areaEditor" spellcheck="false"
+                        style="min-height:340px">print("AREA CALCULATOR")
+print("========================")
+
+# Square
+print("1. SQUARE")
+side = float(input("Masukkan panjang sisi: "))
+square_area = side * side
+print("Square area =", square_area)
+
+# Triangle
+print("2. TRIANGLE")
+base = float(input("Masukkan panjang alas: "))
+height = float(input("Masukkan tinggi: "))
+triangle_area = 0.5 * base * height
+print("Triangle area =", triangle_area)
+
+# Rectangle
+print("3. RECTANGLE")
+length = float(input("Masukkan panjang: "))
+width = float(input("Masukkan lebar: "))
+rectangle_area = length * width
+print("Rectangle area =", rectangle_area)
+
+# Circle
+print("4. CIRCLE")
+radius = float(input("Masukkan jari-jari: "))
+circle_area = 3.14 * radius * radius
+print("Circle area =", circle_area)
+
+print("========================")
+print("ALL CALCULATIONS COMPLETE")</textarea>
+                    <div class="run-row"><button class="run-btn"
+                            onclick="runPythonSim('areaEditor','areaRunOutput','areaFeedback')">Run ▶</button><span
+                            class="code-feedback" id="areaFeedback"></span></div>
+                </div>
+                <div class="output-panel">
+                    <h3>Run Output</h3>
+                    <div class="terminal target-terminal" id="areaRunOutput"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Debugging Operator">
+            <div class="slide-head compact center"><span class="kicker">DEBUGGING</span>
+                <h2>Kesalahan yang Sering Terjadi</h2>
+                <p>Operator membuat program kuat, tetapi typo kecil bisa membuat hasil salah.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card red"><span>❌</span>
+                    <h3>Pakai x untuk kali</h3>
+                    <p>Di Python harus pakai <span class="code-font">*</span>, bukan <span class="code-font">x</span>.
+                    </p>
+                </div>
+                <div class="agenda-card orange"><span>⚠️</span>
+                    <h3>Lupa int/float</h3>
+                    <p>Input string tidak siap dihitung sebagai angka.</p>
+                </div>
+                <div class="agenda-card purple"><span>🔍</span>
+                    <h3>Salah rumus</h3>
+                    <p>Luas segitiga butuh <span class="code-font">0.5 * base * height</span>.</p>
+                </div>
+                <div class="agenda-card green"><span>✅</span>
+                    <h3>Test bertahap</h3>
+                    <p>Run setiap selesai satu bagian agar error mudah ditemukan.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Pilih Operator yang Tepat">
+            <div class="slide-head compact center"><span class="kicker">OPERATOR CHECK</span>
+                <h2>Pilih Operator yang Tepat</h2>
+                <p>Selesaikan kasus berikut dengan operator yang sesuai.</p>
+            </div>
+            <div class="comparison-board">
+                <div class="comparison-case blue">
+                    <h3>20 bibit, Rp1500 per bibit</h3>
+                    <p>Operator untuk total biaya?</p><button class="primary-btn"
+                        onclick="setFeedback('opCase1','Tepat. Total biaya = jumlah bibit * harga bibit.',true)">*</button><button
+                        class="secondary-btn"
+                        onclick="setFeedback('opCase1','Belum tepat. Total biaya butuh perkalian.',false)">+</button><button
+                        class="secondary-btn"
+                        onclick="setFeedback('opCase1','Belum tepat. Total biaya butuh perkalian.',false)">/</button>
+                    <div class="feedback" id="opCase1"></div>
+                </div>
+                <div class="comparison-case orange">
+                    <h3>Area 40 m², 2 liter per m²</h3>
+                    <p>Operator untuk kebutuhan air?</p><button class="secondary-btn"
+                        onclick="setFeedback('opCase2','Belum tepat. Kebutuhan air butuh perkalian.',false)">-</button><button
+                        class="primary-btn"
+                        onclick="setFeedback('opCase2','Tepat. Kebutuhan air = area * air per meter.',true)">*</button><button
+                        class="secondary-btn"
+                        onclick="setFeedback('opCase2','Belum tepat. Kebutuhan air butuh perkalian.',false)">==</button>
+                    <div class="feedback" id="opCase2"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Reflection">
+            <div class="single-focus">
+                <div class="giant-emoji">🧠</div><span class="kicker">REFLECTION</span>
+                <h2>Operator Membuat Program Bisa Mengolah Data</h2>
+                <p>Jawab singkat: menurutmu, contoh perhitungan apa lagi yang bisa dibuat menggunakan Python?</p>
+                <div class="input-row" style="display:flex;gap:10px;margin-top:20px"><input id="operatorReflection"
+                        placeholder="Contoh: menghitung uang jajan, skor game, luas kelas..."
+                        style="flex:1;border:3px solid #dbe5f0;border-radius:16px;padding:14px 17px;font:600 1.05rem 'Fredoka'"><button
+                        class="primary-btn" onclick="submitOperatorReflection()">Kirim</button></div>
+                <div class="response-box" id="operatorReflectionResponse"></div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Quick Quiz">
+            <div class="slide-head compact center"><span class="kicker">QUICK QUIZ</span>
+                <h2>Cek Pemahamanmu</h2>
+                <p>Pilih jawaban. Jawaban benar akan tetap ditampilkan meskipun pilihanmu salah.</p>
+            </div>
+            <div class="quiz-shell">
+                <div class="quiz-question active" id="quiz1">
+                    <h3>1. Operator Python untuk perkalian adalah...</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz1','quiz2')">A.
+                            x</button><button onclick="answerQuiz(this,true,'quiz1','quiz2')">B. *</button><button
+                            onclick="answerQuiz(this,false,'quiz1','quiz2')">C. /</button></div>
+                </div>
+                <div class="quiz-question" id="quiz2">
+                    <h3>2. Agar input panjang kebun 7.5 bisa dihitung, kita gunakan...</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz2','quiz3')">A.
+                            int()</button><button onclick="answerQuiz(this,true,'quiz2','quiz3')">B.
+                            float()</button><button onclick="answerQuiz(this,false,'quiz2','quiz3')">C. print()</button>
+                    </div>
+                </div>
+                <div class="quiz-question" id="quiz3">
+                    <h3>3. Hasil dari perbandingan <span class="code-font">10 &gt; 3</span> adalah...</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,true,'quiz3','quizDone')">A.
+                            True</button><button onclick="answerQuiz(this,false,'quiz3','quizDone')">B.
+                            False</button><button onclick="answerQuiz(this,false,'quiz3','quizDone')">C. Error</button>
+                    </div>
+                </div>
+                <div class="quiz-question" id="quizDone" style="text-align:center">
+                    <div class="giant-emoji">🎯</div>
+                    <h3>Quiz Selesai</h3>
+                    <p>Kamu sudah mengulas operator matematika dan perbandingan.</p>
+                </div>
+                <div class="quiz-progress"><span id="quizProgressText">Soal 1 dari 3</span>
+                    <div><i id="quizProgressBar"></i></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Review Hari Ini">
+            <div class="slide-head center"><span class="kicker">SESSION REVIEW</span>
+                <h2>Apa Saja yang Sudah Dipelajari?</h2>
+            </div>
+            <div class="recap-path">
+                <div><span>📁</span><b>PythonDay4</b>
+                    <p>Membuat folder dan file latihan baru.</p>
+                </div>
+                <div><span>➕</span><b>Math Operator</b>
+                    <p>Menggunakan +, -, *, dan /.</p>
+                </div>
+                <div><span>🔍</span><b>Comparison</b>
+                    <p>Membandingkan nilai menjadi True atau False.</p>
+                </div>
+                <div><span>🔢</span><b>Type Casting</b>
+                    <p>Menggunakan int() dan float() sebelum menghitung.</p>
+                </div>
+                <div><span>🌱</span><b>Garden Calculator</b>
+                    <p>Menghitung luas, biaya, dan air.</p>
+                </div>
+                <div><span>📐</span><b>Area Calculator</b>
+                    <p>Menggunakan rumus luas beberapa bentuk.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide feedback-final" data-title="Feedback">
+            <div class="slide-head center"><span class="kicker">YOUR FEEDBACK</span>
+                <h2>How Do You Feel Today?</h2>
+                <p>Pilih satu respons yang paling sesuai dengan pengalaman belajarmu.</p>
+            </div>
+            <div class="emoji-feedback" id="emojiFeedback"><button onclick="sendFeedback(this)">😄<small>Sangat
+                        Paham</small></button><button onclick="sendFeedback(this)">🙂<small>Cukup
+                        Paham</small></button><button onclick="sendFeedback(this)">🤔<small>Perlu
+                        Latihan</small></button><button onclick="sendFeedback(this)">🆘<small>Perlu
+                        Bantuan</small></button></div>
+            <div class="feedback-thanks" id="feedbackThanks"></div>
+        </section>
+
+        <div class="progress-line" id="progressLine"></div>
+        <footer class="navigation">
+            <div class="nav-title" id="navTitle">Session 4 • Operator dan Perhitungan</div>
+            <div class="nav-controls"><button aria-label="Sebelumnya" class="nav-btn" id="prevBtn">‹</button>
+                <div class="counter"><span id="currentSlide">1</span> / <span id="totalSlides">34</span></div><button
+                    aria-label="Berikutnya" class="nav-btn next" id="nextBtn">›</button>
+            </div>
+        </footer>
+    </main>
+    <div id="imageModal" class="image-modal" onclick="this.classList.remove('show')"><img id="enlargedImg" src=""
+            alt="Enlarged view"></div>
+
+    <script>
+        let currentSlide = 0; const slides = [...document.querySelectorAll('.slide')];
+        function showSlide(index) { if (index < 0 || index >= slides.length) return; slides.forEach((s, i) => s.classList.toggle('active', i === index)); currentSlide = index; document.getElementById('currentSlide').textContent = index + 1; document.getElementById('totalSlides').textContent = slides.length; document.getElementById('prevBtn').disabled = index === 0; document.getElementById('nextBtn').disabled = index === slides.length - 1; document.getElementById('progressLine').style.width = ((index + 1) / slides.length * 100) + '%'; document.getElementById('navTitle').textContent = 'Session 4 • ' + slides[index].dataset.title; slides[index].scrollTop = 0 }
+        document.getElementById('prevBtn').onclick = () => showSlide(currentSlide - 1); document.getElementById('nextBtn').onclick = () => showSlide(currentSlide + 1); document.addEventListener('keydown', e => { if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return; if (e.key === 'ArrowRight') showSlide(currentSlide + 1); if (e.key === 'ArrowLeft') showSlide(currentSlide - 1) }); showSlide(0);
+        function setFeedback(id, msg, ok = true) { const el = document.getElementById(id); if (!el) return; el.textContent = msg; el.className = (el.classList.contains('code-feedback') ? 'code-feedback ' : 'feedback ') + (ok ? 'success' : 'error') }
+        function toggleReveal(id) { document.getElementById(id).classList.toggle('show') }
+        function calculateDemo() { const a = Number(document.getElementById('numA').value); const b = Number(document.getElementById('numB').value); const op = document.getElementById('opSelect').value; let r; if (op === '+') r = a + b; if (op === '-') r = a - b; if (op === '*') r = a * b; if (op === '/') r = b === 0 ? 'Cannot divide by zero' : a / b; document.getElementById('calcResult').textContent = `${a} ${op} ${b} = ${r}`; }
+        document.getElementById('numA')?.addEventListener('input', calculateDemo); document.getElementById('numB')?.addEventListener('input', calculateDemo); document.getElementById('opSelect')?.addEventListener('change', calculateDemo);
+        function runSpecificSyntax(btn, outId = 'syntaxOutput') { const chip = btn.closest('.syntax-chip'); document.querySelectorAll('.syntax-chip').forEach(c => c.classList.remove('active')); chip.classList.add('active'); document.getElementById(outId).textContent = chip.dataset.out; }
+        function countGardenDemo() { const l = Number(document.getElementById('gLength').value); const w = Number(document.getElementById('gWidth').value); const s = Number(document.getElementById('gSeeds').value); const p = Number(document.getElementById('gPrice').value); const area = l * w; const total = s * p; const water = area * 2; document.getElementById('gArea').textContent = area + ' m²'; document.getElementById('gTotal').textContent = 'Rp ' + total; document.getElementById('gWater').textContent = water + ' liter'; }
+        ['gLength', 'gWidth', 'gSeeds', 'gPrice'].forEach(id => document.getElementById(id)?.addEventListener('input', countGardenDemo));
+        function normalize(s) { return (s || '').replace(/\r/g, '').trim() }
+        function splitArgs(str) { let parts = [], cur = '', quote = null, depth = 0; for (let i = 0; i < str.length; i++) { const ch = str[i]; if ((ch === '"' || ch === "'") && !quote) { quote = ch; cur += ch; continue; } if (ch === quote) { quote = null; cur += ch; continue; } if (ch === '(' && !quote) depth++; if (ch === ')' && !quote) depth--; if (ch === ',' && !quote && depth === 0) { parts.push(cur); cur = ''; continue; } cur += ch; } if (cur.length) parts.push(cur); return parts; }
+        async function runPythonSim(editorId, outId, feedbackId) {
+            const code = document.getElementById(editorId).value; const outEl = document.getElementById(outId); outEl.innerHTML = ''; let lines = code.split(/\n/); let vars = {}; let finalOut = []; function printOut(text) { outEl.appendChild(document.createTextNode(text + '\n')); finalOut.push(text); }
+            async function getInput(prompt) { return new Promise(resolve => { const span = document.createElement('span'); span.textContent = prompt; outEl.appendChild(span); const inp = document.createElement('input'); inp.type = 'text'; inp.style = 'background:transparent;border:none;border-bottom:1px solid #aaa;color:inherit;outline:none;font:inherit;width:auto;min-width:120px;'; outEl.appendChild(inp); setTimeout(() => inp.focus(), 50); inp.addEventListener('keydown', e => { if (e.key === 'Enter') { const val = inp.value; inp.disabled = true; inp.style.border = 'none'; outEl.appendChild(document.createTextNode('\n')); finalOut.push(prompt + val); resolve(val); } }); }); }
+            function safeMath(expr) { let replaced = expr.replace(/\b[A-Za-z_]\w*\b/g, name => (vars.hasOwnProperty(name) && typeof vars[name] === 'number') ? String(vars[name]) : name); if (!/^[0-9+\-*/().\s<>=!]+$/.test(replaced)) return null; try { let val = Function('"use strict"; return (' + replaced + ');')(); if (typeof val === 'boolean') return val ? 'True' : 'False'; return val; } catch (e) { return null; } }
+            async function evalExpr(expr) { expr = expr.trim(); let m; if ((m = expr.match(/^input\((['"])(.*?)\1\)$/))) return await getInput(m[2]); if ((m = expr.match(/^int\(input\((['"])(.*?)\1\)\)$/))) return parseInt(await getInput(m[2]), 10); if ((m = expr.match(/^float\(input\((['"])(.*?)\1\)\)$/))) return parseFloat(await getInput(m[2])); if ((m = expr.match(/^(['"])(.*?)\1$/))) return m[2]; if (/^\d+(\.\d+)?$/.test(expr)) return Number(expr); if (vars.hasOwnProperty(expr)) return vars[expr]; let math = safeMath(expr); if (math !== null && math !== undefined && math !== '') return math; if (expr.includes('+')) { let parts = await Promise.all(expr.split('+').map(p => evalExpr(p))); if (parts.every(x => typeof x === 'number')) return parts.reduce((a, b) => a + b, 0); return parts.join(''); } return expr; }
+            for (let raw of lines) { let line = raw.trim(); if (!line || line.startsWith('#')) continue; let assign = line.match(/^([A-Za-z_]\w*)\s*=\s*(.+)$/); if (assign) { vars[assign[1]] = await evalExpr(assign[2]); continue; } let print = line.match(/^print\((.*)\)$/); if (print) { let inside = print[1].trim(); let vals = await Promise.all(splitArgs(inside).map(p => evalExpr(p))); printOut(vals.join(' ')); continue; } let inp = line.match(/^input\((['"])(.*?)\1\)$/); if (inp) { await getInput(inp[2]); continue; } printOut('SyntaxError atau syntax belum didukung simulator'); }
+            if (finalOut.length === 0) outEl.textContent = 'Belum ada output.'; else { let isSuccess = !finalOut.some(l => l.includes('SyntaxError') || l.includes('belum didukung')); setFeedback(feedbackId, isSuccess ? 'Program berhasil dijalankan.' : 'Ada syntax error. Cek kembali kodenya.', isSuccess); }
+        }
+        let dragged = null; document.addEventListener('dragstart', e => { if (e.target.classList.contains('draggable')) { dragged = e.target; e.dataTransfer.setData('text/plain', e.target.dataset.value); setTimeout(() => e.target.style.opacity = '.4', 0) } }); document.addEventListener('dragend', e => { if (e.target.classList.contains('draggable')) e.target.style.opacity = '1' }); document.querySelectorAll('.drop-target').forEach(zone => { zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('active') }); zone.addEventListener('dragleave', () => zone.classList.remove('active')); zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('active'); if (!dragged) return; const val = dragged.dataset.value; if (zone.dataset.accept === val) { const fill = document.createElement('div'); fill.className = 'filled'; fill.textContent = val; zone.appendChild(fill); dragged.remove(); const fb = zone.closest('.drop-layout')?.querySelector('.feedback'); if (fb) setFeedback(fb.id, 'Cocok. Rumus sudah sesuai.', true) } else { const fb = zone.closest('.drop-layout')?.querySelector('.feedback'); if (fb) setFeedback(fb.id, 'Belum cocok. Coba lihat lagi nama bentuk dan rumusnya.', false) } dragged = null }) });
+        function submitOperatorReflection() { const v = document.getElementById('operatorReflection').value.trim(); document.getElementById('operatorReflectionResponse').textContent = v ? `Kamu menulis: “${v}”. Ide ini bisa dikembangkan jadi program perhitungan lain.` : 'Tulis contoh perhitungan terlebih dahulu.' }
+        function answerQuiz(btn, correct, current, next) { const parent = btn.closest('.quiz-question'); parent.querySelectorAll('button').forEach(b => { b.disabled = true; if (b.onclick.toString().includes('true')) b.classList.add('correct') }); btn.classList.add(correct ? 'correct' : 'wrong'); setTimeout(() => { parent.classList.remove('active'); document.getElementById(next).classList.add('active'); let n = next === 'quiz2' ? 2 : next === 'quiz3' ? 3 : 3; document.getElementById('quizProgressText').textContent = next === 'quizDone' ? 'Quiz selesai' : 'Soal ' + n + ' dari 3'; document.getElementById('quizProgressBar').style.width = next === 'quizDone' ? '100%' : (n / 3 * 100) + '%' }, 850) }
+        function sendFeedback(btn) { document.querySelectorAll('#emojiFeedback button').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); document.getElementById('feedbackThanks').textContent = 'Terima kasih. Feedbackmu membantu menentukan latihan berikutnya.' }
+        document.querySelectorAll('.tour-card img, .image-card img').forEach(img => { img.addEventListener('click', () => { document.getElementById('enlargedImg').src = img.src; document.getElementById('imageModal').classList.add('show'); }); });
+    </script>
+</body>
+
+</html>

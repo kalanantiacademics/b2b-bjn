@@ -1,0 +1,1990 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Session 3 - Input, Variabel, dan Tipe Data | Ruangguru Coding</title>
+    <link rel="icon"
+        href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --blue: #2f80ed;
+            --cyan: #16bde8;
+            --purple: #845ef7;
+            --orange: #ff8a34;
+            --yellow: #ffd53d;
+            --green: #28b875;
+            --red: #ef5350;
+            --ink: #20324a;
+            --muted: #66788d;
+            --panel: #fff;
+            --shadow: 0 22px 55px rgba(22, 44, 76, .18);
+            --py-blue: #3776ab;
+            --py-yellow: #ffd343;
+            --teal: #0ba7a5;
+            --navy: #2f4661
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--ink);
+            background: #f8fffe;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        body:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='600' viewBox='0 0 900 600'%3E%3Cg fill='none' stroke='%2300bcd4' stroke-width='2.2' opacity='0.18'%3E%3Crect x='40' y='60' width='68' height='80' rx='6'/%3E%3Cline x1='40' y1='100' x2='108' y2='100'/%3E%3Cline x1='74' y1='60' x2='74' y2='140'/%3E%3Ccircle cx='820' cy='70' r='22'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15' transform='rotate(60 820 70)'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15' transform='rotate(120 820 70)'/%3E%3Crect x='432' y='20' width='48' height='55' rx='10'/%3E%3Crect x='30' y='260' width='58' height='68' rx='10'/%3E%3Ccircle cx='838' cy='340' r='42'/%3E%3Cellipse cx='838' cy='340' rx='20' ry='42'/%3E%3Cline x1='796' y1='340' x2='880' y2='340'/%3E%3Crect x='55' y='450' width='80' height='90' rx='6'/%3E%3Cline x1='95' y1='450' x2='95' y2='540'/%3E%3Crect x='390' y='480' width='72' height='72' rx='4'/%3E%3Cline x1='414' y1='480' x2='414' y2='552'/%3E%3Cline x1='438' y1='480' x2='438' y2='552'/%3E%3Cline x1='390' y1='504' x2='462' y2='504'/%3E%3Cline x1='390' y1='528' x2='462' y2='528'/%3E%3C/g%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-size: cover;
+            pointer-events: none;
+            z-index: -2
+        }
+
+        body:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at 0% 100%, rgba(0, 188, 212, .07), transparent 55%), radial-gradient(ellipse at 100% 0%, rgba(255, 211, 67, .1), transparent 50%);
+            pointer-events: none;
+            z-index: -1
+        }
+
+        .brand-logo {
+            position: fixed;
+            left: 22px;
+            top: 16px;
+            z-index: 2000;
+            background: #fff;
+            border: 2.5px solid rgba(0, 188, 212, .22);
+            border-radius: 22px;
+            padding: 10px 20px;
+            box-shadow: 0 8px 32px rgba(0, 188, 212, .18);
+            display: flex;
+            align-items: center
+        }
+
+        .brand-logo img {
+            height: 80px;
+            max-width: 220px;
+            object-fit: contain
+        }
+
+        .presentation-container {
+            width: 88vw;
+            height: 82vh;
+            max-width: 1500px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(30, 56, 93, .25);
+            overflow: hidden;
+            position: relative;
+            border: 4px solid rgba(255, 255, 255, .85)
+        }
+
+        .presentation-container:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 26px;
+            box-shadow: inset 0 0 0 1px rgba(91, 124, 164, .10);
+            z-index: 30
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 42px 58px 74px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(42px) scale(.985);
+            transition: .46s ease;
+            background: linear-gradient(145deg, #ffffff, #f7fcfd);
+            overflow-y: auto;
+            overflow-x: hidden
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            z-index: 10
+        }
+
+        .navigation {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, .96);
+            border-top: 1px solid #e7edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 100;
+            backdrop-filter: blur(12px)
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b7d92;
+            max-width: 42%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #d9e3ef;
+            background: #fff;
+            color: #4c6077;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            border-color: var(--blue);
+            color: var(--blue)
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            color: #fff;
+            border: 0;
+            box-shadow: 0 7px 16px rgba(255, 138, 52, .3)
+        }
+
+        .nav-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed
+        }
+
+        .counter {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #53677f;
+            min-width: 74px;
+            text-align: center
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 0;
+            bottom: 62px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--orange), var(--purple), var(--cyan));
+            width: 0;
+            transition: .35s;
+            z-index: 110
+        }
+
+        .slide-head {
+            width: 100%;
+            max-width: 1180px;
+            margin-bottom: 22px
+        }
+
+        .slide-head.center {
+            text-align: center
+        }
+
+        .slide-head.compact {
+            margin-bottom: 14px
+        }
+
+        .slide-head h2,
+        .single-focus h2 {
+            font-size: clamp(2.2rem, 4vw, 4rem);
+            line-height: 1.06;
+            margin: 6px 0 12px;
+            color: #24344d
+        }
+
+        .slide-head p,
+        .single-focus p,
+        .lead {
+            font-size: clamp(1.1rem, 1.55vw, 1.45rem);
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.5
+        }
+
+        .kicker {
+            display: inline-block;
+            font-size: .92rem;
+            letter-spacing: .16em;
+            font-weight: 700;
+            color: var(--purple);
+            background: #f0eaff;
+            border-radius: 999px;
+            padding: 7px 13px
+        }
+
+        .cover-slide {
+            background: linear-gradient(135deg, #f4fbff, #eefcf8 48%, #fff8df) !important;
+            color: var(--ink) !important
+        }
+
+        .cover-scene {
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #fff;
+            border: 2px solid #dbe9f2;
+            color: #40566d;
+            box-shadow: 0 8px 20px rgba(44, 80, 115, .08);
+            padding: 9px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            margin-bottom: 18px
+        }
+
+        .hero-icon {
+            font-size: 7rem;
+            filter: drop-shadow(0 12px 16px rgba(55, 118, 171, .18));
+            animation: float 3s ease-in-out infinite
+        }
+
+        .eyebrow {
+            letter-spacing: .22em;
+            font-weight: 700;
+            color: var(--py-blue);
+            margin: 0 0 10px
+        }
+
+        .display-title {
+            font-size: clamp(3.4rem, 7vw, 6.2rem);
+            line-height: .95;
+            margin: 8px 0 18px;
+            color: #233a55
+        }
+
+        .display-title span {
+            color: var(--py-blue)
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            max-width: 880px;
+            margin: 0 auto;
+            color: #52677c
+        }
+
+        .hero-pills {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 26px
+        }
+
+        .hero-pills span {
+            background: #fff;
+            border: 2px solid #dbe9f2;
+            color: #40566d;
+            box-shadow: 0 8px 20px rgba(44, 80, 115, .08);
+            padding: 10px 16px;
+            border-radius: 15px;
+            font-weight: 600
+        }
+
+        .orbit {
+            position: absolute;
+            font-size: 2.6rem;
+            animation: float 3.5s ease-in-out infinite
+        }
+
+        .orbit-a {
+            left: 8%;
+            top: 12%
+        }
+
+        .orbit-b {
+            right: 8%;
+            top: 18%;
+            animation-delay: .7s
+        }
+
+        .orbit-c {
+            right: 15%;
+            bottom: 10%;
+            animation-delay: 1.2s
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-12px) rotate(3deg)
+            }
+        }
+
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px
+        }
+
+        .agenda-card {
+            position: relative;
+            padding: 25px;
+            border-radius: 26px;
+            border: 2px solid;
+            min-height: 158px;
+            overflow: hidden;
+            background: #fff
+        }
+
+        .agenda-card>b {
+            position: absolute;
+            right: 18px;
+            top: 10px;
+            font-size: 3rem;
+            opacity: .12
+        }
+
+        .agenda-card>span {
+            font-size: 3.2rem
+        }
+
+        .agenda-card h3 {
+            font-size: 1.55rem;
+            margin: 8px 0 3px
+        }
+
+        .agenda-card p {
+            margin: 0;
+            color: #52667c
+        }
+
+        .blue {
+            background: #eef7ff !important;
+            border-color: #b9dcff !important
+        }
+
+        .orange {
+            background: #fff4e8 !important;
+            border-color: #ffd3a7 !important
+        }
+
+        .purple {
+            background: #f5efff !important;
+            border-color: #d9c6ff !important
+        }
+
+        .green {
+            background: #ebfbf4 !important;
+            border-color: #b7ebd2 !important
+        }
+
+        .yellow {
+            background: #fff8db !important;
+            border-color: #f5d86d !important
+        }
+
+        .red {
+            background: #fff0ef !important;
+            border-color: #f5aaa7 !important
+        }
+
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 34px;
+            width: 100%;
+            max-width: 1120px;
+            align-items: center
+        }
+
+        .mature-card,
+        .code-panel,
+        .output-panel,
+        .single-focus {
+            background: #fff;
+            border: 3px solid #dce8f0;
+            border-radius: 24px;
+            padding: 22px;
+            box-shadow: 0 12px 28px rgba(38, 73, 103, .09)
+        }
+
+        .single-focus {
+            max-width: 860px;
+            text-align: center;
+            padding: 40px;
+            border-radius: 34px
+        }
+
+        .giant-emoji {
+            font-size: 6rem
+        }
+
+        .primary-btn,
+        .secondary-btn,
+        .run-btn {
+            border: 0;
+            border-radius: 16px;
+            padding: 13px 22px;
+            font: 700 1rem 'Fredoka';
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .primary-btn,
+        .run-btn {
+            background: linear-gradient(135deg, var(--py-blue), var(--teal));
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(55, 118, 171, .25)
+        }
+
+        .primary-btn:hover,
+        .run-btn:hover {
+            transform: translateY(-2px)
+        }
+
+        .secondary-btn {
+            background: #eef2f7;
+            color: #465c74;
+            border: 2px solid #d9e1ea
+        }
+
+        .notice,
+        .code-hint {
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: #fff8db;
+            border: 2px solid #f7d95d;
+            color: #7b6412;
+            font-weight: 600;
+            margin-top: 14px
+        }
+
+        .code-font,
+        code,
+        pre,
+        .code-editor,
+        .terminal,
+        .mini-code,
+        .syntax-chip {
+            font-family: 'Courier New', Courier, monospace !important
+        }
+
+        .code-activity {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 1140px;
+            align-items: stretch
+        }
+
+        .code-panel h3,
+        .output-panel h3 {
+            margin: 0 0 12px;
+            font-size: 1.32rem
+        }
+
+        .code-editor {
+            width: 100%;
+            min-height: 220px;
+            resize: none;
+            border: 3px solid #cfdae5;
+            border-radius: 14px;
+            padding: 16px;
+            background: #fbfdff;
+            color: #20324a;
+            font-size: 1rem;
+            line-height: 1.55;
+            outline: none;
+            tab-size: 4
+        }
+
+        .code-editor:focus {
+            border-color: var(--py-blue);
+            box-shadow: 0 0 0 4px rgba(55, 118, 171, .12)
+        }
+
+        .terminal {
+            min-height: 220px;
+            background: #f4f7f9;
+            border: 2px solid #cbd8e2;
+            border-radius: 14px;
+            padding: 16px;
+            color: #20384e;
+            white-space: pre-wrap;
+            overflow: auto;
+            font-size: .98rem;
+            line-height: 1.55
+        }
+
+        .terminal:before {
+            content: 'OUTPUT';
+            display: block;
+            font-family: 'Fredoka';
+            font-size: .78rem;
+            letter-spacing: .15em;
+            font-weight: 700;
+            color: #71859a;
+            margin-bottom: 12px
+        }
+
+        .target-terminal {
+            white-space: pre-wrap !important
+        }
+
+        .output-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px
+        }
+
+        .run-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: flex-start;
+            margin-top: 12px;
+            flex-wrap: wrap
+        }
+
+        .code-feedback,
+        .feedback {
+            font-weight: 700;
+            min-height: 26px;
+            color: #5d7187
+        }
+
+        .code-feedback.success,
+        .feedback.success {
+            color: #148456
+        }
+
+        .code-feedback.error,
+        .feedback.error {
+            color: #cf4542
+        }
+
+        .vscode-tour {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            width: 100%;
+            max-width: 1120px
+        }
+
+        .tour-card {
+            background: #fff;
+            border: 2px solid #dce7ef;
+            border-radius: 22px;
+            padding: 14px
+        }
+
+        .tour-card img {
+            width: 100%;
+            height: 170px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #f6f9fb
+        }
+
+        .tour-card h3 {
+            font-size: 1.15rem;
+            margin: 9px 0 4px
+        }
+
+        .tour-card p {
+            margin: 0;
+            color: #64768a
+        }
+
+        .mini-code {
+            background: #f5f8fb;
+            border: 2px solid #cbd8e3;
+            border-radius: 13px;
+            padding: 15px;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            overflow: auto
+        }
+
+        .reveal-box {
+            display: none;
+            margin-top: 14px
+        }
+
+        .reveal-box.show {
+            display: block
+        }
+
+        .game-login {
+            width: min(860px, 100%);
+            background: linear-gradient(135deg, #283c86, #45a8bf);
+            border-radius: 34px;
+            padding: 30px;
+            color: #fff;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden
+        }
+
+        .game-login:before {
+            content: '✨ 🎮 🐍 ✨';
+            position: absolute;
+            right: 20px;
+            top: 12px;
+            font-size: 2.2rem;
+            opacity: .35
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, .92);
+            color: #20324a;
+            border-radius: 26px;
+            padding: 24px;
+            position: relative;
+            z-index: 2
+        }
+
+        .game-card input {
+            width: 100%;
+            border: 3px solid #dbe5f0;
+            border-radius: 16px;
+            padding: 14px 17px;
+            font: 600 1.05rem 'Fredoka';
+            outline: none;
+            margin: 12px 0
+        }
+
+        .response-box {
+            min-height: 48px;
+            margin-top: 15px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: #fff;
+            border: 2px dashed #cdd8e5;
+            color: #50657d;
+            font-weight: 600
+        }
+
+        .compare-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 950px
+        }
+
+        .compare-card {
+            background: #fff;
+            border: 3px solid #dfe8ef;
+            border-radius: 26px;
+            padding: 26px;
+            text-align: center
+        }
+
+        .compare-card span {
+            font-size: 5rem
+        }
+
+        .compare-card h3 {
+            font-size: 1.8rem;
+            margin: 8px
+        }
+
+        .drop-layout {
+            width: 100%;
+            max-width: 1040px
+        }
+
+        .drop-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px
+        }
+
+        .drop-grid.four {
+            grid-template-columns: repeat(4, 1fr)
+        }
+
+        .drop-target {
+            min-height: 145px;
+            background: #fcfdfe;
+            border: 3px dashed #cfd9e4;
+            border-radius: 20px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 9px;
+            position: relative;
+            box-shadow: inset 0 -12px 20px rgba(0,0,0,0.02);
+        }
+
+        .drop-target::before {
+            content: '📦';
+            font-size: 2.2rem;
+            opacity: 0.3;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+        }
+
+        .drop-target.active {
+            border-color: #0ba7a5;
+            background: #effcfb
+        }
+
+        .drop-target .label {
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: #26405e
+        }
+
+        .drop-target .filled {
+            background: #eaf6ff;
+            border: 2px solid #9ac5e3;
+            color: #285b7d;
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-weight: 700
+        }
+
+        .drag-pool {
+            margin-top: 18px;
+            background: #fff;
+            border: 3px dashed #cbd8e2;
+            border-radius: 20px;
+            padding: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center
+        }
+
+        .draggable {
+            background: #3776ab;
+            color: #fff;
+            border-radius: 12px;
+            padding: 11px 18px;
+            cursor: grab;
+            font-weight: 700;
+            user-select: none
+        }
+
+        .syntax-lab {
+            display: grid;
+            grid-template-columns: 1.1fr .5fr 1fr;
+            gap: 18px;
+            width: 100%;
+            max-width: 1120px;
+            align-items: stretch
+        }
+
+        .syntax-list {
+            display: grid;
+            gap: 8px
+        }
+
+        .syntax-chip {
+            background: #fff;
+            border: 2px solid #d6e2eb;
+            border-radius: 12px;
+            padding: 12px;
+            font-weight: 700;
+            color: #253d55;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .syntax-chip.active {
+            background: #eef7ff;
+            border-color: #70aed3
+        }
+
+        .type-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            width: 100%;
+            max-width: 1000px
+        }
+
+        .type-card {
+            background: #fff;
+            border: 3px solid #dfe8ef;
+            border-radius: 20px;
+            padding: 16px 20px;
+        }
+
+        .type-card span {
+            font-size: 3rem
+        }
+
+        .type-card h3 {
+            font-size: 1.5rem;
+            margin: 4px 0
+        }
+
+        .type-card p {
+            color: #60758b;
+            margin: 0
+        }
+
+        .quiz-shell {
+            width: 100%;
+            max-width: 950px;
+            background: #fff;
+            border: 3px solid #e1e8f2;
+            border-radius: 30px;
+            padding: 28px;
+            box-shadow: var(--shadow)
+        }
+
+        .quiz-question {
+            display: none
+        }
+
+        .quiz-question.active {
+            display: block
+        }
+
+        .quiz-question h3 {
+            font-size: 2rem;
+            margin: 0 0 18px
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px
+        }
+
+        .quiz-options button {
+            border: 3px solid #dfe7f0;
+            background: #f9fbfd;
+            border-radius: 16px;
+            padding: 15px 18px;
+            text-align: left;
+            font: 600 1.1rem 'Fredoka';
+            cursor: pointer
+        }
+
+        .quiz-options button:hover {
+            border-color: #8f75ea;
+            background: #f5f0ff
+        }
+
+        .quiz-options button.correct {
+            border-color: var(--green);
+            background: #eafaf3
+        }
+
+        .quiz-options button.wrong {
+            border-color: var(--red);
+            background: #fff0ef
+        }
+
+        .quiz-progress {
+            margin-top: 20px;
+            color: #63778e;
+            font-weight: 700
+        }
+
+        .quiz-progress>div {
+            height: 10px;
+            background: #e9eef4;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 7px
+        }
+
+        .quiz-progress i {
+            display: block;
+            height: 100%;
+            width: 33%;
+            background: linear-gradient(90deg, var(--orange), var(--purple));
+            transition: .3s
+        }
+
+        .recap-path {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .recap-path>div {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 23px;
+            padding: 20px;
+            text-align: center
+        }
+
+        .recap-path span {
+            font-size: 3.5rem
+        }
+
+        .recap-path b {
+            display: block;
+            font-size: 1.25rem;
+            margin: 7px
+        }
+
+        .recap-path p {
+            margin: 0;
+            color: #61758b
+        }
+
+        .emoji-feedback {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 30px
+        }
+
+        .emoji-feedback button {
+            border: 3px solid #e0e7ef;
+            background: #fff;
+            border-radius: 25px;
+            padding: 18px;
+            font-size: 5rem;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .emoji-feedback button:hover,
+        .emoji-feedback button.selected {
+            transform: scale(1.12);
+            border-color: var(--purple);
+            background: #f5efff
+        }
+
+        .emoji-feedback small {
+            display: block;
+            font: 600 .9rem 'Fredoka'
+        }
+
+        .feedback-thanks {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c4ddd;
+            margin-top: 25px;
+            min-height: 35px
+        }
+
+        .soft-blue {
+            background: linear-gradient(145deg, #edf7ff, #f7fbff) !important
+        }
+
+        .soft-green {
+            background: linear-gradient(145deg, #effcf5, #fbfffd) !important
+        }
+
+        .soft-orange {
+            background: linear-gradient(145deg, #fff6ea, #fffdf8) !important
+        }
+
+        .soft-purple {
+            background: linear-gradient(145deg, #f6f0ff, #fbf9ff) !important
+        }
+
+        .feedback-final {
+            background: linear-gradient(145deg, #fff0f6, #eef4ff) !important
+        }
+
+        @media(max-width:1050px) {
+            .presentation-container {
+                width: 95vw;
+                height: 84vh
+            }
+
+            .slide {
+                padding: 32px 30px 72px
+            }
+
+            .agenda-grid,
+            .split-layout,
+            .code-activity,
+            .vscode-tour,
+            .syntax-lab {
+                grid-template-columns: 1fr
+            }
+
+            .drop-grid,
+            .drop-grid.four,
+            .type-grid,
+            .recap-path {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .output-cols {
+                grid-template-columns: 1fr
+            }
+
+            .brand-logo img {
+                height: 50px
+            }
+        }
+
+        @media(max-width:700px) {
+            .brand-logo {
+                left: 8px;
+                top: 6px;
+                padding: 7px 12px
+            }
+
+            .brand-logo img {
+                height: 34px
+            }
+
+            .presentation-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: 0
+            }
+
+            .slide {
+                padding: 68px 18px 74px
+            }
+
+            .agenda-grid,
+            .drop-grid,
+            .drop-grid.four,
+            .type-grid,
+            .recap-path,
+            .compare-cards {
+                grid-template-columns: 1fr
+            }
+
+            .display-title {
+                font-size: 3.2rem
+            }
+
+            .hero-icon {
+                font-size: 5rem
+            }
+
+            .emoji-feedback {
+                gap: 8px;
+                flex-wrap: wrap
+            }
+
+            .emoji-feedback button {
+                font-size: 3.5rem
+            }
+
+            .nav-title {
+                display: none
+            }
+        }
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(14, 25, 41, 0.85);
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.3);
+            animation: zoomIn 0.3s ease;
+        }
+
+        .image-modal.show {
+            display: flex;
+        }
+
+        .tour-card img {
+            cursor: zoom-in;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="brand-logo"><img
+            src="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+            alt="Ruangguru Coding"></div>
+    <main class="presentation-container" id="presentation">
+        <section class="slide cover-slide" data-title="Input, Variabel, dan Tipe Data">
+            <div class="cover-scene">
+                <div class="orbit orbit-a">⌨️</div>
+                <div class="orbit orbit-b">📦</div>
+                <div class="orbit orbit-c">🔢</div>
+                <div class="hero-badge">SESSION 3 • PYTHON BEGINNER</div>
+                <div class="hero-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/3840px-Python-logo-notext.svg.png" alt="Python" style="height: 1em; width: auto;"></div>
+                <p class="eyebrow">DATA & VARIABLE</p>
+                <h1 class="display-title">Input, Variable, & <span>Data Types</span></h1>
+                <p class="hero-subtitle">Menerima data dari pengguna, menyimpannya di variabel, lalu memahami kapan data
+                    perlu menjadi string, integer, float, atau boolean.</p>
+                <div class="hero-pills"><span>⌨️ input()</span><span>📦 Variable</span><span>🔢 int()</span><span>📏
+                        float()</span></div>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Review Sesi Sebelumnya">
+            <div class="slide-head center"><span class="kicker">REVIEW</span>
+                <h2>Apa yang Kita Pelajari Sebelumnya?</h2>
+                <p>Kita sudah mulai berkomunikasi dengan komputer menggunakan Python.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><b>01</b><span>🧠</span>
+                    <h3>Algoritma</h3>
+                    <p>Menyusun langkah yang jelas untuk mencapai tujuan.</p>
+                </div>
+                <div class="agenda-card orange"><b>02</b><span>🖨️</span>
+                    <h3>print()</h3>
+                    <p>Menampilkan teks dan hasil perhitungan di terminal.</p>
+                </div>
+                <!-- <div class="agenda-card purple"><b>03</b><span>🔁</span>
+                    <h3>Looping</h3>
+                    <p>Mengulang instruksi tanpa menulis baris yang sama berkali-kali.</p>
+                </div> -->
+                <div class="agenda-card green"><b>03</b><span>🖥️</span>
+                    <h3>VS Code & Terminal</h3>
+                    <p>Membuat file Python dan menjalankannya dengan command.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Agenda Hari Ini">
+            <div class="slide-head center"><span class="kicker">TODAY'S AGENDA</span>
+                <h2>Rencana Belajar Hari Ini</h2>
+                <p>Kita akan memahami <b>konsep programming</b> baru dan membuat beberapa <b>file</b> latihan.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><b>01</b><span>📁</span>
+                    <h3>Siapkan Project Folder</h3>
+                    <p>Membuat folder project-python dan PythonDay3.</p>
+                </div>
+                <div class="agenda-card orange"><b>02</b><span>⌨️</span>
+                    <h3>Input dari User</h3>
+                    <p>Menggunakan input() untuk menunggu ketikan pengguna.</p>
+                </div>
+                <div class="agenda-card purple"><b>03</b><span>📦</span>
+                    <h3>Variable</h3>
+                    <p>Menyimpan data agar bisa dipanggil kembali.</p>
+                </div>
+                <div class="agenda-card green"><b>04</b><span>🔢</span>
+                    <h3>Data Types</h3>
+                    <p>Mengenal string, integer, float, dan boolean.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Siapkan VS Code">
+            <div class="slide-head compact center"><span class="kicker">SETUP PROJECT</span>
+                <h2>Buka VS Code dan Buat Folder Project</h2>
+                <p>Sambil review, kita siapkan tempat untuk menyimpan latihan hari ini.</p>
+            </div>
+            <div class="vscode-tour">
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/156d040a-963c-49f2-b1fb-324c7d7614ea.png"
+                        alt="Open Folder">
+                    <h3>1. Pilih Open Folder</h3>
+                    <p>Buka VS Code, lalu klik <b>Open Folder</b>.</p>
+                </div>
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/6b3222d9-189c-4fd1-a522-89b29937967c.png"
+                        alt="Create folder">
+                    <h3>2. Buat Folder Baru</h3>
+                    <p>Beri nama folder: <span class="code-font">project-python</span>.</p>
+                </div>
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/ec43540f-3628-4785-a5f1-42f1016c843a.png"
+                        alt="Create PythonDay3 folder">
+                    <h3>3. Buat PythonDay3</h3>
+                    <p>Di dalamnya, buat folder <span class="code-font">PythonDay3</span> dan file <span
+                            class="code-font">learn-print.py</span>.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-orange" data-title="Latihan learn-print.py">
+            <div class="slide-head compact center"><span class="kicker">PRACTICE 1</span>
+                <h2>Buat Program yang Menampilkan Output Ini</h2>
+                <p>Tulis program di <span class="code-font">learn-print.py</span>. Output dulu yang kita targetkan.</p>
+            </div>
+            <div class="code-activity">
+                <div class="output-panel">
+                    <h3>Target Output</h3>
+                    <div class="terminal target-terminal">Cangkok adalah cara memperbanyak tanaman
+Dengan menumbuhkan akar pada batang yang masih menempel pada tanaman induk
+Cara Kerja Cangkok
+1. Pilih, kupas dan bersihkan kulit batang secara melingkar.
+2. Bungkus sayatan dengan media tanam yang lembab, lalu plastik atau sabut kelapa dan ikat kedua ujungnya.
+3. Siram atau jaga media agar tetap lembap. Setelah akar tumbuh, potong batang di bawah bagian yang dicangkok.
+4. Tanam batang tersebut ke dalam pot atau tanah.</div>
+                </div>
+                <div class="single-focus" style="box-shadow:none">
+                    <div class="giant-emoji">🌱</div>
+                    <h2 style="font-size:2.3rem">Tantangan</h2>
+                    <p>Gunakan beberapa baris <span class="code-font">print()</span> agar terminal menampilkan informasi
+                        cangkok dengan rapi.</p>
+                    <div class="notice">Belum ingat cara run? Klik slide berikutnya.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Run learn-print.py">
+            <div class="slide-head compact center"><span class="kicker">HOW TO RUN</span>
+                <h2>Cara Menjalankan File Python</h2>
+                <p>Command di terminal harus menyebut nama file yang ingin dites.</p>
+            </div>
+            <div class="vscode-tour" style="grid-template-columns:1fr 1fr">
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/833d13c3-c2f5-4575-80c2-3e09934fb091.png"
+                        alt="Open integrated terminal">
+                    <h3>1. Open Integrated Terminal</h3>
+                    <p>Klik kanan pada file/folder project, lalu pilih <b>Open Integrated Terminal</b>.</p>
+                </div>
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/8b2be699-fafc-402c-aab0-f15cddf31583.png"
+                        alt="Run terminal">
+                    <h3>2. Ketik Command</h3>
+                    <p>Tulis <span class="code-font">python learn-print.py</span>, lalu tekan Enter.</p>
+                    <div class="notice"><span class="code-font">learn-print.py</span> adalah nama file yang sedang kita
+                        test dan run.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-green" data-title="Cek learn-print.py">
+            <div class="slide-head compact center"><span class="kicker">CHECKPOINT</span>
+                <h2>Apakah Hasilnya Sudah Sesuai?</h2>
+                <p>Bandingkan output terminal dengan target, lalu reveal contoh kodenya.</p>
+            </div>
+            <div class="code-activity">
+                <div class="output-panel">
+                    <h3>Expected Output</h3>
+                    <div class="terminal target-terminal">Cangkok adalah cara memperbanyak tanaman
+Dengan menumbuhkan akar pada batang yang masih menempel pada tanaman induk
+Cara Kerja Cangkok
+1. Pilih, kupas dan bersihkan kulit batang secara melingkar.
+2. Bungkus sayatan dengan media tanam yang lembab, lalu plastik atau sabut kelapa dan ikat kedua ujungnya.
+3. Siram atau jaga media agar tetap lembap. Setelah akar tumbuh, potong batang di bawah bagian yang dicangkok.
+4. Tanam batang tersebut ke dalam pot atau tanah.</div>
+                </div>
+                <div class="code-panel">
+                    <h3>Contoh Kode</h3>
+                    <p>Tekan tombol ini setelah mencoba sendiri.</p><button class="primary-btn"
+                        onclick="toggleReveal('printAnswer')">Reveal Answer</button>
+                    <div class="reveal-box" id="printAnswer">
+                        <pre class="mini-code">print("Cangkok adalah cara memperbanyak tanaman")
+print("Dengan menumbuhkan akar pada batang yang masih menempel pada tanaman induk")
+print("Cara Kerja Cangkok")
+print("1. Pilih, kupas dan bersihkan kulit batang secara melingkar.")
+print("2. Bungkus sayatan dengan media tanam yang lembab, lalu plastik atau sabut kelapa dan ikat kedua ujungnya.")
+print("3. Siram atau jaga media agar tetap lembap. Setelah akar tumbuh, potong batang di bawah bagian yang dicangkok.")
+print("4. Tanam batang tersebut ke dalam pot atau tanah.")</pre>
+                        <div class="notice">Bagus. Saat output sudah sesuai, berarti instruksi yang kamu tulis sudah
+                            dipahami Python dengan benar.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Opening Message">
+            <div class="slide-head compact center"><span class="kicker">REAL APP MOMENT</span>
+                <h2>Pernah Masuk App Lalu Namamu Dipanggil?</h2>
+                <p>Coba isi nama di tampilan seperti game login berikut.</p>
+            </div>
+            <div class="game-login">
+                <div class="game-card">
+                    <h2 style="margin:0">Welcome to Python Garden 🌿</h2>
+                    <p>Enter your alias name for this game.</p><input id="aliasName" placeholder="Contoh: Adrian"
+                        onkeydown="if(event.key==='Enter')welcomeAlias()"><button class="primary-btn"
+                        onclick="welcomeAlias()">Enter</button>
+                    <div class="response-box" id="aliasResponse">Setelah nama dikirim, program akan memanggil namamu
+                        kembali.</div><button class="secondary-btn" style="margin-top:12px"
+                        onclick="showSlide(currentSlide+1)">Continue</button>
+                </div>
+            </div>
+            <div class="notice" style="max-width:900px">Kira-kira, kalau di Python kita mau membuat program seperti ini,
+                syntax apa yang dibutuhkan?</div>
+        </section>
+        <section class="slide soft-blue" data-title="print vs input">
+            <div class="slide-head center"><span class="kicker">NEW SYNTAX</span>
+                <h2>Syntax Baru: <span class="code-font">input()</span></h2>
+                <p><span class="code-font">print()</span> dan <span class="code-font">input()</span> sama-sama bisa
+                    menampilkan teks, tetapi tugasnya berbeda.</p>
+            </div>
+            <div class="compare-cards">
+                <div class="compare-card blue"><span>🖨️</span>
+                    <h3 class="code-font">print()</h3>
+                    <p>Hanya menampilkan teks atau nilai ke terminal.</p>
+                    <pre class="mini-code">print("Hello")</pre>
+                </div>
+                <div class="compare-card green"><span>⌨️</span>
+                    <h3 class="code-font">input()</h3>
+                    <p>Menampilkan pertanyaan, lalu menunggu pengguna mengetik dari keyboard.</p>
+                    <pre class="mini-code">input("Enter your name: ")</pre>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Latihan input 1">
+            <div class="slide-head compact"><span class="kicker">INPUT PRACTICE 1</span>
+                <h2>Tulis Program Input Sederhana</h2>
+                <p>Buat program yang menanyakan nama user. Klik Run untuk melihat simulasi output.</p>
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>Editor</h3><textarea class="code-editor" id="inputPractice1" spellcheck="false"
+                        placeholder='input("Enter your name: ")'></textarea>
+                    <div class="code-hint">Hint: gunakan <span class="code-font">input("Enter your name: ")</span>.
+                        Simulasi akan mengetik <b>Adrian</b>.</div>
+                    <div class="run-row"><button class="run-btn"
+                            onclick="runInputChallenge('inputPractice1','inputOutput1','inputFeedback1','Enter your name: Adrian')">Run
+                            ▶</button><span class="code-feedback" id="inputFeedback1"></span></div>
+                </div>
+                <div class="output-panel">
+                    <div class="output-cols">
+                        <div>
+                            <h3>Expected Output</h3>
+                            <div class="terminal target-terminal">Enter your name: Adrian</div>
+                        </div>
+                        <div>
+                            <h3>Run Output</h3>
+                            <div class="terminal target-terminal" id="inputOutput1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Latihan input 2">
+            <div class="slide-head compact"><span class="kicker">INPUT PRACTICE 2</span>
+                <h2>Tulis Program dengan Beberapa Input</h2>
+                <p>Kali ini program meminta beberapa data dari pengguna.</p>
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>Editor</h3><textarea class="code-editor" id="inputPractice2" spellcheck="false" placeholder='input("Enter your name: ")
+input("Enter your age: ")
+input("Enter your hobby: ")'></textarea>
+                    <div class="code-hint">Hint: gunakan tiga baris <span class="code-font">input()</span>. Simulasi
+                        akan mengetik <b>Adrian</b>, <b>13</b>, dan <b>Sports</b>.</div>
+                    <div class="run-row"><button class="run-btn"
+                            onclick="runInputChallenge('inputPractice2','inputOutput2','inputFeedback2','Enter your name: Adrian\nEnter your age: 13\nEnter your hobby: Sports')">Run
+                            ▶</button><span class="code-feedback" id="inputFeedback2"></span></div>
+                </div>
+                <div class="output-panel">
+                    <div class="output-cols">
+                        <div>
+                            <h3>Expected Output</h3>
+                            <div class="terminal target-terminal">Enter your name: Adrian
+Enter your age: 13
+Enter your hobby: Sports</div>
+                        </div>
+                        <div>
+                            <h3>Run Output</h3>
+                            <div class="terminal target-terminal" id="inputOutput2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-green" data-title="Cek Pemahaman Input">
+            <div class="single-focus">
+                <div class="giant-emoji">🤔</div><span class="kicker">CHECKPOINT</span>
+                <h2>Sampai Sini Sudah Paham Bedanya?</h2>
+                <p><span class="code-font">print()</span> menampilkan. <span class="code-font">input()</span>
+                    menampilkan pertanyaan dan menunggu jawaban user.</p>
+                <div class="button-row"><button class="primary-btn"
+                        onclick="setFeedback('understandInput','Mantap. Kita lanjut ke cara menyimpan jawaban user.',true)">Paham</button><button
+                        class="secondary-btn"
+                        onclick="setFeedback('understandInput','Tidak apa-apa. Ingat saja: input() selalu menunggu ketikan user.',false)">Perlu
+                        Ulang</button></div>
+                <div class="feedback" id="understandInput"></div>
+            </div>
+        </section>
+        <section class="slide" data-title="Menampilkan Input Kembali">
+            <div class="single-focus">
+                <div class="giant-emoji">🔁</div><span class="kicker">NEXT QUESTION</span>
+                <h2>Lalu, Bagaimana Kita Menampilkan Kembali Jawaban User?</h2>
+                <p>Kalau user sudah mengetik sesuatu, program perlu menyimpannya dulu agar bisa dipakai lagi.</p>
+                <div class="question-bubble"
+                    style="margin-top:24px;background:#fff7df;border:3px solid #f8d973;border-radius:18px;padding:18px;font-size:1.3rem">
+                    Tempat menyimpan jawaban itu disebut apa?</div>
+            </div>
+        </section>
+        <section class="slide" data-title="Drag Label dan Value 1">
+            <div class="slide-head compact center"><span class="kicker">MATCH LABEL & VALUE</span>
+                <h2>Cocokkan Label dengan Value</h2>
+                <p>Setiap kotak memiliki label. Isi dengan value yang sesuai.</p>
+            </div>
+            <div class="drop-layout">
+                <div class="drop-grid" id="matchOne">
+                    <div class="drop-target" data-accept="Adrian"><span class="label">name</span></div>
+                    <div class="drop-target" data-accept="13"><span class="label">age</span></div>
+                    <div class="drop-target" data-accept="Sports"><span class="label">hobby</span></div>
+                </div>
+                <div class="drag-pool">
+                    <div class="draggable" draggable="true" data-value="Sports">Sports</div>
+                    <div class="draggable" draggable="true" data-value="Adrian">Adrian</div>
+                    <div class="draggable" draggable="true" data-value="13">13</div>
+                </div>
+                <div class="feedback" id="matchFeedback1">Tarik value ke label yang cocok.</div>
+            </div>
+        </section>
+        <section class="slide" data-title="Drag Label dan Value 2">
+            <div class="slide-head compact center"><span class="kicker">MATCH LABEL & VALUE</span>
+                <h2>Cocokkan Lagi dengan Variasi Data</h2>
+                <p>Kita latih cara melihat hubungan label dan value.</p>
+            </div>
+            <div class="drop-layout">
+                <div class="drop-grid four" id="matchTwo">
+                    <div class="drop-target" data-accept="purple"><span class="label">colors</span></div>
+                    <div class="drop-target" data-accept="winter"><span class="label">weather</span></div>
+                    <div class="drop-target" data-accept="volvo"><span class="label">car</span></div>
+                    <div class="drop-target" data-accept="europe"><span class="label">continent</span></div>
+                </div>
+                <div class="drag-pool">
+                    <div class="draggable" draggable="true" data-value="volvo">volvo</div>
+                    <div class="draggable" draggable="true" data-value="winter">winter</div>
+                    <div class="draggable" draggable="true" data-value="europe">europe</div>
+                    <div class="draggable" draggable="true" data-value="purple">purple</div>
+                </div>
+                <div class="feedback" id="matchFeedback2">Jika salah, kartu akan tetap kembali dan bisa dicoba lagi.
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-orange" data-title="Apa Itu Variabel">
+            <div class="split-layout">
+                <div class="single-focus" style="box-shadow:none">
+                    <div class="giant-emoji">📦</div><span class="kicker">VARIABLE</span>
+                    <h2>Pernah Dengar Variabel?</h2>
+                    <p>Bayangkan variabel sebagai <b>kotak dengan label</b> yang digunakan untuk menyimpan value.</p>
+                </div>
+                <div class="mature-card">
+                    <h3 style="font-size:2rem;margin-top:0">Contoh Kotak</h3>
+                    <pre class="mini-code">name  → Adrian
+age   → 13
+hobby → Sports</pre>
+                    <p class="lead">Label membantu program tahu data mana yang sedang dipakai.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Fungsi Variabel">
+            <div class="slide-head center"><span class="kicker">VARIABLE USE</span>
+                <h2>Variabel Menyimpan Nilai untuk Dipakai Lagi</h2>
+                <p>Setelah data disimpan dan diberi label, program bisa memanggilnya kembali untuk proses lain.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><span>📥</span>
+                    <h3>Menerima Data</h3>
+                    <p>Program menerima value dari user atau dari kode.</p>
+                </div>
+                <div class="agenda-card orange"><span>🏷️</span>
+                    <h3>Memberi Label</h3>
+                    <p>Value disimpan dalam nama variabel.</p>
+                </div>
+                <div class="agenda-card purple"><span>💾</span>
+                    <h3>Menyimpan</h3>
+                    <p>Data tidak langsung hilang setelah user mengetik.</p>
+                </div>
+                <div class="agenda-card green"><span>📤</span>
+                    <h3>Memakai Lagi</h3>
+                    <p>Variabel dapat dipanggil untuk print atau proses lain.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Di Mana Input Disimpan">
+            <div class="single-focus">
+                <div class="giant-emoji">⌨️➡️❓</div><span class="kicker">THINK FIRST</span>
+                <h2>Kembali ke <span class="code-font">input()</span></h2>
+                <p>Tadi user mengetik sesuatu ke program. Kalau kita ingin menggunakan jawaban itu lagi, jawaban
+                    tersebut perlu disimpan.</p>
+                <div class="question-bubble"
+                    style="margin-top:24px;background:#fff;border:3px solid #ffd067;border-radius:18px;padding:18px;font-size:1.25rem">
+                    Menurutmu, di mana kita menyimpan hasil input user?</div>
+            </div>
+        </section>
+        <section class="slide" data-title="Input ke Variabel">
+            <div class="split-layout">
+                <div><span class="kicker">SYNTAX PATTERN</span>
+                    <h2>Menyimpan Input ke Dalam Variabel</h2>
+                    <p class="lead">Kita bisa menyimpan hasil input user ke variabel dengan format berikut.</p>
+                    <pre class="mini-code">name = input("Enter your Name: ")
+print(name)</pre>
+                    <div class="notice">Input nama disimpan di variabel berlabel <span class="code-font">name</span>,
+                        lalu <span class="code-font">name</span> dipanggil kembali untuk di-print.</div>
+                </div>
+                <div class="mature-card" style="text-align:center">
+                    <div style="font-size:7rem">📦</div>
+                    <h3 class="code-font" style="font-size:2rem">name</h3>
+                    <p>isi kotak: jawaban user</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Latihan Variabel Email 1">
+            <div class="slide-head compact"><span class="kicker">VARIABLE PRACTICE 1</span>
+                <h2>Simpan Email, Lalu Tampilkan Lagi</h2>
+                <p>Gunakan <span class="code-font">input()</span> untuk menanyakan email address.</p>
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>Editor</h3><textarea class="code-editor" id="emailPractice1" spellcheck="false" placeholder='email = input("Enter your Email Address: ")
+print("Hello, Welcome to Python")
+print(email)'></textarea>
+                    <div class="code-hint">Hint: simpan input ke variabel <span class="code-font">email</span>, lalu
+                        print email tersebut.</div>
+                    <div class="run-row"><button class="run-btn"
+                            onclick="runInputChallenge('emailPractice1','emailOutput1','emailFeedback1','Enter your Email Address: shoseipudding@gmail.com\nHello, Welcome to Python\nshoseipudding@gmail.com')">Run
+                            ▶</button><span class="code-feedback" id="emailFeedback1"></span></div>
+                </div>
+                <div class="output-panel">
+                    <div class="output-cols">
+                        <div>
+                            <h3>Expected Output</h3>
+                            <div class="terminal target-terminal">Enter your Email Address: shoseipudding@gmail.com
+Hello, Welcome to Python
+shoseipudding@gmail.com</div>
+                        </div>
+                        <div>
+                            <h3>Run Output</h3>
+                            <div class="terminal target-terminal" id="emailOutput1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Latihan Variabel Email 2">
+            <div class="slide-head compact"><span class="kicker">VARIABLE PRACTICE 2</span>
+                <h2>Gabungkan Teks dan Variabel</h2>
+                <p>Targetnya: email muncul di tengah kalimat.</p>
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>Editor</h3><textarea class="code-editor" id="emailPractice2" spellcheck="false" placeholder='email = input("Enter your Email Address: ")
+print("Hello,", email, "Welcome to Python")'></textarea>
+                    <div class="code-hint">Hint: gunakan koma <span class="code-font">,</span> di dalam print atau
+                        gunakan concatenation <span class="code-font">+</span>.</div>
+                    <div class="run-row"><button class="run-btn"
+                            onclick="runInputChallenge('emailPractice2','emailOutput2','emailFeedback2','Enter your Email Address: shoseipudding@gmail.com\nHello, shoseipudding@gmail.com Welcome to Python')">Run
+                            ▶</button><span class="code-feedback" id="emailFeedback2"></span></div>
+                </div>
+                <div class="output-panel">
+                    <div class="output-cols">
+                        <div>
+                            <h3>Expected Output</h3>
+                            <div class="terminal target-terminal">Enter your Email Address: shoseipudding@gmail.com
+Hello, shoseipudding@gmail.com Welcome to Python</div>
+                        </div>
+                        <div>
+                            <h3>Run Output</h3>
+                            <div class="terminal target-terminal" id="emailOutput2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-purple" data-title="Concatenation dan Koma">
+            <div class="slide-head center"><span class="kicker">TEXT COMBINATION</span>
+                <h2>Menggabungkan String dan Variabel</h2>
+                <p>Ada dua cara umum untuk menampilkan teks bersama variabel.</p>
+            </div>
+            <div class="compare-cards">
+                <div class="compare-card purple"><span>➕</span>
+                    <h3>Concatenation (+)</h3>
+                    <pre class="mini-code">name = "Lily"
+print("Hello " + name)</pre>
+                    <p>Semua bagian harus berupa string.</p>
+                </div>
+                <div class="compare-card green"><span>،</span>
+                    <h3>Menggunakan Koma (,)</h3>
+                    <pre class="mini-code">name = "Lily"
+print("Hello", name)</pre>
+                    <p>Python akan memberi spasi otomatis antarbagian.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-orange" data-title="Project learn-input.py">
+            <div class="slide-head compact center"><span class="kicker">PRACTICE 2</span>
+                <h2>Buat File Baru: <span class="code-font">learn-input.py</span></h2>
+                <p>Masih di folder PythonDay3, buat program untuk Flower Dictionary.</p>
+            </div>
+            <div class="code-activity">
+                <div class="output-panel">
+                    <h3>Target Output</h3>
+                    <div class="terminal target-terminal">Masukkan nama bunga: Lily
+Deskripsikan bunga tersebut:tall, bulb-growing plant with large, showy flowers
+FLOWER DICTIONARY
+=====================
+Lily -> tall, bulb-growing plant with large, showy flowers</div>
+                </div>
+                <div class="single-focus" style="box-shadow:none">
+                    <div class="giant-emoji">🌸</div>
+                    <h2 style="font-size:2.2rem">Tantangan</h2>
+                    <p>Program meminta <b>nama bunga</b> dan <b>deskripsi bunga</b>, lalu mencetaknya kembali.</p>
+                    <div class="notice">Gunakan <span class="code-font">input()</span>, variabel, dan <span
+                            class="code-font">print()</span>.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Run learn-input.py">
+            <div class="slide-head compact center"><span class="kicker">HOW TO RUN</span>
+                <h2>Cara Run <span class="code-font">learn-input.py</span></h2>
+                <p>Command berubah sesuai nama file yang sedang dijalankan.</p>
+            </div>
+            <div class="vscode-tour" style="grid-template-columns:1fr 1fr">
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/833d13c3-c2f5-4575-80c2-3e09934fb091.png"
+                        alt="Terminal">
+                    <h3>1. Buka Integrated Terminal</h3>
+                    <p>Pastikan terminal berada di folder PythonDay3.</p>
+                </div>
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/8b2be699-fafc-402c-aab0-f15cddf31583.png"
+                        alt="Run">
+                    <h3>2. Ketik Command</h3>
+                    <p>Tulis <span class="code-font">python learn-input.py</span>, lalu tekan Enter.</p>
+                    <div class="notice"><span class="code-font">learn-input.py</span> adalah nama file yang mau kita
+                        test dan run.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-green" data-title="Cek learn-input.py">
+            <div class="slide-head compact center"><span class="kicker">CHECKPOINT</span>
+                <h2>Apakah Hasilnya Sudah Sesuai?</h2>
+                <p>Coba dulu, lalu reveal contoh kode jika diperlukan.</p>
+            </div>
+            <div class="code-activity">
+                <div class="output-panel">
+                    <h3>Expected Output</h3>
+                    <div class="terminal target-terminal">Masukkan nama bunga: Lily
+Deskripsikan bunga tersebut:tall, bulb-growing plant with large, showy flowers
+FLOWER DICTIONARY
+=====================
+Lily -> tall, bulb-growing plant with large, showy flowers</div>
+                </div>
+                <div class="code-panel">
+                    <h3>Contoh Kode</h3><button class="primary-btn" onclick="toggleReveal('inputAnswer')">Reveal
+                        Answer</button>
+                    <div class="reveal-box" id="inputAnswer">
+                        <pre class="mini-code">flower = input("Masukkan nama bunga: ")
+description = input("Deskripsikan bunga tersebut:")
+
+print("FLOWER DICTIONARY")
+print("=====================")
+print(flower, '->', description)</pre>
+                        <div class="notice">Bagus. Sekarang programmu sudah bisa menerima input dan menampilkannya
+                            kembali.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Investigasi Syntax">
+            <div class="slide-head compact center"><span class="kicker">INVESTIGATE</span>
+                <h2>Klik Run dan Amati Perbedaannya</h2>
+                <p>Ada yang menghasilkan angka, teks, bahkan error. Apa penyebabnya?</p>
+            </div>
+            <div class="syntax-lab">
+                <div class="code-panel">
+                    <h3>Syntax</h3>
+                    <div class="syntax-list" id="syntaxList">
+                        <div class="syntax-chip" data-out="32"><span>print( 21 + 11)</span><button class="run-btn" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 8px;" onclick="runSpecificSyntax(this)">Run ▶</button></div>
+                        <div class="syntax-chip" data-out="21 + 11"><span>print("21 + 11")</span><button class="run-btn" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 8px;" onclick="runSpecificSyntax(this)">Run ▶</button></div>
+                        <div class="syntax-chip" data-out="2111"><span>print("21" + "11")</span><button class="run-btn" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 8px;" onclick="runSpecificSyntax(this)">Run ▶</button></div>
+                        <div class="syntax-chip" data-out="SyntaxError: teks harus memakai tanda kutip"><span>print(Welcome to Python)</span><button class="run-btn" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 8px;" onclick="runSpecificSyntax(this)">Run ▶</button></div>
+                        <div class="syntax-chip" data-out="21"><span>print(21)</span><button class="run-btn" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 8px;" onclick="runSpecificSyntax(this)">Run ▶</button></div>
+                        <div class="syntax-chip" data-out="21"><span>print("21")</span><button class="run-btn" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 8px;" onclick="runSpecificSyntax(this)">Run ▶</button></div>
+                    </div>
+                </div>
+                <div class="single-focus" style="box-shadow:none;padding:25px">
+                    <div class="notice">Investigate: angka tanpa kutip diperlakukan sebagai angka. Teks perlu tanda
+                        kutip.</div>
+                </div>
+                <div class="output-panel">
+                    <h3>Output</h3>
+                    <div class="terminal target-terminal" id="syntaxOutput">Klik Run pada masing-masing syntax untuk mencoba.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Data Types">
+            <div class="slide-head center"><span class="kicker">DATA TYPES</span>
+                <h2>Empat Tipe Data Dasar</h2>
+                <p>Tipe data membantu komputer memahami perlakuan yang tepat untuk sebuah value.</p>
+            </div>
+            <div class="type-grid">
+                <div class="type-card blue"><span>📝</span>
+                    <h3>String</h3>
+                    <p>Teks atau karakter. Biasanya memakai tanda kutip.</p>
+                    <pre class="mini-code">"Lily"</pre>
+                </div>
+                <div class="type-card orange"><span>🔢</span>
+                    <h3>Integer</h3>
+                    <p>Bilangan bulat, bisa dipakai untuk operasi matematika.</p>
+                    <pre class="mini-code">21</pre>
+                </div>
+                <div class="type-card purple"><span>📏</span>
+                    <h3>Float</h3>
+                    <p>Bilangan desimal, misalnya tinggi atau berat.</p>
+                    <pre class="mini-code">12.5</pre>
+                </div>
+                <div class="type-card green"><span>✅</span>
+                    <h3>Boolean</h3>
+                    <p>Nilai benar atau salah.</p>
+                    <pre class="mini-code">True / False</pre>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-orange" data-title="Kenapa Data Types Penting">
+            <div class="split-layout">
+                <div><span class="kicker">WHY IT MATTERS</span>
+                    <h2>Kenapa Kita Harus Belajar Data Types?</h2>
+                    <p class="lead">Karena komputer perlu tahu apakah data harus dihitung sebagai angka atau
+                        diperlakukan sebagai teks.</p>
+                    <div class="notice">Kalau kita menulis <span class="code-font">print(21 + 11)</span>, Python tahu
+                        itu operasi matematika. Kalau kita menulis <span class="code-font">print("21" + "11")</span>,
+                        Python melihatnya sebagai teks.</div>
+                </div>
+                <div class="mature-card" style="text-align:center">
+                    <div style="font-size:7rem">🧮 vs 📝</div>
+                    <pre class="mini-code">print(21 + 11)   # 32
+print("21"+"11") # 2111</pre>
+                    <p>Angka bisa dihitung. String digabung sebagai teks.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Project learn-datatypes.py">
+            <div class="slide-head compact center"><span class="kicker">PRACTICE 3</span>
+                <h2>Buat File Baru: <span class="code-font">learn-datatypes.py</span></h2>
+                <p>Kita akan meminta input dan mengelompokkan data ke tipe yang berbeda.</p>
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>Program</h3>
+                    <pre class="mini-code" style="max-height:280px; overflow-y:auto; font-size:0.95rem"># String
+flower = input("Masukkan nama bunga: ")
+description = input("Deskripsikan bunga tersebut: ")
+
+# Integer
+petals = int(input("Masukkan jumlah kelopak bunga: "))
+
+# Float
+height = float(input("Masukkan tinggi bunga dalam cm: "))
+
+# Boolean
+fragrant = input("Apakah bunga memiliki aroma? (True/False): ")
+
+print("FLOWER INFORMATION")
+print("=====================")
+print("Nama bunga      :", flower)
+print("Deskripsi       :", description)
+print("Jumlah kelopak  :", petals)
+print("Tinggi bunga    :", height, "cm")
+print("Memiliki aroma  :", fragrant)</pre>
+                </div>
+                <div class="output-panel">
+                    <h3>Fokus Materi</h3>
+                    <div class="agenda-grid" style="grid-template-columns:1fr">
+                        <div class="agenda-card blue"><span>📝</span>
+                            <h3>String</h3>
+                            <p>Nama dan deskripsi bunga.</p>
+                        </div>
+                        <div class="agenda-card orange"><span>🔢</span>
+                            <h3>Integer & Float</h3>
+                            <p>Jumlah kelopak pakai <span class="code-font">int()</span>, tinggi pakai <span
+                                    class="code-font">float()</span>.</p>
+                        </div>
+                    </div>
+                    <div class="notice">Kalau belum tahu cara run, klik slide berikutnya.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Run learn-datatypes.py">
+            <div class="slide-head compact center"><span class="kicker">HOW TO RUN</span>
+                <h2>Cara Run <span class="code-font">learn-datatypes.py</span></h2>
+                <p>Pastikan nama file dan command sudah sama.</p>
+            </div>
+            <div class="vscode-tour" style="grid-template-columns:1fr 1fr">
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/833d13c3-c2f5-4575-80c2-3e09934fb091.png"
+                        alt="Terminal">
+                    <h3>1. Open Integrated Terminal</h3>
+                    <p>Buka terminal dari folder project hari ini.</p>
+                </div>
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/8b2be699-fafc-402c-aab0-f15cddf31583.png"
+                        alt="Run">
+                    <h3>2. Ketik Command</h3>
+                    <p>Tulis <span class="code-font">python learn-datatypes.py</span>, lalu tekan Enter.</p>
+                    <div class="notice"><span class="code-font">learn-datatypes.py</span> adalah nama file yang mau kita
+                        test dan run. Tetap cek ejaan file.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-green" data-title="Paham Data Types">
+            <div class="single-focus" style="transform: scale(0.9); transform-origin: top center;">
+                <div class="giant-emoji" style="font-size:5rem">🧠</div><span class="kicker">REFLECTION</span>
+                <h2 style="font-size:2rem">Apa yang Kamu Pahami tentang Data Type Sejauh Ini?</h2>
+                <p style="font-size:1.1rem">Jawab dengan bahasa sendiri: kapan sebuah data dianggap string, integer, float, atau boolean?</p>
+                <div class="input-row" style="display:flex;gap:10px;margin-top:20px"><input id="datatypeReflection"
+                        placeholder="Tulis pemahamanmu..."
+                        style="flex:1;border:3px solid #dbe5f0;border-radius:16px;padding:14px 17px;font:600 1.05rem 'Fredoka'"><button
+                        class="primary-btn" onclick="submitReflection()">Kirim</button></div>
+                <div class="response-box" id="reflectionResponse"></div>
+            </div>
+        </section>
+        <section class="slide" data-title="Quick Quiz">
+            <div class="slide-head compact center"><span class="kicker">QUICK QUIZ</span>
+                <h2>Cek Pemahamanmu</h2>
+                <p>Pilih jawaban. Jawaban benar akan tetap ditampilkan meskipun pilihanmu salah.</p>
+            </div>
+            <div class="quiz-shell">
+                <div class="quiz-question active" id="quiz1">
+                    <h3>1. Fungsi Python untuk menerima ketikan dari user adalah...</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz1','quiz2')">A.
+                            print()</button><button onclick="answerQuiz(this,true,'quiz1','quiz2')">B.
+                            input()</button><button onclick="answerQuiz(this,false,'quiz1','quiz2')">C. run()</button>
+                    </div>
+                </div>
+                <div class="quiz-question" id="quiz2">
+                    <h3>2. Variabel paling tepat dijelaskan sebagai...</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,true,'quiz2','quiz3')">A. Kotak berlabel
+                            untuk menyimpan value</button><button onclick="answerQuiz(this,false,'quiz2','quiz3')">B.
+                            Tombol menjalankan program</button><button
+                            onclick="answerQuiz(this,false,'quiz2','quiz3')">C. Warna tampilan terminal</button></div>
+                </div>
+                <div class="quiz-question" id="quiz3">
+                    <h3>3. Agar input jumlah kelopak bisa dihitung sebagai angka bulat, kita gunakan...</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz3','quizDone')">A.
+                            str()</button><button onclick="answerQuiz(this,true,'quiz3','quizDone')">B.
+                            int()</button><button onclick="answerQuiz(this,false,'quiz3','quizDone')">C.
+                            print()</button></div>
+                </div>
+                <div class="quiz-question" id="quizDone" style="text-align:center">
+                    <div class="giant-emoji">🎯</div>
+                    <h3>Quiz Selesai</h3>
+                    <p>Kamu sudah mengulas input, variabel, dan tipe data.</p>
+                </div>
+                <div class="quiz-progress"><span id="quizProgressText">Soal 1 dari 3</span>
+                    <div><i id="quizProgressBar"></i></div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Review Hari Ini">
+            <div class="slide-head center"><span class="kicker">SESSION REVIEW</span>
+                <h2>Apa Saja yang Sudah Dipelajari?</h2>
+            </div>
+            <div class="recap-path">
+                <div><span>📁</span><b>Project Folder</b>
+                    <p>Membuat PythonDay3 di VS Code.</p>
+                </div>
+                <div><span>🖨️</span><b>print()</b>
+                    <p>Menampilkan output teks.</p>
+                </div>
+                <div><span>⌨️</span><b>input()</b>
+                    <p>Menerima ketikan user.</p>
+                </div>
+                <div><span>📦</span><b>Variable</b>
+                    <p>Menyimpan value dengan label.</p>
+                </div>
+                <div><span>🔗</span><b>Gabung Teks</b>
+                    <p>Menggunakan koma atau concatenation.</p>
+                </div>
+                <div><span>🔢</span><b>Data Types</b>
+                    <p>String, integer, float, dan boolean.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide feedback-final" data-title="Feedback">
+            <div class="slide-head center"><span class="kicker">YOUR FEEDBACK</span>
+                <h2>How Do You Feel Today?</h2>
+                <p>Pilih satu respons yang paling sesuai dengan pengalaman belajarmu.</p>
+            </div>
+            <div class="emoji-feedback" id="emojiFeedback"><button onclick="sendFeedback(this)">😄<small>Sangat
+                        Paham</small></button><button onclick="sendFeedback(this)">🙂<small>Cukup
+                        Paham</small></button><button onclick="sendFeedback(this)">🤔<small>Perlu
+                        Latihan</small></button><button onclick="sendFeedback(this)">🆘<small>Perlu
+                        Bantuan</small></button></div>
+            <div class="feedback-thanks" id="feedbackThanks"></div>
+        </section>
+        <div class="progress-line" id="progressLine"></div>
+        <footer class="navigation">
+            <div class="nav-title" id="navTitle">Session 3 • Input, Variabel, dan Tipe Data</div>
+            <div class="nav-controls"><button aria-label="Sebelumnya" class="nav-btn" id="prevBtn">‹</button>
+                <div class="counter"><span id="currentSlide">1</span> / <span id="totalSlides">34</span></div><button
+                    aria-label="Berikutnya" class="nav-btn next" id="nextBtn">›</button>
+            </div>
+        </footer>
+    </main>
+    <div id="imageModal" class="image-modal" onclick="this.classList.remove('show')">
+        <img id="enlargedImg" src="" alt="Enlarged view">
+    </div>
+    <script>
+        let currentSlide = 0; const slides = [...document.querySelectorAll('.slide')]; function showSlide(index) { if (index < 0 || index >= slides.length) return; slides.forEach((s, i) => s.classList.toggle('active', i === index)); currentSlide = index; document.getElementById('currentSlide').textContent = index + 1; document.getElementById('totalSlides').textContent = slides.length; document.getElementById('prevBtn').disabled = index === 0; document.getElementById('nextBtn').disabled = index === slides.length - 1; document.getElementById('progressLine').style.width = ((index + 1) / slides.length * 100) + '%'; document.getElementById('navTitle').textContent = 'Session 3 • ' + slides[index].dataset.title; slides[index].scrollTop = 0 } document.getElementById('prevBtn').onclick = () => showSlide(currentSlide - 1); document.getElementById('nextBtn').onclick = () => showSlide(currentSlide + 1); document.addEventListener('keydown', e => { if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return; if (e.key === 'ArrowRight') showSlide(currentSlide + 1); if (e.key === 'ArrowLeft') showSlide(currentSlide - 1) }); showSlide(0);
+        function setFeedback(id, msg, ok = true) { const el = document.getElementById(id); if (!el) return; el.textContent = msg; el.className = (el.classList.contains('code-feedback') ? 'code-feedback ' : 'feedback ') + (ok ? 'success' : 'error') }
+        function toggleReveal(id) { document.getElementById(id).classList.toggle('show') }
+        function welcomeAlias() { const v = document.getElementById('aliasName').value.trim() || 'Player'; document.getElementById('aliasResponse').textContent = `Welcome, ${v}, . Selamat belajar Python. Klik Continue untuk melanjutkan.` }
+        function normalize(s) { return (s || '').replace(/\r/g, '').trim() }
+        async function runInputChallenge(editorId, outId, feedbackId, expected) { const code = document.getElementById(editorId).value; const outEl = document.getElementById(outId); outEl.innerHTML = ''; let lines = code.split(/\n/); let vars = {}; let finalOut = []; function printOut(text) { outEl.appendChild(document.createTextNode(text + '\n')); finalOut.push(text); } async function getInput(prompt) { return new Promise(resolve => { const span = document.createElement('span'); span.textContent = prompt; outEl.appendChild(span); const inp = document.createElement('input'); inp.type = 'text'; inp.style = 'background:transparent;border:none;border-bottom:1px solid #aaa;color:inherit;outline:none;font:inherit;width:auto;min-width:150px;'; outEl.appendChild(inp); setTimeout(() => inp.focus(), 50); inp.addEventListener('keydown', e => { if (e.key === 'Enter') { const val = inp.value; inp.disabled = true; inp.style.border = 'none'; outEl.appendChild(document.createTextNode('\n')); finalOut.push(prompt + val); resolve(val); } }); }); } async function evalExpr(expr) { expr = expr.trim(); let m; if ((m = expr.match(/^input\((['"])(.*?)\1\)$/))) return await getInput(m[2]); if ((m = expr.match(/^int\(input\((['"])(.*?)\1\)\)$/))) return parseInt(await getInput(m[2]), 10); if ((m = expr.match(/^float\(input\((['"])(.*?)\1\)\)$/))) return parseFloat(await getInput(m[2])); if ((m = expr.match(/^(['"])(.*?)\1$/))) return m[2]; if (/^\d+(\.\d+)?$/.test(expr)) return Number(expr); if (vars.hasOwnProperty(expr)) return vars[expr]; if (expr.includes('+')) { let parts = await Promise.all(expr.split('+').map(p => evalExpr(p))); if (parts.every(x => typeof x === 'number')) return parts.reduce((a, b) => a + b, 0); return parts.join(''); } return expr; } for (let raw of lines) { let line = raw.trim(); if (!line || line.startsWith('#')) continue; let assign = line.match(/^([A-Za-z_]\w*)\s*=\s*(.+)$/); if (assign) { vars[assign[1]] = await evalExpr(assign[2]); continue; } let print = line.match(/^print\((.*)\)$/); if (print) { let inside = print[1].trim(); let parts = []; let cur = '', quote = null; for (let ch of inside) { if ((ch === '"' || ch === "'") && !quote) { quote = ch; cur += ch; continue; } if (ch === quote) { quote = null; cur += ch; continue; } if (ch === ',' && !quote) { parts.push(cur); cur = ''; continue; } cur += ch; } if (cur.length) parts.push(cur); let vals = await Promise.all(parts.map(p => evalExpr(p))); printOut(vals.join(' ')); continue; } let inp = line.match(/^input\((['"])(.*?)\1\)$/); if (inp) { await getInput(inp[2]); continue; } if (line.includes('Welcome to Python') && !line.includes('"')) { printOut('SyntaxError: teks harus memakai tanda kutip'); } else { printOut('SyntaxError atau syntax belum didukung simulator'); } } if (finalOut.length === 0) outEl.textContent = 'Belum ada output.'; else { let isSuccess = !finalOut.some(l => l.includes('SyntaxError') || l.includes('belum didukung')); setFeedback(feedbackId, isSuccess ? 'Output berhasil!' : 'Ada syntax error. Cek kembali kodenya.', isSuccess); } }
+        function runSpecificSyntax(btn) { const chips = [...document.querySelectorAll('#syntaxList .syntax-chip')]; chips.forEach(c => c.classList.remove('active')); const chip = btn.closest('.syntax-chip'); chip.classList.add('active'); document.getElementById('syntaxOutput').textContent = chip.dataset.out; }
+        let dragged = null; document.addEventListener('dragstart', e => { if (e.target.classList.contains('draggable')) { dragged = e.target; e.dataTransfer.setData('text/plain', e.target.dataset.value); setTimeout(() => e.target.style.opacity = '.4', 0) } }); document.addEventListener('dragend', e => { if (e.target.classList.contains('draggable')) e.target.style.opacity = '1' }); document.querySelectorAll('.drop-target').forEach(zone => { zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('active') }); zone.addEventListener('dragleave', () => zone.classList.remove('active')); zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('active'); if (!dragged) return; const val = dragged.dataset.value; if (zone.dataset.accept === val) { const fill = document.createElement('div'); fill.className = 'filled'; fill.textContent = val; zone.appendChild(fill); dragged.remove(); setFeedback(zone.closest('.drop-layout').querySelector('.feedback').id, 'Cocok. Label dan value sudah sesuai.', true) } else { setFeedback(zone.closest('.drop-layout').querySelector('.feedback').id, 'Belum cocok. Coba cek lagi arti labelnya.', false) } dragged = null }) });
+        function submitReflection() { const v = document.getElementById('datatypeReflection').value.trim(); document.getElementById('reflectionResponse').textContent = v ? `Kamu menulis: “${v}”. Simpan ide ini, nanti akan berguna saat program mulai menghitung data.` : 'Tulis pemahamanmu terlebih dahulu.' }
+        function answerQuiz(btn, correct, current, next) { const parent = btn.closest('.quiz-question'); parent.querySelectorAll('button').forEach(b => { b.disabled = true; if (b.onclick.toString().includes('true')) b.classList.add('correct') }); btn.classList.add(correct ? 'correct' : 'wrong'); setTimeout(() => { parent.classList.remove('active'); document.getElementById(next).classList.add('active'); let n = next === 'quiz2' ? 2 : next === 'quiz3' ? 3 : 3; document.getElementById('quizProgressText').textContent = next === 'quizDone' ? 'Quiz selesai' : 'Soal ' + n + ' dari 3'; document.getElementById('quizProgressBar').style.width = next === 'quizDone' ? '100%' : (n / 3 * 100) + '%' }, 850) }
+        function sendFeedback(btn) { document.querySelectorAll('#emojiFeedback button').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); document.getElementById('feedbackThanks').textContent = 'Terima kasih. Feedbackmu membantu menentukan latihan berikutnya.' }
+        document.querySelectorAll('.tour-card img').forEach(img => {
+            img.addEventListener('click', () => {
+                document.getElementById('enlargedImg').src = img.src;
+                document.getElementById('imageModal').classList.add('show');
+            });
+        });
+    </script>
+</body>
+
+</html>
