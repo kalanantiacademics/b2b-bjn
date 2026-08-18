@@ -1,0 +1,2699 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Session 5 - Motion dan Koordinat | Ruangguru Coding</title>
+    <link rel="icon"
+        href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue: #2f80ed;
+            --scratchBlue: #4c97ff;
+            --cyan: #16bde8;
+            --purple: #845ef7;
+            --orange: #ff8a34;
+            --yellow: #ffd53d;
+            --green: #28b875;
+            --red: #ef5350;
+            --ink: #20324a;
+            --muted: #66788d;
+            --panel: #fff;
+            --shadow: 0 22px 55px rgba(22, 44, 76, .18)
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--ink);
+            background: #f8fffe;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        body:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='600' viewBox='0 0 900 600'%3E%3Cg fill='none' stroke='%2300bcd4' stroke-width='2.2' opacity='0.18'%3E%3Crect x='40' y='60' width='68' height='80' rx='6'/%3E%3Cline x1='40' y1='100' x2='108' y2='100'/%3E%3Cline x1='74' y1='60' x2='74' y2='140'/%3E%3Ccircle cx='820' cy='70' r='22'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15' transform='rotate(60 820 70)'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15' transform='rotate(120 820 70)'/%3E%3Crect x='432' y='20' width='48' height='55' rx='10'/%3E%3Crect x='30' y='260' width='58' height='68' rx='10'/%3E%3Ccircle cx='838' cy='340' r='42'/%3E%3Cellipse cx='838' cy='340' rx='20' ry='42'/%3E%3Cline x1='796' y1='340' x2='880' y2='340'/%3E%3Crect x='55' y='450' width='80' height='90' rx='6'/%3E%3Cline x1='95' y1='450' x2='95' y2='540'/%3E%3Crect x='390' y='480' width='72' height='72' rx='4'/%3E%3Cline x1='414' y1='480' x2='414' y2='552'/%3E%3Cline x1='438' y1='480' x2='438' y2='552'/%3E%3Cline x1='390' y1='504' x2='462' y2='504'/%3E%3Cline x1='390' y1='528' x2='462' y2='528'/%3E%3C/g%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-size: cover;
+            pointer-events: none;
+            z-index: -1
+        }
+
+        body:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at 0% 100%, rgba(0, 188, 212, .07), transparent 55%), radial-gradient(ellipse at 100% 0%, rgba(0, 188, 212, .06), transparent 50%);
+            pointer-events: none;
+            z-index: -1
+        }
+
+        .brand-logo {
+            position: fixed;
+            left: 22px;
+            top: 16px;
+            z-index: 2000;
+            background: #fff;
+            border: 2.5px solid rgba(0, 188, 212, .22);
+            border-radius: 22px;
+            padding: 10px 20px;
+            box-shadow: 0 8px 32px rgba(0, 188, 212, .18), 0 2px 8px rgba(0, 0, 0, .07);
+            display: flex;
+            align-items: center
+        }
+
+        .brand-logo img {
+            display: block;
+            height: 80px;
+            max-width: 220px;
+            object-fit: contain
+        }
+
+        .presentation-container {
+            width: 86vw;
+            height: 80vh;
+            max-width: 1500px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(30, 56, 93, .25);
+            overflow: hidden;
+            position: relative;
+            border: 4px solid rgba(255, 255, 255, .85)
+        }
+
+        .presentation-container:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 26px;
+            box-shadow: inset 0 0 0 1px rgba(91, 124, 164, .10);
+            z-index: 30
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 42px 58px 74px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(42px) scale(.985);
+            transition: .46s ease;
+            background: linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(249, 252, 255, .98));
+            overflow-y: auto;
+            overflow-x: hidden
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            z-index: 10
+        }
+
+        .navigation {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, .96);
+            border-top: 1px solid #e7edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 100;
+            backdrop-filter: blur(12px)
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b7d92;
+            max-width: 42%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #d9e3ef;
+            background: #fff;
+            color: #4c6077;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            border-color: var(--blue);
+            color: var(--blue)
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            color: #fff;
+            border: 0;
+            box-shadow: 0 7px 16px rgba(255, 138, 52, .3)
+        }
+
+        .nav-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed
+        }
+
+        .counter {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #53677f;
+            min-width: 74px;
+            text-align: center
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 0;
+            bottom: 62px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--orange), var(--purple), var(--cyan));
+            width: 0;
+            transition: .35s;
+            z-index: 110
+        }
+
+        .slide-head {
+            width: 100%;
+            max-width: 1180px;
+            margin-bottom: 22px
+        }
+
+        .slide-head.center {
+            text-align: center
+        }
+
+        .slide-head.compact {
+            margin-bottom: 14px
+        }
+
+        .slide-head h2,
+        .single-focus h2 {
+            font-size: clamp(2.2rem, 4vw, 4rem);
+            line-height: 1.06;
+            margin: 6px 0 12px;
+            color: #24344d
+        }
+
+        .slide-head p,
+        .single-focus p,
+        .lead {
+            font-size: clamp(1.12rem, 1.6vw, 1.5rem);
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.48
+        }
+
+        .kicker {
+            display: inline-block;
+            font-size: .92rem;
+            letter-spacing: .16em;
+            font-weight: 700;
+            color: var(--purple);
+            background: #f0eaff;
+            border-radius: 999px;
+            padding: 7px 13px
+        }
+
+        .eyebrow {
+            letter-spacing: .22em;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 0 10px
+        }
+
+        .cover-slide {
+            background: linear-gradient(135deg, #172b55, #3c2a76 52%, #7646b8);
+            color: #fff
+        }
+
+        .cover-scene {
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, .14);
+            border: 1px solid rgba(255, 255, 255, .3);
+            padding: 9px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            margin-bottom: 18px
+        }
+
+        .hero-icon {
+            font-size: 7rem;
+            filter: drop-shadow(0 12px 16px rgba(0, 0, 0, .24));
+            animation: float 3s ease-in-out infinite
+        }
+
+        .display-title {
+            font-size: clamp(3.4rem, 7vw, 6.6rem);
+            line-height: .95;
+            margin: 8px 0 18px
+        }
+
+        .display-title span {
+            color: #ffd65a
+        }
+
+        .hero-subtitle {
+            font-size: 1.55rem;
+            max-width: 860px;
+            margin: 0 auto;
+            color: #edf2ff
+        }
+
+        .hero-pills {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 26px
+        }
+
+        .hero-pills span {
+            background: rgba(255, 255, 255, .13);
+            border: 1px solid rgba(255, 255, 255, .22);
+            padding: 10px 16px;
+            border-radius: 15px;
+            font-weight: 600
+        }
+
+        .orbit {
+            position: absolute;
+            font-size: 2.6rem;
+            animation: float 3.5s ease-in-out infinite
+        }
+
+        .orbit-a {
+            left: 8%;
+            top: 12%
+        }
+
+        .orbit-b {
+            right: 8%;
+            top: 18%;
+            animation-delay: .7s
+        }
+
+        .orbit-c {
+            right: 15%;
+            bottom: 10%;
+            animation-delay: 1.2s
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-12px) rotate(3deg)
+            }
+        }
+
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px
+        }
+
+        .agenda-card {
+            position: relative;
+            padding: 24px;
+            border-radius: 26px;
+            border: 2px solid;
+            min-height: 150px;
+            overflow: hidden;
+            background: #fff
+        }
+
+        .agenda-card>b {
+            position: absolute;
+            right: 18px;
+            top: 10px;
+            font-size: 3rem;
+            opacity: .12
+        }
+
+        .agenda-card>span {
+            font-size: 3.1rem
+        }
+
+        .agenda-card h3 {
+            font-size: 1.5rem;
+            margin: 8px 0 3px
+        }
+
+        .agenda-card p {
+            margin: 0;
+            color: #52667c
+        }
+
+        .blue {
+            background: #eef7ff !important;
+            border-color: #b9dcff !important
+        }
+
+        .orange {
+            background: #fff4e8 !important;
+            border-color: #ffd3a7 !important
+        }
+
+        .purple {
+            background: #f5efff !important;
+            border-color: #d9c6ff !important
+        }
+
+        .green {
+            background: #ebfbf4 !important;
+            border-color: #b7ebd2 !important
+        }
+
+        .yellow {
+            background: #fff8db !important;
+            border-color: #f5d86d !important
+        }
+
+        .red {
+            background: #fff0ef !important;
+            border-color: #f5aaa7 !important
+        }
+
+        .soft-blue {
+            background: linear-gradient(145deg, #edf7ff, #f7fbff)
+        }
+
+        .soft-green {
+            background: linear-gradient(145deg, #effcf5, #fbfffd)
+        }
+
+        .soft-orange {
+            background: linear-gradient(145deg, #fff6ea, #fffdf8)
+        }
+
+        .soft-purple {
+            background: linear-gradient(145deg, #f6f0ff, #fbf9ff)
+        }
+
+        .warm-slide {
+            background: linear-gradient(145deg, #fff8e9, #fffdf6)
+        }
+
+        .feedback-final {
+            background: linear-gradient(145deg, #fff0f6, #eef4ff)
+        }
+
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 34px;
+            width: 100%;
+            max-width: 1100px;
+            align-items: center
+        }
+
+        .single-focus {
+            max-width: 820px;
+            text-align: center;
+            padding: 38px;
+            background: #fff;
+            border-radius: 34px;
+            box-shadow: var(--shadow);
+            border: 3px solid #d9e8ff
+        }
+
+        .giant-emoji {
+            font-size: 6rem
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            border: 0;
+            border-radius: 16px;
+            padding: 13px 22px;
+            font: 700 1rem 'Fredoka';
+            cursor: pointer;
+            transition: .2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(66, 92, 201, .25)
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px)
+        }
+
+        .primary-btn.large {
+            font-size: 1.2rem;
+            padding: 15px 26px
+        }
+
+        .secondary-btn {
+            background: #eef2f7;
+            color: #465c74;
+            border: 2px solid #d9e1ea
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 15px;
+            flex-wrap: wrap
+        }
+
+        .notice {
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: #fff8db;
+            border: 2px solid #f7d95d;
+            color: #7b6412;
+            font-weight: 600;
+            margin-top: 14px
+        }
+
+        .feedback {
+            min-height: 28px;
+            margin-top: 12px;
+            text-align: center;
+            font-size: 1.08rem;
+            font-weight: 700;
+            color: #566b81
+        }
+
+        .feedback.success {
+            color: #12834e
+        }
+
+        .feedback.error {
+            color: #ce3f3c
+        }
+
+        .response-box {
+            min-height: 48px;
+            margin-top: 15px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: #fff;
+            border: 2px dashed #cdd8e5;
+            color: #50657d;
+            font-weight: 600
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px
+        }
+
+        .input-row input {
+            flex: 1;
+            border: 3px solid #dbe5f0;
+            border-radius: 16px;
+            padding: 14px 17px;
+            font: 600 1.05rem 'Fredoka';
+            outline: none
+        }
+
+        .input-row input:focus {
+            border-color: var(--purple)
+        }
+
+        /* coordinate visuals */
+        .coord-stage {
+            width: 100%;
+            max-width: 640px;
+            aspect-ratio: 4/3;
+            border: 8px solid #26394f;
+            border-radius: 28px;
+            position: relative;
+            overflow: hidden;
+            background-color: #fff;
+            background-image: linear-gradient(rgba(76, 151, 255, .10) 1px, transparent 1px), linear-gradient(90deg, rgba(76, 151, 255, .10) 1px, transparent 1px);
+            background-size: 12.5% 16.666%;
+            box-shadow: var(--shadow);
+            cursor: crosshair
+        }
+
+        .axis-x {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            height: 3px;
+            background: #ff765f;
+            z-index: 2
+        }
+
+        .axis-y {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 3px;
+            background: #4c97ff;
+            z-index: 2
+        }
+
+        .axis-label {
+            position: absolute;
+            z-index: 3;
+            background: #fff;
+            border: 2px solid #dfe7ef;
+            border-radius: 10px;
+            padding: 4px 8px;
+            font-size: .82rem;
+            font-weight: 700
+        }
+
+        .label-x-left {
+            left: 8px;
+            top: 51%
+        }
+
+        .label-x-right {
+            right: 8px;
+            top: 51%
+        }
+
+        .label-y-top {
+            left: 51%;
+            top: 8px
+        }
+
+        .label-y-bottom {
+            left: 51%;
+            bottom: 8px
+        }
+
+        .origin-label {
+            left: 51%;
+            top: 51%;
+            transform: translate(5px, 5px)
+        }
+
+        .coord-hen {
+            position: absolute;
+            width: 105px;
+            height: 105px;
+            object-fit: contain;
+            z-index: 6;
+            transform: translate(-50%, -50%);
+            transition: left .55s ease, top .55s ease;
+            filter: drop-shadow(0 9px 8px rgba(0, 0, 0, .18));
+            pointer-events: none
+        }
+
+        .coord-readout {
+            position: absolute;
+            right: 14px;
+            top: 14px;
+            z-index: 8;
+            background: #26394f;
+            color: #fff;
+            border-radius: 14px;
+            padding: 10px 14px;
+            font-weight: 700;
+            box-shadow: 0 7px 15px rgba(0, 0, 0, .15)
+        }
+
+        .stage-hint {
+            position: absolute;
+            left: 14px;
+            top: 14px;
+            z-index: 7;
+            background: rgba(255, 255, 255, .94);
+            border: 2px solid #e1e7ee;
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-weight: 700;
+            color: #52667c
+        }
+
+        .axis-demo {
+            width: 100%;
+            max-width: 980px;
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 28px;
+            padding: 25px;
+            box-shadow: var(--shadow)
+        }
+
+        .axis-track {
+            height: 90px;
+            position: relative;
+            margin: 20px 25px
+        }
+
+        .axis-track:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 43px;
+            height: 5px;
+            border-radius: 999px;
+            background: #dfe6ef
+        }
+
+        .axis-track.x:before {
+            background: linear-gradient(90deg, #ffb2a6, #ff765f, #ffd2cc)
+        }
+
+        .axis-track.y {
+            height: 300px;
+            width: 120px;
+            margin: 10px auto
+        }
+
+        .axis-track.y:before {
+            left: 57px;
+            right: auto;
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            height: auto;
+            background: linear-gradient(#b8d7ff, #4c97ff, #d5e8ff)
+        }
+
+        .axis-zero {
+            position: absolute;
+            left: 50%;
+            top: 24px;
+            transform: translateX(-50%);
+            background: #26394f;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-weight: 700
+        }
+
+        .axis-track.y .axis-zero {
+            left: 63px;
+            top: 50%;
+            transform: translate(0, -50%)
+        }
+
+        .axis-end {
+            position: absolute;
+            font-weight: 700;
+            color: #52667c
+        }
+
+        .axis-track.x .neg {
+            left: 0;
+            top: 58px
+        }
+
+        .axis-track.x .pos {
+            right: 0;
+            top: 58px
+        }
+
+        .axis-track.y .pos {
+            left: 72px;
+            top: 0
+        }
+
+        .axis-track.y .neg {
+            left: 72px;
+            bottom: 0
+        }
+
+        .axis-arrow {
+            position: absolute;
+            font-size: 2rem
+        }
+
+        .axis-track.x .a1 {
+            left: -4px;
+            top: 18px
+        }
+
+        .axis-track.x .a2 {
+            right: -4px;
+            top: 18px
+        }
+
+        .axis-track.y .a1 {
+            left: 38px;
+            top: -12px
+        }
+
+        .axis-track.y .a2 {
+            left: 38px;
+            bottom: -12px
+        }
+
+        .slider-lab {
+            display: grid;
+            grid-template-columns: .7fr 1.3fr;
+            gap: 24px;
+            width: 100%;
+            max-width: 1100px;
+            align-items: center
+        }
+
+        .control-card {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 26px;
+            padding: 22px;
+            box-shadow: var(--shadow)
+        }
+
+        .control-card h3 {
+            margin: 0 0 10px;
+            font-size: 1.55rem
+        }
+
+        .control-card input[type=range] {
+            width: 100%;
+            accent-color: var(--scratchBlue)
+        }
+
+        .value-pill {
+            display: inline-block;
+            background: #eef6ff;
+            border: 2px solid #b8d9ff;
+            color: #285b7d;
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-weight: 700;
+            margin: 8px 0
+        }
+
+        .mini-stage {
+            height: 300px;
+            border: 7px solid #26394f;
+            border-radius: 26px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(#c4edff 0 62%, #9dd27a 62%);
+            box-shadow: var(--shadow)
+        }
+
+        .mini-stage:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            height: 3px;
+            background: #ff765f;
+            opacity: .75
+        }
+
+        .mini-stage:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 3px;
+            background: #4c97ff;
+            opacity: .75
+        }
+
+        .slider-hen {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            z-index: 4;
+            transform: translate(-50%, -50%);
+            filter: drop-shadow(0 8px 8px rgba(0, 0, 0, .16));
+            transition: .25s
+        }
+
+        /* coordinate cards and drag quiz */
+        .four-areas {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            width: 560px;
+            height: 420px;
+            padding: 8px;
+            background: #26394f;
+            border-radius: 28px;
+            box-shadow: var(--shadow)
+        }
+
+        .area {
+            background: #fff;
+            border-radius: 18px;
+            padding: 24px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center
+        }
+
+        .area span {
+            font-size: 3.5rem
+        }
+
+        .area b {
+            font-size: 1.4rem;
+            margin: 8px 0
+        }
+
+        .area small {
+            font-size: 1rem;
+            color: #60758c
+        }
+
+        .area.tr {
+            background: #effcf5
+        }
+
+        .area.tl {
+            background: #eef7ff
+        }
+
+        .area.bl {
+            background: #fff4e8
+        }
+
+        .area.br {
+            background: #f5efff
+        }
+
+        .coord-drag-shell {
+            width: 100%;
+            max-width: 1100px;
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 28px;
+            padding: 18px;
+            box-shadow: var(--shadow)
+        }
+
+        .mini-map-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px
+        }
+
+        .mini-map-card {
+            background: #f8fafc;
+            border: 2px solid #dfe7ef;
+            border-radius: 18px;
+            padding: 10px
+        }
+
+        .mini-map {
+            height: 145px;
+            position: relative;
+            background: #fff;
+            border: 2px solid #dfe7ef;
+            border-radius: 12px;
+            overflow: hidden;
+            background-image: linear-gradient(rgba(76, 151, 255, .10) 1px, transparent 1px), linear-gradient(90deg, rgba(76, 151, 255, .10) 1px, transparent 1px);
+            background-size: 25% 25%
+        }
+
+        .mini-map:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            height: 2px;
+            background: #ff765f
+        }
+
+        .mini-map:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            background: #4c97ff
+        }
+
+        .map-dot {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #ef5350;
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 2px #ef5350;
+            transform: translate(-50%, -50%);
+            z-index: 4
+        }
+
+        .coord-drop {
+            height: 54px;
+            margin-top: 8px;
+            border: 3px dashed #b9c7d7;
+            border-radius: 13px;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            color: #64788d;
+            background: #fff
+        }
+
+        .coord-drop.active {
+            border-color: var(--green);
+            background: #effbf5
+        }
+
+        .coord-drop .coord-card {
+            margin: 0
+        }
+
+        .coord-bank {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 14px;
+            padding: 12px;
+            border: 2px dashed #cbd8e2;
+            border-radius: 16px;
+            background: #f9fbfd;
+            min-height: 64px
+        }
+
+        .coord-card {
+            background: var(--scratchBlue);
+            color: #fff;
+            border-radius: 12px;
+            padding: 10px 16px;
+            font-weight: 700;
+            cursor: grab;
+            box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .12);
+            user-select: none
+        }
+
+        .coord-card.dragging {
+            opacity: .45
+        }
+
+        /* question activity */
+        .guess-shell {
+            display: grid;
+            grid-template-columns: 1.2fr .8fr;
+            gap: 24px;
+            width: 100%;
+            max-width: 1080px
+        }
+
+        .guess-options {
+            display: grid;
+            gap: 10px
+        }
+
+        .guess-options button {
+            border: 3px solid #dfe7f0;
+            background: #fff;
+            border-radius: 16px;
+            padding: 15px;
+            text-align: left;
+            font: 700 1.05rem 'Fredoka';
+            cursor: pointer
+        }
+
+        .guess-options button:hover {
+            border-color: #8f75ea
+        }
+
+        .guess-options button.correct {
+            border-color: var(--green);
+            background: #eafaf3
+        }
+
+        .guess-options button.wrong {
+            border-color: var(--red);
+            background: #fff0ef
+        }
+
+        /* blocks and motion */
+        .scratch-block-stack {
+            display: grid;
+            gap: 4px;
+            margin: 12px 0;
+            width: 100%;
+            max-width: 500px
+        }
+
+        .scratch-event,
+        .scratch-looks,
+        .scratch-motion,
+        .scratch-control {
+            border-radius: 12px;
+            padding: 13px;
+            font-weight: 700;
+            box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .12);
+            text-align: left
+        }
+
+        .scratch-event {
+            background: #ffd129;
+            color: #4c3a00
+        }
+
+        .scratch-looks {
+            background: #9966ff;
+            color: #fff
+        }
+
+        .scratch-motion {
+            background: #4c97ff;
+            color: #fff
+        }
+
+        .scratch-control {
+            background: #ffb636;
+            color: #553400
+        }
+
+        .block-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 980px
+        }
+
+        .block-card {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 26px;
+            padding: 22px;
+            box-shadow: var(--shadow)
+        }
+
+        .block-card h3 {
+            font-size: 1.7rem;
+            margin: 0 0 8px
+        }
+
+        .block-card p {
+            color: #61758b
+        }
+
+        .motion-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .motion-card {
+            background: #fff;
+            border: 3px solid #dfe7ef;
+            border-radius: 20px;
+            padding: 16px
+        }
+
+        .motion-card .scratch-motion {
+            font-size: .92rem
+        }
+
+        .motion-card b {
+            display: block;
+            font-size: 1.2rem;
+            margin: 10px 0 4px
+        }
+
+        .motion-card p {
+            margin: 0;
+            color: #63778b;
+            font-size: .98rem
+        }
+
+        .move-demo {
+            display: grid;
+            grid-template-columns: .75fr 1.25fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .move-stage {
+            height: 380px;
+            border: 8px solid #26394f;
+            border-radius: 26px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(#c4edff 0 62%, #9dd27a 62%);
+            box-shadow: var(--shadow)
+        }
+
+        .move-stage .axis-x {
+            opacity: .55
+        }
+
+        .move-stage .axis-y {
+            opacity: .55
+        }
+
+        .move-hen {
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            object-fit: contain;
+            transform: translate(-50%, -50%);
+            left: 50%;
+            top: 50%;
+            transition: left .15s linear, top .15s linear;
+            z-index: 5;
+            filter: drop-shadow(0 9px 8px rgba(0, 0, 0, .17))
+        }
+
+        .move-hen.glide {
+            transition: left 1.1s ease, top 1.1s ease
+        }
+
+        .code-selector {
+            display: grid;
+            gap: 10px
+        }
+
+        .code-selector button {
+            border: 3px solid #dfe7ef;
+            border-radius: 15px;
+            background: #fff;
+            padding: 12px;
+            font: 700 1rem 'Fredoka';
+            cursor: pointer;
+            text-align: left
+        }
+
+        .code-selector button:hover {
+            border-color: var(--scratchBlue);
+            background: #eef6ff
+        }
+
+        /* direction */
+        .direction-compass {
+            width: 370px;
+            height: 370px;
+            border-radius: 50%;
+            background: #fff;
+            border: 6px solid #dfe7ef;
+            position: relative;
+            box-shadow: var(--shadow);
+            display: grid;
+            place-items: center
+        }
+
+        .compass-line {
+            position: absolute;
+            background: #dfe7ef
+        }
+
+        .compass-line.h {
+            left: 20px;
+            right: 20px;
+            top: 50%;
+            height: 3px
+        }
+
+        .compass-line.v {
+            top: 20px;
+            bottom: 20px;
+            left: 50%;
+            width: 3px
+        }
+
+        .compass-label {
+            position: absolute;
+            font-weight: 700;
+            color: #566b81
+        }
+
+        .compass-label.top {
+            top: 12px
+        }
+
+        .compass-label.right {
+            right: 12px
+        }
+
+        .compass-label.bottom {
+            bottom: 12px
+        }
+
+        .compass-label.left {
+            left: 12px
+        }
+
+        .direction-hen {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            transition: transform .45s ease;
+            filter: drop-shadow(0 8px 7px rgba(0, 0, 0, .15));
+            z-index: 3
+        }
+
+        .direction-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px
+        }
+
+        .direction-buttons button {
+            border: 3px solid #dfe7ef;
+            background: #fff;
+            border-radius: 16px;
+            padding: 14px;
+            font: 700 1rem 'Fredoka';
+            cursor: pointer
+        }
+
+        .direction-buttons button:hover {
+            border-color: var(--purple);
+            background: #f5efff
+        }
+
+        .rotation-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1000px
+        }
+
+        .rotation-card {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 24px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer
+        }
+
+        .rotation-card:hover,
+        .rotation-card.selected {
+            border-color: var(--purple);
+            background: #f5efff;
+            transform: translateY(-3px)
+        }
+
+        .rotation-card span {
+            font-size: 4rem
+        }
+
+        .rotation-card b {
+            display: block;
+            font-size: 1.3rem;
+            margin: 8px
+        }
+
+        .rotation-card p {
+            margin: 0;
+            color: #63778b
+        }
+
+        /* route planner */
+        .route-lab {
+            display: grid;
+            grid-template-columns: .8fr 1.2fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .route-panel {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 26px;
+            padding: 20px;
+            box-shadow: var(--shadow)
+        }
+
+        .route-list {
+            display: grid;
+            gap: 9px;
+            min-height: 180px
+        }
+
+        .route-card {
+            background: #4c97ff;
+            color: #fff;
+            border-radius: 13px;
+            padding: 13px 15px;
+            font-weight: 700;
+            cursor: grab;
+            box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .12)
+        }
+
+        .route-card.dragging {
+            opacity: .45
+        }
+
+        .route-stage {
+            height: 390px;
+            border: 8px solid #26394f;
+            border-radius: 26px;
+            position: relative;
+            overflow: hidden;
+            background: #fff;
+            background-image: linear-gradient(rgba(76, 151, 255, .10) 1px, transparent 1px), linear-gradient(90deg, rgba(76, 151, 255, .10) 1px, transparent 1px);
+            background-size: 12.5% 16.666%;
+            box-shadow: var(--shadow)
+        }
+
+        .route-stage .axis-x,
+        .route-stage .axis-y {
+            opacity: .5
+        }
+
+        .route-hen {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            transform: translate(-50%, -50%);
+            z-index: 5;
+            transition: left 1s ease, top 1s ease;
+            filter: drop-shadow(0 8px 7px rgba(0, 0, 0, .15))
+        }
+
+        .route-target {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            text-align: center;
+            font-size: 2.4rem
+        }
+
+        .route-target small {
+            display: block;
+            background: #fff;
+            border: 2px solid #dfe7ef;
+            border-radius: 10px;
+            padding: 4px 6px;
+            font: 700 .72rem 'Fredoka';
+            white-space: nowrap
+        }
+
+        .route-step-active {
+            outline: 4px solid #ffd53d
+        }
+
+        /* project */
+        .scratch-demo {
+            width: 640px;
+            height: 480px;
+            border: 8px solid #283a51;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: var(--shadow)
+        }
+
+        .scratch-demo iframe {
+            width: 100%;
+            height: 100%;
+            border: 0
+        }
+
+        .image-card {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 26px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+            text-align: center
+        }
+
+        .image-card img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 18px;
+            cursor: zoom-in;
+            background: #f7fbff
+        }
+
+        .step-card {
+            display: grid;
+            grid-template-columns: .9fr 1.1fr;
+            gap: 28px;
+            width: 100%;
+            max-width: 1080px;
+            align-items: center
+        }
+
+        .step-copy {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 28px;
+            padding: 26px;
+            box-shadow: var(--shadow)
+        }
+
+        .step-copy h2 {
+            font-size: 2.35rem;
+            margin: 8px 0
+        }
+
+        .coord-note-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .coord-note {
+            background: #fff;
+            border: 3px solid #dfe7ef;
+            border-radius: 18px;
+            padding: 14px
+        }
+
+        .coord-note b {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 8px
+        }
+
+        .coord-note input {
+            width: 100%;
+            border: 2px solid #dbe5ef;
+            border-radius: 11px;
+            padding: 9px;
+            font: 600 .95rem 'Fredoka'
+        }
+
+        .script-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .script-grid .image-card {
+            padding: 9px
+        }
+
+        .script-grid .image-card img {
+            height: 330px
+        }
+
+        .find-motion {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 12px
+        }
+
+        .find-motion button {
+            border: 3px solid #dfe7ef;
+            background: #fff;
+            border-radius: 14px;
+            padding: 10px 14px;
+            font: 700 .95rem 'Fredoka';
+            cursor: pointer
+        }
+
+        .find-motion button:hover {
+            border-color: var(--scratchBlue);
+            background: #eef6ff
+        }
+
+        /* quiz / recap */
+        .quiz-shell {
+            width: 100%;
+            max-width: 950px;
+            background: #fff;
+            border: 3px solid #e1e8f2;
+            border-radius: 30px;
+            padding: 28px;
+            box-shadow: var(--shadow)
+        }
+
+        .quiz-question {
+            display: none
+        }
+
+        .quiz-question.active {
+            display: block
+        }
+
+        .quiz-question h3 {
+            font-size: 2rem;
+            margin: 0 0 18px
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px
+        }
+
+        .quiz-options button {
+            border: 3px solid #dfe7f0;
+            background: #f9fbfd;
+            border-radius: 16px;
+            padding: 15px 18px;
+            text-align: left;
+            font: 600 1.1rem 'Fredoka';
+            cursor: pointer
+        }
+
+        .quiz-options button:hover {
+            border-color: #8f75ea;
+            background: #f5f0ff
+        }
+
+        .quiz-options button.correct {
+            border-color: var(--green);
+            background: #eafaf3
+        }
+
+        .quiz-options button.wrong {
+            border-color: var(--red);
+            background: #fff0ef
+        }
+
+        .quiz-progress {
+            margin-top: 20px;
+            color: #63778e;
+            font-weight: 700
+        }
+
+        .quiz-progress>div {
+            height: 10px;
+            background: #e9eef4;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 7px
+        }
+
+        .quiz-progress i {
+            display: block;
+            height: 100%;
+            width: 33.3%;
+            background: linear-gradient(90deg, var(--orange), var(--purple));
+            transition: .3s
+        }
+
+        .recap-path {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .recap-path>div {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 23px;
+            padding: 20px;
+            text-align: center
+        }
+
+        .recap-path span {
+            font-size: 3.5rem
+        }
+
+        .recap-path b {
+            display: block;
+            font-size: 1.25rem;
+            margin: 7px
+        }
+
+        .recap-path p {
+            margin: 0;
+            color: #61758b
+        }
+
+        .emoji-feedback {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 30px
+        }
+
+        .emoji-feedback button {
+            border: 3px solid #e0e7ef;
+            background: #fff;
+            border-radius: 25px;
+            padding: 18px;
+            font-size: 5rem;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .emoji-feedback button:hover,
+        .emoji-feedback button.selected {
+            transform: scale(1.12);
+            border-color: var(--purple);
+            background: #f5efff
+        }
+
+        .emoji-feedback small {
+            display: block;
+            font: 600 .9rem 'Fredoka'
+        }
+
+        .feedback-thanks {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c4ddd;
+            margin-top: 25px;
+            min-height: 35px
+        }
+
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            inset: 0;
+            background: rgba(14, 25, 41, .85);
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px)
+        }
+
+        .image-modal.show {
+            display: flex
+        }
+
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, .3)
+        }
+
+        @media(max-width:1050px) {
+            .presentation-container {
+                width: 95vw;
+                height: 84vh
+            }
+
+            .slide {
+                padding: 32px 30px 72px
+            }
+
+            .agenda-grid,
+            .split-layout,
+            .slider-lab,
+            .guess-shell,
+            .block-compare,
+            .move-demo,
+            .route-lab,
+            .step-card {
+                grid-template-columns: 1fr
+            }
+
+            .mini-map-grid,
+            .motion-grid,
+            .rotation-grid,
+            .script-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .coord-note-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .coord-stage {
+                max-width: 560px
+            }
+
+            .scratch-demo {
+                width: 580px;
+                height: 435px
+            }
+        }
+
+        @media(max-width:700px) {
+            .brand-logo {
+                left: 8px;
+                top: 6px;
+                padding: 7px 12px
+            }
+
+            .brand-logo img {
+                height: 32px
+            }
+
+            .presentation-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: 0
+            }
+
+            .slide {
+                padding: 68px 18px 74px
+            }
+
+            .agenda-grid,
+            .split-layout,
+            .mini-map-grid,
+            .motion-grid,
+            .rotation-grid,
+            .script-grid,
+            .coord-note-grid,
+            .recap-path {
+                grid-template-columns: 1fr
+            }
+
+            .display-title {
+                font-size: 3.4rem
+            }
+
+            .hero-icon {
+                font-size: 5rem
+            }
+
+            .nav-title {
+                display: none
+            }
+
+            .emoji-feedback {
+                gap: 8px;
+                flex-wrap: wrap
+            }
+
+            .emoji-feedback button {
+                font-size: 3.5rem
+            }
+
+            .scratch-demo {
+                width: 100%;
+                height: 420px
+            }
+
+            .four-areas {
+                width: 100%;
+                height: 350px
+            }
+
+            .direction-compass {
+                width: 300px;
+                height: 300px
+            }
+
+            .coord-stage {
+                width: 100%
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="brand-logo"><img
+            src="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+            alt="Ruangguru Coding"></div>
+    <main class="presentation-container" id="presentation">
+
+        <section class="slide cover-slide" data-title="Motion dan Koordinat">
+            <div class="cover-scene">
+                <div class="orbit orbit-a">📍</div>
+                <div class="orbit orbit-b">🐔</div>
+                <div class="orbit orbit-c">↔️</div>
+                <div class="hero-badge">SESSION 5 • MOVEMENT</div>
+                <div class="hero-icon">🗺️</div>
+                <p class="eyebrow">SCRATCH MOTION</p>
+                <h1 class="display-title">Motion <span>& Koordinat</span></h1>
+                <p class="hero-subtitle">Memahami posisi X dan Y agar Sprite bisa bergerak ke tempat yang tepat di Stage
+                    Scratch.</p>
+                <div class="hero-pills"><span>📍 X & Y</span><span>🔵 Motion Blocks</span><span>🛝 Glide</span><span>🧭
+                        Direction</span></div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Review Sesi Sebelumnya">
+            <div class="slide-head center"><span class="kicker">REVIEW</span>
+                <h2>Apa yang Kita Pelajari di Pertemuan Sebelumnya?</h2>
+                <p>Kita sudah membuat cerita berjalan sesuai urutan dan mengenal beberapa block baru.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><b>01</b><span>🔢</span>
+                    <h3>Sequence</h3>
+                    <p>Program menjalankan instruksi dari atas ke bawah.</p>
+                </div>
+                <div class="agenda-card orange"><b>02</b><span>💬</span>
+                    <h3>Say & Wait</h3>
+                    <p>Mengatur dialog dan jeda dalam cerita.</p>
+                </div>
+                <div class="agenda-card purple"><b>03</b><span>🎭</span>
+                    <h3>Costume</h3>
+                    <p>Mengganti tampilan Sprite untuk membuat animasi.</p>
+                </div>
+                <div class="agenda-card green"><b>04</b><span>🛝</span>
+                    <h3>Glide</h3>
+                    <p>Membuat Sprite meluncur dengan halus.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Apa yang Akan Dipelajari">
+            <div class="slide-head center"><span class="kicker">TODAY'S MISSION</span>
+                <h2>Hari Ini Kita Akan Memahami Posisi Sprite</h2>
+                <p>Fokus kita adalah koordinat. Kita akan banyak mencoba, menggeser, menebak, dan menguji posisi.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><b>01</b><span>↔️</span>
+                    <h3>Koordinat X</h3>
+                    <p>Kiri, tengah, dan kanan.</p>
+                </div>
+                <div class="agenda-card orange"><b>02</b><span>↕️</span>
+                    <h3>Koordinat Y</h3>
+                    <p>Bawah, tengah, dan atas.</p>
+                </div>
+                <div class="agenda-card purple"><b>03</b><span>📍</span>
+                    <h3>Posisi X, Y</h3>
+                    <p>Menggabungkan dua angka menjadi satu alamat Sprite.</p>
+                </div>
+                <div class="agenda-card green"><b>04</b><span>🔵</span>
+                    <h3>Motion Blocks</h3>
+                    <p>Menggunakan koordinat untuk mengatur gerakan dengan tepat.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Mengapa Sprite Butuh Koordinat">
+            <div class="split-layout">
+                <div><span class="kicker">CORE IDEA</span>
+                    <h2>Bagaimana Scratch Tahu Sprite Harus Berada di Mana?</h2>
+                    <p class="lead">Kalau kita berkata, “Hen pindah ke sana,” komputer tidak tahu <b>“sana”</b> itu di
+                        mana. Komputer membutuhkan posisi yang jelas.</p>
+                    <div class="notice">Di Scratch, posisi itu ditulis dengan dua angka: <b>X</b> dan <b>Y</b>.</div>
+                </div>
+                <div class="single-focus" style="box-shadow:none">
+                    <div class="giant-emoji">🏠 ➜ 📍</div>
+                    <h2 style="font-size:2.35rem">Koordinat = Alamat Sprite</h2>
+                    <p>Sama seperti rumah punya alamat, setiap tempat di Stage punya koordinat.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Peta Stage Scratch">
+            <div class="slide-head compact center"><span class="kicker">SCRATCH STAGE</span>
+                <h2>Stage Scratch Punya Peta Koordinat</h2>
+                <p>Titik tengah adalah <b>X: 0, Y: 0</b>. Dari titik itu, kita bisa bergerak ke kiri, kanan, atas, atau
+                    bawah.</p>
+            </div>
+            <div class="coord-stage" style="cursor:default">
+                <div class="axis-x"></div>
+                <div class="axis-y"></div><span class="axis-label label-x-left">X = -240</span><span
+                    class="axis-label label-x-right">X = 240</span><span class="axis-label label-y-top">Y =
+                    180</span><span class="axis-label label-y-bottom">Y = -180</span><span
+                    class="axis-label origin-label">0, 0</span><img class="coord-hen" style="left:50%;top:50%"
+                    src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/2b8c8db6-a9f5-42d2-90d6-b38a481bdb1b.png"
+                    alt="Hen di tengah Stage">
+            </div>
+            <div class="notice" style="max-width:900px;text-align:center">Lebar Stage: <b>X dari -240 sampai 240</b>.
+                Tinggi Stage: <b>Y dari -180 sampai 180</b>.</div>
+        </section>
+
+        <section class="slide soft-green" data-title="Activity Klik Koordinat">
+            <div class="slide-head compact center"><span class="kicker">INTERACTIVE ACTIVITY</span>
+                <h2>Klik Stage dan Lihat Alamat Hen</h2>
+                <p>Klik di mana saja. Hen akan berpindah dan menunjukkan koordinat X dan Y di posisi tersebut.</p>
+            </div>
+            <div class="coord-stage" id="clickCoordStage" onclick="moveHenToClick(event)">
+                <div class="axis-x"></div>
+                <div class="axis-y"></div><span class="axis-label label-x-left">-240</span><span
+                    class="axis-label label-x-right">240</span><span class="axis-label label-y-top">180</span><span
+                    class="axis-label label-y-bottom">-180</span>
+                <div class="stage-hint">Klik area Stage 👇</div>
+                <div class="coord-readout" id="clickCoordReadout">X: 0 • Y: 0</div><img id="clickCoordHen"
+                    class="coord-hen" style="left:50%;top:50%"
+                    src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/2b8c8db6-a9f5-42d2-90d6-b38a481bdb1b.png"
+                    alt="Hen interaktif">
+            </div>
+            <div class="feedback" id="clickCoordFeedback">Coba klik sisi kiri, kanan, atas, dan bawah.</div>
+        </section>
+
+        <section class="slide" data-title="Memahami Koordinat X">
+            <div class="slide-head center"><span class="kicker">X AXIS</span>
+                <h2>X Mengatur Posisi Kiri dan Kanan</h2>
+                <p>Bayangkan garis mendatar yang melewati tengah Stage.</p>
+            </div>
+            <div class="axis-demo">
+                <div class="axis-track x"><span class="axis-arrow a1">⬅️</span><span
+                        class="axis-arrow a2">➡️</span><span class="axis-zero">X = 0</span><span
+                        class="axis-end neg">Semakin ke kiri → X semakin negatif</span><span
+                        class="axis-end pos">Semakin ke kanan → X semakin positif</span></div>
+            </div>
+            <div class="notice" style="max-width:900px;text-align:center"><b>X negatif</b> berarti di sebelah kiri. <b>X
+                    positif</b> berarti di sebelah kanan.</div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Activity Gerakkan X">
+            <div class="slide-head compact center"><span class="kicker">TRY X</span>
+                <h2>Gerakkan Hen Hanya dengan Nilai X</h2>
+                <p>Geser slider. Perhatikan: Hen hanya bergerak ke kiri dan kanan karena nilai Y tetap 0.</p>
+            </div>
+            <div class="slider-lab">
+                <div class="control-card">
+                    <h3>Koordinat X</h3>
+                    <div class="value-pill" id="xValue">X = 0</div><input id="xSlider" type="range" min="-240" max="240"
+                        step="10" value="0" oninput="updateXSlider(this.value)">
+                    <div class="notice">Y tetap <b>0</b>. Jadi Hen tetap berada di garis tengah.</div>
+                </div>
+                <div class="mini-stage" id="xMiniStage"><img id="xHen" class="slider-hen" style="left:50%;top:50%"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/2b8c8db6-a9f5-42d2-90d6-b38a481bdb1b.png"
+                        alt="Hen X"></div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Memahami Koordinat Y">
+            <div class="slide-head center"><span class="kicker">Y AXIS</span>
+                <h2>Y Mengatur Posisi Atas dan Bawah</h2>
+                <p>Sekarang bayangkan garis tegak yang melewati tengah Stage.</p>
+            </div>
+            <div class="split-layout">
+                <div class="axis-demo" style="padding:12px">
+                    <div class="axis-track y"><span class="axis-arrow a1">⬆️</span><span
+                            class="axis-arrow a2">⬇️</span><span class="axis-zero">Y = 0</span><span
+                            class="axis-end pos">Y positif</span><span class="axis-end neg">Y negatif</span></div>
+                </div>
+                <div>
+                    <div class="agenda-card green"><span>⬆️</span>
+                        <h3>Naik</h3>
+                        <p>Nilai Y bertambah dan menjadi positif.</p>
+                    </div>
+                    <div class="agenda-card orange" style="margin-top:14px"><span>⬇️</span>
+                        <h3>Turun</h3>
+                        <p>Nilai Y berkurang dan menjadi negatif.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Activity Gerakkan Y">
+            <div class="slide-head compact center"><span class="kicker">TRY Y</span>
+                <h2>Gerakkan Hen Hanya dengan Nilai Y</h2>
+                <p>Geser slider. Nilai X tetap 0, jadi Hen hanya bergerak naik dan turun.</p>
+            </div>
+            <div class="slider-lab">
+                <div class="control-card">
+                    <h3>Koordinat Y</h3>
+                    <div class="value-pill" id="yValue">Y = 0</div><input id="ySlider" type="range" min="-180" max="180"
+                        step="10" value="0" oninput="updateYSlider(this.value)">
+                    <div class="notice">X tetap <b>0</b>. Jadi Hen tetap berada di garis tengah vertikal.</div>
+                </div>
+                <div class="mini-stage" id="yMiniStage"><img id="yHen" class="slider-hen" style="left:50%;top:50%"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/2b8c8db6-a9f5-42d2-90d6-b38a481bdb1b.png"
+                        alt="Hen Y"></div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Menggabungkan X dan Y">
+            <div class="slide-head center"><span class="kicker">PUT THEM TOGETHER</span>
+                <h2>Satu Posisi Membutuhkan X dan Y</h2>
+                <p>Kita membaca koordinat dengan urutan <b>(X, Y)</b>. X dibaca dulu, lalu Y.</p>
+            </div>
+            <div class="four-areas">
+                <div class="area tl"><span>↖️</span><b>Kiri Atas</b><small>X negatif • Y positif<br>contoh: (-120,
+                        80)</small></div>
+                <div class="area tr"><span>↗️</span><b>Kanan Atas</b><small>X positif • Y positif<br>contoh: (120,
+                        80)</small></div>
+                <div class="area bl"><span>↙️</span><b>Kiri Bawah</b><small>X negatif • Y negatif<br>contoh: (-120,
+                        -80)</small></div>
+                <div class="area br"><span>↘️</span><b>Kanan Bawah</b><small>X positif • Y negatif<br>contoh: (120,
+                        -80)</small></div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Activity Drag Coordinate">
+            <div class="slide-head compact center"><span class="kicker">DRAG & DROP</span>
+                <h2>Cocokkan Koordinat dengan Titiknya</h2>
+                <p>Tarik kartu koordinat ke peta yang sesuai. Ingat: baca X dulu, lalu Y.</p>
+            </div>
+            <div class="coord-drag-shell">
+                <div class="mini-map-grid">
+                    <div class="mini-map-card">
+                        <div class="mini-map">
+                            <div class="map-dot" style="left:75%;top:22%"></div>
+                        </div>
+                        <div class="coord-drop" data-accept="120,100">Taruh koordinat di sini</div>
+                    </div>
+                    <div class="mini-map-card">
+                        <div class="mini-map">
+                            <div class="map-dot" style="left:50%;top:75%"></div>
+                        </div>
+                        <div class="coord-drop" data-accept="0,-90">Taruh koordinat di sini</div>
+                    </div>
+                    <div class="mini-map-card">
+                        <div class="mini-map">
+                            <div class="map-dot" style="left:18.75%;top:28%"></div>
+                        </div>
+                        <div class="coord-drop" data-accept="-150,80">Taruh koordinat di sini</div>
+                    </div>
+                    <div class="mini-map-card">
+                        <div class="mini-map">
+                            <div class="map-dot" style="left:87.5%;top:83%"></div>
+                        </div>
+                        <div class="coord-drop" data-accept="180,-120">Taruh koordinat di sini</div>
+                    </div>
+                </div>
+                <div class="coord-bank" id="coordBank">
+                    <div class="coord-card" draggable="true" data-value="0,-90">(0, -90)</div>
+                    <div class="coord-card" draggable="true" data-value="180,-120">(180, -120)</div>
+                    <div class="coord-card" draggable="true" data-value="120,100">(120, 100)</div>
+                    <div class="coord-card" draggable="true" data-value="-150,80">(-150, 80)</div>
+                </div>
+                <div class="button-row"><button class="primary-btn" onclick="checkCoordDrag()">Periksa
+                        Jawaban</button><button class="secondary-btn" onclick="resetCoordDrag()">Reset</button></div>
+                <div class="feedback" id="coordDragFeedback">Belum perlu cepat. Lihat tanda positif dan negatifnya satu
+                    per satu.</div>
+            </div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Activity Tebak Posisi">
+            <div class="slide-head compact center"><span class="kicker">COORDINATE CHALLENGE</span>
+                <h2>Di Mana Posisi Hen?</h2>
+                <p>Lihat titik Hen, lalu pilih koordinat yang tepat.</p>
+            </div>
+            <div class="guess-shell">
+                <div class="coord-stage" id="guessStage" style="cursor:default">
+                    <div class="axis-x"></div>
+                    <div class="axis-y"></div><img id="guessHen" class="coord-hen"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/2b8c8db6-a9f5-42d2-90d6-b38a481bdb1b.png"
+                        alt="Hen untuk tebak posisi">
+                </div>
+                <div class="control-card">
+                    <h3 id="guessPrompt">Pilih koordinat Hen.</h3>
+                    <div class="guess-options" id="guessOptions"></div>
+                    <div class="feedback" id="guessFeedback"></div><button class="secondary-btn" style="margin-top:12px"
+                        onclick="newGuessQuestion()">Soal Baru</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Kenapa Koordinat Penting">
+            <div class="slide-head center"><span class="kicker">WHY IT MATTERS</span>
+                <h2>Koordinat Membuat Gerakan Menjadi Tepat</h2>
+                <p>Tanpa koordinat, kita hanya tahu Sprite “bergerak”. Dengan koordinat, kita tahu <b>bergerak ke
+                        mana</b>.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><span>🐔</span>
+                    <h3>Karakter</h3>
+                    <p>Menempatkan Hen tepat di dekat sarang.</p>
+                </div>
+                <div class="agenda-card orange"><span>🚜</span>
+                    <h3>Kendaraan</h3>
+                    <p>Menggerakkan traktor mengikuti jalur.</p>
+                </div>
+                <div class="agenda-card purple"><span>🥕</span>
+                    <h3>Objek</h3>
+                    <p>Memindahkan hasil panen ke keranjang.</p>
+                </div>
+                <div class="agenda-card green"><span>🎮</span>
+                    <h3>Game</h3>
+                    <p>Menentukan spawn, target, dan batas permainan.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Go To dan Glide">
+            <div class="slide-head compact center"><span class="kicker">MOTION BLOCKS</span>
+                <h2>Dua Cara Pergi ke Koordinat yang Sama</h2>
+                <p>Keduanya memakai X dan Y, tetapi hasil gerakannya berbeda.</p>
+            </div>
+            <div class="block-compare">
+                <div class="block-card">
+                    <h3>📍 go to x: y:</h3>
+                    <div class="scratch-motion">go to x: 120 y: 80</div>
+                    <p>Sprite langsung berpindah ke posisi tujuan. Tidak terlihat perjalanan di antaranya.</p>
+                </div>
+                <div class="block-card">
+                    <h3>🛝 glide ... to x: y:</h3>
+                    <div class="scratch-motion">glide 1 seconds to x: 120 y: 80</div>
+                    <p>Sprite bergerak secara halus dari posisi sekarang ke posisi tujuan.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Activity Go To vs Glide">
+            <div class="slide-head compact center"><span class="kicker">COMPARE THE MOTION</span>
+                <h2>Coba Go To dan Glide</h2>
+                <p>Kedua tombol menuju koordinat <b>(150, 90)</b>. Perhatikan perbedaannya.</p>
+            </div>
+            <div class="move-demo">
+                <div class="control-card">
+                    <div class="code-selector"><button onclick="runGoToDemo()">
+                            <div class="scratch-motion">go to x: 150 y: 90</div>
+                        </button><button onclick="runGlideDemo()">
+                            <div class="scratch-motion">glide 1 seconds to x: 150 y: 90</div>
+                        </button><button onclick="resetMoveDemo()">↩️ Kembali ke (0, 0)</button></div>
+                    <div class="feedback" id="moveDemoFeedback">Coba kedua block dan bandingkan gerakannya.</div>
+                </div>
+                <div class="move-stage" id="moveStage">
+                    <div class="axis-x"></div>
+                    <div class="axis-y"></div>
+                    <div class="coord-readout">Target: X 150 • Y 90</div><img id="moveDemoHen" class="move-hen"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/2b8c8db6-a9f5-42d2-90d6-b38a481bdb1b.png"
+                        alt="Hen Go To vs Glide">
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Motion Blocks Penting">
+            <div class="slide-head compact center"><span class="kicker">MOTION TOOLBOX</span>
+                <h2>Block Motion yang Sering Digunakan</h2>
+                <p>Hari ini kita tidak perlu menghafal semuanya. Pahami dulu apa yang berubah.</p>
+            </div>
+            <div class="motion-grid">
+                <div class="motion-card">
+                    <div class="scratch-motion">go to x: 0 y: 0</div><b>Atur posisi</b>
+                    <p>Pindah langsung ke X dan Y.</p>
+                </div>
+                <div class="motion-card">
+                    <div class="scratch-motion">glide 1 secs to x: 0 y: 0</div><b>Gerak halus</b>
+                    <p>Meluncur ke X dan Y.</p>
+                </div>
+                <div class="motion-card">
+                    <div class="scratch-motion">change x by 10</div><b>Ubah X</b>
+                    <p>Bergerak kanan atau kiri.</p>
+                </div>
+                <div class="motion-card">
+                    <div class="scratch-motion">change y by 10</div><b>Ubah Y</b>
+                    <p>Bergerak atas atau bawah.</p>
+                </div>
+                <div class="motion-card">
+                    <div class="scratch-motion">set x to 100</div><b>Tetapkan X</b>
+                    <p>Memasang posisi horizontal.</p>
+                </div>
+                <div class="motion-card">
+                    <div class="scratch-motion">set y to -50</div><b>Tetapkan Y</b>
+                    <p>Memasang posisi vertikal.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Direction di Scratch">
+            <div class="slide-head compact center"><span class="kicker">DIRECTION</span>
+                <h2>Koordinat Menentukan Posisi, Direction Menentukan Arah</h2>
+                <p>Sprite bisa berada di tempat yang sama tetapi menghadap arah yang berbeda.</p>
+            </div>
+            <div class="split-layout">
+                <div class="direction-compass">
+                    <div class="compass-line h"></div>
+                    <div class="compass-line v"></div><span class="compass-label top">0° • Atas</span><span
+                        class="compass-label right">90° • Kanan</span><span class="compass-label bottom">180° •
+                        Bawah</span><span class="compass-label left">-90° • Kiri</span><img id="directionHen"
+                        class="direction-hen"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/2b8c8db6-a9f5-42d2-90d6-b38a481bdb1b.png"
+                        alt="Hen direction">
+                </div>
+                <div class="control-card">
+                    <h3>Coba ubah direction</h3>
+                    <div class="direction-buttons"><button onclick="setDirection(0)">⬆️ 0°</button><button
+                            onclick="setDirection(90)">➡️ 90°</button><button onclick="setDirection(-90)">⬅️
+                            -90°</button><button onclick="setDirection(180)">⬇️ 180°</button></div>
+                    <div class="feedback" id="directionFeedback">Direction: 90° (kanan)</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Rotation Style">
+            <div class="slide-head center"><span class="kicker">ROTATION STYLE</span>
+                <h2>Bagaimana Sprite Berputar Saat Arahnya Berubah?</h2>
+                <p>Scratch punya tiga rotation style. Pilih sesuai tampilan yang kita inginkan.</p>
+            </div>
+            <div class="rotation-grid" id="rotationGrid">
+                <div class="rotation-card"
+                    onclick="chooseRotation(this,'All around: Sprite bisa berputar mengikuti semua arah.')">
+                    <span>🔄</span><b>All Around</b>
+                    <p>Bisa berputar penuh.</p>
+                </div>
+                <div class="rotation-card"
+                    onclick="chooseRotation(this,'Left-right: Sprite hanya membalik kiri dan kanan.')">
+                    <span>↔️</span><b>Left-Right</b>
+                    <p>Cocok untuk karakter berjalan.</p>
+                </div>
+                <div class="rotation-card"
+                    onclick="chooseRotation(this,'Don’t rotate: Sprite tetap tegak walaupun direction berubah.')">
+                    <span>⬆️</span><b>Don’t Rotate</b>
+                    <p>Tampilan tidak ikut berputar.</p>
+                </div>
+            </div>
+            <div class="feedback" id="rotationFeedback">Klik salah satu untuk melihat fungsinya.</div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Activity Rute Koordinat">
+            <div class="slide-head compact center"><span class="kicker">ROUTE PLANNER</span>
+                <h2>Susun Rute Hen dengan Koordinat</h2>
+                <p>Drag urutan tujuan di sebelah kiri, lalu klik Run. Hen akan mengikuti urutan tersebut.</p>
+            </div>
+            <div class="route-lab">
+                <div class="route-panel">
+                    <h3 style="margin-top:0">Urutan perjalanan</h3>
+                    <div class="route-list" id="routeList">
+                        <div class="route-card" draggable="true" data-x="-150" data-y="-80" data-name="Kandang">1.
+                            Kandang • (-150, -80)</div>
+                        <div class="route-card" draggable="true" data-x="80" data-y="60" data-name="Makanan">2. Makanan
+                            • (80, 60)</div>
+                        <div class="route-card" draggable="true" data-x="160" data-y="-40" data-name="Sarang">3. Sarang
+                            • (160, -40)</div>
+                    </div>
+                    <div class="button-row"><button class="primary-btn" onclick="runRoute()">▶ Run</button><button
+                            class="secondary-btn" onclick="resetRoute()">Reset</button></div>
+                    <div class="feedback" id="routeFeedback">Urutan boleh diubah. Koordinat tujuan tetap sama.</div>
+                </div>
+                <div class="route-stage" id="routeStage">
+                    <div class="axis-x"></div>
+                    <div class="axis-y"></div>
+                    <div class="route-target" data-x="-150" data-y="-80">🏠<small>Kandang<br>-150, -80</small></div>
+                    <div class="route-target" data-x="80" data-y="60">🌽<small>Makanan<br>80, 60</small></div>
+                    <div class="route-target" data-x="160" data-y="-40">🪺<small>Sarang<br>160, -40</small></div><img
+                        id="routeHen" class="route-hen"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/2b8c8db6-a9f5-42d2-90d6-b38a481bdb1b.png"
+                        alt="Hen route">
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Hubungkan dengan Sequence">
+            <div class="split-layout">
+                <div><span class="kicker">CONNECT THE CONCEPTS</span>
+                    <h2>Sequence + Coordinate = Rute Gerakan</h2>
+                    <p class="lead">Pertemuan lalu kita belajar bahwa urutan block memengaruhi hasil. Hari ini setiap
+                        langkah dalam sequence bisa memiliki tujuan koordinat yang berbeda.</p>
+                    <div class="notice">Jika urutan block glide berubah, urutan tempat yang dikunjungi Hen juga berubah.
+                    </div>
+                </div>
+                <div class="block-card">
+                    <div class="scratch-event">when green flag clicked</div>
+                    <div class="scratch-motion">glide 1 secs to x: -150 y: -80</div>
+                    <div class="scratch-motion">glide 1 secs to x: 80 y: 60</div>
+                    <div class="scratch-motion">glide 1 secs to x: 160 y: -40</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Project Preview">
+            <div class="slide-head compact center"><span class="kicker">PROJECT CONNECTION</span>
+                <h2>Kita Kembali ke Hatching Chick</h2>
+                <p>Project-nya sama seperti pertemuan sebelumnya. Kali ini kita melihatnya dari sudut pandang <b>posisi
+                        dan gerakan</b>.</p>
+            </div>
+            <div class="scratch-demo"><iframe src="https://scratch.mit.edu/projects/1364216822/embed"
+                    allowtransparency="true" scrolling="no" allowfullscreen></iframe></div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Buka Scratch">
+            <div class="single-focus">
+                <div class="giant-emoji">🐱</div><span class="kicker">OPEN PLATFORM</span>
+                <h2>Buka Project Hatching Chick</h2>
+                <p>Kalau project dari pertemuan sebelumnya masih ada, kamu bisa melanjutkannya. Jika belum, gunakan
+                    starter project.</p>
+                <div class="button-row"><a class="primary-btn large" href="https://scratch.mit.edu/projects/1364216822/"
+                        target="_blank" rel="noopener noreferrer">Lihat Project ↗</a><a class="secondary-btn"
+                        href="https://scratch.mit.edu/projects/1365628537/" target="_blank"
+                        rel="noopener noreferrer">Starter Project ↗</a></div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Starter Project">
+            <div class="step-card">
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/541086b5-83bb-4123-9545-9dc63f28a3d5.png"
+                        alt="Cara remix Scratch"></div>
+                <div class="step-copy"><span class="kicker">NEED STARTER?</span>
+                    <h2>Remix Starter Project</h2>
+                    <p class="lead">Buka starter project, klik <b>Remix</b>, lalu gunakan salinan project milikmu untuk
+                        latihan koordinat.</p><a class="primary-btn large"
+                        href="https://scratch.mit.edu/projects/1365628537/" target="_blank"
+                        rel="noopener noreferrer">Buka Starter Project ↗</a>
+                    <div class="notice">Kita tidak perlu membuat ulang semua script. Fokus hari ini adalah membaca dan
+                        mencoba posisi X dan Y.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Step 1 Pilih Hen">
+            <div class="split-layout">
+                <div class="single-focus" style="box-shadow:none">
+                    <div class="giant-emoji">🐔</div><span class="kicker">STEP 1</span>
+                    <h2>Pilih Sprite Hen</h2>
+                    <p>Klik Hen di Sprite List. Lihat informasi posisi di bagian bawah Stage.</p>
+                </div>
+                <div class="block-card">
+                    <h3>Yang perlu diperhatikan</h3>
+                    <div class="scratch-motion">x: ...</div>
+                    <div class="scratch-motion">y: ...</div>
+                    <p>Angka X dan Y akan berubah ketika kamu menggeser Hen di Stage.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Step 2 Eksperimen Posisi">
+            <div class="slide-head center"><span class="kicker">STEP 2</span>
+                <h2>Geser Hen dan Perhatikan X & Y</h2>
+                <p>Coba lakukan empat percobaan kecil di Scratch.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><span>⬅️</span>
+                    <h3>Geser ke Kiri</h3>
+                    <p>Apa yang terjadi pada nilai X?</p>
+                </div>
+                <div class="agenda-card orange"><span>➡️</span>
+                    <h3>Geser ke Kanan</h3>
+                    <p>Apa yang terjadi pada nilai X?</p>
+                </div>
+                <div class="agenda-card purple"><span>⬆️</span>
+                    <h3>Geser ke Atas</h3>
+                    <p>Apa yang terjadi pada nilai Y?</p>
+                </div>
+                <div class="agenda-card green"><span>⬇️</span>
+                    <h3>Geser ke Bawah</h3>
+                    <p>Apa yang terjadi pada nilai Y?</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Step 3 Catat Koordinat Sprite">
+            <div class="slide-head compact center"><span class="kicker">STEP 3</span>
+                <h2>Catat Posisi Awal Setiap Sprite</h2>
+                <p>Gunakan Scratch untuk melihat posisi masing-masing Sprite, lalu tulis di bawah ini sebagai catatan
+                    sementara.</p>
+            </div>
+            <div class="coord-note-grid">
+                <div class="coord-note"><b>🐔 Hen</b><input placeholder="X: ... , Y: ..."></div>
+                <div class="coord-note"><b>🐣 Hatchling</b><input placeholder="X: ... , Y: ..."></div>
+                <div class="coord-note"><b>🐣 Hatchling2</b><input placeholder="X: ... , Y: ..."></div>
+                <div class="coord-note"><b>🐣 Hatchling3</b><input placeholder="X: ... , Y: ..."></div>
+            </div>
+            <div class="notice" style="max-width:900px;text-align:center">Tidak ada satu jawaban wajib. Posisi bisa
+                berbeda jika kamu sudah mengatur ulang tampilan project-mu.</div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Step 4 Temukan Motion Block">
+            <div class="slide-head compact center"><span class="kicker">STEP 4</span>
+                <h2>Cari Motion Block di Script Hen</h2>
+                <p>Script ini sudah pernah kita lihat. Sekarang fokuskan mata pada block berwarna biru.</p>
+            </div>
+            <div class="script-grid">
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/14c31105-4a70-4d52-ba95-a8fd9cd1d2bb.png"
+                        alt="Hen script part 1"></div>
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/b614e62b-1be6-4aa2-a896-2acc68836c81.png"
+                        alt="Hen script part 2"></div>
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/0b5b8a46-af3d-4ba6-b254-b82e9710822e.png"
+                        alt="Hen script part 3"></div>
+            </div>
+            <div class="find-motion"><button
+                    onclick="setFeedback('findMotionFeedback','Betul. Block biru adalah Motion Blocks. Cari block yang memiliki angka X dan Y.',true)">Saya
+                    menemukan block biru</button><button
+                    onclick="setFeedback('findMotionFeedback','Perbesar gambar, lalu cari block berwarna biru yang mengatur gerakan.',false)">Belum
+                    ketemu</button></div>
+            <div class="feedback" id="findMotionFeedback"></div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Step 5 Prediksi Sebelum Mengubah">
+            <div class="split-layout">
+                <div><span class="kicker">STEP 5 • PREDICT FIRST</span>
+                    <h2>Sebelum Mengubah Angka, Tebak Dulu Hasilnya</h2>
+                    <p class="lead">Pilih satu block glide di script Hen. Ubah <b>satu</b> nilai saja, misalnya X dari
+                        20 menjadi 120.</p>
+                    <div class="notice">Pertanyaan: Hen akan bergerak lebih ke kiri atau lebih ke kanan?</div>
+                </div>
+                <div class="block-card">
+                    <div class="scratch-motion">glide 1 secs to x: <b>120</b> y: 40</div>
+                    <p><b>Prediksi:</b> karena X menjadi lebih positif, Hen akan bergerak lebih ke kanan.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Step 6 Uji Coordinate">
+            <div class="single-focus">
+                <div class="giant-emoji">🧪</div><span class="kicker">STEP 6 • TEST</span>
+                <h2>Jalankan dan Bandingkan dengan Prediksimu</h2>
+                <p>Tekan green flag. Lihat apakah Hen bergerak seperti yang kamu perkirakan.</p>
+                <div class="button-row"><button class="primary-btn"
+                        onclick="setFeedback('coordTestFeedback','Bagus. Sekarang coba ubah nilai Y dan buat prediksi baru.',true)">Sesuai
+                        Prediksi</button><button class="secondary-btn"
+                        onclick="setFeedback('coordTestFeedback','Cek lagi: X mengatur kiri-kanan, Y mengatur atas-bawah. Lihat tanda positif atau negatifnya.',false)">Berbeda
+                        dari Prediksi</button></div>
+                <div class="feedback" id="coordTestFeedback"></div>
+                <div class="notice">Setelah mencoba, kamu boleh mengembalikan angka ke posisi semula agar cerita tetap
+                    rapi.</div>
+            </div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Mini Challenge">
+            <div class="slide-head center"><span class="kicker">MINI CHALLENGE</span>
+                <h2>Buat Hen Berhenti di Tempat yang Kamu Pilih</h2>
+                <p>Pilih satu tempat di Stage, cari koordinatnya, lalu masukkan nilai itu ke block Motion.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><span>1️⃣</span>
+                    <h3>Pilih Tempat</h3>
+                    <p>Tentukan satu posisi kosong di Stage.</p>
+                </div>
+                <div class="agenda-card orange"><span>2️⃣</span>
+                    <h3>Baca X & Y</h3>
+                    <p>Geser Hen ke sana dan catat koordinatnya.</p>
+                </div>
+                <div class="agenda-card purple"><span>3️⃣</span>
+                    <h3>Masukkan ke Block</h3>
+                    <p>Gunakan go to atau glide ke X dan Y tersebut.</p>
+                </div>
+                <div class="agenda-card green"><span>4️⃣</span>
+                    <h3>Test</h3>
+                    <p>Jalankan dari posisi lain dan cek apakah Hen berhenti tepat.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Testing dan Debugging">
+            <div class="single-focus" style="padding:22px 30px;max-width:900px">
+                <span class="kicker">TEST & DEBUG</span>
+                <h2 style="font-size:1.9rem;margin:8px 0 4px">Kalau Hen Tidak Pergi ke Tempat yang Kamu Mau</h2>
+                <p style="font-size:1.1rem;margin-bottom:0">Cek satu hal dalam satu waktu.</p>
+                <div class="agenda-grid" style="grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
+                    <div class="agenda-card blue" style="min-height:0;padding:14px 16px"><span style="font-size:2rem">↔️</span>
+                        <h3 style="font-size:1.2rem;margin:4px 0 2px">Cek X</h3>
+                        <p style="font-size:.95rem">Apakah harus kiri atau kanan?</p>
+                    </div>
+                    <div class="agenda-card orange" style="min-height:0;padding:14px 16px"><span style="font-size:2rem">↕️</span>
+                        <h3 style="font-size:1.2rem;margin:4px 0 2px">Cek Y</h3>
+                        <p style="font-size:.95rem">Apakah harus atas atau bawah?</p>
+                    </div>
+                    <div class="agenda-card purple" style="min-height:0;padding:14px 16px"><span style="font-size:2rem">➕➖</span>
+                        <h3 style="font-size:1.2rem;margin:4px 0 2px">Cek Tanda</h3>
+                        <p style="font-size:.95rem">Positif dan negatif tidak tertukar?</p>
+                    </div>
+                    <div class="agenda-card green" style="min-height:0;padding:14px 16px"><span style="font-size:2rem">🔢</span>
+                        <h3 style="font-size:1.2rem;margin:4px 0 2px">Cek Urutan</h3>
+                        <p style="font-size:.95rem">Apakah block yang kamu edit adalah block yang benar?</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Save Project">
+            <div class="slide-head center"><span class="kicker">SAVE YOUR WORK</span>
+                <h2>Jangan Lupa Simpan Project</h2>
+                <p>Setelah eksperimen selesai, pastikan project tetap dapat dijalankan dari awal sampai akhir.</p>
+            </div>
+            <div class="recap-path">
+                <div><span>📝</span><b>Cek Judul</b>
+                    <p>Gunakan nama project yang mudah ditemukan.</p>
+                </div>
+                <div><span>💾</span><b>Save Now</b>
+                    <p>Simpan perubahan di akun Scratch.</p>
+                </div>
+                <div><span>🚩</span><b>Test Lagi</b>
+                    <p>Green flag dan cek gerak Hen.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Quick Quiz">
+            <div class="slide-head compact center"><span class="kicker">QUICK QUIZ</span>
+                <h2>Cek Pemahamanmu 🧠</h2>
+                <p>Jawab 3 pertanyaan singkat.</p>
+            </div>
+            <div class="quiz-shell">
+                <div class="quiz-question active" id="quiz1">
+                    <h3>1. Jika Hen bergerak ke kanan, nilai mana yang terutama berubah?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,true,'quiz1','quiz2')">A.
+                            X</button><button onclick="answerQuiz(this,false,'quiz1','quiz2')">B. Y</button><button
+                            onclick="answerQuiz(this,false,'quiz1','quiz2')">C. Costume</button></div>
+                </div>
+                <div class="quiz-question" id="quiz2">
+                    <h3>2. Posisi X: 0, Y: 0 berada di...</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz2','quiz3')">A. Pojok kiri
+                            atas</button><button onclick="answerQuiz(this,true,'quiz2','quiz3')">B. Tengah
+                            Stage</button><button onclick="answerQuiz(this,false,'quiz2','quiz3')">C. Pojok kanan
+                            bawah</button></div>
+                </div>
+                <div class="quiz-question" id="quiz3">
+                    <h3>3. Block mana yang membuat Sprite bergerak halus ke koordinat tujuan?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz3','quizDone')">A. go to x:
+                            y:</button><button onclick="answerQuiz(this,true,'quiz3','quizDone')">B. glide ... to x:
+                            y:</button><button onclick="answerQuiz(this,false,'quiz3','quizDone')">C. say</button></div>
+                </div>
+                <div class="quiz-question" id="quizDone" style="text-align:center">
+                    <div class="giant-emoji">✅</div>
+                    <h3>Quiz Selesai!</h3>
+                    <p>Kamu sudah memahami dasar X, Y, dan Motion Blocks.</p>
+                </div>
+                <div class="quiz-progress"><span id="quizProgressText">Soal 1 dari 3</span>
+                    <div><i id="quizProgressBar"></i></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Review Hari Ini">
+            <div class="slide-head center"><span class="kicker">TODAY'S REVIEW</span>
+                <h2>Apa Saja yang Sudah Kita Pelajari?</h2>
+            </div>
+            <div class="recap-path">
+                <div><span>📍</span><b>Koordinat</b>
+                    <p>Alamat posisi Sprite di Stage.</p>
+                </div>
+                <div><span>↔️</span><b>X</b>
+                    <p>Mengatur kiri dan kanan.</p>
+                </div>
+                <div><span>↕️</span><b>Y</b>
+                    <p>Mengatur atas dan bawah.</p>
+                </div>
+                <div><span>🛝</span><b>Glide</b>
+                    <p>Bergerak halus ke X dan Y.</p>
+                </div>
+                <div><span>🧭</span><b>Direction</b>
+                    <p>Mengatur arah Sprite menghadap.</p>
+                </div>
+                <div><span>🔍</span><b>Testing</b>
+                    <p>Memprediksi, menjalankan, lalu memperbaiki.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide feedback-final" data-title="Feedback">
+            <div class="slide-head center"><span class="kicker">YOUR FEEDBACK</span>
+                <h2>Bagaimana Belajar Koordinat Hari Ini?</h2>
+                <p>Pilih satu yang paling sesuai dengan perasaanmu.</p>
+            </div>
+            <div class="emoji-feedback" id="emojiFeedback"><button onclick="sendFeedback(this)">😍<small>Sangat
+                        Seru</small></button><button onclick="sendFeedback(this)">😊<small>Aku
+                        Paham</small></button><button onclick="sendFeedback(this)">🤔<small>Perlu Latihan
+                        Lagi</small></button><button onclick="sendFeedback(this)">😴<small>Butuh
+                        Istirahat</small></button></div>
+            <div class="feedback-thanks" id="feedbackThanks"></div>
+        </section>
+
+        <div class="progress-line" id="progressLine"></div>
+        <footer class="navigation">
+            <div class="nav-title" id="navTitle">Session 5: Motion dan Koordinat</div>
+            <div class="nav-controls"><button class="nav-btn" id="prevBtn" aria-label="Sebelumnya">‹</button>
+                <div class="counter"><span id="currentSlide">1</span> / <span id="totalSlides">1</span></div><button
+                    class="nav-btn next" id="nextBtn" aria-label="Berikutnya">›</button>
+            </div>
+        </footer>
+    </main>
+    <div id="imageModal" class="image-modal" onclick="this.classList.remove('show')"><img id="enlargedImg" src=""
+            alt="Enlarged view"></div>
+    <script>
+        let currentSlide = 0; const slides = [...document.querySelectorAll('.slide')];
+        function showSlide(index) { if (index < 0 || index >= slides.length) return; slides.forEach((s, i) => s.classList.toggle('active', i === index)); currentSlide = index; document.getElementById('currentSlide').textContent = index + 1; document.getElementById('totalSlides').textContent = slides.length; document.getElementById('prevBtn').disabled = index === 0; document.getElementById('nextBtn').disabled = index === slides.length - 1; document.getElementById('progressLine').style.width = ((index + 1) / slides.length * 100) + '%'; document.getElementById('navTitle').textContent = 'Session 5 • ' + slides[index].dataset.title; slides[index].scrollTop = 0 }
+        document.getElementById('prevBtn').onclick = () => showSlide(currentSlide - 1); document.getElementById('nextBtn').onclick = () => showSlide(currentSlide + 1); document.addEventListener('keydown', e => { if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return; if (e.key === 'ArrowRight') showSlide(currentSlide + 1); if (e.key === 'ArrowLeft') showSlide(currentSlide - 1) }); showSlide(0);
+        function setFeedback(id, msg, ok = true) { const el = document.getElementById(id); el.textContent = msg; el.className = 'feedback ' + (ok ? 'success' : 'error') }
+        const henImg = 'https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/df7dad62-3faf-40d4-9255-b9e121a85089.png';
+        function coordToPercent(x, y) { return { left: ((x + 240) / 480 * 100), top: ((180 - y) / 360 * 100) } }
+        function moveHenToClick(event) { const stage = document.getElementById('clickCoordStage'), hen = document.getElementById('clickCoordHen'), readout = document.getElementById('clickCoordReadout'), rect = stage.getBoundingClientRect(); let px = Math.max(0, Math.min(rect.width, event.clientX - rect.left)), py = Math.max(0, Math.min(rect.height, event.clientY - rect.top)); let x = Math.round((px / rect.width) * 480 - 240), y = Math.round(180 - (py / rect.height) * 360); hen.style.left = (px / rect.width * 100) + '%'; hen.style.top = (py / rect.height * 100) + '%'; readout.textContent = `X: ${x} • Y: ${y}`; let place = x < 0 ? 'kiri' : x > 0 ? 'kanan' : 'tengah'; let vertical = y < 0 ? 'bawah' : y > 0 ? 'atas' : 'tengah'; document.getElementById('clickCoordFeedback').textContent = `Hen berada di ${place} dan ${vertical}. Koordinatnya (${x}, ${y}).` }
+        function updateXSlider(v) { v = Number(v); document.getElementById('xValue').textContent = 'X = ' + v; document.getElementById('xHen').style.left = ((v + 240) / 480 * 100) + '%' }
+        function updateYSlider(v) { v = Number(v); document.getElementById('yValue').textContent = 'Y = ' + v; document.getElementById('yHen').style.top = ((180 - v) / 360 * 100) + '%' }
+        let draggedCoord = null; document.addEventListener('dragstart', e => { if (e.target.classList.contains('coord-card')) { draggedCoord = e.target; e.target.classList.add('dragging') } if (e.target.classList.contains('route-card')) { e.target.classList.add('dragging') } }); document.addEventListener('dragend', e => { if (e.target.classList.contains('coord-card')) e.target.classList.remove('dragging'); if (e.target.classList.contains('route-card')) e.target.classList.remove('dragging'); draggedCoord = null });
+        document.querySelectorAll('.coord-drop').forEach(zone => { zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('active') }); zone.addEventListener('dragleave', () => zone.classList.remove('active')); zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('active'); if (!draggedCoord) return; const existing = zone.querySelector('.coord-card'); if (existing) document.getElementById('coordBank').appendChild(existing); zone.appendChild(draggedCoord); draggedCoord = null }) });
+        function checkCoordDrag() { const zones = [...document.querySelectorAll('.coord-drop')]; const ok = zones.every(z => z.querySelector('.coord-card')?.dataset.value === z.dataset.accept); setFeedback('coordDragFeedback', ok ? 'Semua cocok. Kamu sudah membaca tanda X dan Y dengan tepat. ✅' : 'Masih ada yang tertukar. Cek X dulu (kiri/kanan), baru Y (atas/bawah).', ok) }
+        function resetCoordDrag() { const bank = document.getElementById('coordBank'); document.querySelectorAll('.coord-drop .coord-card').forEach(c => bank.appendChild(c)); setFeedback('coordDragFeedback', 'Kartu sudah dikembalikan. Coba lagi pelan-pelan.', true) }
+        const guessPoints = [[120, 90], [-160, 80], [0, -120], [180, -60], [-80, -100], [60, 140]]; let currentGuess = [120, 90];
+        function newGuessQuestion() { currentGuess = guessPoints[Math.floor(Math.random() * guessPoints.length)]; const p = coordToPercent(currentGuess[0], currentGuess[1]), hen = document.getElementById('guessHen'); hen.style.left = p.left + '%'; hen.style.top = p.top + '%'; const [x, y] = currentGuess; let options = [[x, y], [-x, y], [x, -y]]; if (x === 0) options = [[x, y], [80, y], [x, -y]]; options = options.sort(() => Math.random() - .5); const box = document.getElementById('guessOptions'); box.innerHTML = ''; options.forEach(opt => { const b = document.createElement('button'); b.textContent = `(${opt[0]}, ${opt[1]})`; b.onclick = () => answerGuess(b, opt[0] === x && opt[1] === y); box.appendChild(b) }); document.getElementById('guessFeedback').textContent = ''; }
+        function answerGuess(btn, ok) { document.querySelectorAll('#guessOptions button').forEach(b => b.disabled = true); btn.classList.add(ok ? 'correct' : 'wrong'); if (!ok) { [...document.querySelectorAll('#guessOptions button')].find(b => b.textContent === `(${currentGuess[0]}, ${currentGuess[1]})`)?.classList.add('correct') } setFeedback('guessFeedback', ok ? 'Benar. Baca X dulu, lalu Y. ✅' : `Belum tepat. Posisi Hen adalah (${currentGuess[0]}, ${currentGuess[1]}).`, ok) }
+        newGuessQuestion();
+        function setMoveHen(x, y, glide) { const hen = document.getElementById('moveDemoHen'), p = coordToPercent(x, y); hen.classList.toggle('glide', !!glide); if (!glide) { hen.style.transition = 'none'; requestAnimationFrame(() => { hen.style.left = p.left + '%'; hen.style.top = p.top + '%'; requestAnimationFrame(() => hen.style.transition = 'left .15s linear,top .15s linear') }) } else { hen.style.left = p.left + '%'; hen.style.top = p.top + '%' } }
+        function resetMoveDemo() { setMoveHen(0, 0, false); setFeedback('moveDemoFeedback', 'Hen kembali ke titik tengah (0, 0).', true) }
+        function runGoToDemo() { setMoveHen(0, 0, false); setTimeout(() => { setMoveHen(150, 90, false); setFeedback('moveDemoFeedback', 'Go to: Hen langsung muncul di koordinat tujuan.', true) }, 250) }
+        function runGlideDemo() { setMoveHen(0, 0, false); setTimeout(() => { setMoveHen(150, 90, true); setFeedback('moveDemoFeedback', 'Glide: perjalanan Hen dari awal ke tujuan terlihat.', true) }, 250) }
+        function setDirection(deg) { const hen = document.getElementById('directionHen'); hen.style.transform = `rotate(${deg - 90}deg)`; const names = { 0: 'atas', 90: 'kanan', '-90': 'kiri', 180: 'bawah' }; document.getElementById('directionFeedback').textContent = `Direction: ${deg}° (${names[deg]})` }
+        function chooseRotation(card, msg) { document.querySelectorAll('#rotationGrid .rotation-card').forEach(c => c.classList.remove('selected')); card.classList.add('selected'); document.getElementById('rotationFeedback').textContent = msg }
+        const routeList = document.getElementById('routeList'); let routeDragged = null; routeList.addEventListener('dragstart', e => { if (!e.target.classList.contains('route-card')) return; routeDragged = e.target; e.target.classList.add('dragging') }); routeList.addEventListener('dragend', e => { if (e.target.classList.contains('route-card')) e.target.classList.remove('dragging'); routeDragged = null }); routeList.addEventListener('dragover', e => { e.preventDefault(); if (!routeDragged) return; const after = getDragAfter(routeList, e.clientY, '.route-card'); if (after == null) routeList.appendChild(routeDragged); else routeList.insertBefore(routeDragged, after); renumberRoute() });
+        function getDragAfter(container, y, selector) { const els = [...container.querySelectorAll(selector + ':not(.dragging)')]; return els.reduce((closest, child) => { const box = child.getBoundingClientRect(), offset = y - box.top - box.height / 2; return offset < 0 && offset > closest.offset ? { offset, element: child } : closest }, { offset: Number.NEGATIVE_INFINITY }).element }
+        function renumberRoute() { [...routeList.children].forEach((c, i) => { const base = c.textContent.replace(/^\d+\.\s*/, ''); c.textContent = (i + 1) + '. ' + base }) }
+        function placeRouteTargets() { document.querySelectorAll('.route-target').forEach(t => { const p = coordToPercent(Number(t.dataset.x), Number(t.dataset.y)); t.style.left = p.left + '%'; t.style.top = p.top + '%' }) }
+        placeRouteTargets();
+        let routeRunning = false; async function runRoute() { if (routeRunning) return; routeRunning = true; const hen = document.getElementById('routeHen'); const start = coordToPercent(0, 0); hen.style.left = start.left + '%'; hen.style.top = start.top + '%'; await new Promise(r => setTimeout(r, 250)); for (const card of [...routeList.children]) { card.classList.add('route-step-active'); const p = coordToPercent(Number(card.dataset.x), Number(card.dataset.y)); hen.style.left = p.left + '%'; hen.style.top = p.top + '%'; document.getElementById('routeFeedback').textContent = `Hen menuju ${card.dataset.name} di (${card.dataset.x}, ${card.dataset.y})`; await new Promise(r => setTimeout(r, 1100)); card.classList.remove('route-step-active') } document.getElementById('routeFeedback').textContent = 'Selesai. Ubah urutannya lalu Run lagi untuk melihat rute yang berbeda.'; routeRunning = false }
+        function resetRoute() { const initial = [['Kandang', -150, -80], ['Makanan', 80, 60], ['Sarang', 160, -40]]; routeList.innerHTML = ''; initial.forEach((v, i) => { const d = document.createElement('div'); d.className = 'route-card'; d.draggable = true; d.dataset.name = v[0]; d.dataset.x = v[1]; d.dataset.y = v[2]; d.textContent = `${i + 1}. ${v[0]} • (${v[1]}, ${v[2]})`; routeList.appendChild(d) }); const p = coordToPercent(0, 0), hen = document.getElementById('routeHen'); hen.style.left = p.left + '%'; hen.style.top = p.top + '%'; document.getElementById('routeFeedback').textContent = 'Urutan kembali seperti semula.' }
+        resetRoute();
+        let quizNumber = 1; function answerQuiz(btn, correct, current, next) { const q = document.getElementById(current), buttons = q.querySelectorAll('button'); buttons.forEach(b => b.disabled = true); btn.classList.add(correct ? 'correct' : 'wrong'); if (!correct) buttons.forEach(b => { if (b.getAttribute('onclick').includes('true')) b.classList.add('correct') }); setTimeout(() => { q.classList.remove('active'); document.getElementById(next).classList.add('active'); quizNumber = Math.min(3, quizNumber + 1); document.getElementById('quizProgressText').textContent = next === 'quizDone' ? 'Selesai' : 'Soal ' + quizNumber + ' dari 3'; document.getElementById('quizProgressBar').style.width = (next === 'quizDone' ? 100 : quizNumber * 33.3) + '%' }, 650) }
+        function sendFeedback(btn) { document.querySelectorAll('#emojiFeedback button').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); document.getElementById('feedbackThanks').textContent = 'Terima kasih sudah berbagi. Sampai jumpa di pertemuan berikutnya!' }
+        document.querySelectorAll('.zoomable').forEach(img => img.addEventListener('click', () => { document.getElementById('enlargedImg').src = img.src; document.getElementById('imageModal').classList.add('show') }));
+    </script>
+</body>
+
+</html>
