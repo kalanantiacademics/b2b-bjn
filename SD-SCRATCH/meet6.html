@@ -1,0 +1,2207 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Session 6 - Event dan Interaksi | Ruangguru Coding</title>
+    <link rel="icon"
+        href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue: #2f80ed;
+            --scratchBlue: #4c97ff;
+            --cyan: #16bde8;
+            --purple: #845ef7;
+            --orange: #ff8a34;
+            --yellow: #ffd53d;
+            --green: #28b875;
+            --red: #ef5350;
+            --ink: #20324a;
+            --muted: #66788d;
+            --panel: #fff;
+            --shadow: 0 22px 55px rgba(22, 44, 76, .18);
+            --event: #ffbf00;
+            --motion: #4c97ff;
+            --looks: #9966ff;
+            --sound: #d65cd6;
+            --control: #ffab19;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--ink);
+            background: #f8fffe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 12% 18%, rgba(47, 128, 237, .11), transparent 30%),
+                radial-gradient(circle at 88% 12%, rgba(255, 213, 61, .18), transparent 28%),
+                radial-gradient(circle at 15% 88%, rgba(40, 184, 117, .13), transparent 32%),
+                radial-gradient(circle at 88% 86%, rgba(132, 94, 247, .11), transparent 28%);
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        body:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(22, 189, 232, .08) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(22, 189, 232, .08) 2px, transparent 2px);
+            background-size: 76px 76px;
+            opacity: .6;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .brand-logo {
+            position: fixed;
+            left: 22px;
+            top: 16px;
+            z-index: 2000;
+            background: #fff;
+            border: 2.5px solid rgba(0, 188, 212, .22);
+            border-radius: 22px;
+            padding: 10px 20px;
+            box-shadow: 0 8px 32px rgba(0, 188, 212, .18), 0 2px 8px rgba(0, 0, 0, .07);
+            display: flex;
+            align-items: center;
+        }
+
+        .brand-logo img {
+            display: block;
+            height: 80px;
+            max-width: 220px;
+            object-fit: contain;
+        }
+
+        .presentation-container {
+            width: 86vw;
+            height: 80vh;
+            max-width: 1500px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(30, 56, 93, .25);
+            overflow: hidden;
+            position: relative;
+            border: 4px solid rgba(255, 255, 255, .85);
+        }
+
+        .presentation-container:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 26px;
+            box-shadow: inset 0 0 0 1px rgba(91, 124, 164, .10);
+            z-index: 30;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 42px 58px 74px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(42px) scale(.985);
+            transition: .46s ease;
+            background: linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(249, 252, 255, .98));
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            z-index: 10;
+        }
+
+        .navigation {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, .96);
+            border-top: 1px solid #e7edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b7d92;
+            max-width: 42%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #d9e3ef;
+            background: #fff;
+            color: #4c6077;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            color: #fff;
+            border: 0;
+            box-shadow: 0 7px 16px rgba(255, 138, 52, .3);
+        }
+
+        .nav-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed;
+        }
+
+        .counter {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #53677f;
+            min-width: 74px;
+            text-align: center;
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 0;
+            bottom: 62px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--orange), var(--purple), var(--cyan));
+            width: 0;
+            transition: .35s;
+            z-index: 110;
+        }
+
+        .slide-head {
+            width: 100%;
+            max-width: 1180px;
+            margin-bottom: 22px;
+        }
+
+        .slide-head.center {
+            text-align: center;
+        }
+
+        .slide-head.compact {
+            margin-bottom: 14px;
+        }
+
+        .slide-head h2,
+        .single-focus h2 {
+            font-size: clamp(2.2rem, 4vw, 4rem);
+            line-height: 1.06;
+            margin: 6px 0 12px;
+            color: #24344d;
+        }
+
+        .slide-head p,
+        .single-focus p,
+        .lead {
+            font-size: clamp(1.12rem, 1.6vw, 1.5rem);
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.48;
+        }
+
+        .kicker {
+            display: inline-block;
+            font-size: .92rem;
+            letter-spacing: .16em;
+            font-weight: 700;
+            color: var(--purple);
+            background: #f0eaff;
+            border-radius: 999px;
+            padding: 7px 13px;
+        }
+
+        .highlight {
+            color: var(--orange);
+            font-weight: 700;
+        }
+
+        .cover-slide {
+            background: linear-gradient(135deg, #153f6a, #2c7a8f 48%, #69b96e);
+            color: #fff;
+        }
+
+        .cover-scene {
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, .14);
+            border: 1px solid rgba(255, 255, 255, .3);
+            padding: 9px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .hero-icon {
+            font-size: 7rem;
+            filter: drop-shadow(0 12px 16px rgba(0, 0, 0, .24));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .eyebrow {
+            letter-spacing: .22em;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 0 10px;
+        }
+
+        .display-title {
+            font-size: clamp(3.4rem, 7vw, 6.6rem);
+            line-height: .95;
+            margin: 8px 0 18px;
+        }
+
+        .display-title span {
+            color: #ffd65a;
+        }
+
+        .hero-subtitle {
+            font-size: 1.55rem;
+            max-width: 860px;
+            margin: 0 auto;
+            color: #edf2ff;
+        }
+
+        .hero-pills {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 26px;
+        }
+
+        .hero-pills span {
+            background: rgba(255, 255, 255, .13);
+            border: 1px solid rgba(255, 255, 255, .22);
+            padding: 10px 16px;
+            border-radius: 15px;
+            font-weight: 600;
+        }
+
+        .orbit {
+            position: absolute;
+            font-size: 2.6rem;
+            animation: float 3.5s ease-in-out infinite;
+        }
+
+        .orbit-a {
+            left: 8%;
+            top: 12%;
+        }
+
+        .orbit-b {
+            right: 8%;
+            top: 18%;
+            animation-delay: .7s;
+        }
+
+        .orbit-c {
+            right: 15%;
+            bottom: 10%;
+            animation-delay: 1.2s;
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-12px) rotate(3deg);
+            }
+        }
+
+        .soft-blue {
+            background: linear-gradient(145deg, #edf7ff, #f7fbff);
+        }
+
+        .soft-green {
+            background: linear-gradient(145deg, #effcf5, #fbfffd);
+        }
+
+        .soft-orange {
+            background: linear-gradient(145deg, #fff6ea, #fffdf8);
+        }
+
+        .soft-purple {
+            background: linear-gradient(145deg, #f6f0ff, #fbf9ff);
+        }
+
+        .warm-slide {
+            background: linear-gradient(145deg, #fff8e9, #fffdf6);
+        }
+
+        .feedback-final {
+            background: linear-gradient(145deg, #fff0f6, #eef4ff);
+        }
+
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .agenda-card {
+            position: relative;
+            padding: 24px;
+            border-radius: 26px;
+            border: 2px solid;
+            min-height: 150px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .agenda-card>b {
+            position: absolute;
+            right: 18px;
+            top: 10px;
+            font-size: 3rem;
+            opacity: .12;
+        }
+
+        .agenda-card>span {
+            font-size: 3.1rem;
+        }
+
+        .agenda-card h3 {
+            font-size: 1.5rem;
+            margin: 8px 0 3px;
+        }
+
+        .agenda-card p {
+            margin: 0;
+            color: #52667c;
+        }
+
+        .blue {
+            background: #eef7ff !important;
+            border-color: #b9dcff !important;
+        }
+
+        .orange {
+            background: #fff4e8 !important;
+            border-color: #ffd3a7 !important;
+        }
+
+        .purple {
+            background: #f5efff !important;
+            border-color: #d9c6ff !important;
+        }
+
+        .green {
+            background: #ebfbf4 !important;
+            border-color: #b7ebd2 !important;
+        }
+
+        .yellow {
+            background: #fff8db !important;
+            border-color: #f5d86d !important;
+        }
+
+        .red {
+            background: #fff0ef !important;
+            border-color: #f5aaa7 !important;
+        }
+
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 34px;
+            width: 100%;
+            max-width: 1100px;
+            align-items: center;
+        }
+
+        .single-focus {
+            max-width: 820px;
+            text-align: center;
+            padding: 38px;
+            background: #fff;
+            border-radius: 34px;
+            box-shadow: var(--shadow);
+            border: 3px solid #d9e8ff;
+        }
+
+        .giant-emoji {
+            font-size: 6rem;
+        }
+
+        .notice {
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: #fff8db;
+            border: 2px solid #f7d95d;
+            color: #7b6412;
+            font-weight: 600;
+            margin-top: 14px;
+        }
+
+        .feedback {
+            min-height: 28px;
+            margin-top: 12px;
+            text-align: center;
+            font-size: 1.08rem;
+            font-weight: 700;
+            color: #566b81;
+        }
+
+        .feedback.success {
+            color: #12834e;
+        }
+
+        .feedback.error {
+            color: #ce3f3c;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            border: 0;
+            border-radius: 16px;
+            padding: 13px 22px;
+            font: 700 1rem 'Fredoka';
+            cursor: pointer;
+            transition: .2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(66, 92, 201, .25);
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .primary-btn.large {
+            font-size: 1.2rem;
+            padding: 15px 26px;
+        }
+
+        .secondary-btn {
+            background: #eef2f7;
+            color: #465c74;
+            border: 2px solid #d9e1ea;
+        }
+
+        .scratch-demo {
+            width: 640px;
+            height: 480px;
+            border: 8px solid #283a51;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: var(--shadow);
+        }
+
+        .scratch-demo iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .image-card {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 26px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .image-card img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 18px;
+            cursor: zoom-in;
+            background: #f7fbff;
+        }
+
+        .step-card {
+            display: grid;
+            grid-template-columns: .9fr 1.1fr;
+            gap: 28px;
+            width: 100%;
+            max-width: 1080px;
+            align-items: center;
+        }
+
+        .step-copy {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 28px;
+            padding: 26px;
+            box-shadow: var(--shadow);
+        }
+
+        .step-copy h2 {
+            font-size: 2.35rem;
+            margin: 8px 0;
+        }
+
+        .scratch-block-stack {
+            display: grid;
+            gap: 4px;
+            margin: 12px 0;
+            width: 100%;
+            max-width: 520px;
+        }
+
+        .scratch-event,
+        .scratch-looks,
+        .scratch-motion,
+        .scratch-control,
+        .scratch-sound {
+            border-radius: 12px;
+            padding: 13px;
+            font-weight: 700;
+            box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .12);
+            text-align: left;
+        }
+
+        .scratch-event {
+            background: var(--event);
+            color: #4c3a00;
+        }
+
+        .scratch-looks {
+            background: var(--looks);
+            color: #fff;
+        }
+
+        .scratch-motion {
+            background: var(--motion);
+            color: #fff;
+        }
+
+        .scratch-control {
+            background: var(--control);
+            color: #553400;
+        }
+
+        .scratch-sound {
+            background: var(--sound);
+            color: #fff;
+        }
+
+        .dropdown-pill,
+        .input-pill {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, .35);
+            color: inherit;
+        }
+
+        .input-pill {
+            background: #fff;
+            color: #20324a;
+        }
+
+        .event-chain {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 20px;
+            align-items: stretch;
+            width: 100%;
+            max-width: 960px;
+        }
+
+        .chain-card {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 28px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .chain-card span {
+            font-size: 4.5rem;
+            display: block;
+        }
+
+        .chain-card h3 {
+            font-size: 1.7rem;
+            margin: 8px 0;
+        }
+
+        .arrow-big {
+            display: grid;
+            place-items: center;
+            font-size: 4rem;
+            color: var(--orange);
+        }
+
+        .lamp-lab {
+            display: grid;
+            grid-template-columns: .9fr 1.1fr;
+            gap: 28px;
+            width: 100%;
+            max-width: 1000px;
+            align-items: center;
+        }
+
+        .lamp-stage {
+            background: #20324a;
+            border-radius: 34px;
+            min-height: 390px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lamp-stage.on {
+            background: radial-gradient(circle at 50% 20%, #fff8b3, #ffd53d 22%, #293f5b 64%);
+        }
+
+        .lamp-bulb {
+            font-size: 7rem;
+            filter: grayscale(1);
+            opacity: .45;
+            transition: .3s;
+        }
+
+        .lamp-stage.on .lamp-bulb {
+            filter: none;
+            opacity: 1;
+            text-shadow: 0 0 38px #ffd53d;
+        }
+
+        .lamp-button {
+            margin-top: 16px;
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 7px solid #394d66;
+            background: #eef2f7;
+            box-shadow: inset 0 -8px 0 rgba(0, 0, 0, .18), 0 9px 0 #16283a;
+            cursor: pointer;
+            font: 700 1.1rem 'Fredoka';
+        }
+
+        .lamp-button:active {
+            transform: translateY(7px);
+            box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .18), 0 2px 0 #16283a;
+        }
+
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            width: 100%;
+            max-width: 1050px;
+        }
+
+        .event-card {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 26px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .event-card span {
+            font-size: 4rem;
+        }
+
+        .event-card h3 {
+            font-size: 1.45rem;
+            margin: 8px 0 4px;
+        }
+
+        .event-card p {
+            color: #60758b;
+            margin: 0;
+        }
+
+        .drop-layout {
+            width: 100%;
+            max-width: 1050px;
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 28px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .drop-columns {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .drop-target {
+            min-height: 145px;
+            border: 3px dashed #cfd9e4;
+            border-radius: 20px;
+            background: #fcfdfe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .drop-target.active {
+            border-color: var(--green);
+            background: #effcf5;
+        }
+
+        .drop-target b {
+            font-size: 1.35rem;
+            color: #26405e;
+        }
+
+        .drop-bank {
+            margin-top: 18px;
+            padding: 14px;
+            border: 2px dashed #cbd8e2;
+            border-radius: 16px;
+            background: #f9fbfd;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .drag-chip {
+            background: var(--blue);
+            color: #fff;
+            border-radius: 14px;
+            padding: 12px 15px;
+            font-weight: 700;
+            cursor: grab;
+            user-select: none;
+            box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .12);
+        }
+
+        .drag-chip.dragging {
+            opacity: .45;
+        }
+
+        .drop-target .drag-chip {
+            cursor: default;
+        }
+
+        .keyboard-demo {
+            display: grid;
+            grid-template-columns: .85fr 1.15fr;
+            gap: 26px;
+            width: 100%;
+            max-width: 1080px;
+            align-items: center;
+        }
+
+        .key-stage {
+            height: 390px;
+            border: 8px solid #26394f;
+            border-radius: 26px;
+            overflow: hidden;
+            background: linear-gradient(#c4edff 0 60%, #9fd47d 60%);
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+
+        .key-sprite {
+            position: absolute;
+            font-size: 4.5rem;
+            left: 48%;
+            top: 56%;
+            transform: translate(-50%, -50%);
+            transition: .2s;
+            filter: drop-shadow(0 9px 8px rgba(0, 0, 0, .18));
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 76px);
+            grid-template-rows: repeat(2, 76px);
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .keypad button {
+            border: 3px solid #dfe7ef;
+            border-radius: 18px;
+            background: #fff;
+            font: 700 1.8rem 'Fredoka';
+            cursor: pointer;
+            box-shadow: 0 8px 0 #d9e3ef;
+        }
+
+        .keypad button:active {
+            transform: translateY(6px);
+            box-shadow: 0 2px 0 #d9e3ef;
+        }
+
+        .keypad .up {
+            grid-column: 2;
+        }
+
+        .keypad .left {
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .keypad .down {
+            grid-column: 2;
+            grid-row: 2;
+        }
+
+        .keypad .right {
+            grid-column: 3;
+            grid-row: 2;
+        }
+
+        .plant-demo {
+            display: grid;
+            grid-template-columns: .75fr 1.25fr;
+            gap: 26px;
+            width: 100%;
+            max-width: 1100px;
+            align-items: center;
+        }
+
+        .plant-stage {
+            height: 400px;
+            border: 8px solid #26394f;
+            border-radius: 26px;
+            overflow: hidden;
+            background: linear-gradient(#bcefff 0 55%, #8ed16b 55%);
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+
+        .sun-demo {
+            position: absolute;
+            right: 35px;
+            top: 24px;
+            font-size: 4.2rem;
+            animation: sunSpin 9s linear infinite;
+        }
+
+        @keyframes sunSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .plant-demo .plant {
+            position: absolute;
+            bottom: 42px;
+            font-size: 4.7rem;
+            transition: .25s;
+            filter: drop-shadow(0 8px 5px rgba(0, 0, 0, .15));
+        }
+
+        .plant.p1 {
+            left: 90px;
+        }
+
+        .plant.p2 {
+            left: 245px;
+        }
+
+        .plant.p3 {
+            left: 400px;
+        }
+
+        .water-can {
+            position: absolute;
+            left: 30px;
+            bottom: 190px;
+            font-size: 4.6rem;
+            transition: left .7s ease, bottom .7s ease, transform .25s;
+            cursor: pointer;
+            z-index: 5;
+        }
+
+        .water-can.watering {
+            transform: rotate(-22deg);
+        }
+
+        .drop {
+            position: absolute;
+            font-size: 1.6rem;
+            opacity: 0;
+            transition: .2s;
+        }
+
+        .drop.show {
+            opacity: 1;
+            animation: dropFall .55s ease-out;
+        }
+
+        @keyframes dropFall {
+            from {
+                transform: translateY(-20px);
+            }
+
+            to {
+                transform: translateY(18px);
+            }
+        }
+
+        .plant-steps {
+            display: grid;
+            gap: 12px;
+        }
+
+        .mini-step {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 22px;
+            padding: 17px;
+            box-shadow: 0 8px 18px rgba(38, 73, 103, .07);
+        }
+
+        .mini-step b {
+            color: var(--orange);
+        }
+
+        .script-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .script-grid.two {
+            grid-template-columns: repeat(2, 1fr);
+            max-width: 920px;
+        }
+
+        .script-grid .image-card {
+            padding: 9px;
+        }
+
+        .script-grid .image-card img {
+            height: 330px;
+        }
+
+        .sprite-focus {
+            display: grid;
+            grid-template-columns: .75fr 1.25fr;
+            gap: 26px;
+            width: 100%;
+            max-width: 1080px;
+            align-items: center;
+        }
+
+        .sprite-showcase {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 28px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .sprite-showcase img {
+            width: 100%;
+            max-height: 290px;
+            object-fit: contain;
+            border-radius: 18px;
+            background: #f7fbff;
+        }
+
+        .save-box {
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: 30px;
+            width: 100%;
+            max-width: 1080px;
+            align-items: center;
+        }
+
+        .quiz-shell {
+            width: 100%;
+            max-width: 950px;
+            background: #fff;
+            border: 3px solid #e1e8f2;
+            border-radius: 30px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+        }
+
+        .quiz-question {
+            display: none;
+        }
+
+        .quiz-question.active {
+            display: block;
+        }
+
+        .quiz-question h3 {
+            font-size: 2rem;
+            margin: 0 0 18px;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .quiz-options button {
+            border: 3px solid #dfe7f0;
+            background: #f9fbfd;
+            border-radius: 16px;
+            padding: 15px 18px;
+            text-align: left;
+            font: 600 1.1rem 'Fredoka';
+            cursor: pointer;
+        }
+
+        .quiz-options button:hover {
+            border-color: #8f75ea;
+            background: #f5f0ff;
+        }
+
+        .quiz-options button.correct {
+            border-color: var(--green);
+            background: #eafaf3;
+        }
+
+        .quiz-options button.wrong {
+            border-color: var(--red);
+            background: #fff0ef;
+        }
+
+        .quiz-progress {
+            margin-top: 20px;
+            color: #63778e;
+            font-weight: 700;
+        }
+
+        .quiz-progress>div {
+            height: 10px;
+            background: #e9eef4;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 7px;
+        }
+
+        .quiz-progress i {
+            display: block;
+            height: 100%;
+            width: 33.3%;
+            background: linear-gradient(90deg, var(--orange), var(--purple));
+            transition: .3s;
+        }
+
+        .recap-path {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1050px;
+        }
+
+        .recap-path>div {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 23px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .recap-path span {
+            font-size: 3.5rem;
+        }
+
+        .recap-path b {
+            display: block;
+            font-size: 1.25rem;
+            margin: 7px;
+        }
+
+        .recap-path p {
+            margin: 0;
+            color: #61758b;
+        }
+
+        .emoji-feedback {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .emoji-feedback button {
+            border: 3px solid #e0e7ef;
+            background: #fff;
+            border-radius: 25px;
+            padding: 18px;
+            font-size: 5rem;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .emoji-feedback button:hover,
+        .emoji-feedback button.selected {
+            transform: scale(1.12);
+            border-color: var(--purple);
+            background: #f5efff;
+        }
+
+        .emoji-feedback small {
+            display: block;
+            font: 600 .9rem 'Fredoka';
+        }
+
+        .feedback-thanks {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c4ddd;
+            margin-top: 25px;
+            min-height: 35px;
+        }
+
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            inset: 0;
+            background: rgba(14, 25, 41, .85);
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .image-modal.show {
+            display: flex;
+        }
+
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, .3);
+        }
+
+        @media(max-width:1050px) {
+            .presentation-container {
+                width: 95vw;
+                height: 84vh;
+            }
+
+            .slide {
+                padding: 32px 30px 72px;
+            }
+
+            .agenda-grid,
+            .split-layout,
+            .step-card,
+            .event-chain,
+            .lamp-lab,
+            .keyboard-demo,
+            .plant-demo,
+            .sprite-focus,
+            .save-box {
+                grid-template-columns: 1fr;
+            }
+
+            .event-grid,
+            .drop-columns,
+            .script-grid,
+            .script-grid.two,
+            .recap-path {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .scratch-demo {
+                width: 580px;
+                height: 435px;
+            }
+        }
+
+        @media(max-width:700px) {
+            .brand-logo {
+                left: 8px;
+                top: 6px;
+                padding: 7px 12px;
+            }
+
+            .brand-logo img {
+                height: 32px;
+            }
+
+            .presentation-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: 0;
+            }
+
+            .slide {
+                padding: 68px 18px 74px;
+            }
+
+            .agenda-grid,
+            .event-grid,
+            .drop-columns,
+            .script-grid,
+            .script-grid.two,
+            .recap-path {
+                grid-template-columns: 1fr;
+            }
+
+            .display-title {
+                font-size: 3.4rem;
+            }
+
+            .hero-icon {
+                font-size: 5rem;
+            }
+
+            .nav-title {
+                display: none;
+            }
+
+            .scratch-demo {
+                width: 100%;
+                height: 420px;
+            }
+
+            .emoji-feedback {
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+
+            .emoji-feedback button {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="brand-logo"><img
+            src="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+            alt="Ruangguru Coding"></div>
+    <main class="presentation-container" id="presentation">
+
+        <section class="slide cover-slide" data-title="Event dan Interaksi">
+            <div class="cover-scene">
+                <div class="orbit orbit-a">⚡</div>
+                <div class="orbit orbit-b">🌱</div>
+                <div class="orbit orbit-c">🖱️</div>
+                <div class="hero-badge">SESSION 6 • EVENTS & INTERACTION</div>
+                <div class="hero-icon">🌱</div>
+                <p class="eyebrow">SCRATCH EVENTS</p>
+                <h1 class="display-title">Grow a <span>Plant</span></h1>
+                <p class="hero-subtitle">Membuat project interaktif dengan Green Flag, klik sprite, keyboard, costume,
+                    glide, dan broadcast.</p>
+                <div class="hero-pills"><span>🚩 Green Flag</span><span>🖱️ Sprite Clicked</span><span>⌨️ Key
+                        Pressed</span><span>📣 Broadcast</span></div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Review Sesi Sebelumnya">
+            <div class="slide-head center"><span class="kicker">REVIEW</span>
+                <h2>Apa yang Kita Pelajari Sebelumnya?</h2>
+                <p>Kita sudah belajar mengatur posisi dan gerakan sprite di Scratch.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><b>01</b><span>📍</span>
+                    <h3>Koordinat X dan Y</h3>
+                    <p>X untuk kiri-kanan, Y untuk atas-bawah.</p>
+                </div>
+                <div class="agenda-card orange"><b>02</b><span>🛝</span>
+                    <h3>Glide</h3>
+                    <p>Sprite bergerak halus ke posisi tujuan.</p>
+                </div>
+                <div class="agenda-card purple"><b>03</b><span>🔵</span>
+                    <h3>Motion Blocks</h3>
+                    <p>Block biru untuk mengatur posisi dan arah.</p>
+                </div>
+                <div class="agenda-card green"><b>04</b><span>🧪</span>
+                    <h3>Testing</h3>
+                    <p>Mencoba, melihat hasil, lalu memperbaiki.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Misi Hari Ini">
+            <div class="slide-head center"><span class="kicker">TODAY'S MISSION</span>
+                <h2>Hari Ini Program Kita Bisa Merespon Pengguna</h2>
+                <p>Kita akan membuat aksi terjadi setelah user melakukan sesuatu.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><b>01</b><span>⚡</span>
+                    <h3>Event</h3>
+                    <p>Pemicu yang membuat code mulai berjalan.</p>
+                </div>
+                <div class="agenda-card orange"><b>02</b><span>🖱️</span>
+                    <h3>Click Interaction</h3>
+                    <p>Klik pot penyiram untuk menyiram tanaman.</p>
+                </div>
+                <div class="agenda-card purple"><b>03</b><span>🎭</span>
+                    <h3>Costume</h3>
+                    <p>Tanaman tumbuh dengan mengganti costume.</p>
+                </div>
+                <div class="agenda-card green"><b>04</b><span>📣</span>
+                    <h3>Broadcast</h3>
+                    <p>Sprite saling mengirim pesan agar aksi terhubung.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Apa itu Event">
+            <div class="event-chain">
+                <div class="chain-card"><span>🖱️</span>
+                    <h3>Event</h3>
+                    <p>Kejadian dari pengguna: klik, tekan tombol, atau green flag.</p>
+                </div>
+                <div class="arrow-big">➜</div>
+                <div class="chain-card"><span>🌱</span>
+                    <h3>Action</h3>
+                    <p>Reaksi program: bergerak, bunyi, ganti costume, atau kirim pesan.</p>
+                </div>
+            </div>
+            <div class="notice" style="max-width:920px;text-align:center">Event itu seperti tombol bel rumah. Kalau
+                tidak ada yang menekan bel, rumah tetap diam. Kalau bel ditekan, barulah terdengar bunyi.</div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Analogi Event">
+            <div class="slide-head center"><span class="kicker">ANALOGY</span>
+                <h2>Sebab dan Akibat di Sekitar Kita</h2>
+                <p>Dalam coding, kita sering membuat aturan “kalau terjadi ini, lakukan itu”.</p>
+            </div>
+            <div class="event-grid">
+                <div class="event-card"><span>🔔</span>
+                    <h3>Bel Ditekan</h3>
+                    <p>Event: tombol bel ditekan.<br>Action: bel berbunyi.</p>
+                </div>
+                <div class="event-card"><span>🎮</span>
+                    <h3>Tombol Game</h3>
+                    <p>Event: tombol lompat ditekan.<br>Action: karakter melompat.</p>
+                </div>
+                <div class="event-card"><span>🌿</span>
+                    <h3>Tanaman Disiram</h3>
+                    <p>Event: pot penyiram diklik.<br>Action: tanaman bertumbuh.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Activity Lampu Klik">
+            <div class="slide-head compact center"><span class="kicker">INTERACTIVE ACTIVITY</span>
+                <h2>Klik Tombol untuk Menyalakan Lampu</h2>
+                <p>Lihat bagaimana event klik menghasilkan action.</p>
+            </div>
+            <div class="lamp-lab">
+                <div class="lamp-stage" id="lampStage">
+                    <div class="lamp-bulb">💡</div><button class="lamp-button" onclick="toggleLamp()"
+                        id="lampBtn">CLICK</button>
+                </div>
+                <div class="single-focus" style="box-shadow:none;text-align:left">
+                    <span class="kicker">EVENT ➜ ACTION</span>
+                    <h2 style="font-size:2.35rem">Kalau Tombol Diklik, Lampu Berubah</h2>
+                    <div class="scratch-block-stack">
+                        <div class="scratch-event">when this sprite clicked</div>
+                        <div class="scratch-looks">switch costume to <span class="dropdown-pill">lamp-on</span></div>
+                        <div class="scratch-sound">start sound <span class="dropdown-pill">click</span></div>
+                    </div>
+                    <div class="feedback" id="lampFeedback">Klik tombol di sebelah kiri.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Event di Scratch">
+            <div class="slide-head center"><span class="kicker">SCRATCH EVENT BLOCKS</span>
+                <h2>3 Event yang Akan Kita Pakai</h2>
+                <p>Event block biasanya berwarna kuning dan diletakkan di paling atas rangkaian code.</p>
+            </div>
+            <div class="event-grid">
+                <div class="event-card green"><span>🚩</span>
+                    <h3>When Green Flag Clicked</h3>
+                    <p>Untuk reset project saat mulai.</p>
+                    <div class="scratch-event">when green flag clicked</div>
+                </div>
+                <div class="event-card yellow"><span>🖱️</span>
+                    <h3>When This Sprite Clicked</h3>
+                    <p>Untuk membuat sprite bisa diklik.</p>
+                    <div class="scratch-event">when this sprite clicked</div>
+                </div>
+                <div class="event-card blue"><span>⌨️</span>
+                    <h3>When Key Pressed</h3>
+                    <p>Untuk kontrol memakai keyboard.</p>
+                    <div class="scratch-event">when <span class="dropdown-pill">space</span> key pressed</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Activity Cocokkan Event">
+            <div class="slide-head compact center"><span class="kicker">DRAG & DROP</span>
+                <h2>Cocokkan Event dengan Kegunaannya</h2>
+                <p>Tarik kartu biru ke kotak yang tepat.</p>
+            </div>
+            <div class="drop-layout">
+                <div class="drop-columns">
+                    <div class="drop-target" data-accept="flag"><b>🚩 Mulai / Reset Project</b><small>Project kembali ke
+                            keadaan awal</small></div>
+                    <div class="drop-target" data-accept="click"><b>🖱️ Klik Sprite</b><small>Sprite bereaksi saat
+                            diklik</small></div>
+                    <div class="drop-target" data-accept="key"><b>⌨️ Tekan Keyboard</b><small>Kontrol memakai
+                            tombol</small></div>
+                </div>
+                <div class="drop-bank" id="eventBank">
+                    <div class="drag-chip" draggable="true" data-value="click">when this sprite clicked</div>
+                    <div class="drag-chip" draggable="true" data-value="key">when space key pressed</div>
+                    <div class="drag-chip" draggable="true" data-value="flag">when green flag clicked</div>
+                </div>
+                <div class="button-row"><button class="primary-btn" onclick="checkEventMatch()">Periksa
+                        Jawaban</button><button class="secondary-btn" onclick="resetEventMatch()">Reset</button></div>
+                <div class="feedback" id="eventMatchFeedback">Coba pikirkan: kapan code harus mulai berjalan?</div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Activity Keyboard">
+            <div class="slide-head compact center"><span class="kicker">KEY PRESSED</span>
+                <h2>Coba Kontrol Sprite dengan Keyboard</h2>
+                <p>Tekan tombol panah di keyboard atau klik tombol di bawah.</p>
+            </div>
+            <div class="keyboard-demo">
+                <div class="control-card single-focus" style="box-shadow:none;padding:25px">
+                    <div class="keypad">
+                        <button class="up" onclick="moveKeySprite('up')">↑</button>
+                        <button class="left" onclick="moveKeySprite('left')">←</button>
+                        <button class="down" onclick="moveKeySprite('down')">↓</button>
+                        <button class="right" onclick="moveKeySprite('right')">→</button>
+                    </div>
+                    <div class="notice">Di Scratch, ini bisa dibuat dengan event <b>when arrow key pressed</b>.</div>
+                </div>
+                <div class="key-stage">
+                    <div id="keySprite" class="key-sprite">🐝</div>
+                    <div
+                        style="position:absolute;left:20px;bottom:18px;background:#fff;border:2px solid #dfe7ef;border-radius:12px;padding:8px 12px;font-weight:700;color:#60758b">
+                        Gerakkan lebah ke sekitar taman.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Broadcast">
+            <div class="split-layout">
+                <div><span class="kicker">IMPORTANT CONCEPT</span>
+                    <h2>Broadcast = Mengirim Pesan ke Sprite Lain</h2>
+                    <p class="lead">Di project Grow a Plant, pot penyiram tidak bisa langsung mengubah plant dari jauh.
+                        Pot akan mengirim pesan: <b>“water plant 1”</b>.</p>
+                    <div class="notice">Saat Plant 1 menerima pesan itu, barulah Plant 1 menjalankan action: play sound
+                        dan next costume.</div>
+                </div>
+                <div class="single-focus" style="box-shadow:none">
+                    <div class="giant-emoji">🚿 📣 🌱</div>
+                    <h2 style="font-size:2.25rem">Pot Menyiram ➜ Plant Bertumbuh</h2>
+                    <div class="scratch-block-stack">
+                        <div class="scratch-event">broadcast <span class="dropdown-pill">water plant 1</span></div>
+                        <div class="scratch-event">when I receive <span class="dropdown-pill">water plant 1</span></div>
+                        <div class="scratch-looks">next costume</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Activity Grow Plant Demo">
+            <div class="slide-head compact center"><span class="kicker">INTERACTIVE PREVIEW</span>
+                <h2>Klik Pot Penyiram dan Lihat Tanaman Tumbuh</h2>
+                <p>Ini simulasi kecil sebelum kita masuk ke Scratch.</p>
+            </div>
+            <div class="plant-demo">
+                <div class="control-card">
+                    <h3>Urutan yang Terjadi</h3>
+                    <div class="plant-steps">
+                        <div class="mini-step"><b>1.</b> Klik pot penyiram.</div>
+                        <div class="mini-step"><b>2.</b> Pot glide ke Plant 1, Plant 2, Plant 3.</div>
+                        <div class="mini-step"><b>3.</b> Pot broadcast pesan ke plant.</div>
+                        <div class="mini-step"><b>4.</b> Plant menerima pesan dan next costume.</div>
+                    </div>
+                    <div class="feedback" id="plantDemoFeedback">Klik pot penyiram di stage.</div>
+                </div>
+                <div class="plant-stage" id="plantStage">
+                    <div class="sun-demo">☀️</div>
+                    <div class="water-can" id="waterCan" onclick="runWaterDemo()">🚿</div>
+                    <div class="plant p1" id="demoPlant1">🌱</div>
+                    <div class="plant p2" id="demoPlant2">🌱</div>
+                    <div class="plant p3" id="demoPlant3">🌱</div>
+                    <div class="drop" id="dropDemo">💧</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Project Preview">
+            <div class="slide-head compact center"><span class="kicker">PROJECT PREVIEW</span>
+                <h2>Project yang Akan Kita Buat: Grow a Plant</h2>
+                <p>Klik pot penyiram, lalu lihat tanaman bertumbuh satu per satu.</p>
+            </div>
+            <div class="scratch-demo"><iframe src="https://scratch.mit.edu/projects/1364222305/embed"
+                    allowtransparency="true" scrolling="no" allowfullscreen></iframe></div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Buka Starter Project">
+            <div class="single-focus">
+                <div class="giant-emoji">🐱</div><span class="kicker">OPEN SCRATCH</span>
+                <h2>Remix Starter Project</h2>
+                <p>Kita memakai starter agar semua sprite dan costume sudah siap. Setelah terbuka, klik <b>Remix</b>.
+                </p>
+                <div class="button-row"><a class="primary-btn large" href="https://scratch.mit.edu/projects/1374477309/"
+                        target="_blank" rel="noopener noreferrer">Buka Starter Project ↗</a><a class="secondary-btn"
+                        href="https://scratch.mit.edu/projects/1364222305/" target="_blank"
+                        rel="noopener noreferrer">Lihat Contoh Project ↗</a></div>
+                <div class="notice">Teacher membantu jika tombol Remix belum muncul atau belum login.</div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Cara Remix">
+            <div class="step-card">
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/541086b5-83bb-4123-9545-9dc63f28a3d5.png"
+                        alt="Cara remix Scratch"></div>
+                <div class="step-copy"><span class="kicker">STEP 1</span>
+                    <h2>Remix Project</h2>
+                    <p class="lead">Remix artinya membuat salinan project supaya bisa kamu edit sendiri.</p>
+                    <div class="notice">Jangan edit contoh project langsung. Gunakan project hasil Remix milikmu.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Cek Sprite">
+            <div style="zoom: 0.85; display: flex; flex-direction: column; align-items: center; width: 100%;">
+                <div class="slide-head compact center"><span class="kicker">ASSET CHECK</span>
+                    <h2>Pastikan Semua Sprite Sudah Ada</h2>
+                    <p>Sebelum coding, cek dulu daftar sprite di bawah Stage.</p>
+                </div>
+                <div class="step-card">
+                    <div class="image-card"><img class="zoomable"
+                            src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/9bca0638-37a2-48ac-8c5f-cb1374579f30.png"
+                            alt="Daftar sprite Grow a Plant"></div>
+                    <div class="step-copy">
+                        <h2>Yang Harus Ada</h2>
+                        <div class="agenda-grid" style="grid-template-columns:1fr">
+                            <div class="agenda-card blue"><span>🚿</span>
+                                <h3>Pot / Watering Can</h3>
+                                <p>Sprite yang akan diklik oleh user.</p>
+                            </div>
+                            <div class="agenda-card green"><span>🌱</span>
+                                <h3>Plant 1, Plant 2, Plant 3</h3>
+                                <p>Sprite tanaman yang akan bertumbuh.</p>
+                            </div>
+                            <div class="agenda-card yellow"><span>☀️</span>
+                                <h3>Sun</h3>
+                                <p>Sprite tambahan untuk challenge animasi.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Cek Costume">
+            <div class="slide-head compact center"><span class="kicker">COSTUME CHECK</span>
+                <h2>Pastikan Sprite Punya Costume</h2>
+                <p>Tanaman bisa tumbuh karena tampilannya berubah dari costume satu ke costume berikutnya.</p>
+            </div>
+            <div class="step-card">
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/b273ab1a-ae65-4b3e-8267-cac271a0ab10.png"
+                        alt="Costume Grow a Plant"></div>
+                <div class="step-copy"><span class="kicker">WHY COSTUME?</span>
+                    <h2>Next Costume = Terlihat Bertumbuh</h2>
+                    <p class="lead">Saat plant menerima pesan <b>water plant</b>, plant akan menjalankan block <b>next
+                            costume</b>.</p>
+                    <div class="notice">Kalau costume belum lengkap, animasi pertumbuhan tidak akan terlihat.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Coding Pot">
+            <div class="sprite-focus">
+                <div class="sprite-showcase"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/b316f70e-0d93-4a1c-a62c-c606ba0e3e33.png"
+                        alt="Sprite pot">
+                    <h3>Sprite: Pot</h3>
+                    <p>Pot adalah sprite yang diklik untuk mulai menyiram.</p>
+                </div>
+                <div class="step-copy"><span class="kicker">STEP 2</span>
+                    <h2>Mulai Coding Sprite Pot</h2>
+                    <p class="lead">Kita butuh dua rangkaian code: satu untuk reset saat green flag, satu untuk aksi
+                        saat pot diklik.</p>
+                    <div class="notice">Pilih sprite <b>Pot</b> dulu sebelum memasang block.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Pot Reset Code">
+            <div class="slide-head compact center"><span class="kicker">POT CODE 1</span>
+                <h2>Atur Kondisi Awal Pot</h2>
+                <p>Saat green flag diklik, pot kembali ke posisi awal dan costume idle.</p>
+            </div>
+            <div class="script-grid two">
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/afd87345-8919-4b97-901b-e145a96d314d.png"
+                        alt="Pot green flag code"></div>
+                <div class="step-copy">
+                    <h2 style="font-size:2rem">Fungsi Code</h2>
+                    <div class="scratch-block-stack">
+                        <div class="scratch-event">when green flag clicked</div>
+                        <div class="scratch-motion">go to x: ... y: ...</div>
+                        <div class="scratch-looks">switch costume to <span class="dropdown-pill">idle</span></div>
+                    </div>
+                    <p class="lead">Ini membuat project selalu mulai dari keadaan yang rapi.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Pot Click Code Part 1">
+            <div class="slide-head compact center"><span class="kicker">POT CODE 2A</span>
+                <h2>Ketika Pot Diklik, Pot Mulai Menyiram</h2>
+                <p>Rangkaian utama dimulai dari event <b>when this sprite clicked</b>.</p>
+            </div>
+            <div class="script-grid two">
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/36e4eddd-4cb5-4961-b009-84efcc10c751.png"
+                        alt="Pot clicked code part 1"></div>
+                <div class="step-copy">
+                    <h2 style="font-size:2rem">Apa yang Terjadi?</h2>
+                    <div class="plant-steps">
+                        <div class="mini-step"><b>Event:</b> user klik sprite pot.</div>
+                        <div class="mini-step"><b>Motion:</b> pot glide ke tanaman pertama.</div>
+                        <div class="mini-step"><b>Looks:</b> pot berubah costume menjadi watering.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Pot Click Code Part 2">
+            <div class="slide-head compact center"><span class="kicker">POT CODE 2B</span>
+                <h2>Broadcast Pesan ke Plant</h2>
+                <p>Setelah pot menyiram, pot mengirim pesan agar plant bertumbuh.</p>
+            </div>
+            <div class="script-grid two">
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/58b0d0f2-a6bd-4065-a6b6-7ede90eb3355.png"
+                        alt="Pot clicked code part 2"></div>
+                <div class="step-copy">
+                    <h2 style="font-size:2rem">Ingat Pesannya</h2>
+                    <div class="scratch-block-stack">
+                        <div class="scratch-event">broadcast <span class="dropdown-pill">water plant 1</span></div>
+                        <div class="scratch-event">broadcast <span class="dropdown-pill">water plant 2</span></div>
+                    </div>
+                    <p class="lead">Broadcast adalah cara pot “memberitahu” plant bahwa sudah disiram.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Pot Click Code Part 3">
+            <div class="slide-head compact center"><span class="kicker">POT CODE 2C</span>
+                <h2>Lanjutkan sampai Plant 3</h2>
+                <p>Urutannya sama: glide, watering, broadcast, lalu kembali idle.</p>
+            </div>
+            <div class="script-grid two">
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/aea22bfe-297a-4ea6-9799-76d86630026e.png"
+                        alt="Pot clicked code part 3"></div>
+                <div class="step-copy">
+                    <h2 style="font-size:2rem">Checklist Pot</h2>
+                    <div class="agenda-grid" style="grid-template-columns:1fr">
+                        <div class="agenda-card green"><span>✅</span>
+                            <h3>Pot mengunjungi 3 plant</h3>
+                            <p>Plant 1, Plant 2, lalu Plant 3.</p>
+                        </div>
+                        <div class="agenda-card blue"><span>📣</span>
+                            <h3>Ada broadcast setiap plant</h3>
+                            <p>Pesan harus sesuai dengan plant yang dituju.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Coding Plant 1">
+            <div class="sprite-focus">
+                <div class="sprite-showcase"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/ba699da9-5f25-4eab-8973-11dc127e1080.png"
+                        alt="Sprite Plant 1">
+                    <h3>Sprite: Plant 1</h3>
+                    <p>Plant akan bertumbuh saat menerima pesan.</p>
+                </div>
+                <div class="step-copy"><span class="kicker">STEP 3</span>
+                    <h2>Plant Harus Bisa Mendengar Pesan</h2>
+                    <p class="lead">Plant tidak diklik langsung. Plant menunggu pesan dari Pot.</p>
+                    <div class="notice">Pilih sprite <b>Plant 1</b>, lalu buat dua rangkaian code.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Plant 1 Reset Code">
+            <div class="slide-head compact center"><span class="kicker">PLANT CODE 1</span>
+                <h2>Atur Kondisi Awal Plant 1</h2>
+                <p>Saat green flag, plant kembali ke costume pertama.</p>
+            </div>
+            <div class="script-grid two">
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/30bae634-eba1-4e16-8202-ef2908ab17e3.png"
+                        alt="Plant green flag code"></div>
+                <div class="step-copy">
+                    <h2 style="font-size:2rem">Kenapa Perlu Reset?</h2>
+                    <p class="lead">Kalau project dimainkan ulang, plant harus mulai dari kecil lagi.</p>
+                    <div class="scratch-block-stack">
+                        <div class="scratch-event">when green flag clicked</div>
+                        <div class="scratch-motion">go to x: ... y: ...</div>
+                        <div class="scratch-looks">switch costume to <span class="dropdown-pill">costume 1</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Plant 1 Receive Code">
+            <div class="slide-head compact center"><span class="kicker">PLANT CODE 2</span>
+                <h2>Saat Menerima Pesan, Plant Bertumbuh</h2>
+                <p>Plant 1 mendengar pesan <b>water plant 1</b>.</p>
+            </div>
+            <div class="script-grid two">
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/da1d1c8e-ba7d-4935-a5b4-9dabd88105b9.png"
+                        alt="Plant receive water code"></div>
+                <div class="step-copy">
+                    <h2 style="font-size:2rem">Fungsi Code</h2>
+                    <div class="scratch-block-stack">
+                        <div class="scratch-event">when I receive <span class="dropdown-pill">water plant 1</span></div>
+                        <div class="scratch-sound">play sound <span class="dropdown-pill">pop</span></div>
+                        <div class="scratch-looks">next costume</div>
+                    </div>
+                    <p class="lead">Next costume membuat plant terlihat tumbuh satu tahap.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Plant 2 dan Plant 3">
+            <div class="slide-head center"><span class="kicker">REPEAT THE LOGIC</span>
+                <h2>Lakukan Hal yang Sama untuk Plant 2 dan Plant 3</h2>
+                <p>Strukturnya sama, tetapi nama broadcast harus sesuai.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card green"><span>🌱</span>
+                    <h3>Plant 2</h3>
+                    <p>Reset ke costume 1 saat green flag.<br>Lalu gunakan: <b>when I receive water plant 2</b>.</p>
+                </div>
+                <div class="agenda-card blue"><span>🌿</span>
+                    <h3>Plant 3</h3>
+                    <p>Reset ke costume 1 saat green flag.<br>Lalu gunakan: <b>when I receive water plant 3</b>.</p>
+                </div>
+                <div class="agenda-card orange"><span>⚠️</span>
+                    <h3>Jangan Tertukar</h3>
+                    <p>Plant 2 jangan menerima pesan Plant 1.</p>
+                </div>
+                <div class="agenda-card purple"><span>🧪</span>
+                    <h3>Test Satu per Satu</h3>
+                    <p>Klik pot, lihat apakah semua tanaman tumbuh.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Challenge Sun">
+            <div style="zoom: 0.85; display: flex; flex-direction: column; align-items: center; width: 100%;">
+                <div class="sprite-focus">
+                    <div class="sprite-showcase"><img class="zoomable"
+                            src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/bc4c03c7-416b-43f3-9602-e9705939cb3c.png"
+                            alt="Sprite Sun">
+                        <h3>Challenge: Sprite Sun</h3>
+                        <p>Buat project lebih hidup dengan animasi matahari.</p>
+                    </div>
+                    <div class="step-copy"><span class="kicker">MINI CHALLENGE</span>
+                        <h2>Block Apa yang Bisa Ditambahkan?</h2>
+                        <p class="lead">Coba pilih salah satu ide:</p>
+                        <div class="agenda-grid" style="grid-template-columns:1fr">
+                            <div class="agenda-card yellow"><span>🔄</span>
+                                <h3>Berputar Pelan</h3>
+                                <p>when green flag clicked → forever → turn 5 degrees.</p>
+                            </div>
+                            <div class="agenda-card orange"><span>✨</span>
+                                <h3>Bersinar</h3>
+                                <p>forever → change color/brightness effect → wait.</p>
+                            </div>
+                            <div class="agenda-card blue"><span>↔️</span>
+                                <h3>Melayang</h3>
+                                <p>glide ke kanan, glide ke kiri, ulangi.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Testing">
+            <div class="slide-head center"><span class="kicker">TESTING TIME</span>
+                <h2>Waktunya Test Project</h2>
+                <p>Kita cek apakah semua event dan broadcast sudah terhubung.</p>
+            </div>
+            <div class="recap-path">
+                <div><span>🚩</span><b>Green Flag</b>
+                    <p>Pot dan plant kembali ke posisi/costume awal.</p>
+                </div>
+                <div><span>🖱️</span><b>Klik Pot</b>
+                    <p>Pot bergerak ke semua plant.</p>
+                </div>
+                <div><span>📣</span><b>Broadcast</b>
+                    <p>Setiap plant menerima pesan yang tepat.</p>
+                </div>
+                <div><span>🎭</span><b>Costume</b>
+                    <p>Plant bertumbuh satu tahap.</p>
+                </div>
+                <div><span>🔊</span><b>Sound</b>
+                    <p>Suara muncul saat plant tumbuh.</p>
+                </div>
+                <div><span>☀️</span><b>Challenge</b>
+                    <p>Sun punya animasi tambahan.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Save Project">
+            <div class="slide-head compact center"><span class="kicker">SAVE YOUR WORK</span>
+                <h2>Jangan Lupa Save Project</h2>
+                <p>Setelah coding dan testing selesai, simpan project agar tidak hilang.</p>
+            </div>
+            <div class="save-box">
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/7baf96b6-d7f5-414f-af1e-103021a624fa.png"
+                        alt="Save Now Scratch"></div>
+                <div class="single-focus" style="box-shadow:none;text-align:left">
+                    <div class="giant-emoji">💾</div>
+                    <h2 style="font-size:2.25rem">Klik Share</h2>
+                    <p class="lead">Pastikan project bernama jelas, misalnya <b>Grow a Plant - Nama Kamu</b>.</p>
+                    <div class="notice">Before you leave: test lagi dengan green flag dan klik pot.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Quick Quiz">
+            <div class="slide-head compact center"><span class="kicker">QUICK QUIZ</span>
+                <h2>Cek Pemahamanmu 🧠</h2>
+                <p>Jawab 3 pertanyaan sederhana.</p>
+            </div>
+            <div class="quiz-shell">
+                <div class="quiz-question active" id="quiz1">
+                    <h3>1. Block apa yang biasanya dipakai untuk memulai project dari awal?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,true,'quiz1','quiz2')">A. when green flag
+                            clicked</button><button onclick="answerQuiz(this,false,'quiz1','quiz2')">B. next
+                            costume</button><button onclick="answerQuiz(this,false,'quiz1','quiz2')">C. glide 1
+                            seconds</button></div>
+                </div>
+                <div class="quiz-question" id="quiz2">
+                    <h3>2. Apa fungsi block “when this sprite clicked”?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz2','quiz3')">A. Membuat sprite
+                            hilang selamanya</button><button onclick="answerQuiz(this,true,'quiz2','quiz3')">B.
+                            Menjalankan code saat sprite diklik</button><button
+                            onclick="answerQuiz(this,false,'quiz2','quiz3')">C. Mengubah nama project</button></div>
+                </div>
+                <div class="quiz-question" id="quiz3">
+                    <h3>3. Mengapa Plant bisa bertumbuh setelah disiram?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz3','quizDone')">A. Karena
+                            plant bergerak random</button><button onclick="answerQuiz(this,true,'quiz3','quizDone')">B.
+                            Karena plant menerima broadcast dan menjalankan next costume</button><button
+                            onclick="answerQuiz(this,false,'quiz3','quizDone')">C. Karena green flag dihapus</button>
+                    </div>
+                </div>
+                <div class="quiz-question" id="quizDone" style="text-align:center">
+                    <div class="giant-emoji">✅</div>
+                    <h3>Quiz Selesai!</h3>
+                    <p>Kamu sudah memahami dasar event dan interaksi.</p>
+                </div>
+                <div class="quiz-progress"><span id="quizProgressText">Soal 1 dari 3</span>
+                    <div><i id="quizProgressBar"></i></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Review Hari Ini">
+            <div class="slide-head center"><span class="kicker">TODAY'S REVIEW</span>
+                <h2>Apa Saja yang Sudah Kita Pelajari?</h2>
+            </div>
+            <div class="recap-path">
+                <div><span>⚡</span><b>Event</b>
+                    <p>Pemicu yang membuat code berjalan.</p>
+                </div>
+                <div><span>🚩</span><b>Green Flag</b>
+                    <p>Reset project saat mulai.</p>
+                </div>
+                <div><span>🖱️</span><b>Sprite Clicked</b>
+                    <p>Interaksi memakai klik mouse.</p>
+                </div>
+                <div><span>⌨️</span><b>Key Pressed</b>
+                    <p>Kontrol memakai keyboard.</p>
+                </div>
+                <div><span>📣</span><b>Broadcast</b>
+                    <p>Pesan antar sprite.</p>
+                </div>
+                <div><span>🌱</span><b>Next Costume</b>
+                    <p>Membuat plant tampak tumbuh.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide feedback-final" data-title="Feedback">
+            <div class="slide-head center"><span class="kicker">YOUR FEEDBACK</span>
+                <h2>Bagaimana Belajar Event Hari Ini?</h2>
+                <p>Pilih satu yang paling sesuai dengan perasaanmu.</p>
+            </div>
+            <div class="emoji-feedback" id="emojiFeedback"><button onclick="sendFeedback(this)">😍<small>Sangat
+                        Seru</small></button><button onclick="sendFeedback(this)">😊<small>Aku
+                        Paham</small></button><button onclick="sendFeedback(this)">🤔<small>Perlu Latihan
+                        Lagi</small></button><button onclick="sendFeedback(this)">🌱<small>Mau Lanjut</small></button>
+            </div>
+            <div class="feedback-thanks" id="feedbackThanks"></div>
+        </section>
+
+        <div class="progress-line" id="progressLine"></div>
+        <footer class="navigation">
+            <div class="nav-title" id="navTitle">Session 6: Event dan Interaksi</div>
+            <div class="nav-controls"><button class="nav-btn" id="prevBtn" aria-label="Sebelumnya">‹</button>
+                <div class="counter"><span id="currentSlide">1</span> / <span id="totalSlides">1</span></div><button
+                    class="nav-btn next" id="nextBtn" aria-label="Berikutnya">›</button>
+            </div>
+        </footer>
+    </main>
+    <div id="imageModal" class="image-modal" onclick="this.classList.remove('show')"><img id="enlargedImg" src=""
+            alt="Enlarged view"></div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = [...document.querySelectorAll('.slide')];
+        function showSlide(index) {
+            if (index < 0 || index >= slides.length) return;
+            slides.forEach((s, i) => s.classList.toggle('active', i === index));
+            currentSlide = index;
+            document.getElementById('currentSlide').textContent = index + 1;
+            document.getElementById('totalSlides').textContent = slides.length;
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === slides.length - 1;
+            document.getElementById('progressLine').style.width = ((index + 1) / slides.length * 100) + '%';
+            document.getElementById('navTitle').textContent = 'Session 6 • ' + slides[index].dataset.title;
+            slides[index].scrollTop = 0;
+        }
+        document.getElementById('prevBtn').onclick = () => showSlide(currentSlide - 1);
+        document.getElementById('nextBtn').onclick = () => showSlide(currentSlide + 1);
+        document.addEventListener('keydown', e => {
+            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
+            if (e.key === 'ArrowRight') showSlide(currentSlide + 1);
+            if (e.key === 'ArrowLeft') showSlide(currentSlide - 1);
+            if (['ArrowUp', 'ArrowDown'].includes(e.key) && currentSlide !== 8) return;
+            if (currentSlide === 8) {
+                if (e.key === 'ArrowUp') moveKeySprite('up');
+                if (e.key === 'ArrowDown') moveKeySprite('down');
+                if (e.key === 'ArrowLeft') moveKeySprite('left');
+                if (e.key === 'ArrowRight') moveKeySprite('right');
+            }
+        });
+        showSlide(0);
+
+        function setFeedback(id, msg, ok = true) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.textContent = msg;
+            el.className = 'feedback ' + (ok ? 'success' : 'error');
+        }
+
+        function toggleLamp() {
+            const stage = document.getElementById('lampStage');
+            stage.classList.toggle('on');
+            setFeedback('lampFeedback', stage.classList.contains('on') ? 'Event klik berhasil. Lampu menyala sebagai action. ✅' : 'Event klik berhasil lagi. Lampu kembali mati.', true);
+        }
+
+        let draggedChip = null;
+        document.addEventListener('dragstart', e => {
+            if (e.target.classList.contains('drag-chip')) {
+                draggedChip = e.target;
+                e.target.classList.add('dragging');
+            }
+        });
+        document.addEventListener('dragend', e => {
+            if (e.target.classList.contains('drag-chip')) e.target.classList.remove('dragging');
+            draggedChip = null;
+        });
+        document.querySelectorAll('.drop-target').forEach(zone => {
+            zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('active'); });
+            zone.addEventListener('dragleave', () => zone.classList.remove('active'));
+            zone.addEventListener('drop', e => {
+                e.preventDefault(); zone.classList.remove('active');
+                if (!draggedChip) return;
+                const old = zone.querySelector('.drag-chip');
+                if (old) document.getElementById('eventBank').appendChild(old);
+                zone.appendChild(draggedChip);
+                draggedChip = null;
+            });
+        });
+        function checkEventMatch() {
+            const zones = [...document.querySelectorAll('.drop-target')];
+            const ok = zones.every(z => z.querySelector('.drag-chip')?.dataset.value === z.dataset.accept);
+            setFeedback('eventMatchFeedback', ok ? 'Semua cocok. Kamu sudah memahami fungsi event. ✅' : 'Masih ada yang tertukar. Cek lagi kapan code harus mulai.', ok);
+        }
+        function resetEventMatch() {
+            const bank = document.getElementById('eventBank');
+            document.querySelectorAll('.drop-target .drag-chip').forEach(c => bank.appendChild(c));
+            setFeedback('eventMatchFeedback', 'Kartu sudah dikembalikan. Coba lagi.', true);
+        }
+
+        let beeX = 48, beeY = 56;
+        function moveKeySprite(dir) {
+            if (dir === 'up') beeY -= 8;
+            if (dir === 'down') beeY += 8;
+            if (dir === 'left') beeX -= 8;
+            if (dir === 'right') beeX += 8;
+            beeX = Math.max(8, Math.min(92, beeX));
+            beeY = Math.max(12, Math.min(82, beeY));
+            const bee = document.getElementById('keySprite');
+            bee.style.left = beeX + '%';
+            bee.style.top = beeY + '%';
+        }
+
+        let watering = false;
+        const plantStages = ['🌱', '🌿', '🪴', '🌻'];
+        let plantLevel = [0, 0, 0];
+        async function runWaterDemo() {
+            if (watering) return;
+            watering = true;
+            const can = document.getElementById('waterCan');
+            const drop = document.getElementById('dropDemo');
+            const plants = [document.getElementById('demoPlant1'), document.getElementById('demoPlant2'), document.getElementById('demoPlant3')];
+            const positions = [{ left: 78, bottom: 195 }, { left: 233, bottom: 195 }, { left: 388, bottom: 195 }];
+            setFeedback('plantDemoFeedback', 'Pot mulai menyiram tanaman...', true);
+            for (let i = 0; i < 3; i++) {
+                can.style.left = positions[i].left + 'px';
+                can.style.bottom = positions[i].bottom + 'px';
+                await wait(800);
+                can.classList.add('watering');
+                drop.style.left = (positions[i].left + 62) + 'px';
+                drop.style.bottom = '150px';
+                drop.classList.add('show');
+                await wait(450);
+                drop.classList.remove('show');
+                can.classList.remove('watering');
+                plantLevel[i] = Math.min(plantLevel[i] + 1, plantStages.length - 1);
+                plants[i].textContent = plantStages[plantLevel[i]];
+                plants[i].style.transform = 'scale(1.14)';
+                await wait(300);
+                plants[i].style.transform = 'scale(1)';
+                setFeedback('plantDemoFeedback', `Broadcast water plant ${i + 1}. Plant ${i + 1} menjalankan next costume.`, true);
+                await wait(400);
+            }
+            can.style.left = '30px';
+            can.style.bottom = '190px';
+            setFeedback('plantDemoFeedback', 'Selesai. Klik lagi untuk menumbuhkan tanaman satu tahap lagi.', true);
+            watering = false;
+        }
+        function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+        let quizNumber = 1;
+        function answerQuiz(btn, correct, current, next) {
+            const q = document.getElementById(current), buttons = q.querySelectorAll('button');
+            buttons.forEach(b => b.disabled = true);
+            btn.classList.add(correct ? 'correct' : 'wrong');
+            if (!correct) buttons.forEach(b => { if (b.getAttribute('onclick').includes('true')) b.classList.add('correct'); });
+            setTimeout(() => {
+                q.classList.remove('active');
+                document.getElementById(next).classList.add('active');
+                quizNumber = Math.min(3, quizNumber + 1);
+                document.getElementById('quizProgressText').textContent = next === 'quizDone' ? 'Selesai' : 'Soal ' + quizNumber + ' dari 3';
+                document.getElementById('quizProgressBar').style.width = (next === 'quizDone' ? 100 : quizNumber * 33.3) + '%';
+            }, 650);
+        }
+        function sendFeedback(btn) {
+            document.querySelectorAll('#emojiFeedback button').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            document.getElementById('feedbackThanks').textContent = 'Terima kasih sudah berbagi. Sampai jumpa di pertemuan berikutnya!';
+        }
+        document.querySelectorAll('.zoomable').forEach(img => img.addEventListener('click', () => {
+            document.getElementById('enlargedImg').src = img.src;
+            document.getElementById('imageModal').classList.add('show');
+        }));
+    </script>
+</body>
+
+</html>

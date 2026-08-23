@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Session 5 - Conditional Logic | Ruangguru Coding</title>
+    <link rel="icon"
+        href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --blue: #2f80ed;
+            --cyan: #16bde8;
+            --purple: #845ef7;
+            --orange: #ff8a34;
+            --yellow: #ffd53d;
+            --green: #28b875;
+            --red: #ef5350;
+            --ink: #20324a;
+            --muted: #66788d;
+            --panel: #fff;
+            --shadow: 0 22px 55px rgba(22, 44, 76, .18);
+            --py-blue: #3776ab;
+            --py-yellow: #ffd343;
+            --teal: #0ba7a5;
+            --navy: #2f4661;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--ink);
+            background: #f8fffe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='600' viewBox='0 0 900 600'%3E%3Cg fill='none' stroke='%2300bcd4' stroke-width='2.2' opacity='0.18'%3E%3Crect x='40' y='60' width='68' height='80' rx='6'/%3E%3Cline x1='40' y1='100' x2='108' y2='100'/%3E%3Cline x1='74' y1='60' x2='74' y2='140'/%3E%3Ccircle cx='820' cy='70' r='22'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15' transform='rotate(60 820 70)'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15' transform='rotate(120 820 70)'/%3E%3Crect x='432' y='20' width='48' height='55' rx='10'/%3E%3Crect x='30' y='260' width='58' height='68' rx='10'/%3E%3Ccircle cx='838' cy='340' r='42'/%3E%3Cellipse cx='838' cy='340' rx='20' ry='42'/%3E%3Cline x1='796' y1='340' x2='880' y2='340'/%3E%3Crect x='55' y='450' width='80' height='90' rx='6'/%3E%3Cline x1='95' y1='450' x2='95' y2='540'/%3E%3Crect x='390' y='480' width='72' height='72' rx='4'/%3E%3Cline x1='414' y1='480' x2='414' y2='552'/%3E%3Cline x1='438' y1='480' x2='438' y2='552'/%3E%3Cline x1='390' y1='504' x2='462' y2='504'/%3E%3Cline x1='390' y1='528' x2='462' y2='528'/%3E%3C/g%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-size: cover;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        body:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at 0% 100%, rgba(0, 188, 212, .07), transparent 55%), radial-gradient(ellipse at 100% 0%, rgba(255, 211, 67, .1), transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .brand-logo {
+            position: fixed;
+            left: 22px;
+            top: 16px;
+            z-index: 2000;
+            background: #fff;
+            border: 2.5px solid rgba(0, 188, 212, .22);
+            border-radius: 22px;
+            padding: 10px 20px;
+            box-shadow: 0 8px 32px rgba(0, 188, 212, .18);
+            display: flex;
+            align-items: center;
+        }
+
+        .brand-logo img {
+            height: 80px;
+            max-width: 220px;
+            object-fit: contain;
+        }
+
+        .presentation-container {
+            width: 88vw;
+            height: 82vh;
+            max-width: 1500px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(30, 56, 93, .25);
+            overflow: hidden;
+            position: relative;
+            border: 4px solid rgba(255, 255, 255, .85);
+        }
+
+        .presentation-container:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 26px;
+            box-shadow: inset 0 0 0 1px rgba(91, 124, 164, .10);
+            z-index: 30;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 42px 58px 74px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(42px) scale(.985);
+            transition: .46s ease;
+            background: linear-gradient(145deg, #ffffff, #f7fcfd);
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            z-index: 10;
+        }
+
+        .navigation {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, .96);
+            border-top: 1px solid #e7edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b7d92;
+            max-width: 42%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #d9e3ef;
+            background: #fff;
+            color: #4c6077;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            color: #fff;
+            border: 0;
+            box-shadow: 0 7px 16px rgba(255, 138, 52, .3);
+        }
+
+        .nav-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed;
+        }
+
+        .counter {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #53677f;
+            min-width: 74px;
+            text-align: center;
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 0;
+            bottom: 62px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--orange), var(--purple), var(--cyan));
+            width: 0;
+            transition: .35s;
+            z-index: 110;
+        }
+
+        .slide-head {
+            width: 100%;
+            max-width: 1180px;
+            margin-bottom: 22px;
+        }
+
+        .slide-head.center {
+            text-align: center;
+        }
+
+        .slide-head.compact {
+            margin-bottom: 14px;
+        }
+
+        .slide-head h2,
+        .single-focus h2 {
+            font-size: clamp(2.2rem, 4vw, 4rem);
+            line-height: 1.06;
+            margin: 6px 0 12px;
+            color: #24344d;
+        }
+
+        .slide-head p,
+        .single-focus p,
+        .lead {
+            font-size: clamp(1.1rem, 1.55vw, 1.45rem);
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .kicker {
+            display: inline-block;
+            font-size: .92rem;
+            letter-spacing: .16em;
+            font-weight: 700;
+            color: var(--purple);
+            background: #f0eaff;
+            border-radius: 999px;
+            padding: 7px 13px;
+        }
+
+        .cover-slide {
+            background: linear-gradient(135deg, #f4fbff, #eefcf8 48%, #fff8df) !important;
+            color: var(--ink) !important;
+        }
+
+        .cover-scene {
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #fff;
+            border: 2px solid #dbe9f2;
+            color: #40566d;
+            box-shadow: 0 8px 20px rgba(44, 80, 115, .08);
+            padding: 9px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .hero-icon {
+            font-size: 7rem;
+            filter: drop-shadow(0 12px 16px rgba(55, 118, 171, .18));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .eyebrow {
+            letter-spacing: .22em;
+            font-weight: 700;
+            color: var(--py-blue);
+            margin: 0 0 10px;
+        }
+
+        .display-title {
+            font-size: clamp(3.4rem, 7vw, 6.2rem);
+            line-height: .95;
+            margin: 8px 0 18px;
+            color: #233a55;
+        }
+
+        .display-title span {
+            color: var(--py-blue);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            max-width: 880px;
+            margin: 0 auto;
+            color: #52677c;
+        }
+
+        .hero-pills {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 26px;
+        }
+
+        .hero-pills span {
+            background: #fff;
+            border: 2px solid #dbe9f2;
+            color: #40566d;
+            box-shadow: 0 8px 20px rgba(44, 80, 115, .08);
+            padding: 10px 16px;
+            border-radius: 15px;
+            font-weight: 600;
+        }
+
+        .orbit {
+            position: absolute;
+            font-size: 2.6rem;
+            animation: float 3.5s ease-in-out infinite;
+        }
+
+        .orbit-a {
+            left: 8%;
+            top: 12%;
+        }
+
+        .orbit-b {
+            right: 8%;
+            top: 18%;
+            animation-delay: .7s;
+        }
+
+        .orbit-c {
+            right: 15%;
+            bottom: 10%;
+            animation-delay: 1.2s;
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-12px) rotate(3deg);
+            }
+        }
+
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .agenda-card {
+            position: relative;
+            padding: 25px;
+            border-radius: 26px;
+            border: 2px solid;
+            min-height: 158px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .agenda-card>b {
+            position: absolute;
+            right: 18px;
+            top: 10px;
+            font-size: 3rem;
+            opacity: .12;
+        }
+
+        .agenda-card>span {
+            font-size: 3.2rem;
+        }
+
+        .agenda-card h3 {
+            font-size: 1.55rem;
+            margin: 8px 0 3px;
+        }
+
+        .agenda-card p {
+            margin: 0;
+            color: #52667c;
+        }
+
+        .blue {
+            background: #eef7ff !important;
+            border-color: #b9dcff !important;
+        }
+
+        .orange {
+            background: #fff4e8 !important;
+            border-color: #ffd3a7 !important;
+        }
+
+        .purple {
+            background: #f5efff !important;
+            border-color: #d9c6ff !important;
+        }
+
+        .green {
+            background: #ebfbf4 !important;
+            border-color: #b7ebd2 !important;
+        }
+
+        .yellow {
+            background: #fff8db !important;
+            border-color: #f5d86d !important;
+        }
+
+        .red {
+            background: #fff0ef !important;
+            border-color: #f5aaa7 !important;
+        }
+
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 34px;
+            width: 100%;
+            max-width: 1120px;
+            align-items: center;
+        }
+
+        .mature-card,
+        .code-panel,
+        .output-panel,
+        .single-focus,
+        .image-card {
+            background: #fff;
+            border: 3px solid #dce8f0;
+            border-radius: 24px;
+            padding: 22px;
+            box-shadow: 0 12px 28px rgba(38, 73, 103, .09);
+        }
+
+        .single-focus {
+            max-width: 860px;
+            text-align: center;
+            padding: 40px;
+            border-radius: 34px;
+        }
+
+        .giant-emoji {
+            font-size: 6rem;
+        }
+
+        .primary-btn,
+        .secondary-btn,
+        .run-btn {
+            border: 0;
+            border-radius: 16px;
+            padding: 13px 22px;
+            font: 700 1rem 'Fredoka';
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .primary-btn,
+        .run-btn {
+            background: linear-gradient(135deg, var(--py-blue), var(--teal));
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(55, 118, 171, .25);
+        }
+
+        .primary-btn:hover,
+        .run-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .secondary-btn {
+            background: #eef2f7;
+            color: #465c74;
+            border: 2px solid #d9e1ea;
+        }
+
+        .notice,
+        .code-hint {
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: #fff8db;
+            border: 2px solid #f7d95d;
+            color: #7b6412;
+            font-weight: 600;
+            margin-top: 14px;
+        }
+
+        .code-font,
+        code,
+        pre,
+        .code-editor,
+        .terminal,
+        .mini-code,
+        .syntax-chip {
+            font-family: 'Courier New', Courier, monospace !important;
+        }
+
+        .code-activity {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 1140px;
+            align-items: stretch;
+        }
+
+        .code-panel h3,
+        .output-panel h3 {
+            margin: 0 0 12px;
+            font-size: 1.32rem;
+        }
+
+        .code-editor {
+            width: 100%;
+            min-height: 220px;
+            resize: none;
+            border: 3px solid #cfdae5;
+            border-radius: 14px;
+            padding: 16px;
+            background: #fbfdff;
+            color: #20324a;
+            font-size: 1rem;
+            line-height: 1.55;
+            outline: none;
+            tab-size: 4;
+        }
+
+        .code-editor:focus {
+            border-color: var(--py-blue);
+            box-shadow: 0 0 0 4px rgba(55, 118, 171, .12);
+        }
+
+        .terminal {
+            min-height: 220px;
+            background: #f4f7f9;
+            border: 2px solid #cbd8e2;
+            border-radius: 14px;
+            padding: 16px;
+            color: #20384e;
+            white-space: pre-wrap;
+            overflow: auto;
+            font-size: .98rem;
+            line-height: 1.55;
+        }
+
+        .terminal:before {
+            content: 'OUTPUT';
+            display: block;
+            font-family: 'Fredoka';
+            font-size: .78rem;
+            letter-spacing: .15em;
+            font-weight: 700;
+            color: #71859a;
+            margin-bottom: 12px;
+        }
+
+        .target-terminal {
+            white-space: pre-wrap !important;
+        }
+
+        .run-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: flex-start;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .code-feedback,
+        .feedback {
+            font-weight: 700;
+            min-height: 26px;
+            color: #5d7187;
+        }
+
+        .code-feedback.success,
+        .feedback.success {
+            color: #148456;
+        }
+
+        .code-feedback.error,
+        .feedback.error {
+            color: #cf4542;
+        }
+
+        .vscode-tour {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            width: 100%;
+            max-width: 1120px;
+        }
+
+        .tour-card {
+            background: #fff;
+            border: 2px solid #dce7ef;
+            border-radius: 22px;
+            padding: 14px;
+        }
+
+        .tour-card img {
+            width: 100%;
+            height: 170px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #f6f9fb;
+            cursor: zoom-in;
+        }
+
+        .tour-card h3 {
+            font-size: 1.15rem;
+            margin: 9px 0 4px;
+        }
+
+        .tour-card p {
+            margin: 0;
+            color: #64768a;
+        }
+
+        .mini-code {
+            background: #f5f8fb;
+            border: 2px solid #cbd8e3;
+            border-radius: 13px;
+            padding: 15px;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            overflow: auto;
+        }
+
+        .soft-blue {
+            background: linear-gradient(145deg, #edf7ff, #f7fbff) !important;
+        }
+
+        .soft-green {
+            background: linear-gradient(145deg, #effcf5, #fbfffd) !important;
+        }
+
+        .soft-orange {
+            background: linear-gradient(145deg, #fff6ea, #fffdf8) !important;
+        }
+
+        .soft-purple {
+            background: linear-gradient(145deg, #f6f0ff, #fbf9ff) !important;
+        }
+
+        .feedback-final {
+            background: linear-gradient(145deg, #fff0f6, #eef4ff) !important;
+        }
+
+        .image-card {
+            text-align: center;
+        }
+
+        .image-card img {
+            max-width: 100%;
+            max-height: 310px;
+            object-fit: contain;
+            border-radius: 18px;
+            cursor: zoom-in;
+        }
+
+        .flow-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: 14px;
+            align-items: center;
+            width: 100%;
+            max-width: 1050px;
+        }
+
+        .flow-box {
+            background: #fff;
+            border: 3px solid #dfe8ef;
+            border-radius: 24px;
+            padding: 22px;
+            text-align: center;
+            box-shadow: 0 12px 28px rgba(38, 73, 103, .08);
+        }
+
+        .flow-box span {
+            font-size: 4rem;
+            display: block;
+        }
+
+        .flow-arrow {
+            font-size: 3rem;
+            color: var(--orange);
+            font-weight: 700;
+        }
+
+        .condition-sim {
+            width: min(940px, 100%);
+            background: linear-gradient(135deg, #273b58, #0ba7a5);
+            color: white;
+            border-radius: 32px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .condition-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .condition-row input[type=range] {
+            width: 100%;
+            accent-color: var(--py-yellow);
+        }
+
+        .big-output {
+            background: rgba(255, 255, 255, .18);
+            border: 2px solid rgba(255, 255, 255, .28);
+            border-radius: 20px;
+            padding: 20px;
+            font: 700 1.4rem 'Fredoka';
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            white-space: pre-wrap;
+        }
+
+        .indent-visual {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 1080px;
+            align-items: stretch;
+        }
+
+        .indent-line {
+            background: #fff;
+            border: 3px solid #dfe8ef;
+            border-radius: 16px;
+            padding: 14px 18px;
+            margin: 8px 0;
+            cursor: pointer;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .indent-line:hover,
+        .indent-line.active {
+            border-color: var(--orange);
+            background: #fff4e8;
+            transform: translateX(4px);
+        }
+
+        .indent-stack {
+            background: #f5f8fb;
+            border: 3px solid #dce8f0;
+            border-radius: 24px;
+            padding: 18px;
+        }
+
+        .indent-group {
+            border-left: 10px solid var(--orange);
+            margin-left: 22px;
+            padding-left: 20px;
+            background: #fff8eb;
+            border-radius: 0 18px 18px 0;
+        }
+
+        .choice-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .choice-card {
+            background: #fff;
+            border: 3px solid #dfe8ef;
+            border-radius: 24px;
+            padding: 20px;
+            text-align: left;
+        }
+
+        .choice-card button {
+            margin-top: 12px;
+        }
+
+        .menu-box {
+            width: 100%;
+            max-width: 860px;
+            background: linear-gradient(135deg, #e9fff5, #fffbea);
+            border: 3px solid #b7ebd2;
+            border-radius: 28px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .menu-options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .menu-options button {
+            border: 3px solid #dbe5f0;
+            border-radius: 18px;
+            padding: 15px;
+            font: 700 1rem 'Fredoka';
+            background: #fff;
+            color: #304963;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .menu-options button:hover {
+            transform: translateY(-2px);
+            border-color: var(--teal);
+            background: #effcfb;
+        }
+
+        .debug-card {
+            background: #fff;
+            border: 3px solid #dfe8ef;
+            border-radius: 20px;
+            padding: 18px;
+        }
+
+        .quiz-shell {
+            width: 100%;
+            max-width: 950px;
+            background: #fff;
+            border: 3px solid #e1e8f2;
+            border-radius: 30px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+        }
+
+        .quiz-question {
+            display: none;
+        }
+
+        .quiz-question.active {
+            display: block;
+        }
+
+        .quiz-question h3 {
+            font-size: 2rem;
+            margin: 0 0 18px;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .quiz-options button {
+            border: 3px solid #dfe7f0;
+            background: #f9fbfd;
+            border-radius: 16px;
+            padding: 15px 18px;
+            text-align: left;
+            font: 600 1.1rem 'Fredoka';
+            cursor: pointer;
+        }
+
+        .quiz-options button:hover {
+            border-color: #8f75ea;
+            background: #f5f0ff;
+        }
+
+        .quiz-options button.correct {
+            border-color: var(--green);
+            background: #eafaf3;
+        }
+
+        .quiz-options button.wrong {
+            border-color: var(--red);
+            background: #fff0ef;
+        }
+
+        .quiz-progress {
+            margin-top: 20px;
+            color: #63778e;
+            font-weight: 700;
+        }
+
+        .quiz-progress>div {
+            height: 10px;
+            background: #e9eef4;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 7px;
+        }
+
+        .quiz-progress i {
+            display: block;
+            height: 100%;
+            width: 33%;
+            background: linear-gradient(90deg, var(--orange), var(--purple));
+            transition: .3s;
+        }
+
+        .recap-path {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1050px;
+        }
+
+        .recap-path>div {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 23px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .recap-path span {
+            font-size: 3.5rem;
+        }
+
+        .recap-path b {
+            display: block;
+            font-size: 1.25rem;
+            margin: 7px;
+        }
+
+        .recap-path p {
+            margin: 0;
+            color: #61758b;
+        }
+
+        .emoji-feedback {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .emoji-feedback button {
+            border: 3px solid #e0e7ef;
+            background: #fff;
+            border-radius: 25px;
+            padding: 18px;
+            font-size: 5rem;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .emoji-feedback button:hover,
+        .emoji-feedback button.selected {
+            transform: scale(1.12);
+            border-color: var(--purple);
+            background: #f5efff;
+        }
+
+        .emoji-feedback small {
+            display: block;
+            font: 600 .9rem 'Fredoka';
+        }
+
+        .feedback-thanks {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c4ddd;
+            margin-top: 25px;
+            min-height: 35px;
+        }
+
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            inset: 0;
+            background-color: rgba(14, 25, 41, .85);
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, .3);
+            animation: zoomIn .3s ease;
+        }
+
+        .image-modal.show {
+            display: flex;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media(max-width:1050px) {
+            .presentation-container {
+                width: 95vw;
+                height: 84vh
+            }
+
+            .slide {
+                padding: 32px 30px 72px
+            }
+
+            .agenda-grid,
+            .split-layout,
+            .code-activity,
+            .vscode-tour,
+            .indent-visual,
+            .choice-grid,
+            .flow-grid {
+                grid-template-columns: 1fr !important
+            }
+
+            .flow-arrow {
+                display: none
+            }
+
+            .menu-options,
+            .recap-path {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .brand-logo img {
+                height: 50px
+            }
+        }
+
+        @media(max-width:700px) {
+            .brand-logo {
+                left: 8px;
+                top: 6px;
+                padding: 7px 12px
+            }
+
+            .brand-logo img {
+                height: 34px
+            }
+
+            .presentation-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: 0
+            }
+
+            .slide {
+                padding: 68px 18px 74px
+            }
+
+            .display-title {
+                font-size: 3.2rem
+            }
+
+            .hero-icon {
+                font-size: 5rem
+            }
+
+            .emoji-feedback {
+                gap: 8px;
+                flex-wrap: wrap
+            }
+
+            .emoji-feedback button {
+                font-size: 3.5rem
+            }
+
+            .nav-title {
+                display: none
+            }
+
+            .menu-options,
+            .recap-path {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="brand-logo"><img
+            src="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+            alt="Ruangguru Coding"></div>
+    <main class="presentation-container" id="presentation">
+        <section class="slide cover-slide" data-title="Conditional Logic">
+            <div class="cover-scene">
+                <div class="orbit orbit-a">🌱</div>
+                <div class="orbit orbit-b">🔀</div>
+                <div class="orbit orbit-c">🧠</div>
+                <div class="hero-badge">SESSION 5 • PYTHON BEGINNER</div>
+                <div class="hero-icon"><img
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/3840px-Python-logo-notext.svg.png"
+                        alt="Python" style="height:1em;width:auto"></div>
+                <p class="eyebrow">IF • ELIF • ELSE</p>
+                <h1 class="display-title">Conditional <span>Logic</span></h1>
+                <p class="hero-subtitle">Menggunakan operator perbandingan dan percabangan agar program bisa memberi
+                    hasil berbeda berdasarkan input pengguna.</p>
+                <div class="hero-pills">
+                    <span>if</span><span>elif</span><span>else</span><span>indentation</span><span>comparison</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Review Sesi Sebelumnya">
+            <div class="slide-head center"><span class="kicker">REVIEW</span>
+                <h2>Apa yang Kita Pelajari Sebelumnya?</h2>
+                <p>Conditional akan memakai ulang skill dari operator dan input.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><b>01</b><span>⌨️</span>
+                    <h3>input()</h3>
+                    <p>Menerima data dari user melalui terminal.</p>
+                </div>
+                <div class="agenda-card orange"><b>02</b><span>🔢</span>
+                    <h3>int() dan float()</h3>
+                    <p>Mengubah input string menjadi angka yang bisa dihitung dan dibandingkan.</p>
+                </div>
+                <div class="agenda-card purple"><b>03</b><span>🔍</span>
+                    <h3>Comparison</h3>
+                    <p>Membandingkan nilai dengan <span class="code-font">&gt;, &lt;, ==, &gt;=</span>.</p>
+                </div>
+                <div class="agenda-card green"><b>04</b><span>🖥️</span>
+                    <h3>Run di Terminal</h3>
+                    <p>Menjalankan file Python dan membaca output program.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Agenda Hari Ini">
+            <div class="slide-head center"><span class="kicker">TODAY'S AGENDA</span>
+                <h2>Rencana Belajar Hari Ini</h2>
+                <p>Kita akan membuat program yang bisa memilih output berdasarkan aturan.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><b>01</b><span>🔀</span>
+                    <h3>If-Else</h3>
+                    <p>Membuat dua kemungkinan hasil dari satu kondisi.</p>
+                </div>
+                <div class="agenda-card orange"><b>02</b><span>📐</span>
+                    <h3>Indentation</h3>
+                    <p>Belajar cara membaca kode yang masuk ke dalam blok if.</p>
+                </div>
+                <div class="agenda-card purple"><b>03</b><span>🌿</span>
+                    <h3>If-Elif-Else</h3>
+                    <p>Membuat banyak aturan bertingkat.</p>
+                </div>
+                <div class="agenda-card green"><b>04</b><span>🌾</span>
+                    <h3>Menu Program</h3>
+                    <p>Membuat pilihan informasi jenis pupuk.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Siapkan Folder PythonDay5">
+            <div class="slide-head compact center"><span class="kicker">SETUP PROJECT</span>
+                <h2>Buka VS Code dan Buat Folder Baru</h2>
+                <p>Di dalam folder <span class="code-font">project-python</span>, buat folder baru untuk latihan hari
+                    ini.</p>
+            </div>
+            <div class="vscode-tour">
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/156d040a-963c-49f2-b1fb-324c7d7614ea.png"
+                        alt="Open Folder">
+                    <h3>1. Buka VS Code</h3>
+                    <p>Pilih folder <span class="code-font">project-python</span>.</p>
+                </div>
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/ec43540f-3628-4785-a5f1-42f1016c843a.png"
+                        alt="Create folder">
+                    <h3>2. Buat PythonDay5</h3>
+                    <p>Buat folder baru bernama <span class="code-font">PythonDay5</span>.</p>
+                </div>
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/90a01dc8-b2f1-42c1-ae76-c361d8c20f8c.png"
+                        alt="Create file">
+                    <h3>3. Siapkan File</h3>
+                    <p>Kita akan membuat <span class="code-font">learn-conditional.py</span>, <span
+                            class="code-font">learn-relational-operator.py</span>, dan <span
+                            class="code-font">fertilizer-info.py</span>.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Analogi Kangkung">
+            <div class="split-layout">
+                <div class="image-card"><img
+                        src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgCjQM_WaF2-SdBp7Exzj94McEOEX-dQWd4ie07kx6aRSl7TesKbcgpF_-sJfovlPeNVMT5FUHYhNberQXXbyQanmVGrfRM_65g0vYhHRKeNgtmDj6wNGpjoxiRLu2ovUupv6XrM3OP0aCjxmryC95ANSdk1o5257xoUtExT-mcGxLCe8KhCQI1T-RjmAE/s640/kangkung.gif"
+                        alt="Kangkung gif">
+                    <h3>Kangkung siap panen?</h3>
+                    <p class="lead">Kita butuh aturan sederhana.</p>
+                </div>
+                <div class="single-focus" style="box-shadow:none">
+                    <div class="giant-emoji">🌱📏</div><span class="kicker">REAL CASE</span>
+                    <h2>Jika tinggi kangkung sudah cukup...</h2>
+                    <p>Bayangkan kebun punya aturan: <b>kangkung bisa dipanen jika tingginya minimal 20 cm</b>. Kalau
+                        belum sampai 20 cm, kita harus menunggu.</p>
+                    <div class="notice">Program perlu bisa menjawab: <span class="code-font">height &gt;= 20</span> itu
+                        benar atau salah?</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Apa Itu Conditional">
+            <div class="slide-head center"><span class="kicker">CONDITIONAL</span>
+                <h2>Program Bisa Memilih Jalan</h2>
+                <p>Conditional adalah cara membuat program menjalankan perintah berbeda berdasarkan kondisi.</p>
+            </div>
+            <div class="flow-grid">
+                <div class="flow-box"><span>📥</span>
+                    <h3>Input</h3>
+                    <p>Tinggi tanaman</p>
+                </div>
+                <div class="flow-arrow">➜</div>
+                <div class="flow-box"><span>🔍</span>
+                    <h3>Condition</h3>
+                    <p class="code-font">height &gt;= 20</p>
+                </div>
+                <div class="flow-arrow">➜</div>
+                <div class="flow-box"><span>📢</span>
+                    <h3>Output</h3>
+                    <p>Siap panen atau belum</p>
+                </div>
+            </div>
+            <div class="notice" style="max-width:900px">Kondisi selalu menghasilkan <span class="code-font">True</span>
+                atau <span class="code-font">False</span>. Dari situlah program memilih perintah mana yang dijalankan.
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Simulator Kangkung">
+            <div class="slide-head compact center"><span class="kicker">INTERACTIVE IF-ELSE</span>
+                <h2>Coba Pengecek Panen Kangkung</h2>
+                <p>Geser tinggi kangkung dan lihat keputusan program.</p>
+            </div>
+            <div class="condition-sim">
+                <div class="condition-row"><label style="font-size:1.3rem;font-weight:700">Tinggi kangkung: <span
+                            id="kangkungVal">18</span> cm<br><input type="range" id="kangkungRange" min="0" max="40"
+                            value="18" oninput="updateKangkung()"></label><button class="run-btn"
+                        onclick="updateKangkung()">Run ▶</button></div>
+                <div class="big-output" id="kangkungOutput">Kangkung belum siap dipanen.\nTunggu sampai tingginya
+                    mencapai sekitar 20 cm.</div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Indentation Intro">
+            <div class="slide-head center"><span class="kicker">VERY IMPORTANT</span>
+                <h2>Python Membaca Indentation</h2>
+                <p>Di Python, spasi masuk ke dalam bukan hiasan. Indentation menentukan baris mana yang termasuk ke
+                    dalam <span class="code-font">if</span>, <span class="code-font">elif</span>, atau <span
+                        class="code-font">else</span>.</p>
+            </div>
+            <div class="split-layout">
+                <div class="image-card"><img src="https://i.sstatic.net/vSIRX.gif" alt="Indent gif">
+                    <h3>Tab / 4 spasi ke dalam</h3>
+                    <p class="lead">Baris yang menjorok ke kanan berarti berada di dalam blok.</p>
+                </div>
+                <div class="mature-card">
+                    <h3>Aturan Dasar</h3>
+                    <pre class="mini-code">if kondisi:
+    print("baris ini masuk ke if")
+    print("ini juga masuk ke if")
+print("ini di luar if")</pre>
+                    <div class="notice">Tanda <span class="code-font">:</span> seperti pintu. Setelah pintu terbuka,
+                        baris di dalamnya harus diberi indentation.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Cara Membaca Indentation">
+            <div class="slide-head compact center"><span class="kicker">READING CODE</span>
+                <h2>Mana yang Masuk ke Dalam If?</h2>
+                <p>Klik setiap baris kode untuk melihat apakah baris itu berada di dalam blok if atau di luar.</p>
+            </div>
+            <div class="indent-visual">
+                <div class="indent-stack">
+                    <div class="indent-line"
+                        onclick="explainIndent(this,'Baris ini adalah kondisi utama. Tanda titik dua membuka blok if.')">
+                        <span class="code-font">if height &gt;= 20:</span>
+                    </div>
+                    <div class="indent-group">
+                        <div class="indent-line"
+                            onclick="explainIndent(this,'Baris ini menjorok ke dalam. Artinya hanya dijalankan jika kondisi True.')">
+                            <span class="code-font"> print("Siap panen")</span>
+                        </div>
+                    </div>
+                    <div class="indent-line"
+                        onclick="explainIndent(this,'Else sejajar dengan if. Artinya ini pasangan dari if, bukan isi if.')">
+                        <span class="code-font">else:</span>
+                    </div>
+                    <div class="indent-group">
+                        <div class="indent-line"
+                            onclick="explainIndent(this,'Baris ini masuk ke dalam else. Jalan kalau kondisi if False.')">
+                            <span class="code-font"> print("Belum siap")</span>
+                        </div>
+                        <div class="indent-line"
+                            onclick="explainIndent(this,'Ini juga masih masuk ke else karena indentation-nya sama.')">
+                            <span class="code-font"> print("Tunggu lagi")</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="single-focus" style="box-shadow:none">
+                    <div class="giant-emoji">👀</div>
+                    <h2 style="font-size:2.2rem">Indent = Area Kerja</h2>
+                    <p id="indentExplain">Klik salah satu baris kode.</p>
+                    <div class="notice">Kalau indentation salah, Python bisa bingung dan menampilkan <span
+                            class="code-font">IndentationError</span>.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Fix Indentation">
+            <div class="slide-head compact center"><span class="kicker">DEBUG ACTIVITY</span>
+                <h2>Pilih Indentation yang Benar</h2>
+                <p>Program mana yang lebih mudah dibaca Python?</p>
+            </div>
+            <div class="choice-grid">
+                <div class="choice-card red">
+                    <h3>Versi A</h3>
+                    <pre class="mini-code">if height >= 20:
+print("Siap panen")
+else:
+print("Belum siap")</pre><button class="secondary-btn"
+                        onclick="setFeedback('indentChoice','Belum tepat. Baris print harus menjorok ke dalam blok if dan else.',false)">Pilih
+                        A</button>
+                </div>
+                <div class="choice-card green">
+                    <h3>Versi B</h3>
+                    <pre class="mini-code">if height >= 20:
+    print("Siap panen")
+else:
+    print("Belum siap")</pre><button class="primary-btn"
+                        onclick="setFeedback('indentChoice','Tepat. Baris aksi masuk ke dalam blok dengan indentation.',true)">Pilih
+                        B</button>
+                </div>
+            </div>
+            <div class="feedback" id="indentChoice" style="margin-top:18px">Pilih versi kode yang benar.</div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Project 1 learn-conditional.py">
+            <div class="slide-head compact center"><span class="kicker">PRACTICE 1</span>
+                <h2>Buat File: <span class="code-font">learn-conditional.py</span></h2>
+                <p>Program pertama kita akan mengecek apakah kangkung siap dipanen.</p>
+            </div>
+            <div class="code-activity">
+                <div class="output-panel">
+                    <h3>Target Output Contoh</h3>
+                    <img src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/e5683936-4dc9-4b89-9323-046653112f3e.png"
+                        alt="Output"
+                        style="width:100%; border-radius:12px; cursor:zoom-in; object-fit: contain; max-height: 250px;">
+                </div>
+                <div class="single-focus" style="box-shadow:none">
+                    <div class="giant-emoji">🌱✅</div>
+                    <h2 style="font-size:2.3rem">Tantangan</h2>
+                    <p>Gunakan <span class="code-font">int(input())</span>, operator <span
+                            class="code-font">&gt;=</span>, dan struktur <span class="code-font">if-else</span>.</p>
+                    <button class="primary-btn" onclick="showSlide(currentSlide+1)">Lihat Kode</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Kode learn-conditional.py">
+            <div class="slide-head compact center"><span class="kicker">CODE STEP</span>
+                <h2>Isi File <span class="code-font">learn-conditional.py</span></h2>
+                <p>Perhatikan tanda <span class="code-font">:</span> dan indentation di bawah <span
+                        class="code-font">if</span> serta <span class="code-font">else</span>.</p>
+            </div>
+            <div class="code-activity">
+                <div class="code-panel">
+                    <h3>Program</h3>
+                    <img src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/ca52a526-fa89-46b5-ad36-1fa52884874d.png"
+                        alt="Program"
+                        style="width:100%; border-radius:12px; cursor:zoom-in; object-fit: contain; max-height: 350px;">
+                </div>
+                <div class="output-panel">
+                    <h3>Fokus Coding</h3>
+                    <div class="agenda-grid" style="grid-template-columns:1fr">
+                        <div class="agenda-card blue"><span>🔍</span>
+                            <h3>height &gt;= 20</h3>
+                            <p>Mengecek apakah tinggi minimal sudah terpenuhi.</p>
+                        </div>
+                        <div class="agenda-card orange"><span>📐</span>
+                            <h3>Indented print</h3>
+                            <p>Print di dalam if/else harus menjorok ke dalam.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Run learn-conditional.py">
+            <div class="slide-head compact center"><span class="kicker">HOW TO RUN</span>
+                <h2>Cara Run <span class="code-font">learn-conditional.py</span></h2>
+                <p>Save dulu filenya, lalu jalankan dari terminal.</p>
+            </div>
+            <div class="vscode-tour" style="grid-template-columns:1fr 1fr">
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/833d13c3-c2f5-4575-80c2-3e09934fb091.png"
+                        alt="Terminal">
+                    <h3>1. Open Integrated Terminal</h3>
+                    <p>Buka terminal dari folder <span class="code-font">PythonDay5</span>.</p>
+                </div>
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/8b2be699-fafc-402c-aab0-f15cddf31583.png"
+                        alt="Run command">
+                    <h3>2. Ketik Command</h3>
+                    <p>Tulis <span class="code-font">python learn-conditional.py</span>, lalu tekan Enter.</p>
+                    <div class="notice">Coba input 15, 20, dan 25 untuk melihat output yang berbeda.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Analogi Bayam">
+            <div class="split-layout">
+                <div class="image-card"><img
+                        src="https://images.bhaskarassets.com/web2images/1884/2026/01/16/untitled-design-26_1768580258.gif"
+                        alt="Spinach gif">
+                    <h3>Bayam punya beberapa tahap</h3>
+                    <p class="lead">Tidak cuma siap atau belum siap.</p>
+                </div>
+                <div class="single-focus" style="box-shadow:none">
+                    <div class="giant-emoji">🌿📈</div><span class="kicker">MORE THAN TWO OPTIONS</span>
+                    <h2>Kadang hasilnya lebih dari 2 kemungkinan</h2>
+                    <p>Bayam bisa berupa <b>bibit kecil</b>, <b>tahap pertumbuhan</b>, atau <b>siap panen</b>. Untuk
+                        banyak kemungkinan, kita memakai <span class="code-font">if</span>, <span
+                            class="code-font">elif</span>, dan <span class="code-font">else</span>.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="If Elif Else">
+            <div class="slide-head center"><span class="kicker">BRANCHING LEVELS</span>
+                <h2>Cara Membaca If-Elif-Else</h2>
+                <p>Python akan mengecek dari atas ke bawah. Saat satu kondisi benar, bagian itu dijalankan.</p>
+            </div>
+            <div class="flow-grid">
+                <div class="flow-box green"><span>✅</span>
+                    <h3>if</h3>
+                    <p class="code-font">height &gt;= 20</p>
+                    <p>Siap panen</p>
+                </div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box yellow"><span>🌿</span>
+                    <h3>elif</h3>
+                    <p class="code-font">height &gt;= 10</p>
+                    <p>Tahap pertumbuhan</p>
+                </div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box orange"><span>🌱</span>
+                    <h3>else</h3>
+                    <p>Tidak perlu kondisi</p>
+                    <p>Bibit kecil</p>
+                </div>
+            </div>
+            <div class="notice" style="max-width:900px">Penting: <span class="code-font">elif</span> berarti “kalau
+                kondisi sebelumnya salah, cek kondisi ini”.</div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Simulator Bayam">
+            <div class="slide-head compact center"><span class="kicker">INTERACTIVE IF-ELIF-ELSE</span>
+                <h2>Coba Pengecek Pertumbuhan Bayam</h2>
+                <p>Geser tinggi bayam dan lihat kategori yang muncul.</p>
+            </div>
+            <div class="condition-sim">
+                <div class="condition-row"><label style="font-size:1.3rem;font-weight:700">Tinggi bayam: <span
+                            id="bayamVal">8</span> cm<br><input type="range" id="bayamRange" min="0" max="35" value="8"
+                            oninput="updateBayam()"></label><button class="run-btn" onclick="updateBayam()">Run
+                        ▶</button></div>
+                <div class="big-output" id="bayamOutput">Bayam masih berupa bibit kecil.\nBayam masih membutuhkan waktu
+                    untuk tumbuh.</div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Project 2 learn-relational-operator.py">
+            <div class="slide-head compact center"><span class="kicker">PRACTICE 2</span>
+                <h2>Buat File: <span class="code-font">learn-relational-operator.py</span></h2>
+                <p>Program ini memakai beberapa operator perbandingan untuk membuat tiga hasil berbeda.</p>
+            </div>
+            <div class="code-activity" style="zoom: 0.85;">
+                <div class="code-panel">
+                    <h3>Program & Output</h3>
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <img src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/160312b2-1ca2-47f5-873e-339aeb6838b2.png"
+                            alt="Program"
+                            style="width:50%; border-radius:12px; cursor:zoom-in; object-fit: contain; max-height: 250px;">
+                        <img src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/d18c92a5-857d-41e1-bac6-60fe217baca3.png"
+                            alt="Output"
+                            style="width:50%; border-radius:12px; cursor:zoom-in; object-fit: contain; max-height: 250px;">
+                    </div>
+                </div>
+                <div class="output-panel">
+                    <h3>Cara Membaca</h3>
+                    <div class="agenda-grid" style="grid-template-columns:1fr; gap: 10px;">
+                        <div class="agenda-card green" style="min-height: 100px; padding: 15px;"><span>1️⃣</span>
+                            <h3 style="font-size: 1.2rem; margin: 4px 0;">Cek &gt;= 20 dulu</h3>
+                            <p>Kalau benar, langsung siap panen.</p>
+                        </div>
+                        <div class="agenda-card yellow" style="min-height: 100px; padding: 15px;"><span>2️⃣</span>
+                            <h3 style="font-size: 1.2rem; margin: 4px 0;">Kalau belum, cek &gt;= 10</h3>
+                            <p>Kalau benar, berarti masih tumbuh.</p>
+                        </div>
+                        <div class="agenda-card orange" style="min-height: 100px; padding: 15px;"><span>3️⃣</span>
+                            <h3 style="font-size: 1.2rem; margin: 4px 0;">Jika semua salah</h3>
+                            <p>Masuk ke else: bibit kecil.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Run learn-relational-operator.py">
+            <div class="slide-head compact center"><span class="kicker">HOW TO RUN</span>
+                <h2>Cara Run <span class="code-font">learn-relational-operator.py</span></h2>
+                <p>Gunakan command sesuai nama file.</p>
+            </div>
+            <div class="vscode-tour" style="grid-template-columns:1fr 1fr">
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/833d13c3-c2f5-4575-80c2-3e09934fb091.png"
+                        alt="Terminal">
+                    <h3>1. Save File</h3>
+                    <p>Pastikan file sudah tersimpan di folder <span class="code-font">PythonDay5</span>.</p>
+                </div>
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/8b2be699-fafc-402c-aab0-f15cddf31583.png"
+                        alt="Run">
+                    <h3>2. Run Command</h3>
+                    <p>Tulis <span class="code-font">python learn-relational-operator.py</span>.</p>
+                    <div class="notice">Coba input 5, 12, dan 22.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Analogi Pupuk">
+            <div class="split-layout" style="zoom: 0.85;">
+                <div class="image-card"><img
+                        src="https://doran.id/wp-content/uploads/2024/11/Jenis-Pupuk-Organik-featured.jpeg"
+                        alt="Jenis pupuk" style="max-height: 250px;">
+                    <h3>Menu informasi pupuk</h3>
+                    <p class="lead">User memilih angka, program menampilkan informasi berbeda.</p>
+                </div>
+                <div class="single-focus" style="box-shadow:none">
+                    <div class="giant-emoji">🌾📋</div><span class="kicker">MENU PROGRAM</span>
+                    <h2>Kalau pilihannya banyak, program butuh aturan menu</h2>
+                    <p>Contoh: jika user mengetik <b>1</b>, tampilkan kompos. Jika mengetik <b>2</b>, tampilkan pupuk
+                        kandang. Jika pilihan tidak ada, tampilkan pesan error yang ramah.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Simulator Pupuk">
+            <div class="slide-head compact center"><span class="kicker">INTERACTIVE MENU</span>
+                <h2>Coba Pilih Jenis Pupuk</h2>
+                <p>Klik angka pilihan seperti input user di terminal.</p>
+            </div>
+            <div class="menu-box">
+                <div class="menu-options"><button onclick="showFertilizer(1)">1. Kompos</button><button
+                        onclick="showFertilizer(2)">2. Kandang</button><button onclick="showFertilizer(3)">3.
+                        NPK</button><button onclick="showFertilizer(4)">4. Urea</button></div>
+                <div class="terminal target-terminal" id="fertilizerSimOutput">Klik salah satu pilihan pupuk.</div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Project 3 fertilizer-info.py">
+            <div class="slide-head compact center"><span class="kicker">PRACTICE 3</span>
+                <h2>Buat File: <span class="code-font">fertilizer-info.py</span></h2>
+                <p>Program ini menggunakan <span class="code-font">if-elif-else</span> untuk menu informasi.</p>
+            </div>
+            <div class="code-activity" style="zoom: 0.85;">
+                <div class="code-panel">
+                    <h3>Program & Output</h3>
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <img src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/ef073716-edc8-41eb-b8f9-c90270b6a47b.png"
+                            alt="Program"
+                            style="width:50%; border-radius:12px; cursor:zoom-in; object-fit: contain; max-height: 350px;">
+                        <img src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/36d1950c-96e4-4c9e-9a0b-7024562e859e.png"
+                            alt="Output"
+                            style="width:50%; border-radius:12px; cursor:zoom-in; object-fit: contain; max-height: 350px;">
+                    </div>
+                </div>
+                <div class="output-panel">
+                    <h3>Fokus Coding</h3>
+                    <div class="agenda-grid" style="grid-template-columns:1fr; gap: 10px;">
+                        <div class="agenda-card purple" style="min-height: 100px; padding: 15px;"><span>==</span>
+                            <h3 style="font-size: 1.2rem; margin: 4px 0;">Equal comparison</h3>
+                            <p><span class="code-font">==</span> dipakai untuk mengecek apakah dua nilai sama.</p>
+                        </div>
+                        <div class="agenda-card red" style="min-height: 100px; padding: 15px;"><span>⚠️</span>
+                            <h3 style="font-size: 1.2rem; margin: 4px 0;">Bukan =</h3>
+                            <p><span class="code-font">=</span> untuk menyimpan nilai ke variabel, bukan untuk
+                                membandingkan.</p>
+                        </div>
+                        <div class="agenda-card green" style="min-height: 100px; padding: 15px;"><span>🛡️</span>
+                            <h3 style="font-size: 1.2rem; margin: 4px 0;">Else</h3>
+                            <p>Menangani pilihan user yang tidak tersedia.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Run fertilizer-info.py">
+            <div class="slide-head compact center"><span class="kicker">HOW TO RUN</span>
+                <h2>Cara Run <span class="code-font">fertilizer-info.py</span></h2>
+                <p>Jalankan file terakhir dan coba beberapa pilihan.</p>
+            </div>
+            <div class="vscode-tour" style="grid-template-columns:1fr 1fr">
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/833d13c3-c2f5-4575-80c2-3e09934fb091.png"
+                        alt="Terminal">
+                    <h3>1. Buka Terminal</h3>
+                    <p>Pastikan terminal berada di folder <span class="code-font">PythonDay5</span>.</p>
+                </div>
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/8b2be699-fafc-402c-aab0-f15cddf31583.png"
+                        alt="Run">
+                    <h3>2. Ketik Command</h3>
+                    <p>Tulis <span class="code-font">python fertilizer-info.py</span>, lalu tekan Enter.</p>
+                    <div class="notice">Coba input 1, 3, 4, dan 9 untuk mengetes else.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Debugging Conditional">
+            <div class="slide-head compact center"><span class="kicker">DEBUGGING</span>
+                <h2>Kesalahan yang Sering Terjadi</h2>
+                <p>Conditional sering error karena tanda kecil yang lupa diketik.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card red"><span>:</span>
+                    <h3>Lupa titik dua</h3>
+                    <p>Setelah <span class="code-font">if</span>, <span class="code-font">elif</span>, dan <span
+                            class="code-font">else</span> wajib ada <span class="code-font">:</span>.</p>
+                </div>
+                <div class="agenda-card orange"><span>📐</span>
+                    <h3>Indentation salah</h3>
+                    <p>Baris aksi harus menjorok ke dalam blok yang sesuai.</p>
+                </div>
+                <div class="agenda-card purple"><span>==</span>
+                    <h3>Salah operator</h3>
+                    <p>Untuk membandingkan nilai gunakan <span class="code-font">==</span>, bukan <span
+                            class="code-font">=</span>.</p>
+                </div>
+                <div class="agenda-card green"><span>🔢</span>
+                    <h3>Lupa int()</h3>
+                    <p>Input angka perlu diubah menjadi integer sebelum dibandingkan.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Predict Output">
+            <div class="slide-head compact center"><span class="kicker">PREDICT</span>
+                <h2>Prediksi Output Program</h2>
+                <p>Pilih hasil yang tepat untuk kasus berikut.</p>
+            </div>
+            <div class="choice-grid">
+                <div class="choice-card blue">
+                    <h3 class="code-font">height = 15</h3>
+                    <pre class="mini-code">if height >= 20:
+    print("Siap")
+elif height >= 10:
+    print("Tumbuh")
+else:
+    print("Bibit")</pre><button class="primary-btn"
+                        onclick="setFeedback('predict1','Tepat. 15 belum >= 20, tetapi sudah >= 10, jadi output-nya Tumbuh.',true)">Tumbuh</button><button
+                        class="secondary-btn"
+                        onclick="setFeedback('predict1','Cek lagi dari atas ke bawah.',false)">Siap</button><button
+                        class="secondary-btn"
+                        onclick="setFeedback('predict1','Cek lagi. 15 sudah lebih dari 10.',false)">Bibit</button>
+                    <div class="feedback" id="predict1"></div>
+                </div>
+                <div class="choice-card orange">
+                    <h3 class="code-font">pilihan = 9</h3>
+                    <pre class="mini-code">if pilihan == 1:
+    print("Kompos")
+elif pilihan == 2:
+    print("Kandang")
+else:
+    print("Tidak tersedia")</pre><button class="secondary-btn"
+                        onclick="setFeedback('predict2','Belum tepat. 9 tidak sama dengan 1.',false)">Kompos</button><button
+                        class="secondary-btn"
+                        onclick="setFeedback('predict2','Belum tepat. 9 tidak sama dengan 2.',false)">Kandang</button><button
+                        class="primary-btn"
+                        onclick="setFeedback('predict2','Tepat. Semua kondisi salah, jadi masuk ke else.',true)">Tidak
+                        tersedia</button>
+                    <div class="feedback" id="predict2"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Project Checklist">
+            <div class="slide-head compact center"><span class="kicker">CHECKLIST</span>
+                <h2>Sebelum Quick Quiz</h2>
+                <p>Pastikan semua file sudah dibuat, disimpan, dan dijalankan.</p>
+            </div>
+            <div class="recap-path">
+                <div><span>📁</span><b>PythonDay5</b>
+                    <p>Folder sudah dibuat di project-python.</p>
+                </div>
+                <div><span>🌱</span><b>learn-conditional.py</b>
+                    <p>Kangkung siap panen / belum.</p>
+                </div>
+                <div><span>🌿</span><b>learn-relational-operator.py</b>
+                    <p>Bayam: bibit, tumbuh, siap panen.</p>
+                </div>
+                <div><span>🌾</span><b>fertilizer-info.py</b>
+                    <p>Menu pilihan jenis pupuk.</p>
+                </div>
+                <div><span>💾</span><b>Save</b>
+                    <p>Semua file sudah tersimpan.</p>
+                </div>
+                <div><span>▶️</span><b>Run</b>
+                    <p>Setiap file sudah dites dengan input berbeda.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Quick Quiz">
+            <div class="slide-head compact center"><span class="kicker">QUICK QUIZ</span>
+                <h2>Cek Pemahamanmu</h2>
+                <p>Pilih jawaban. Jawaban benar akan tetap ditampilkan meskipun pilihanmu salah.</p>
+            </div>
+            <div class="quiz-shell">
+                <div class="quiz-question active" id="quiz1">
+                    <h3>1. Apa fungsi utama <span class="code-font">if</span> dalam Python?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz1','quiz2')">A. Mengulang kode
+                            selamanya</button><button onclick="answerQuiz(this,true,'quiz1','quiz2')">B. Menjalankan
+                            kode jika kondisi terpenuhi</button><button
+                            onclick="answerQuiz(this,false,'quiz1','quiz2')">C. Menyimpan file otomatis</button></div>
+                </div>
+                <div class="quiz-question" id="quiz2">
+                    <h3>2. Mengapa indentation penting di Python?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,true,'quiz2','quiz3')">A. Menentukan
+                            baris mana yang masuk ke dalam blok</button><button
+                            onclick="answerQuiz(this,false,'quiz2','quiz3')">B. Membuat warna terminal
+                            berubah</button><button onclick="answerQuiz(this,false,'quiz2','quiz3')">C. Mengganti nama
+                            variabel</button></div>
+                </div>
+                <div class="quiz-question" id="quiz3">
+                    <h3>3. Operator untuk mengecek apakah pilihan sama dengan 1 adalah...</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz3','quizDone')">A. pilihan =
+                            1</button><button onclick="answerQuiz(this,true,'quiz3','quizDone')">B. pilihan ==
+                            1</button><button onclick="answerQuiz(this,false,'quiz3','quizDone')">C. pilihan &gt;=
+                            1</button></div>
+                </div>
+                <div class="quiz-question" id="quizDone" style="text-align:center">
+                    <div class="giant-emoji">🎯</div>
+                    <h3>Quiz Selesai</h3>
+                    <p>Kamu sudah mengulas conditional, indentation, dan comparison.</p>
+                </div>
+                <div class="quiz-progress"><span id="quizProgressText">Soal 1 dari 3</span>
+                    <div><i id="quizProgressBar"></i></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Review Hari Ini">
+            <div class="slide-head center"><span class="kicker">SESSION REVIEW</span>
+                <h2>Apa Saja yang Sudah Dipelajari?</h2>
+            </div>
+            <div class="recap-path">
+                <div><span>🔀</span><b>Conditional</b>
+                    <p>Program bisa memberi output berbeda berdasarkan kondisi.</p>
+                </div>
+                <div><span>🔍</span><b>Comparison</b>
+                    <p>Kondisi memakai hasil True atau False.</p>
+                </div>
+                <div><span>📐</span><b>Indentation</b>
+                    <p>Spasi masuk ke dalam menentukan isi blok.</p>
+                </div>
+                <div><span>🌱</span><b>If-Else</b>
+                    <p>Cocok untuk dua kemungkinan hasil.</p>
+                </div>
+                <div><span>🌿</span><b>If-Elif-Else</b>
+                    <p>Cocok untuk banyak aturan bertingkat.</p>
+                </div>
+                <div><span>🌾</span><b>Menu Program</b>
+                    <p>Input pilihan menentukan informasi yang ditampilkan.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide feedback-final" data-title="Feedback">
+            <div class="slide-head center"><span class="kicker">YOUR FEEDBACK</span>
+                <h2>How Do You Feel Today?</h2>
+                <p>Pilih satu respons yang paling sesuai dengan pengalaman belajarmu.</p>
+            </div>
+            <div class="emoji-feedback" id="emojiFeedback"><button onclick="sendFeedback(this)">😄<small>Sangat
+                        Paham</small></button><button onclick="sendFeedback(this)">🙂<small>Cukup
+                        Paham</small></button><button onclick="sendFeedback(this)">🤔<small>Perlu
+                        Latihan</small></button><button onclick="sendFeedback(this)">🆘<small>Perlu
+                        Bantuan</small></button></div>
+            <div class="feedback-thanks" id="feedbackThanks"></div>
+        </section>
+
+        <div class="progress-line" id="progressLine"></div>
+        <footer class="navigation">
+            <div class="nav-title" id="navTitle">Session 5 • Conditional Logic</div>
+            <div class="nav-controls"><button aria-label="Sebelumnya" class="nav-btn" id="prevBtn">‹</button>
+                <div class="counter"><span id="currentSlide">1</span> / <span id="totalSlides">30</span></div><button
+                    aria-label="Berikutnya" class="nav-btn next" id="nextBtn">›</button>
+            </div>
+        </footer>
+    </main>
+    <div id="imageModal" class="image-modal" onclick="this.classList.remove('show')"><img id="enlargedImg" src=""
+            alt="Enlarged view"></div>
+
+    <script>
+        let currentSlide = 0; const slides = [...document.querySelectorAll('.slide')];
+        function showSlide(index) { if (index < 0 || index >= slides.length) return; slides.forEach((s, i) => s.classList.toggle('active', i === index)); currentSlide = index; document.getElementById('currentSlide').textContent = index + 1; document.getElementById('totalSlides').textContent = slides.length; document.getElementById('prevBtn').disabled = index === 0; document.getElementById('nextBtn').disabled = index === slides.length - 1; document.getElementById('progressLine').style.width = ((index + 1) / slides.length * 100) + '%'; document.getElementById('navTitle').textContent = 'Session 5 • ' + slides[index].dataset.title; slides[index].scrollTop = 0; }
+        document.getElementById('prevBtn').onclick = () => showSlide(currentSlide - 1); document.getElementById('nextBtn').onclick = () => showSlide(currentSlide + 1); document.addEventListener('keydown', e => { if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return; if (e.key === 'ArrowRight') showSlide(currentSlide + 1); if (e.key === 'ArrowLeft') showSlide(currentSlide - 1); }); showSlide(0);
+        function setFeedback(id, msg, ok = true) { const el = document.getElementById(id); if (!el) return; el.textContent = msg; el.className = (el.classList.contains('code-feedback') ? 'code-feedback ' : 'feedback ') + (ok ? 'success' : 'error'); }
+        function updateKangkung() { const h = Number(document.getElementById('kangkungRange').value); document.getElementById('kangkungVal').textContent = h; document.getElementById('kangkungOutput').textContent = h >= 20 ? 'Kangkung sudah siap dipanen!' : 'Kangkung belum siap dipanen.\nTunggu sampai tingginya mencapai sekitar 20 cm.'; }
+        function updateBayam() { const h = Number(document.getElementById('bayamRange').value); document.getElementById('bayamVal').textContent = h; let out = ''; if (h >= 20) out = 'Bayam sudah siap dipanen.'; else if (h >= 10) out = 'Bayam masih dalam tahap pertumbuhan.\nTunggu hingga tingginya mencapai 20 cm.'; else out = 'Bayam masih berupa bibit kecil.\nBayam masih membutuhkan waktu untuk tumbuh.'; document.getElementById('bayamOutput').textContent = out; }
+        function explainIndent(el, msg) { document.querySelectorAll('.indent-line').forEach(x => x.classList.remove('active')); el.classList.add('active'); document.getElementById('indentExplain').textContent = msg; }
+        function showFertilizer(n) { const data = { 1: 'PUPUK KOMPOS\nPupuk kompos dibuat dari bahan organik yang telah membusuk.\nContoh: daun kering, sisa sayuran, dan rumput.\nManfaat: memperbaiki kondisi tanah dan menambah bahan organik.', 2: 'PUPUK KANDANG\nPupuk kandang dibuat dari kotoran hewan yang telah diolah.\nContoh: kotoran sapi, kambing, atau ayam.\nManfaat: menambah unsur hara dan membuat tanah lebih subur.', 3: 'PUPUK NPK\nPupuk NPK mengandung nitrogen, fosfor, dan kalium.\nNitrogen membantu pertumbuhan daun.\nFosfor membantu pertumbuhan akar dan bunga.\nKalium membantu memperkuat tanaman.', 4: 'PUPUK UREA\nPupuk urea mengandung nitrogen dalam jumlah tinggi.\nManfaat: membantu pertumbuhan batang dan membuat daun lebih hijau.\nPupuk urea harus digunakan sesuai takaran agar tanaman tidak rusak.' }; document.getElementById('fertilizerSimOutput').textContent = 'Pilih jenis pupuk (1-4): ' + n + '\n\n' + data[n]; }
+        function answerQuiz(btn, correct, current, next) { const parent = btn.closest('.quiz-question'); parent.querySelectorAll('button').forEach(b => { b.disabled = true; if (b.onclick.toString().includes('true')) b.classList.add('correct'); }); btn.classList.add(correct ? 'correct' : 'wrong'); setTimeout(() => { parent.classList.remove('active'); document.getElementById(next).classList.add('active'); let n = next === 'quiz2' ? 2 : next === 'quiz3' ? 3 : 3; document.getElementById('quizProgressText').textContent = next === 'quizDone' ? 'Quiz selesai' : 'Soal ' + n + ' dari 3'; document.getElementById('quizProgressBar').style.width = next === 'quizDone' ? '100%' : (n / 3 * 100) + '%'; }, 850); }
+        function sendFeedback(btn) { document.querySelectorAll('#emojiFeedback button').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); document.getElementById('feedbackThanks').textContent = 'Terima kasih. Feedbackmu membantu menentukan latihan berikutnya.'; }
+        document.querySelectorAll('.tour-card img, .image-card img, .code-panel img, .output-panel img').forEach(img => { img.addEventListener('click', () => { document.getElementById('enlargedImg').src = img.src; document.getElementById('imageModal').classList.add('show'); }); });
+        updateKangkung(); updateBayam();
+    </script>
+</body>
+
+</html>
