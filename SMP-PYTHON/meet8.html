@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Session 8 - Smart Tomato Harvest | Ruangguru Coding</title>
+    <link rel="icon"
+        href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        type="image/png" />
+    <link rel="shortcut icon"
+        href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --blue: #2f80ed;
+            --cyan: #16bde8;
+            --purple: #845ef7;
+            --orange: #ff8a34;
+            --yellow: #ffd53d;
+            --green: #28b875;
+            --red: #ef5350;
+            --ink: #20324a;
+            --muted: #66788d;
+            --shadow: 0 22px 55px rgba(22, 44, 76, .18);
+            --py-blue: #3776ab;
+            --py-yellow: #ffd343;
+            --teal: #0ba7a5;
+            --navy: #2f4661;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 12% 12%, rgba(47, 128, 237, .10), transparent 24%),
+                radial-gradient(circle at 92% 18%, rgba(255, 213, 61, .16), transparent 22%),
+                radial-gradient(circle at 15% 92%, rgba(40, 184, 117, .12), transparent 24%),
+                #f8fffe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(22, 189, 232, .08) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(22, 189, 232, .08) 2px, transparent 2px);
+            background-size: 96px 96px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .brand-logo {
+            position: fixed;
+            left: 22px;
+            top: 16px;
+            z-index: 2000;
+            background: #fff;
+            border: 2.5px solid rgba(0, 188, 212, .22);
+            border-radius: 22px;
+            padding: 10px 20px;
+            box-shadow: 0 8px 32px rgba(0, 188, 212, .18);
+            display: flex;
+            align-items: center;
+        }
+
+        .brand-logo img {
+            height: 80px;
+            max-width: 220px;
+            object-fit: contain;
+        }
+
+        .presentation-container {
+            width: 88vw;
+            height: 82vh;
+            max-width: 1500px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(30, 56, 93, .25);
+            overflow: hidden;
+            position: relative;
+            border: 4px solid rgba(255, 255, 255, .85);
+        }
+
+        .presentation-container:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 26px;
+            box-shadow: inset 0 0 0 1px rgba(91, 124, 164, .10);
+            z-index: 30;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 42px 58px 74px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(42px) scale(.985);
+            transition: .46s ease;
+            background: linear-gradient(145deg, #ffffff, #f7fcfd);
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            z-index: 10;
+        }
+
+        .navigation {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, .96);
+            border-top: 1px solid #e7edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b7d92;
+            max-width: 42%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #d9e3ef;
+            background: #fff;
+            color: #4c6077;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            color: #fff;
+            border: 0;
+            box-shadow: 0 7px 16px rgba(255, 138, 52, .3);
+        }
+
+        .nav-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed;
+        }
+
+        .counter {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #53677f;
+            min-width: 74px;
+            text-align: center;
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 0;
+            bottom: 62px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--orange), var(--purple), var(--cyan));
+            width: 0;
+            transition: .35s;
+            z-index: 110;
+        }
+
+        .slide-head {
+            width: 100%;
+            max-width: 1180px;
+            margin-bottom: 22px;
+        }
+
+        .slide-head.center {
+            text-align: center;
+        }
+
+        .slide-head.compact {
+            margin-bottom: 14px;
+        }
+
+        .slide-head h2,
+        .single-focus h2 {
+            font-size: clamp(2.2rem, 4vw, 4rem);
+            line-height: 1.06;
+            margin: 6px 0 12px;
+            color: #24344d;
+        }
+
+        .slide-head p,
+        .single-focus p,
+        .lead {
+            font-size: clamp(1.1rem, 1.55vw, 1.45rem);
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .kicker {
+            display: inline-block;
+            font-size: .92rem;
+            letter-spacing: .16em;
+            font-weight: 700;
+            color: var(--purple);
+            background: #f0eaff;
+            border-radius: 999px;
+            padding: 7px 13px;
+        }
+
+        .cover-slide {
+            background: linear-gradient(135deg, #f4fbff, #eefcf8 48%, #fff8df) !important;
+            color: var(--ink) !important;
+        }
+
+        .cover-scene {
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #fff;
+            border: 2px solid #dbe9f2;
+            color: #40566d;
+            box-shadow: 0 8px 20px rgba(44, 80, 115, .08);
+            padding: 9px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .hero-icon {
+            font-size: 7rem;
+            filter: drop-shadow(0 12px 16px rgba(55, 118, 171, .18));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .eyebrow {
+            letter-spacing: .22em;
+            font-weight: 700;
+            color: var(--py-blue);
+            margin: 0 0 10px;
+        }
+
+        .display-title {
+            font-size: clamp(3.4rem, 7vw, 6.2rem);
+            line-height: .95;
+            margin: 8px 0 18px;
+            color: #233a55;
+        }
+
+        .display-title span {
+            color: var(--py-blue);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            max-width: 960px;
+            margin: 0 auto;
+            color: #52677c;
+        }
+
+        .hero-pills {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 26px;
+        }
+
+        .hero-pills span {
+            background: #fff;
+            border: 2px solid #dbe9f2;
+            color: #40566d;
+            box-shadow: 0 8px 20px rgba(44, 80, 115, .08);
+            padding: 10px 16px;
+            border-radius: 15px;
+            font-weight: 600;
+        }
+
+        .orbit {
+            position: absolute;
+            font-size: 2.6rem;
+            animation: float 3.5s ease-in-out infinite;
+        }
+
+        .orbit-a {
+            left: 8%;
+            top: 12%;
+        }
+
+        .orbit-b {
+            right: 8%;
+            top: 18%;
+            animation-delay: .7s;
+        }
+
+        .orbit-c {
+            right: 15%;
+            bottom: 10%;
+            animation-delay: 1.2s;
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-12px) rotate(3deg);
+            }
+        }
+
+        .soft-blue {
+            background: linear-gradient(145deg, #edf7ff, #f7fbff) !important;
+        }
+
+        .soft-green {
+            background: linear-gradient(145deg, #effcf5, #fbfffd) !important;
+        }
+
+        .soft-orange {
+            background: linear-gradient(145deg, #fff6ea, #fffdf8) !important;
+        }
+
+        .soft-purple {
+            background: linear-gradient(145deg, #f6f0ff, #fbf9ff) !important;
+        }
+
+        .feedback-final {
+            background: linear-gradient(145deg, #fff0f6, #eef4ff) !important;
+        }
+
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1040px;
+        }
+
+        .agenda-card {
+            position: relative;
+            padding: 24px;
+            border-radius: 26px;
+            border: 2px solid;
+            min-height: 150px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .agenda-card>b {
+            position: absolute;
+            right: 18px;
+            top: 10px;
+            font-size: 3rem;
+            opacity: .12;
+        }
+
+        .agenda-card>span {
+            font-size: 3.1rem;
+        }
+
+        .agenda-card h3 {
+            font-size: 1.48rem;
+            margin: 8px 0 3px;
+        }
+
+        .agenda-card p {
+            margin: 0;
+            color: #52667c;
+        }
+
+        .blue {
+            background: #eef7ff !important;
+            border-color: #b9dcff !important;
+        }
+
+        .orange {
+            background: #fff4e8 !important;
+            border-color: #ffd3a7 !important;
+        }
+
+        .purple {
+            background: #f5efff !important;
+            border-color: #d9c6ff !important;
+        }
+
+        .green {
+            background: #ebfbf4 !important;
+            border-color: #b7ebd2 !important;
+        }
+
+        .yellow {
+            background: #fff8db !important;
+            border-color: #f5d86d !important;
+        }
+
+        .red {
+            background: #fff0ef !important;
+            border-color: #f5aaa7 !important;
+        }
+
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 34px;
+            width: 100%;
+            max-width: 1120px;
+            align-items: center;
+        }
+
+        .choice-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+            width: 100%;
+            max-width: 1060px;
+        }
+
+        .single-focus,
+        .image-card,
+        .choice-card,
+        .logic-panel,
+        .test-panel {
+            background: #fff;
+            border: 3px solid #dce8f0;
+            border-radius: 24px;
+            padding: 22px;
+            box-shadow: 0 12px 28px rgba(38, 73, 103, .09);
+        }
+
+        .single-focus {
+            max-width: 860px;
+            text-align: center;
+            padding: 40px;
+            border-radius: 34px;
+        }
+
+        .choice-card h3,
+        .logic-panel h3,
+        .test-panel h3 {
+            margin: 0 0 12px;
+            font-size: 1.45rem;
+            color: var(--navy);
+        }
+
+        .giant-emoji {
+            font-size: 6rem;
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+
+        .code-font,
+        code,
+        pre,
+        .mini-code,
+        .terminal {
+            font-family: 'Courier New', Courier, monospace !important;
+        }
+
+        .code-font {
+            font-size: .9em;
+        }
+
+        .mini-code {
+            background: #17212b;
+            color: #ecf4ff;
+            padding: 18px;
+            border-radius: 18px;
+            overflow: auto;
+            font-size: .96rem;
+            line-height: 1.45;
+            white-space: pre-wrap;
+        }
+
+        .notice {
+            background: #fff9e8;
+            border: 1.5px solid #ffe29f;
+            color: #855400;
+            border-radius: 18px;
+            padding: 14px 18px;
+            margin: 16px auto 0;
+            font-weight: 600;
+            line-height: 1.45;
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            border: none;
+            border-radius: 999px;
+            padding: 12px 18px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 6px;
+            transition: .2s;
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(55, 118, 171, .18);
+        }
+
+        .primary-btn:hover,
+        .secondary-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .secondary-btn {
+            background: #eef5ff;
+            color: var(--navy);
+            border: 2px solid #d8e6f5;
+        }
+
+        .feedback {
+            margin-top: 14px;
+            min-height: 52px;
+            border-radius: 16px;
+            padding: 12px 14px;
+            background: #f4f7fb;
+            color: var(--ink);
+            white-space: pre-line;
+            font-weight: 700;
+        }
+
+        .feedback.success {
+            background: #ecfff4;
+            color: #18794e;
+            border: 1px solid #bde5cb;
+        }
+
+        .feedback.error {
+            background: #fff1f1;
+            color: #c63d3d;
+            border: 1px solid #f0c0c0;
+        }
+
+        .vscode-tour {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            width: 100%;
+            max-width: 1120px;
+        }
+
+        .tour-card {
+            background: #fff;
+            border: 2px solid #dce7ef;
+            border-radius: 22px;
+            padding: 14px;
+            box-shadow: 0 12px 28px rgba(38, 73, 103, .06);
+        }
+
+        .tour-card img,
+        .image-card img {
+            width: 100%;
+            max-height: 310px;
+            object-fit: contain;
+            border-radius: 14px;
+            background: #f6f9fb;
+            cursor: zoom-in;
+        }
+
+        .tour-card img {
+            height: 170px;
+        }
+
+        .tour-card h3 {
+            font-size: 1.15rem;
+            margin: 9px 0 4px;
+        }
+
+        .tour-card p {
+            margin: 0;
+            color: #64768a;
+        }
+
+        .image-card {
+            text-align: center;
+        }
+
+        .image-card h3 {
+            margin: 10px 0 4px;
+        }
+
+        .flow-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: 14px;
+            align-items: stretch;
+            width: 100%;
+            max-width: 1050px;
+        }
+
+        .flow-box {
+            background: #fff;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            border: 1px solid #e4edf7;
+        }
+
+        .flow-box span {
+            font-size: 2.8rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .flow-box h3 {
+            margin: 0 0 8px;
+            color: var(--navy);
+        }
+
+        .flow-box p {
+            margin: 0;
+            color: #60758b;
+        }
+
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--cyan);
+            font-weight: 700;
+        }
+
+        .concept-board {
+            width: 100%;
+            max-width: 1100px;
+            display: grid;
+            grid-template-columns: 1.15fr .85fr;
+            gap: 22px;
+            align-items: stretch;
+        }
+
+        .concept-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .concept-buttons button {
+            border: 3px solid #dfe8ef;
+            border-radius: 18px;
+            padding: 14px 12px;
+            background: #fff;
+            font: 700 1rem 'Fredoka';
+            color: var(--ink);
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .concept-buttons button:hover {
+            transform: translateY(-2px);
+            border-color: var(--cyan);
+            background: #eefbff;
+        }
+
+        .tomato-sim {
+            width: 100%;
+            max-width: 980px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            align-items: stretch;
+        }
+
+        .tomato-field {
+            background: linear-gradient(145deg, #fff1ef, #effcf5);
+            border: 4px solid #ffd0cc;
+            border-radius: 30px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .tomato-emoji {
+            font-size: 7rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        select,
+        input {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            border: 2px solid #d8e6f5;
+            border-radius: 14px;
+            padding: 12px 14px;
+            background: #fff;
+            color: var(--ink);
+        }
+
+        .logic-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .logic-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: #fff;
+            border: 2px solid #dfe8ef;
+            border-radius: 16px;
+            text-align: left;
+        }
+
+        .logic-item span {
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .iteration-box {
+            background: #17212b;
+            color: #ecf4ff;
+            border-radius: 20px;
+            padding: 18px;
+            min-height: 170px;
+            white-space: pre-wrap;
+            line-height: 1.45;
+        }
+
+        .recap-path {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1050px;
+        }
+
+        .recap-path>div {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 23px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .recap-path span {
+            font-size: 3.5rem;
+        }
+
+        .recap-path b {
+            display: block;
+            font-size: 1.25rem;
+            margin: 7px;
+        }
+
+        .recap-path p {
+            margin: 0;
+            color: #61758b;
+        }
+
+        .quiz-shell {
+            width: 100%;
+            max-width: 950px;
+            background: #fff;
+            border: 3px solid #e1e8f2;
+            border-radius: 30px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+        }
+
+        .quiz-question {
+            display: none;
+        }
+
+        .quiz-question.active {
+            display: block;
+        }
+
+        .quiz-question h3 {
+            font-size: 2rem;
+            margin: 0 0 18px;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .quiz-options button {
+            border: 3px solid #dfe7f0;
+            background: #f9fbfd;
+            border-radius: 16px;
+            padding: 15px 18px;
+            text-align: left;
+            font: 600 1.1rem 'Fredoka';
+            cursor: pointer;
+        }
+
+        .quiz-options button:hover {
+            border-color: #8f75ea;
+            background: #f5f0ff;
+        }
+
+        .quiz-options button.correct {
+            border-color: var(--green);
+            background: #eafaf3;
+        }
+
+        .quiz-options button.wrong {
+            border-color: var(--red);
+            background: #fff0ef;
+        }
+
+        .quiz-progress {
+            margin-top: 20px;
+            color: #63778e;
+            font-weight: 700;
+        }
+
+        .quiz-progress>div {
+            height: 10px;
+            background: #e9eef4;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 7px;
+        }
+
+        .quiz-progress i {
+            display: block;
+            height: 100%;
+            width: 33%;
+            background: linear-gradient(90deg, var(--orange), var(--purple));
+            transition: .3s;
+        }
+
+        .emoji-feedback {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .emoji-feedback button {
+            border: 3px solid #e0e7ef;
+            background: #fff;
+            border-radius: 25px;
+            padding: 18px;
+            font-size: 5rem;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .emoji-feedback button:hover,
+        .emoji-feedback button.selected {
+            transform: scale(1.12);
+            border-color: var(--purple);
+            background: #f5efff;
+        }
+
+        .emoji-feedback small {
+            display: block;
+            font: 600 .9rem 'Fredoka';
+        }
+
+        .feedback-thanks {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c4ddd;
+            margin-top: 25px;
+            min-height: 35px;
+        }
+
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            inset: 0;
+            background-color: rgba(14, 25, 41, .85);
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, .3);
+            animation: zoomIn .3s ease;
+        }
+
+        .image-modal.show {
+            display: flex;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media(max-width:1050px) {
+            .presentation-container {
+                width: 95vw;
+                height: 84vh;
+            }
+
+            .slide {
+                padding: 32px 30px 72px;
+            }
+
+            .agenda-grid,
+            .split-layout,
+            .vscode-tour,
+            .flow-grid,
+            .choice-grid,
+            .concept-board,
+            .tomato-sim,
+            .recap-path {
+                grid-template-columns: 1fr !important;
+            }
+
+            .flow-arrow {
+                display: none;
+            }
+
+            .brand-logo img {
+                height: 50px;
+            }
+        }
+
+        @media(max-width:700px) {
+            .brand-logo {
+                left: 8px;
+                top: 6px;
+                padding: 7px 12px;
+            }
+
+            .brand-logo img {
+                height: 34px;
+            }
+
+            .presentation-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: 0;
+            }
+
+            .slide {
+                padding: 68px 18px 74px;
+            }
+
+            .display-title {
+                font-size: 3.2rem;
+            }
+
+            .hero-icon {
+                font-size: 5rem;
+            }
+
+            .emoji-feedback {
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+
+            .emoji-feedback button {
+                font-size: 3.5rem;
+            }
+
+            .nav-title {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="brand-logo"><img
+            src="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+            alt="Ruangguru Coding"></div>
+    <main class="presentation-container" id="presentation">
+        <section class="slide cover-slide" data-title="Smart Tomato Harvest">
+            <div class="cover-scene">
+                <div class="orbit orbit-a">🍅</div>
+                <div class="orbit orbit-b">📋</div>
+                <div class="orbit orbit-c">🧪</div>
+                <div class="hero-badge">SESSION 8 • PYTHON BEGINNER</div>
+                <div class="hero-icon"><img
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/3840px-Python-logo-notext.svg.png"
+                        alt="Python" style="height:1em;width:auto"></div>
+                <p class="eyebrow">CLI PROJECT • TERMINAL APP</p>
+                <h1 class="display-title">Smart Tomato <span>Harvest</span></h1>
+                <p class="hero-subtitle">Menggabungkan input, variabel, operator, conditional, loop, function, list, dan
+                    testing ke dalam satu project Python berbasis terminal.</p>
+                <div class="hero-pills"><span>input()</span><span>if-elif-else</span><span>while
+                        True</span><span>function</span><span>list history</span></div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Review Sesi Sebelumnya">
+            <div class="slide-head center"><span class="kicker">REVIEW</span>
+                <h2>Apa yang Sudah Kita Pelajari?</h2>
+                <p>Hari ini semua konsep itu akan digabung menjadi satu program terminal.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><b>01</b><span>⌨️</span>
+                    <h3>Input & Variable</h3>
+                    <p>Menerima data user dan menyimpannya ke nama tertentu.</p>
+                </div>
+                <div class="agenda-card orange"><b>02</b><span>🔢</span>
+                    <h3>Operator</h3>
+                    <p>Mengolah data dengan perhitungan atau perbandingan.</p>
+                </div>
+                <div class="agenda-card purple"><b>03</b><span>🔀</span>
+                    <h3>Conditional</h3>
+                    <p>Menentukan output berdasarkan kondisi yang berbeda.</p>
+                </div>
+                <div class="agenda-card green"><b>04</b><span>🔁</span>
+                    <h3>Loop + Function + List</h3>
+                    <p>Mengulang menu, merapikan kode, dan menyimpan banyak data.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Agenda Hari Ini">
+            <div class="slide-head center"><span class="kicker">TODAY'S AGENDA</span>
+                <h2>Rencana Belajar Hari Ini</h2>
+                <p>Kita tidak membuat banyak file. Kita fokus menyelesaikan satu project besar: <span
+                        class="code-font">tomato-harvest.py</span>.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card red"><b>01</b><span>🍅</span>
+                    <h3>Project Story</h3>
+                    <p>Membuat pengecek kesiapan panen tomat.</p>
+                </div>
+                <div class="agenda-card blue"><b>02</b><span>🧠</span>
+                    <h3>Review Concept</h3>
+                    <p>Mengulang cara input, conditional, loop, function, dan list bekerja.</p>
+                </div>
+                <div class="agenda-card orange"><b>03</b><span>🧩</span>
+                    <h3>Build Step by Step</h3>
+                    <p>Menyusun program dari bagian kecil sampai jadi aplikasi terminal.</p>
+                </div>
+                <div class="agenda-card green"><b>04</b><span>🧪</span>
+                    <h3>Test & Debug</h3>
+                    <p>Mencoba beberapa input dan memperbaiki error jika muncul.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Siapkan Folder PythonDay8">
+            <div class="slide-head compact center"><span class="kicker">SETUP PROJECT</span>
+                <h2>Buka VS Code dan Buat Folder Baru</h2>
+                <p>Di dalam folder <span class="code-font">project-python</span>, buat folder baru untuk sesi hari ini.
+                </p>
+            </div>
+            <div class="vscode-tour">
+                <div class="tour-card">
+                    <div class="giant-emoji">🖥️</div>
+                    <h3>1. Buka VS Code</h3>
+                    <p>Buka folder utama <span class="code-font">project-python</span>.</p>
+                </div>
+                <div class="tour-card">
+                    <div class="giant-emoji">📁</div>
+                    <h3>2. Buat Folder</h3>
+                    <p>Beri nama folder: <span class="code-font">PythonDay8</span>.</p>
+                </div>
+                <div class="tour-card">
+                    <div class="giant-emoji">📄</div>
+                    <h3>3. Buat File</h3>
+                    <p>Buat file baru: <span class="code-font">tomato-harvest.py</span>.</p>
+                </div>
+            </div>
+            <div class="notice" style="max-width:900px">Kita akan mengetik bertahap dari gambar di slide. Jangan
+                langsung copy-paste semua program.</div>
+        </section>
+
+        <section class="slide soft-green" data-title="Interactive Review Konsep">
+            <div class="slide-head compact center"><span class="kicker">INTERACTIVE REVIEW</span>
+                <h2>Konsep Mana yang Dipakai?</h2>
+                <p>Klik nama konsep untuk melihat perannya dalam project hari ini.</p>
+            </div>
+            <div class="concept-board">
+                <div class="choice-card blue">
+                    <h3>Toolbox Python Kita</h3>
+                    <div class="concept-buttons">
+                        <button onclick="showConcept('input')">⌨️ input()</button>
+                        <button onclick="showConcept('variable')">🏷️ Variable</button>
+                        <button onclick="showConcept('operator')">🔎 Operator</button>
+                        <button onclick="showConcept('conditional')">🔀 Conditional</button>
+                        <button onclick="showConcept('loop')">🔁 Loop</button>
+                        <button onclick="showConcept('function')">📦 Function</button>
+                        <button onclick="showConcept('list')">🗂️ List</button>
+                        <button onclick="showConcept('dictionary')">📖 Dictionary</button>
+                    </div>
+                </div>
+                <div class="choice-card orange">
+                    <h3 id="conceptTitle">Klik salah satu konsep</h3>
+                    <div class="giant-emoji" id="conceptEmoji">🧰</div>
+                    <div class="feedback success" id="conceptFeedback">Semua konsep ini adalah bahan untuk membangun
+                        aplikasi terminal yang lebih lengkap.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Story Project">
+            <div class="split-layout">
+                <div class="single-focus" style="box-shadow:none;text-align:left">
+                    <span class="kicker">PROJECT STORY</span>
+                    <h2 style="font-size:2.6rem">Kapan Tomat Siap Dipanen?</h2>
+                    <p>Petani melihat <b>warna</b> dan <b>tekstur</b> tomat untuk menentukan apakah tomat masih muda,
+                        siap dikirim, siap dijual dekat, atau terlalu matang.</p>
+                    <div class="notice">Kita akan membuat program yang menerima warna dan tekstur tomat, lalu memberikan
+                        hasil pemeriksaan otomatis.</div>
+                </div>
+                <div class="tomato-field">
+                    <div class="tomato-emoji">🍅</div>
+                    <h3 style="font-size:2rem;margin:8px 0;color:var(--navy)">Smart Tomato Harvest</h3>
+                    <p class="lead">Aplikasi terminal sederhana untuk membantu mengecek kondisi panen tomat.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Alur Project">
+            <div class="slide-head center"><span class="kicker">BIG PICTURE</span>
+                <h2>Alur Program yang Akan Kita Buat</h2>
+                <p>Program berjalan melalui menu utama dan memanggil function sesuai pilihan user.</p>
+            </div>
+            <div class="flow-grid">
+                <div class="flow-box"><span>📋</span>
+                    <h3>Menu</h3>
+                    <p>User memilih fitur 1-4.</p>
+                </div>
+                <div class="flow-arrow">➜</div>
+                <div class="flow-box"><span>📞</span>
+                    <h3>Function</h3>
+                    <p>Program memanggil fitur yang dipilih.</p>
+                </div>
+                <div class="flow-arrow">➜</div>
+                <div class="flow-box"><span>🗂️</span>
+                    <h3>History</h3>
+                    <p>Hasil cek disimpan ke list.</p>
+                </div>
+            </div>
+            <div class="notice" style="max-width:900px">Menu akan terus muncul memakai <span class="code-font">while
+                    True</span> sampai user memilih keluar.</div>
+        </section>
+
+        <section class="slide soft-green" data-title="Simulasi Cek Panen">
+            <div class="slide-head compact center"><span class="kicker">INTERACTIVE ACTIVITY</span>
+                <h2>Coba Logika Cek Panen</h2>
+                <p>Pilih warna dan tekstur. Lihat bagaimana conditional menentukan hasilnya.</p>
+            </div>
+            <div class="tomato-sim">
+                <div class="tomato-field">
+                    <div class="tomato-emoji" id="tomatoEmoji">🍅</div>
+                    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:12px 0">
+                        <select id="tomatoColor" onchange="updateTomatoEmoji()">
+                            <option value="hijau">hijau</option>
+                            <option value="kuning kemerahan">kuning kemerahan</option>
+                            <option value="merah">merah</option>
+                            <option value="ungu">ungu</option>
+                        </select>
+                        <select id="tomatoTexture">
+                            <option value="keras">keras</option>
+                            <option value="lunak">lunak</option>
+                        </select>
+                    </div>
+                    <button class="primary-btn" onclick="checkTomatoSim()">Cek Kondisi</button>
+                    <div class="feedback success" id="tomatoResult">Pilih kondisi tomat lalu klik cek.</div>
+                </div>
+                <div class="choice-card blue">
+                    <h3>Aturan Program</h3>
+                    <div class="logic-list">
+                        <div class="logic-item"><span>🟢</span>
+                            <div><b>hijau</b>
+                                <p style="margin:0;color:#61758b">Belum siap dipanen.</p>
+                            </div>
+                        </div>
+                        <div class="logic-item"><span>🟡</span>
+                            <div><b>kuning kemerahan + keras</b>
+                                <p style="margin:0;color:#61758b">Siap dikirim.</p>
+                            </div>
+                        </div>
+                        <div class="logic-item"><span>🔴</span>
+                            <div><b>merah + keras / lunak</b>
+                                <p style="margin:0;color:#61758b">Siap pasar dekat atau terlalu matang.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notice">Di Python, aturan ini akan ditulis menggunakan <span
+                            class="code-font">if</span>, <span class="code-font">elif</span>, <span
+                            class="code-font">else</span>, dan operator <span class="code-font">and</span>.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Part 1 Data Awal">
+            <div class="slide-head compact center"><span class="kicker">BUILD PART 1</span>
+                <h2>Tampilan Awal dan Data List</h2>
+                <p>Kita mulai dari judul program dan dua list kosong/berisi data.</p>
+            </div>
+            <div class="split-layout" style="gap:24px;max-width:1080px">
+                <div class="image-card" style="padding:16px">
+                    <img class="zoomable" style="max-height:260px"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/6ce546e8-8b50-4897-88c9-27d8da2a7eaf.png"
+                        alt="part 1 code">
+                    <h3>Part 1: Header + List</h3>
+                    <p>Ini adalah data dasar yang dipakai program.</p>
+                </div>
+                <div class="choice-card green">
+                    <h3>Yang Dibuat</h3>
+                    <div class="logic-list">
+                        <div class="logic-item"><span>🍅</span>
+                            <div><b>tomato_colors</b>
+                                <p style="margin:0;color:#61758b">List pilihan warna yang valid.</p>
+                            </div>
+                        </div>
+                        <div class="logic-item"><span>🗂️</span>
+                            <div><b>check_history</b>
+                                <p style="margin:0;color:#61758b">List kosong untuk menyimpan hasil pemeriksaan.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notice">List kosong ditulis dengan <span class="code-font">[]</span>. Nanti hasil akan
+                        ditambahkan memakai <span class="code-font">append()</span>.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Part 2 tampilkan_warna">
+            <div class="slide-head compact center"><span class="kicker">BUILD PART 2</span>
+                <h2>Function <span class="code-font">tampilkan_warna()</span></h2>
+                <p>Function ini menampilkan semua warna tomat yang tersedia.</p>
+            </div>
+            <div class="split-layout" style="gap:24px;max-width:1080px">
+                <div class="image-card" style="padding:16px">
+                    <img class="zoomable" style="max-height:260px"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/6c10d764-8a9f-4c73-9127-3658e5a1edb4.png"
+                        alt="tampilkan warna code">
+                    <h3>Part 2: Loop di dalam Function</h3>
+                    <p>Perhatikan <span class="code-font">for color in tomato_colors</span>.</p>
+                </div>
+                <div class="choice-card orange">
+                    <h3>Coba Jalankan Loop Visual</h3>
+                    <p class="lead">Klik tombol untuk melihat urutan loop membaca isi list.</p>
+                    <button class="primary-btn" onclick="nextTomatoColor()">Next Iteration</button>
+                    <button class="secondary-btn" onclick="resetTomatoLoop()">Reset</button>
+                    <div class="iteration-box" id="tomatoLoopOutput">for color in tomato_colors:
+                        print("-", color)
+
+                        Klik Next Iteration untuk mulai.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Part 3 cek_panen">
+            <div class="slide-head compact center"><span class="kicker">BUILD PART 3</span>
+                <h2>Function <span class="code-font">cek_panen()</span></h2>
+                <p>Bagian ini adalah otak utama program: menerima input, mengecek kondisi, lalu menyimpan hasil.</p>
+            </div>
+            <div class="split-layout" style="gap:24px;max-width:1080px">
+                <div class="image-card" style="padding:16px">
+                    <img class="zoomable" style="max-height:285px"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/c52f1e6e-57d9-4279-9764-44130579b0a8.png"
+                        alt="cek panen code">
+                    <h3>Part 3: Input + Conditional</h3>
+                    <p>Gambar bisa diklik untuk diperbesar.</p>
+                </div>
+                <div class="choice-card red">
+                    <h3>Bagian Penting</h3>
+                    <div class="logic-list">
+                        <div class="logic-item"><span>⌨️</span>
+                            <div><b>input().lower()</b>
+                                <p style="margin:0;color:#61758b">Membaca jawaban user dan membuatnya lowercase.</p>
+                            </div>
+                        </div>
+                        <div class="logic-item"><span>🔀</span>
+                            <div><b>if / elif / else</b>
+                                <p style="margin:0;color:#61758b">Menentukan hasil berdasarkan warna dan tekstur.</p>
+                            </div>
+                        </div>
+                        <div class="logic-item"><span>➕</span>
+                            <div><b>check_history.append(result)</b>
+                                <p style="margin:0;color:#61758b">Menyimpan hasil ke list riwayat.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="AND Operator">
+            <div class="slide-head center"><span class="kicker">LOGIC DETAIL</span>
+                <h2>Mengapa Ada Operator <span class="code-font">and</span>?</h2>
+                <p>Beberapa keputusan butuh dua syarat benar sekaligus.</p>
+            </div>
+            <div class="choice-grid">
+                <div class="choice-card yellow">
+                    <h3>Contoh Syarat</h3>
+                    <pre class="mini-code">elif color == "merah" and texture == "keras":
+    result = "Tomat siap dipanen untuk pasar dekat."</pre>
+                    <div class="notice">Bagian ini hanya jalan kalau warna <b>merah</b> dan teksturnya <b>keras</b>.
+                    </div>
+                </div>
+                <div class="choice-card blue">
+                    <h3>Quick Check</h3>
+                    <button class="primary-btn"
+                        onclick="setFeedback('andFeedback','Benar. merah + keras memenuhi dua syarat sekaligus.',true)">merah
+                        + keras</button>
+                    <button class="secondary-btn"
+                        onclick="setFeedback('andFeedback','Belum cocok. Warna benar, tapi teksturnya tidak keras.',false)">merah
+                        + lunak</button>
+                    <button class="secondary-btn"
+                        onclick="setFeedback('andFeedback','Belum cocok. Tekstur benar, tapi warnanya bukan merah.',false)">hijau
+                        + keras</button>
+                    <div class="feedback" id="andFeedback"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Part 4 Riwayat">
+            <div class="slide-head compact center"><span class="kicker">BUILD PART 4</span>
+                <h2>Function <span class="code-font">tampilkan_riwayat()</span></h2>
+                <p>Function ini menampilkan semua hasil pemeriksaan yang sudah pernah dilakukan.</p>
+            </div>
+            <div class="split-layout" style="gap:24px;max-width:1080px">
+                <div class="image-card" style="padding:16px">
+                    <img class="zoomable" style="max-height:260px"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/b6829a30-f930-4ca6-a697-1c03457700dd.png"
+                        alt="riwayat code">
+                    <h3>Part 4: History</h3>
+                    <p>Program mengecek apakah list riwayat masih kosong.</p>
+                </div>
+                <div class="choice-card purple">
+                    <h3>Konsep yang Dipakai</h3>
+                    <div class="logic-list">
+                        <div class="logic-item"><span>📏</span>
+                            <div><b>len(check_history)</b>
+                                <p style="margin:0;color:#61758b">Menghitung jumlah data dalam list.</p>
+                            </div>
+                        </div>
+                        <div class="logic-item"><span>🔀</span>
+                            <div><b>if len(...) == 0</b>
+                                <p style="margin:0;color:#61758b">Kalau belum ada pemeriksaan, tampilkan pesan kosong.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="logic-item"><span>🔁</span>
+                            <div><b>for result in check_history</b>
+                                <p style="margin:0;color:#61758b">Menampilkan setiap hasil satu per satu.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Part 5 Menu Utama">
+            <div class="slide-head compact center"><span class="kicker">BUILD PART 5</span>
+                <h2>Menu Utama dengan <span class="code-font">while True</span></h2>
+                <p>Ini bagian yang membuat program terasa seperti aplikasi terminal sungguhan.</p>
+            </div>
+            <div class="split-layout" style="gap:24px;max-width:1080px">
+                <div class="image-card" style="padding:16px">
+                    <img class="zoomable" style="max-height:285px"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/bd515775-46e1-4f17-9819-3dd0b8fb024e.png"
+                        alt="menu code">
+                    <h3>Part 5: While Menu</h3>
+                    <p>Setiap pilihan memanggil function yang berbeda.</p>
+                </div>
+                <div class="choice-card green">
+                    <h3>Alur Pilihan Menu</h3>
+                    <div class="logic-list">
+                        <div class="logic-item"><span>1️⃣</span>
+                            <div><b>cek_panen()</b>
+                                <p style="margin:0;color:#61758b">Memeriksa kondisi tomat.</p>
+                            </div>
+                        </div>
+                        <div class="logic-item"><span>2️⃣</span>
+                            <div><b>tampilkan_warna()</b>
+                                <p style="margin:0;color:#61758b">Menampilkan pilihan warna tomat.</p>
+                            </div>
+                        </div>
+                        <div class="logic-item"><span>3️⃣</span>
+                            <div><b>tampilkan_riwayat()</b>
+                                <p style="margin:0;color:#61758b">Menampilkan riwayat pemeriksaan.</p>
+                            </div>
+                        </div>
+                        <div class="logic-item"><span>4️⃣</span>
+                            <div><b>break</b>
+                                <p style="margin:0;color:#61758b">Keluar dari program.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Testing Plan">
+            <div class="slide-head center"><span class="kicker">TESTING</span>
+                <h2>Run & Test</h2>
+                <p>Coba beberapa input agar kita tahu conditional dan history bekerja benar.</p>
+            </div>
+            <div class="choice-grid">
+                <div class="test-panel green">
+                    <h3>Test Case yang Wajib Dicoba</h3>
+                    <div class="logic-list">
+                        <div class="logic-item"><span>🟢</span>
+                            <div><b>hijau + keras</b>
+                                <p style="margin:0;color:#61758b">Harus muncul belum siap panen.</p>
+                            </div>
+                        </div>
+                        <div class="logic-item"><span>🟡</span>
+                            <div><b>kuning kemerahan + keras</b>
+                                <p style="margin:0;color:#61758b">Harus muncul siap dikirim.</p>
+                            </div>
+                        </div>
+                        <div class="logic-item"><span>🔴</span>
+                            <div><b>merah + lunak</b>
+                                <p style="margin:0;color:#61758b">Harus muncul terlalu matang.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="test-panel blue">
+                    <h3>Test Menu</h3>
+                    <button class="primary-btn"
+                        onclick="setFeedback('menuTest','Menu 1: harus meminta warna dan tekstur tomat.',true)">Menu
+                        1</button>
+                    <button class="primary-btn"
+                        onclick="setFeedback('menuTest','Menu 2: harus menampilkan tiga pilihan warna tomat.',true)">Menu
+                        2</button>
+                    <button class="primary-btn"
+                        onclick="setFeedback('menuTest','Menu 3: harus menampilkan riwayat atau pesan kosong.',true)">Menu
+                        3</button>
+                    <button class="primary-btn"
+                        onclick="setFeedback('menuTest','Menu 4: harus menampilkan Program selesai lalu berhenti.',true)">Menu
+                        4</button>
+                    <div class="feedback success" id="menuTest">Klik menu untuk melihat target hasilnya.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Run Project">
+            <div class="slide-head compact center"><span class="kicker">RUN & SAVE</span>
+                <h2>Cara Run <span class="code-font">tomato-harvest.py</span></h2>
+                <p>Setelah semua bagian selesai, simpan file dan jalankan di terminal.</p>
+            </div>
+            <div class="vscode-tour">
+                <div class="tour-card">
+                    <div class="giant-emoji">💾</div>
+                    <h3>1. Save File</h3>
+                    <p>Tekan <span class="code-font">Ctrl + S</span> agar kode terbaru tersimpan.</p>
+                </div>
+                <div class="tour-card">
+                    <div class="giant-emoji">▶️</div>
+                    <h3>2. Run Command</h3>
+                    <p>Ketik <span class="code-font">python tomato-harvest.py</span> di terminal.</p>
+                </div>
+                <div class="tour-card">
+                    <div class="giant-emoji">🧪</div>
+                    <h3>3. Test Semua Menu</h3>
+                    <p>Coba menu 1, 2, 3, dan 4. Pastikan history bertambah.</p>
+                </div>
+            </div>
+            <div class="notice" style="max-width:920px">Kalau command tidak jalan, cek apakah terminal berada di folder
+                <span class="code-font">PythonDay8</span>.</div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Debugging">
+            <div class="slide-head compact center" style="margin-bottom:10px;">
+                <span class="kicker">DEBUGGING</span>
+                <h2 style="font-size:1.85rem; margin:4px 0 4px;">Kesalahan yang Sering Terjadi</h2>
+                <p style="font-size:0.95rem; margin:0;">Kalau error di terminal, jangan panik. Cek 6 hal ini satu per satu.</p>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; width:100%; max-width:1040px;">
+                <div style="background:#fff; border:2px solid #e0e8f2; border-radius:18px; padding:12px 14px; text-align:center; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 14px rgba(38,73,103,0.06);">
+                    <div style="width:40px; height:40px; border-radius:12px; background:#fff7ed; border:1.5px solid #fed7aa; display:flex; align-items:center; justify-content:center; margin-bottom:6px; flex-shrink:0;">
+                        <span style="font-size:1.5rem; font-weight:700; font-family:'Courier New',monospace; color:#e06a00;">:</span>
+                    </div>
+                    <b style="font-size:0.98rem; color:#24344d; margin:0 0 3px;">Lupa Titik Dua ( : )</b>
+                    <p style="font-size:0.83rem; color:#61758b; line-height:1.35; margin:0;">Setelah <span class="code-font">def</span>, <span class="code-font">if</span>, <span class="code-font">elif</span>, <span class="code-font">else</span>, dan <span class="code-font">while</span>.</p>
+                </div>
+                <div style="background:#fff; border:2px solid #e0e8f2; border-radius:18px; padding:12px 14px; text-align:center; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 14px rgba(38,73,103,0.06);">
+                    <div style="width:40px; height:40px; border-radius:12px; background:#effcf5; border:1.5px solid #b7ebd2; display:flex; align-items:center; justify-content:center; margin-bottom:6px; flex-shrink:0;">
+                        <span style="font-size:1.3rem; line-height:1;">↪️</span>
+                    </div>
+                    <b style="font-size:0.98rem; color:#24344d; margin:0 0 3px;">Indentation Salah</b>
+                    <p style="font-size:0.83rem; color:#61758b; line-height:1.35; margin:0;">Isi function, loop, dan conditional harus masuk ke dalam.</p>
+                </div>
+                <div style="background:#fff; border:2px solid #e0e8f2; border-radius:18px; padding:12px 14px; text-align:center; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 14px rgba(38,73,103,0.06);">
+                    <div style="width:40px; height:40px; border-radius:12px; background:#eef7ff; border:1.5px solid #b9dcff; display:flex; align-items:center; justify-content:center; margin-bottom:6px; flex-shrink:0;">
+                        <span style="font-size:1.3rem; line-height:1;">📞</span>
+                    </div>
+                    <b style="font-size:0.98rem; color:#24344d; margin:0 0 3px;">Nama Function Salah</b>
+                    <p style="font-size:0.83rem; color:#61758b; line-height:1.35; margin:0;">Nama function harus sama persis saat dibuat dan dipanggil.</p>
+                </div>
+                <div style="background:#fff; border:2px solid #e0e8f2; border-radius:18px; padding:12px 14px; text-align:center; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 14px rgba(38,73,103,0.06);">
+                    <div style="width:40px; height:40px; border-radius:12px; background:#f5efff; border:1.5px solid #d9c6ff; display:flex; align-items:center; justify-content:center; margin-bottom:6px; flex-shrink:0;">
+                        <span style="font-size:1.3rem; line-height:1;">🔠</span>
+                    </div>
+                    <b style="font-size:0.98rem; color:#24344d; margin:0 0 3px;">String Harus Sama</b>
+                    <p style="font-size:0.83rem; color:#61758b; line-height:1.35; margin:0;">Input seperti <span class="code-font">kuning kemerahan</span> harus sesuai list.</p>
+                </div>
+                <div style="background:#fff; border:2px solid #e0e8f2; border-radius:18px; padding:12px 14px; text-align:center; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 14px rgba(38,73,103,0.06);">
+                    <div style="width:40px; height:40px; border-radius:12px; background:#fff8db; border:1.5px solid #f5d86d; display:flex; align-items:center; justify-content:center; margin-bottom:6px; flex-shrink:0;">
+                        <span style="font-size:1.3rem; line-height:1;">➕</span>
+                    </div>
+                    <b style="font-size:0.98rem; color:#24344d; margin:0 0 3px;">Append History Lupa</b>
+                    <p style="font-size:0.83rem; color:#61758b; line-height:1.35; margin:0;">Pastikan <span class="code-font">check_history.append(result)</span> ada di function.</p>
+                </div>
+                <div style="background:#fff; border:2px solid #e0e8f2; border-radius:18px; padding:12px 14px; text-align:center; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 14px rgba(38,73,103,0.06);">
+                    <div style="width:40px; height:40px; border-radius:12px; background:#fff0ef; border:1.5px solid #f5aaa7; display:flex; align-items:center; justify-content:center; margin-bottom:6px; flex-shrink:0;">
+                        <span style="font-size:1.3rem; line-height:1;">💾</span>
+                    </div>
+                    <b style="font-size:0.98rem; color:#24344d; margin:0 0 3px;">Belum Save File</b>
+                    <p style="font-size:0.83rem; color:#61758b; line-height:1.35; margin:0;">Tekan <span class="code-font">Ctrl + S</span> agar terminal menjalankan kode terbaru.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Checklist Sebelum Quiz">
+            <div class="slide-head compact center" style="margin-bottom:10px;">
+                <span class="kicker">CHECKLIST</span>
+                <h2 style="font-size:1.85rem; margin:4px 0 4px;">Sebelum Quick Quiz</h2>
+                <p style="font-size:0.95rem; margin:0;">Pastikan semua bagian project sudah dibuat dan diuji dengan baik.</p>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; width:100%; max-width:1040px;">
+                <div style="background:#fff; border:2px solid #e0e8f2; border-radius:18px; padding:12px 14px; text-align:center; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 14px rgba(38,73,103,0.06);">
+                    <div style="width:40px; height:40px; border-radius:12px; background:#eef7ff; border:1.5px solid #b9dcff; display:flex; align-items:center; justify-content:center; margin-bottom:6px; flex-shrink:0;">
+                        <span style="font-size:1.3rem; line-height:1;">📁</span>
+                    </div>
+                    <b style="font-size:0.98rem; color:#24344d; margin:0 0 3px;">Folder & File</b>
+                    <p style="font-size:0.83rem; color:#61758b; line-height:1.35; margin:0;">Folder <span class="code-font">PythonDay8</span> dan <span class="code-font">tomato-harvest.py</span> siap.</p>
+                </div>
+                <div style="background:#fff; border:2px solid #e0e8f2; border-radius:18px; padding:12px 14px; text-align:center; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 14px rgba(38,73,103,0.06);">
+                    <div style="width:40px; height:40px; border-radius:12px; background:#fff0ef; border:1.5px solid #f5aaa7; display:flex; align-items:center; justify-content:center; margin-bottom:6px; flex-shrink:0;">
+                        <span style="font-size:1.3rem; line-height:1;">🍅</span>
+                    </div>
+                    <b style="font-size:0.98rem; color:#24344d; margin:0 0 3px;">Data List</b>
+                    <p style="font-size:0.83rem; color:#61758b; line-height:1.35; margin:0;">List <span class="code-font">tomato_colors</span> dan <span class="code-font">check_history</span> siap.</p>
+                </div>
+                <div style="background:#fff; border:2px solid #e0e8f2; border-radius:18px; padding:12px 14px; text-align:center; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 14px rgba(38,73,103,0.06);">
+                    <div style="width:40px; height:40px; border-radius:12px; background:#f5efff; border:1.5px solid #d9c6ff; display:flex; align-items:center; justify-content:center; margin-bottom:6px; flex-shrink:0;">
+                        <span style="font-size:1.3rem; line-height:1;">📦</span>
+                    </div>
+                    <b style="font-size:0.98rem; color:#24344d; margin:0 0 3px;">3 Function</b>
+                    <p style="font-size:0.83rem; color:#61758b; line-height:1.35; margin:0;">Function warna, cek panen, dan riwayat sudah lengkap.</p>
+                </div>
+                <div style="background:#fff; border:2px solid #e0e8f2; border-radius:18px; padding:12px 14px; text-align:center; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 14px rgba(38,73,103,0.06);">
+                    <div style="width:40px; height:40px; border-radius:12px; background:#effcf5; border:1.5px solid #b7ebd2; display:flex; align-items:center; justify-content:center; margin-bottom:6px; flex-shrink:0;">
+                        <span style="font-size:1.3rem; line-height:1;">📋</span>
+                    </div>
+                    <b style="font-size:0.98rem; color:#24344d; margin:0 0 3px;">Menu Utama</b>
+                    <p style="font-size:0.83rem; color:#61758b; line-height:1.35; margin:0;">Loop <span class="code-font">while True</span> berjalan dengan menu 1 sampai 4.</p>
+                </div>
+                <div style="background:#fff; border:2px solid #e0e8f2; border-radius:18px; padding:12px 14px; text-align:center; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 14px rgba(38,73,103,0.06);">
+                    <div style="width:40px; height:40px; border-radius:12px; background:#fff8db; border:1.5px solid #f5d86d; display:flex; align-items:center; justify-content:center; margin-bottom:6px; flex-shrink:0;">
+                        <span style="font-size:1.3rem; line-height:1;">🧪</span>
+                    </div>
+                    <b style="font-size:0.98rem; color:#24344d; margin:0 0 3px;">Testing Selesai</b>
+                    <p style="font-size:0.83rem; color:#61758b; line-height:1.35; margin:0;">Semua pilihan menu dan variasi input tomat sudah dicoba.</p>
+                </div>
+                <div style="background:#fff; border:2px solid #e0e8f2; border-radius:18px; padding:12px 14px; text-align:center; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 14px rgba(38,73,103,0.06);">
+                    <div style="width:40px; height:40px; border-radius:12px; background:#fff7ed; border:1.5px solid #fed7aa; display:flex; align-items:center; justify-content:center; margin-bottom:6px; flex-shrink:0;">
+                        <span style="font-size:1.3rem; line-height:1;">🛠️</span>
+                    </div>
+                    <b style="font-size:0.98rem; color:#24344d; margin:0 0 3px;">Debug Berhasil</b>
+                    <p style="font-size:0.83rem; color:#61758b; line-height:1.35; margin:0;">Terminal bebas dari error syntax maupun runtime error.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Quick Quiz">
+            <div class="slide-head compact center"><span class="kicker">QUICK QUIZ</span>
+                <h2>Cek Pemahamanmu</h2>
+                <p>Pilih jawaban. Jawaban benar akan tetap ditampilkan meskipun pilihanmu salah.</p>
+            </div>
+            <div class="quiz-shell">
+                <div class="quiz-question active" id="quiz1">
+                    <h3>1. Mengapa project ini memakai function?</h3>
+                    <div class="quiz-options">
+                        <button onclick="answerQuiz(this,true,'quiz1','quiz2')">A. Agar fitur seperti cek panen dan
+                            tampilkan riwayat bisa dipanggil dari menu</button>
+                        <button onclick="answerQuiz(this,false,'quiz1','quiz2')">B. Agar terminal berubah warna</button>
+                        <button onclick="answerQuiz(this,false,'quiz1','quiz2')">C. Agar file otomatis terhapus</button>
+                    </div>
+                </div>
+                <div class="quiz-question" id="quiz2">
+                    <h3>2. Apa fungsi <span class="code-font">check_history.append(result)</span>?</h3>
+                    <div class="quiz-options">
+                        <button onclick="answerQuiz(this,false,'quiz2','quiz3')">A. Menghapus semua warna tomat</button>
+                        <button onclick="answerQuiz(this,true,'quiz2','quiz3')">B. Menambahkan hasil pemeriksaan ke list
+                            riwayat</button>
+                        <button onclick="answerQuiz(this,false,'quiz2','quiz3')">C. Menghentikan loop menu</button>
+                    </div>
+                </div>
+                <div class="quiz-question" id="quiz3">
+                    <h3>3. Mengapa menu utama memakai <span class="code-font">while True</span>?</h3>
+                    <div class="quiz-options">
+                        <button onclick="answerQuiz(this,false,'quiz3','quizDone')">A. Agar program hanya berjalan
+                            sekali</button>
+                        <button onclick="answerQuiz(this,true,'quiz3','quizDone')">B. Agar menu terus muncul sampai user
+                            memilih keluar</button>
+                        <button onclick="answerQuiz(this,false,'quiz3','quizDone')">C. Agar input berubah menjadi
+                            lowercase</button>
+                    </div>
+                </div>
+                <div class="quiz-question" id="quizDone" style="text-align:center">
+                    <div class="giant-emoji">🎯</div>
+                    <h3>Quiz Selesai</h3>
+                    <p>Kamu sudah mengulas function, list, conditional, loop, dan testing di project terminal.</p>
+                </div>
+                <div class="quiz-progress"><span id="quizProgressText">Soal 1 dari 3</span>
+                    <div><i id="quizProgressBar"></i></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Review Hari Ini">
+            <div class="slide-head compact center" style="margin-bottom:10px;">
+                <span class="kicker">SESSION REVIEW</span>
+                <h2 style="font-size:1.85rem; margin:4px 0 4px;">Apa Saja yang Sudah Dipelajari?</h2>
+                <p style="font-size:0.95rem; margin:0;">Ringkasan materi dan konsep yang telah kita kuasai hari ini.</p>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; width:100%; max-width:1040px;">
+                <div style="background:#fff; border:2px solid #e0e8f2; border-radius:18px; padding:12px 14px; text-align:center; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 14px rgba(38,73,103,0.06);">
+                    <div style="width:40px; height:40px; border-radius:12px; background:#fff0ef; border:1.5px solid #f5aaa7; display:flex; align-items:center; justify-content:center; margin-bottom:6px; flex-shrink:0;">
+                        <span style="font-size:1.3rem; line-height:1;">🍅</span>
+                    </div>
+                    <b style="font-size:0.98rem; color:#24344d; margin:0 0 3px;">CLI Project</b>
+                    <p style="font-size:0.83rem; color:#61758b; line-height:1.35; margin:0;">Membuat aplikasi terminal Smart Tomato Harvest.</p>
+                </div>
+                <div style="background:#fff; border:2px solid #e0e8f2; border-radius:18px; padding:12px 14px; text-align:center; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 14px rgba(38,73,103,0.06);">
+                    <div style="width:40px; height:40px; border-radius:12px; background:#eef7ff; border:1.5px solid #b9dcff; display:flex; align-items:center; justify-content:center; margin-bottom:6px; flex-shrink:0;">
+                        <span style="font-size:1.3rem; line-height:1;">⌨️</span>
+                    </div>
+                    <b style="font-size:0.98rem; color:#24344d; margin:0 0 3px;">Input User</b>
+                    <p style="font-size:0.83rem; color:#61758b; line-height:1.35; margin:0;">Menerima input warna dan tekstur tomat.</p>
+                </div>
+                <div style="background:#fff; border:2px solid #e0e8f2; border-radius:18px; padding:12px 14px; text-align:center; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 14px rgba(38,73,103,0.06);">
+                    <div style="width:40px; height:40px; border-radius:12px; background:#effcf5; border:1.5px solid #b7ebd2; display:flex; align-items:center; justify-content:center; margin-bottom:6px; flex-shrink:0;">
+                        <span style="font-size:1.3rem; line-height:1;">🔀</span>
+                    </div>
+                    <b style="font-size:0.98rem; color:#24344d; margin:0 0 3px;">Conditional</b>
+                    <p style="font-size:0.83rem; color:#61758b; line-height:1.35; margin:0;">Menentukan hasil berdasarkan aturan logika.</p>
+                </div>
+                <div style="background:#fff; border:2px solid #e0e8f2; border-radius:18px; padding:12px 14px; text-align:center; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 14px rgba(38,73,103,0.06);">
+                    <div style="width:40px; height:40px; border-radius:12px; background:#f5efff; border:1.5px solid #d9c6ff; display:flex; align-items:center; justify-content:center; margin-bottom:6px; flex-shrink:0;">
+                        <span style="font-size:1.3rem; line-height:1;">📦</span>
+                    </div>
+                    <b style="font-size:0.98rem; color:#24344d; margin:0 0 3px;">Function</b>
+                    <p style="font-size:0.83rem; color:#61758b; line-height:1.35; margin:0;">Kode dipecah menjadi fitur yang dapat dipanggil.</p>
+                </div>
+                <div style="background:#fff; border:2px solid #e0e8f2; border-radius:18px; padding:12px 14px; text-align:center; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 14px rgba(38,73,103,0.06);">
+                    <div style="width:40px; height:40px; border-radius:12px; background:#fff8db; border:1.5px solid #f5d86d; display:flex; align-items:center; justify-content:center; margin-bottom:6px; flex-shrink:0;">
+                        <span style="font-size:1.3rem; line-height:1;">🗂️</span>
+                    </div>
+                    <b style="font-size:0.98rem; color:#24344d; margin:0 0 3px;">List History</b>
+                    <p style="font-size:0.83rem; color:#61758b; line-height:1.35; margin:0;">Hasil pemeriksaan disimpan dan ditampilkan ulang.</p>
+                </div>
+                <div style="background:#fff; border:2px solid #e0e8f2; border-radius:18px; padding:12px 14px; text-align:center; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 14px rgba(38,73,103,0.06);">
+                    <div style="width:40px; height:40px; border-radius:12px; background:#fff7ed; border:1.5px solid #fed7aa; display:flex; align-items:center; justify-content:center; margin-bottom:6px; flex-shrink:0;">
+                        <span style="font-size:1.3rem; line-height:1;">🧪</span>
+                    </div>
+                    <b style="font-size:0.98rem; color:#24344d; margin:0 0 3px;">Testing & Debug</b>
+                    <p style="font-size:0.83rem; color:#61758b; line-height:1.35; margin:0;">Program diuji dengan berbagai skenario input.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide feedback-final" data-title="Feedback">
+            <div class="slide-head center"><span class="kicker">YOUR FEEDBACK</span>
+                <h2>How Do You Feel Today?</h2>
+                <p>Pilih satu respons yang paling sesuai dengan pengalaman belajarmu.</p>
+            </div>
+            <div class="emoji-feedback" id="emojiFeedback">
+                <button onclick="sendFeedback(this)">😄<small>Sangat Paham</small></button>
+                <button onclick="sendFeedback(this)">🙂<small>Cukup Paham</small></button>
+                <button onclick="sendFeedback(this)">🤔<small>Perlu Latihan</small></button>
+                <button onclick="sendFeedback(this)">🆘<small>Perlu Bantuan</small></button>
+            </div>
+            <div class="feedback-thanks" id="feedbackThanks"></div>
+        </section>
+
+        <div class="progress-line" id="progressLine"></div>
+        <footer class="navigation">
+            <div class="nav-title" id="navTitle">Session 8 • Smart Tomato Harvest</div>
+            <div class="nav-controls"><button aria-label="Sebelumnya" class="nav-btn" id="prevBtn">‹</button>
+                <div class="counter"><span id="currentSlide">1</span> / <span id="totalSlides">1</span></div><button
+                    aria-label="Berikutnya" class="nav-btn next" id="nextBtn">›</button>
+            </div>
+        </footer>
+    </main>
+    <div id="imageModal" class="image-modal" onclick="this.classList.remove('show')"><img id="enlargedImg" src=""
+            alt="Enlarged view"></div>
+    <script>
+        let currentSlide = 0;
+        const slides = [...document.querySelectorAll('.slide')];
+        function showSlide(index) {
+            if (index < 0 || index >= slides.length) return;
+            slides.forEach((s, i) => s.classList.toggle('active', i === index));
+            currentSlide = index;
+            document.getElementById('currentSlide').textContent = index + 1;
+            document.getElementById('totalSlides').textContent = slides.length;
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === slides.length - 1;
+            document.getElementById('progressLine').style.width = ((index + 1) / slides.length * 100) + '%';
+            document.getElementById('navTitle').textContent = 'Session 8 • ' + slides[index].dataset.title;
+            slides[index].scrollTop = 0;
+        }
+        document.getElementById('prevBtn').onclick = () => showSlide(currentSlide - 1);
+        document.getElementById('nextBtn').onclick = () => showSlide(currentSlide + 1);
+        document.addEventListener('keydown', e => {
+            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
+            if (e.key === 'ArrowRight') showSlide(currentSlide + 1);
+            if (e.key === 'ArrowLeft') showSlide(currentSlide - 1);
+        });
+        showSlide(0);
+
+        function setFeedback(id, msg, ok = true) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.textContent = msg;
+            el.className = 'feedback ' + (ok ? 'success' : 'error');
+        }
+
+        const concepts = {
+            input: ['⌨️', 'input()', 'Meminta data dari user. Di project ini dipakai untuk memasukkan warna dan tekstur tomat.'],
+            variable: ['🏷️', 'Variable', 'Menyimpan data seperti color, texture, result, dan pilihan menu.'],
+            operator: ['🔎', 'Operator', 'Membandingkan data dengan ==, mengecek panjang list dengan len(), dan menggabungkan syarat dengan and.'],
+            conditional: ['🔀', 'Conditional', 'Memilih hasil berbeda: hijau belum siap, merah keras siap pasar dekat, merah lunak terlalu matang.'],
+            loop: ['🔁', 'Loop', 'while True membuat menu terus muncul. for digunakan untuk menampilkan item list satu per satu.'],
+            function: ['📦', 'Function', 'Merapikan program menjadi fitur: tampilkan_warna(), cek_panen(), dan tampilkan_riwayat().'],
+            list: ['🗂️', 'List', 'tomato_colors menyimpan pilihan warna. check_history menyimpan hasil pemeriksaan.'],
+            dictionary: ['📖', 'Dictionary', 'Dictionary menyimpan data dengan pasangan key-value. Di project ini kita fokus memakai list, tapi dictionary bisa menjadi upgrade untuk data tomat yang lebih detail.']
+        };
+        function showConcept(key) {
+            const data = concepts[key];
+            document.getElementById('conceptEmoji').textContent = data[0];
+            document.getElementById('conceptTitle').textContent = data[1];
+            document.getElementById('conceptFeedback').textContent = data[2];
+        }
+
+        function updateTomatoEmoji() {
+            const color = document.getElementById('tomatoColor').value;
+            const emoji = document.getElementById('tomatoEmoji');
+            if (color === 'hijau') emoji.textContent = '🟢';
+            else if (color === 'kuning kemerahan') emoji.textContent = '🟠';
+            else if (color === 'merah') emoji.textContent = '🍅';
+            else emoji.textContent = '❓';
+        }
+        function checkTomatoSim() {
+            const color = document.getElementById('tomatoColor').value;
+            const texture = document.getElementById('tomatoTexture').value;
+            let result = '';
+            if (color === 'hijau') result = 'Tomat masih muda dan belum siap dipanen.';
+            else if (color === 'kuning kemerahan' && texture === 'keras') result = 'Tomat siap dipanen untuk dikirim.';
+            else if (color === 'merah' && texture === 'keras') result = 'Tomat siap dipanen untuk pasar dekat.';
+            else if (color === 'merah' && texture === 'lunak') result = 'Tomat terlalu matang dan harus segera digunakan.';
+            else result = 'Kondisi tomat tidak dikenali.';
+            setFeedback('tomatoResult', result, color !== 'ungu');
+        }
+        updateTomatoEmoji();
+
+        const tomatoColors = ['hijau', 'kuning kemerahan', 'merah'];
+        let tomatoLoopIndex = 0;
+        function nextTomatoColor() {
+            const out = document.getElementById('tomatoLoopOutput');
+            if (tomatoLoopIndex >= tomatoColors.length) {
+                out.textContent += '\n\nLoop selesai. Semua warna sudah ditampilkan.';
+                return;
+            }
+            const color = tomatoColors[tomatoLoopIndex];
+            out.textContent += '\nIteration ' + (tomatoLoopIndex + 1) + ': color = "' + color + '" → print("-", "' + color + '")';
+            tomatoLoopIndex++;
+        }
+        function resetTomatoLoop() {
+            tomatoLoopIndex = 0;
+            document.getElementById('tomatoLoopOutput').textContent = 'for color in tomato_colors:\n    print("-", color)\n\nKlik Next Iteration untuk mulai.';
+        }
+
+        function answerQuiz(btn, correct, current, next) {
+            const parent = btn.closest('.quiz-question');
+            parent.querySelectorAll('button').forEach(b => {
+                b.disabled = true;
+                if (b.onclick.toString().includes('true')) b.classList.add('correct');
+            });
+            btn.classList.add(correct ? 'correct' : 'wrong');
+            setTimeout(() => {
+                parent.classList.remove('active');
+                document.getElementById(next).classList.add('active');
+                let n = next === 'quiz2' ? 2 : next === 'quiz3' ? 3 : 3;
+                document.getElementById('quizProgressText').textContent = next === 'quizDone' ? 'Quiz selesai' : 'Soal ' + n + ' dari 3';
+                document.getElementById('quizProgressBar').style.width = next === 'quizDone' ? '100%' : (n / 3 * 100) + '%';
+            }, 850);
+        }
+        function sendFeedback(btn) {
+            document.querySelectorAll('#emojiFeedback button').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            document.getElementById('feedbackThanks').textContent = 'Terima kasih. Feedbackmu membantu menentukan latihan berikutnya.';
+        }
+        document.querySelectorAll('.zoomable,.tour-card img,.image-card img').forEach(img => {
+            img.addEventListener('click', () => {
+                document.getElementById('enlargedImg').src = img.src;
+                document.getElementById('imageModal').classList.add('show');
+            });
+        });
+    </script>
+</body>
+
+</html>

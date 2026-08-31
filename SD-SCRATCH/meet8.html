@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 8 - Suara dan Rekaman | Ruangguru Coding</title>
+  <link rel="icon" href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #2f80ed;
+      --scratchBlue: #4c97ff;
+      --cyan: #16bde8;
+      --purple: #845ef7;
+      --orange: #ff8a34;
+      --yellow: #ffd53d;
+      --green: #28b875;
+      --red: #ef5350;
+      --ink: #20324a;
+      --muted: #66788d;
+      --panel: #fff;
+      --shadow: 0 22px 55px rgba(22,44,76,.18);
+      --event: #ffbf00;
+      --sound: #d65cd6;
+      --looks: #9966ff;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; overflow: hidden; }
+    body {
+      font-family: 'Fredoka', sans-serif;
+      color: var(--ink);
+      background: #f8fffe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    body:before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(47,128,237,.11), transparent 30%),
+        radial-gradient(circle at 88% 12%, rgba(255,213,61,.18), transparent 28%),
+        radial-gradient(circle at 15% 88%, rgba(40,184,117,.13), transparent 32%),
+        radial-gradient(circle at 88% 86%, rgba(132,94,247,.11), transparent 28%);
+      z-index: -2;
+      pointer-events: none;
+    }
+    body:after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(22,189,232,.08) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(22,189,232,.08) 2px, transparent 2px);
+      background-size: 76px 76px;
+      opacity: .6;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .brand-logo {
+      position: fixed;
+      left: 22px;
+      top: 16px;
+      z-index: 2000;
+      background: #fff;
+      border: 2.5px solid rgba(0,188,212,.22);
+      border-radius: 22px;
+      padding: 10px 20px;
+      box-shadow: 0 8px 32px rgba(0,188,212,.18), 0 2px 8px rgba(0,0,0,.07);
+      display: flex;
+      align-items: center;
+    }
+    .brand-logo img { display: block; height: 80px; max-width: 220px; object-fit: contain; }
+
+    .presentation-container {
+      width: 86vw;
+      height: 80vh;
+      max-width: 1500px;
+      background: #fff;
+      border-radius: 30px;
+      box-shadow: 0 30px 80px rgba(30,56,93,.25);
+      overflow: hidden;
+      position: relative;
+      border: 4px solid rgba(255,255,255,.85);
+    }
+    .presentation-container:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-radius: 26px;
+      box-shadow: inset 0 0 0 1px rgba(91,124,164,.10);
+      z-index: 30;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 42px 58px 74px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(42px) scale(.985);
+      transition: .46s ease;
+      background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(249,252,255,.98));
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    .slide.active { opacity: 1; visibility: visible; transform: none; z-index: 10; }
+
+    .navigation {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 64px;
+      background: rgba(255,255,255,.96);
+      border-top: 1px solid #e7edf5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .nav-title { font-size: 1rem; font-weight: 700; color: #6b7d92; max-width: 42%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .nav-controls { display: flex; align-items: center; gap: 14px; }
+    .nav-btn {
+      width: 44px; height: 44px; border-radius: 50%; border: 2px solid #d9e3ef;
+      background: #fff; color: #4c6077; font-size: 1.3rem; font-weight: 700; cursor: pointer; transition: .2s;
+    }
+    .nav-btn:hover:not(:disabled) { transform: scale(1.08); border-color: var(--blue); color: var(--blue); }
+    .nav-btn.next { background: linear-gradient(135deg, var(--orange), #ffac37); color:#fff; border:0; box-shadow: 0 7px 16px rgba(255,138,52,.3); }
+    .nav-btn:disabled { opacity: .35; cursor: not-allowed; }
+    .counter { font-size: 1.05rem; font-weight: 700; color: #53677f; min-width: 74px; text-align: center; }
+    .progress-line { position: absolute; left: 0; bottom: 62px; height: 5px; background: linear-gradient(90deg, var(--orange), var(--purple), var(--cyan)); width: 0; transition: .35s; z-index: 110; }
+
+    .slide-head { width: 100%; max-width: 1180px; margin-bottom: 22px; }
+    .slide-head.center { text-align: center; }
+    .slide-head.compact { margin-bottom: 14px; }
+    .slide-head h1, .slide-head h2 { font-size: clamp(2.2rem, 4vw, 4rem); line-height: 1.06; margin: 6px 0 12px; color: #24344d; }
+    .slide-head p, .lead { font-size: clamp(1.1rem, 1.6vw, 1.48rem); color: var(--muted); margin: 0; line-height: 1.48; }
+    .kicker {
+      display: inline-flex; align-items: center; gap: 8px; font-size: .95rem; text-transform: uppercase; letter-spacing: .08em;
+      color: var(--blue); background: rgba(76,151,255,.12); padding: 8px 14px; border-radius: 999px; font-weight: 700;
+    }
+
+    .hero-row, .two-col, .three-col, .agenda-grid, .concept-grid, .sound-grid, .project-grid, .review-grid {
+      width: 100%; max-width: 1140px; display: grid; gap: 18px;
+    }
+    .hero-row { grid-template-columns: 1.05fr .95fr; align-items: center; }
+    .two-col { grid-template-columns: repeat(2,1fr); align-items: start; }
+    .three-col { grid-template-columns: repeat(3,1fr); }
+    .agenda-grid { grid-template-columns: repeat(4,1fr); }
+    .concept-grid { grid-template-columns: repeat(3,1fr); }
+    .sound-grid { grid-template-columns: repeat(4,1fr); }
+    .project-grid { grid-template-columns: 1.2fr .8fr; align-items: stretch; }
+    .review-grid { grid-template-columns: repeat(5,1fr); }
+
+    .card, .big-card, .mini-card, .agenda-card, .project-card, .speaker-box, .check-card, .quiz-panel, .lab-box {
+      background: #fff;
+      border: 3px solid #e0e8f2;
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+    }
+    .card { padding: 20px; }
+    .big-card { padding: 24px 26px; }
+    .mini-card { padding: 16px; text-align: center; }
+    .agenda-card { padding: 18px; text-align: center; }
+    .project-card { padding: 22px; }
+    .speaker-box { padding: 26px; width: 100%; max-width: 860px; text-align: center; }
+    .check-card { padding: 18px; }
+    .quiz-panel { padding: 18px 22px; width: 100%; max-width: 860px; }
+    .lab-box { padding: 20px; width: 100%; max-width: 1020px; }
+
+    .agenda-card .icon, .mini-card .icon, .review-grid .mini-card .icon { font-size: 2.7rem; margin-bottom: 6px; }
+    .agenda-card h3, .card h3, .mini-card h3, .project-card h3 { margin: 4px 0 6px; font-size: 1.28rem; color: #20324a; }
+    .agenda-card p, .card p, .mini-card p, .project-card p, .check-card p { margin: 0; color: #61768d; line-height: 1.46; font-size: 1.02rem; }
+    .card ul, .big-card ul, .project-card ul { margin: 10px 0 0; padding-left: 20px; color: #4f647c; line-height: 1.5; }
+    .card li, .big-card li, .project-card li { margin: 6px 0; }
+
+    .hero-emoji {
+      width: 100%; min-height: 300px; border-radius: 32px; display: grid; place-items: center;
+      background: linear-gradient(135deg, #e8f4ff, #fdf2ff 55%, #fff8d9);
+      border: 3px dashed #b8d7ff; text-align: center; padding: 18px;
+    }
+    .hero-emoji .big { font-size: 6rem; display: block; }
+    .hero-emoji .small { display: block; margin-top: 8px; font-size: 1.15rem; color: #5c7190; }
+
+    .pill-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+    .pill { padding: 10px 14px; border-radius: 999px; font-weight: 700; background: #f3f8ff; color: #3a5d84; border: 2px solid #d7e8ff; }
+    .pill.sound { background: #fdf1fd; color: #93409a; border-color: #f1ccf5; }
+    .pill.event { background: #fff6dc; color: #9a6c00; border-color: #ffe198; }
+    .pill.green { background: #eefcf6; color: #1f7d55; border-color: #c8f0dd; }
+
+    .image-box, .zoom-card img, .sample-shot {
+      width: 100%; background: #f8fbff; border-radius: 20px; border: 2px solid #e3edf7;
+      object-fit: contain;
+    }
+    .image-box { max-height: 330px; padding: 10px; }
+    .zoom-card img { height: 260px; padding: 10px; cursor: zoom-in; }
+    .sample-shot { height: 310px; }
+
+    .iframe-wrap {
+      background:#f7fbff; border-radius:22px; overflow:hidden; border:3px solid #dae8ff; box-shadow: var(--shadow);
+    }
+    .iframe-wrap iframe { width:100%; height:360px; border:0; display:block; }
+
+    .project-btns { display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; }
+    .project-btn, .huge-btn, .quiz-btn, .tiny-btn {
+      appearance:none; border:none; text-decoration:none; font-family:inherit; cursor:pointer; font-weight:700;
+      transition:.2s ease; display:inline-flex; align-items:center; justify-content:center;
+    }
+    .project-btn {
+      padding: 13px 18px; border-radius: 16px; background: linear-gradient(135deg, var(--blue), var(--cyan));
+      color:#fff; box-shadow: 0 10px 18px rgba(47,128,237,.23); font-size: 1rem;
+    }
+    .project-btn.secondary { background: linear-gradient(135deg, var(--orange), #ffb24b); }
+    .project-btn.ghost { background:#fff; color:#3a5d84; border:2px solid #dae6f2; box-shadow:none; }
+    .project-btn:hover, .huge-btn:hover, .quiz-btn:hover, .tiny-btn:hover { transform: translateY(-2px); }
+
+    .speaker-box .float { animation: floaty 2s ease-in-out infinite; display:inline-block; }
+    @keyframes floaty { 50% { transform: translateY(-6px); } }
+    .volume-row { display:flex; align-items:center; gap:12px; justify-content:center; margin:16px auto 10px; max-width:420px; }
+    .volume-row input { width:100%; }
+    .huge-btn {
+      padding: 16px 26px; border-radius: 18px; color:#fff; background: linear-gradient(135deg, var(--sound), var(--purple));
+      box-shadow: 0 12px 24px rgba(132,94,247,.28); font-size: 1.08rem; min-width: 260px;
+    }
+    .huge-btn.alt { background: linear-gradient(135deg, var(--orange), #ffb947); box-shadow: 0 12px 24px rgba(255,138,52,.24); }
+    .status-line, .feedback, .tiny-note, .quiz-status, .feedback-thanks { margin-top: 12px; font-size: 1rem; color:#66788d; }
+    .feedback.success, .quiz-status.success { color: #187f54; font-weight: 700; }
+    .feedback.error { color: #be433f; font-weight: 700; }
+    .feedback-thanks { font-size: 1.1rem; color:#34567c; min-height: 24px; }
+
+    .sound-type {
+      display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px;
+    }
+    .sound-type .bubble { width:74px; height:74px; border-radius:50%; display:grid; place-items:center; font-size:2.1rem; margin-bottom:6px; }
+    .bg1{ background:#e9f4ff; } .bg2{ background:#fff6de; } .bg3{ background:#eefbf6; } .bg4{ background:#f7efff; }
+
+    .step-num {
+      width: 42px; height: 42px; border-radius: 50%; display: inline-grid; place-items:center; font-weight: 700;
+      background: linear-gradient(135deg, var(--orange), #ffb445); color:#fff; box-shadow: 0 8px 18px rgba(255,138,52,.25);
+      margin-bottom: 10px;
+    }
+
+    .stage-demo {
+      width:100%; max-width:1020px; display:grid; grid-template-columns: 1.15fr .85fr; gap:24px; align-items:center;
+    }
+    .animal-stage {
+      height: 420px; border: 8px solid #26394f; border-radius: 26px; overflow: hidden;
+      background: linear-gradient(#c9efff 0 68%, #96d96d 68%);
+      position: relative; box-shadow: var(--shadow);
+    }
+    .animal-card {
+      position:absolute; width:110px; height:110px; border-radius:28px; background:#fff;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; cursor:pointer;
+      border:3px solid #e1ebf5; box-shadow: 0 12px 22px rgba(20,42,73,.16); transition: .2s ease;
+      user-select:none;
+    }
+    .animal-card:hover { transform: scale(1.05); }
+    .animal-card .emoji { font-size: 2.6rem; }
+    .animal-card .name { font-size: 1rem; font-weight: 700; color:#345; }
+    .animal-card.active { animation: popAnimal .45s ease; border-color: var(--sound); }
+    @keyframes popAnimal {
+      0% { transform: scale(1); }
+      35% { transform: scale(1.12) rotate(-3deg); }
+      100% { transform: scale(1.04); }
+    }
+    .bubble-text {
+      position:absolute; top:24px; right:24px; min-width:170px; padding:16px 18px; border-radius:22px;
+      background:#fff; border:3px solid #f1d1fa; color:#7a2e87; font-size: 1.2rem; font-weight:700; text-align:center;
+      box-shadow: 0 10px 20px rgba(107,52,129,.18);
+    }
+    .animal-log { min-height: 80px; }
+
+    .code-strip {
+      width:100%; max-width:1110px; display:grid; grid-template-columns: repeat(2,1fr); gap:20px; align-items:start;
+    }
+    .code-card { background:#fff; border:3px solid #e0e8f2; border-radius:24px; padding:18px; box-shadow: var(--shadow); }
+    .code-card img { width:100%; max-height:320px; object-fit:contain; border-radius:16px; background:#f8fbff; border:2px solid #e2eaf4; cursor:zoom-in; }
+    .code-card h3 { margin: 8px 0 6px; font-size: 1.26rem; }
+
+    .checklist { display:grid; grid-template-columns: repeat(2,1fr); gap:14px; width:100%; max-width:1040px; }
+    .tick { display:flex; gap:12px; align-items:flex-start; background:#fff; border:3px solid #e0e8f2; border-radius:20px; padding:16px 18px; box-shadow: var(--shadow); }
+    .tick .mark { font-size:1.6rem; }
+    .tick h4 { margin:0 0 4px; font-size:1.16rem; }
+    .tick p { margin:0; color:#61768d; }
+
+    .challenge-box {
+      width:100%; max-width:1050px; display:grid; grid-template-columns: .9fr 1.1fr; gap:22px; align-items:center;
+    }
+    .challenge-emoji {
+      min-height: 290px; border-radius: 26px; border: 3px dashed #dac8ff; background: linear-gradient(135deg, #f7f1ff, #fff9e8);
+      display:grid; place-items:center; text-align:center; padding: 16px;
+    }
+    .challenge-emoji .big { font-size:4.8rem; }
+
+    .quiz-progress {
+      width:100%; height:14px; background:#eef3f8; border-radius:999px; overflow:hidden; margin: 10px 0 12px;
+    }
+    .quiz-progress > div { height:100%; width:33.3%; background: linear-gradient(90deg, var(--orange), var(--purple), var(--cyan)); transition: .3s; }
+    .quiz-option-wrap { display:grid; gap:12px; margin-top: 18px; }
+    .quiz-btn {
+      width:100%; text-align:left; padding:14px 16px; border-radius:16px; background:#f9fbfd; border:2px solid #dde7f0;
+      color:#29425f; font-size:1.02rem;
+    }
+    .quiz-btn.correct { background:#effcf5; border-color:#9dddb9; color:#136740; }
+    .quiz-btn.wrong { background:#fff0ef; border-color:#f1aaa5; color:#b24439; }
+
+    .emoji-feedback { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; width:100%; max-width:850px; }
+    .emoji-feedback button {
+      width: 140px; min-height: 112px; border-radius: 24px; border:3px solid #dce6f0; background:#fff; cursor:pointer;
+      font-family:inherit; font-size:2.1rem; box-shadow: var(--shadow); font-weight:700; color:#3a5370;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+    }
+    .emoji-feedback button small { font-size:1rem; }
+    .emoji-feedback button.selected { border-color: var(--orange); background:#fff7ec; transform: translateY(-4px); }
+
+    .review-grid .mini-card { min-height: 160px; }
+
+    .cover-slide {
+      background: linear-gradient(135deg, #153f6a, #5c2f82 48%, #ff8a34);
+      color: #fff;
+    }
+    .cover-scene {
+      text-align: center;
+      position: relative;
+      width: 100%;
+      max-width: 1100px;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.3);
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      font-size: .95rem;
+      letter-spacing: .08em;
+    }
+    .hero-icon {
+      font-size: 6.5rem;
+      filter: drop-shadow(0 12px 16px rgba(0,0,0,.24));
+      animation: float 3s ease-in-out infinite;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .eyebrow {
+      letter-spacing: .22em;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+    .display-title {
+      font-size: clamp(3.2rem, 6.5vw, 5.8rem);
+      line-height: .98;
+      margin: 6px 0 16px;
+      color: #fff;
+    }
+    .display-title span { color: #ffd65a; }
+    .hero-subtitle {
+      font-size: 1.45rem;
+      max-width: 900px;
+      margin: 0 auto;
+      color: #edf2ff;
+      line-height: 1.45;
+    }
+    .hero-pills {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+    .hero-pills span {
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.24);
+      padding: 10px 18px;
+      border-radius: 16px;
+      font-weight: 600;
+      color: #fff;
+      font-size: 1.05rem;
+    }
+    .orbit {
+      position: absolute;
+      font-size: 2.6rem;
+      animation: float 3.5s ease-in-out infinite;
+    }
+    .orbit-a { left: 8%; top: 12%; }
+    .orbit-b { right: 8%; top: 18%; animation-delay: .7s; }
+    .orbit-c { right: 14%; bottom: 10%; animation-delay: 1.2s; }
+    @keyframes float {
+      50% { transform: translateY(-12px) rotate(3deg); }
+    }
+
+    .image-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(14, 25, 41, .85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 22px;
+      backdrop-filter: blur(5px);
+    }
+    .image-modal.show { display: flex; }
+    .image-modal img {
+      max-width: min(92vw, 1300px);
+      max-height: 90vh;
+      background: #fff;
+      border-radius: 20px;
+      padding: 12px;
+      box-shadow: 0 30px 60px rgba(0,0,0,.35);
+    }
+
+    @media (max-width: 1200px) {
+      .hero-row, .project-grid, .stage-demo, .challenge-box, .code-strip, .two-col { grid-template-columns: 1fr; }
+      .agenda-grid, .concept-grid, .sound-grid, .review-grid, .checklist, .three-col { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 860px) {
+      .slide { padding: 28px 20px 80px; }
+      .agenda-grid, .concept-grid, .sound-grid, .review-grid, .checklist, .three-col { grid-template-columns: 1fr; }
+      .nav-title { max-width: 32%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="brand-logo">
+    <img src="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png" alt="Ruangguru Coding">
+  </div>
+
+  <main class="presentation-container">
+    <section class="slide cover-slide active" data-title="Suara dan Rekaman">
+      <div class="cover-scene">
+        <div class="orbit orbit-a">🔊</div>
+        <div class="orbit orbit-b">🎙️</div>
+        <div class="orbit orbit-c">🐮</div>
+        <div class="hero-badge">SESSION 8 • SOUND & RECORDING</div>
+        <div class="hero-icon">🔊</div>
+        <p class="eyebrow">SCRATCH SOUNDS</p>
+        <h1 class="display-title">Suara dan <span>Rekaman</span></h1>
+        <p class="hero-subtitle">Mengenal sound blocks di Scratch, memeriksa speaker, merekam suara sendiri, dan membuat project interaktif Animal Sound.</p>
+        <div class="hero-pills">
+          <span>🔊 Sound Blocks</span>
+          <span>🎙️ Rekam Suara</span>
+          <span>🐮 Animal Sounds</span>
+          <span>🖱️ When Sprite Clicked</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Misi Hari Ini">
+      <div class="slide-head center">
+        <span class="kicker">SESSION 8 • MISI CODING</span>
+        <h2>Misi Hari Ini 🎯</h2>
+        <p>Hari ini kita akan menambahkan <b>sound</b> ke project Scratch supaya project jadi lebih hidup, seru, dan interaktif.</p>
+      </div>
+      <div class="hero-row">
+        <div class="big-card">
+          <h3>Misi Hari Ini</h3>
+          <ul>
+            <li>Belajar apa fungsi suara di dalam project.</li>
+            <li>Mencoba cek speaker dan mengenal tab <b>Sounds</b>.</li>
+            <li>Membuat project <b>Animal Sound</b> dengan klik sprite, bunyi, dan animasi sederhana.</li>
+          </ul>
+          <div class="pill-row">
+            <span class="pill sound">Sound Blocks</span>
+            <span class="pill event">When This Sprite Clicked</span>
+            <span class="pill green">Next Costume</span>
+          </div>
+        </div>
+        <div class="hero-emoji">
+          <div>
+            <span class="big">🐶🐮🐥🎵</span>
+            <span class="small">Klik hewan → bunyi muncul → costume berganti sedikit!</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Review Meet 7">
+      <div class="slide-head center">
+        <span class="kicker">REVIEW</span>
+        <h2>Apa yang Kita Pelajari Sebelumnya?</h2>
+        <p>Minggu lalu kita belajar tentang <b>assets</b>, <b>hak cipta</b>, <b>remix</b>, dan memberi <b>credit</b>.</p>
+      </div>
+      <div class="review-grid">
+        <div class="mini-card"><div class="icon">🎨</div><h3>Assets</h3><p>Sprite dan backdrop bisa dibuat sendiri atau di-upload.</p></div>
+        <div class="mini-card"><div class="icon">©️</div><h3>Hak Cipta</h3><p>Karya digital punya pembuat asli.</p></div>
+        <div class="mini-card"><div class="icon">🔁</div><h3>Remix</h3><p>Kita boleh mengembangkan project sambil tetap menghargai creator awal.</p></div>
+        <div class="mini-card"><div class="icon">🙏</div><h3>Credit</h3><p>Ucapkan terima kasih dan tulis sumber jika memakai karya orang lain.</p></div>
+        <div class="mini-card"><div class="icon">🛡️</div><h3>Aman</h3><p>Jangan bagikan informasi pribadi di project.</p></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Agenda Today">
+      <div class="slide-head center">
+        <span class="kicker">TODAY'S AGENDA</span>
+        <h2>Hari Ini Kita Akan...</h2>
+        <p>Belajar sound step by step lalu membuat project hewan yang bisa berbunyi saat diklik.</p>
+      </div>
+      <div class="agenda-grid">
+        <div class="agenda-card"><div class="icon">🔊</div><h3>Cek Speaker</h3><p>Pastikan suara laptop/headset bisa terdengar.</p></div>
+        <div class="agenda-card"><div class="icon">🎼</div><h3>Belajar Sound</h3><p>Kenalan dengan tab Sounds dan blok suara.</p></div>
+        <div class="agenda-card"><div class="icon">🐮</div><h3>Bikin Project</h3><p>Project <b>Animal Sound</b> dengan klik sprite.</p></div>
+        <div class="agenda-card"><div class="icon">💾</div><h3>Test & Save</h3><p>Uji project, share, quiz, review, dan feedback.</p></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Why Sound">
+      <div class="slide-head center">
+        <span class="kicker">ANALOGY</span>
+        <h2>Kenapa Project Butuh Suara?</h2>
+        <p>Bayangkan menonton kartun tanpa suara. Masih terlihat, tapi terasa lebih sepi. Sound membantu project terasa lebih hidup.</p>
+      </div>
+      <div class="concept-grid">
+        <div class="card sound-type"><div class="bubble bg1">🐶</div><h3>Suara Hewan</h3><p>Saat sprite hewan diklik, kita bisa memutar suara hewannya.</p></div>
+        <div class="card sound-type"><div class="bubble bg2">🌧️</div><h3>Suara Latar</h3><p>Suara hujan, angin, atau musik membuat suasana lebih terasa.</p></div>
+        <div class="card sound-type"><div class="bubble bg3">🗣️</div><h3>Suara Penjelasan</h3><p>Kita juga bisa merekam suara sendiri untuk menjelaskan project.</p></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Speaker Check">
+      <div class="slide-head center">
+        <span class="kicker">AUDIO CHECK</span>
+        <h2>Speaker Check 🔊</h2>
+        <p>Klik tombol di bawah. Coba naik-turunkan volume laptop atau headset kamu.</p>
+      </div>
+      <div class="speaker-box">
+        <div style="font-size:5rem" class="float">🎚️🎧</div>
+        <p class="lead">Kalau belum terdengar, tetap bisa ikut membuat project kok. Nanti kita tetap bisa belajar blok dan susunan coding-nya.</p>
+        <div class="volume-row"><span>🔈</span><input id="volumeSlider" type="range" min="0" max="1" step="0.05" value="0.25"><span>🔊</span></div>
+        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:10px;">
+          <button id="testSoundBtn" class="huge-btn" onclick="toggleTestSound()">PLAY TEST SOUND ▶️</button>
+          <button class="huge-btn alt" onclick="stopTestSound()">STOP SOUND ⏹️</button>
+        </div>
+        <div class="status-line" id="soundStatus">Kalau belum terdengar, cek volume atau coba pakai headset.</div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="When do we use sound">
+      <div class="slide-head center">
+        <span class="kicker">SOUND IDEAS</span>
+        <h2>Kapan Kita Memakai Sound?</h2>
+        <p>Sound biasanya dihubungkan dengan sebuah <b>event</b> atau kejadian.</p>
+      </div>
+      <div class="three-col">
+        <div class="big-card"><div class="step-num">1</div><h3>Green Flag</h3><p>Musik latar mulai diputar ketika project dimulai.</p><div class="pill-row"><span class="pill event">when green flag clicked</span><span class="pill sound">play sound</span></div></div>
+        <div class="big-card"><div class="step-num">2</div><h3>Sprite Diklik</h3><p>Hewan mengeluarkan suara ketika kita klik.</p><div class="pill-row"><span class="pill event">when this sprite clicked</span><span class="pill sound">start sound</span></div></div>
+        <div class="big-card"><div class="step-num">3</div><h3>Event Khusus</h3><p>Contohnya saat menang, saat tersentuh, atau saat ganti costume.</p><div class="pill-row"><span class="pill event">if / when</span><span class="pill sound">sound effect</span></div></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Check Sprite Sound">
+      <div class="slide-head center">
+        <span class="kicker">STEP 1</span>
+        <h2>Check: Sprite Sudah Punya Sound?</h2>
+        <p>Pilih salah satu sprite, lalu buka tab <b>Sounds</b> untuk melihat apakah sprite itu sudah punya suara.</p>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <img class="image-box zoomable" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/710e2d5c-8327-47c4-909a-b509e59c67da.png" alt="Tab sound pada sprite">
+        </div>
+        <div class="big-card">
+          <h3>Apa yang Perlu Dilihat?</h3>
+          <ul>
+            <li>Sudah ada file suara di tab <b>Sounds</b> atau belum.</li>
+            <li>Kalau sudah ada, kita tinggal memakai blok sound saat coding.</li>
+            <li>Kalau belum ada, kita bisa menambahkan sound baru.</li>
+          </ul>
+          <div class="pill-row"><span class="pill sound">Sound tab</span><span class="pill">Lihat daftar suara</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Add Sound">
+      <div class="slide-head center">
+        <span class="kicker">STEP 2</span>
+        <h2>Kalau Belum Ada, Tambahkan Sound</h2>
+        <p>Gunakan tombol <b>Add Sound</b>, lalu pilih suara yang cocok untuk sprite kamu.</p>
+      </div>
+      <div class="sound-grid">
+        <div class="card" style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+          <img class="image-box zoomable" style="height:150px; object-fit:contain;" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/4ee10585-c3ec-4b09-80d7-82e42709c49c.png" alt="Tombol add sound">
+          <h3 style="margin-top:10px;">1. Add Sound</h3>
+          <p>Klik tombol biru di tab Sounds untuk memilih suara.</p>
+        </div>
+        <div class="card" style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+          <img class="image-box zoomable" style="height:150px; object-fit:contain;" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/275dbda6-999b-4d4d-963f-483a93cae983.png" alt="Cari sound di library">
+          <h3 style="margin-top:10px;">2. Pilih Sound</h3>
+          <p>Cari suara hewan yang paling cocok di Audio Library.</p>
+        </div>
+        <div class="card" style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+          <img class="image-box zoomable" style="height:150px; object-fit:contain;" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/23ee6a96-80c7-4e66-bf6f-d9ed533f2182.png" alt="Rekam suara sendiri di Scratch">
+          <h3 style="margin-top:10px;">3. Rekam Suara</h3>
+          <p>Pilih tombol Record untuk merekam suara kamu sendiri.</p>
+        </div>
+        <div class="card" style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+          <div style="width:100%; height:150px; background:#f0fbf7; border-radius:18px; border:2px solid #cbf0e1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;">
+            <span style="font-size:2.8rem; line-height:1;">✂️🎧</span>
+            <span style="font-weight:700; color:#187f54; font-size:.92rem;">Edit & Trim Audio</span>
+          </div>
+          <h3 style="margin-top:10px;">4. Rapikan</h3>
+          <p>Potong bagian hening agar suara pas dan jelas didengar.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Sound Blocks">
+      <div class="slide-head center">
+        <span class="kicker">STEP 3</span>
+        <h2>Blok Sound yang Akan Kita Pakai</h2>
+        <p>Sesudah sprite punya sound, kita bisa menambahkan blok dari kategori warna pink/ungu untuk suara.</p>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <img class="image-box zoomable" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/0f140790-ad03-4415-b309-dfbd8a4591eb.png" alt="Sound blocks Scratch">
+        </div>
+        <div class="big-card">
+          <h3>Contoh Fungsi Blok Sound</h3>
+          <ul>
+            <li><b>Start sound</b>: memulai suara.</li>
+            <li><b>Play sound until done</b>: memutar suara sampai selesai.</li>
+            <li><b>Stop all sounds</b>: menghentikan suara yang sedang berjalan.</li>
+          </ul>
+          <p class="lead" style="margin-top:12px">Untuk project hari ini, kita bisa memakai <b>start sound</b> atau <b>play sound until done</b>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Project Today">
+      <div class="slide-head center">
+        <span class="kicker">PROJECT FOR TODAY</span>
+        <h2>Animal Sound 🐮🐥🐶</h2>
+        <p>Setiap sprite hewan akan berbunyi saat diklik dan sebagian akan berganti costume supaya terlihat bergerak sedikit.</p>
+      </div>
+      <div class="project-grid">
+        <div class="project-card">
+          <div class="iframe-wrap">
+            <iframe src="https://scratch.mit.edu/projects/526342317/embed" allowtransparency="true" allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="project-card">
+          <h3>Coba Dulu Sample Project</h3>
+          <p>Klik project contoh untuk melihat bagaimana hasil akhirnya.</p>
+          <div class="project-btns">
+            <a class="project-btn" href="https://scratch.mit.edu/projects/526342317/" target="_blank">Buka Sample Project</a>
+            <a class="project-btn secondary" href="https://scratch.mit.edu/projects/1322505141/" target="_blank">Buka Starter Project</a>
+          </div>
+          <ul>
+            <li>Ada banyak sprite hewan.</li>
+            <li>Saat sprite diklik, sound hewan akan diputar.</li>
+            <li>Beberapa sprite juga memakai <b>next costume</b>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Remix Starter Project">
+      <div class="slide-head center">
+        <span class="kicker">BEFORE CODING</span>
+        <h2>Remix Dulu Starter Project</h2>
+        <p>Kita akan memakai project awal yang sudah disiapkan, lalu menambahkan coding di setiap sprite.</p>
+      </div>
+      <div class="two-col">
+        <div class="big-card">
+          <h3>Langkah Awal</h3>
+          <ol style="margin:10px 0 0; padding-left: 20px; color:#4f647c; line-height:1.5;">
+            <li>Buka link starter project.</li>
+            <li>Klik <b>See Inside</b> jika perlu melihat isi project.</li>
+            <li>Klik <b>Remix</b> agar project menjadi milikmu sendiri untuk diedit.</li>
+            <li>Setelah itu, cek semua sprite hewan di bagian bawah.</li>
+          </ol>
+          <div class="project-btns"><a class="project-btn secondary" href="https://scratch.mit.edu/projects/1322505141/" target="_blank">Remix Starter Project</a></div>
+        </div>
+        <div class="card" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:16px;">
+          <img class="image-box zoomable" style="max-height:240px; object-fit:contain; border-radius:16px;" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/056c3dce-5df3-4560-a008-4edf89657b3d.png" alt="Tombol Remix pada Scratch">
+          <p style="margin-top:10px; font-size:.95rem; color:#61768d; text-align:center;">Klik tombol hijau <b>Remix</b> di kanan atas halaman Scratch.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Project Flow">
+      <div class="slide-head center">
+        <span class="kicker">HOW IT WORKS</span>
+        <h2>Apa yang Akan Terjadi di Project?</h2>
+        <p>Project hari ini sederhana, tetapi menarik. Kita menggabungkan <b>event</b>, <b>sound</b>, dan <b>costume</b>.</p>
+      </div>
+      <div class="three-col">
+        <div class="big-card"><div class="step-num">1</div><h3>Green Flag</h3><p>Sprite kembali ke costume awal / idle.</p></div>
+        <div class="big-card"><div class="step-num">2</div><h3>Sprite Diklik</h3><p>Sound hewan diputar dan sprite bergerak sedikit dengan next costume.</p></div>
+        <div class="big-card"><div class="step-num">3</div><h3>Ulangi Lagi</h3><p>Kita bisa klik hewan lain dan mendengar suara yang berbeda.</p></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Check the sprites">
+      <div class="slide-head center">
+        <span class="kicker">SPRITES</span>
+        <h2>Cek Semua Sprite Hewan</h2>
+        <p>Pastikan di starter project sudah ada banyak gambar hewan. Pilih satu per satu untuk mengecek sound dan costume-nya.</p>
+      </div>
+      <div class="checklist">
+        <div class="tick"><div class="mark">🐮</div><div><h4>Pilih satu sprite</h4><p>Klik sprite hewan di bawah Scratch.</p></div></div>
+        <div class="tick"><div class="mark">🎵</div><div><h4>Cek sound</h4><p>Buka tab <b>Sounds</b> dan pastikan ada suaranya.</p></div></div>
+        <div class="tick"><div class="mark">🧥</div><div><h4>Cek costume</h4><p>Kalau punya lebih dari satu costume, bisa dipakai untuk animasi.</p></div></div>
+        <div class="tick"><div class="mark">🧠</div><div><h4>Ulangi ke sprite lain</h4><p>Lakukan hal yang sama untuk hewan-hewan lainnya.</p></div></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Main Code">
+      <div class="slide-head center">
+        <span class="kicker">MAIN CODING</span>
+        <h2>Code untuk Setiap Sprite Hewan</h2>
+        <p>Tambahkan dua blok utama ini ke setiap sprite hewan.</p>
+      </div>
+      <div class="two-col">
+        <div class="code-card">
+          <img class="zoomable" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/7dd9e614-ef7e-46f4-8e57-712186f34805.png" alt="Kode sprite clicked">
+          <h3>When This Sprite Clicked</h3>
+          <p>Saat sprite diklik, mainkan sound lalu buat animasi kecil dengan costume.</p>
+        </div>
+        <div class="big-card">
+          <h3>Jangan Lupa Tambahan Green Flag</h3>
+          <ul>
+            <li>Tambahkan blok <b>when green flag clicked</b>.</li>
+            <li>Pakai <b>switch costume to idle</b> atau costume awal.</li>
+            <li>Tujuannya supaya project selalu mulai dari tampilan yang rapi.</li>
+          </ul>
+          <div class="pill-row"><span class="pill green">Reset costume</span><span class="pill sound">Play sound</span><span class="pill">Next costume</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Interactive Lab">
+      <div class="slide-head center">
+        <span class="kicker">MINI LAB</span>
+        <h2>Klik Hewan dan Lihat Apa yang Terjadi</h2>
+        <p>Ini hanya simulasi sederhana. Klik hewan di bawah untuk merasakan ide project-nya.</p>
+      </div>
+      <div class="stage-demo">
+        <div class="animal-stage" id="animalStage">
+          <div class="bubble-text" id="animalBubble">Klik salah satu hewan!</div>
+          <div class="animal-card" id="animalCow" style="left:12%; top:22%" onclick="playAnimal('cow')"><div class="emoji">🐮</div><div class="name">Sapi</div></div>
+          <div class="animal-card" id="animalDog" style="left:41%; top:56%" onclick="playAnimal('dog')"><div class="emoji">🐶</div><div class="name">Anjing</div></div>
+          <div class="animal-card" id="animalChick" style="left:70%; top:24%" onclick="playAnimal('chick')"><div class="emoji">🐥</div><div class="name">Anak Ayam</div></div>
+        </div>
+        <div class="lab-box">
+          <h3>Apa yang Sedang Disimulasikan?</h3>
+          <ul>
+            <li>Klik sprite = <b>event</b>.</li>
+            <li>Suara hewan = <b>sound effect</b>.</li>
+            <li>Card membesar sedikit = analogi <b>next costume / animasi kecil</b>.</li>
+          </ul>
+          <div class="feedback success animal-log" id="animalFeedback">Belum ada hewan yang diklik.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Explain the code">
+      <div class="slide-head center">
+        <span class="kicker">READ THE CODE</span>
+        <h2>Apa Fungsi Susunan Block Ini?</h2>
+        <p>Kita tidak hanya menyalin block, tapi juga memahami urutannya.</p>
+      </div>
+      <div class="three-col">
+        <div class="big-card"><div class="step-num">1</div><h3>Trigger</h3><p><b>When this sprite clicked</b> berarti blok berjalan saat sprite diklik.</p></div>
+        <div class="big-card"><div class="step-num">2</div><h3>Sound</h3><p>Blok sound memutar suara yang sudah kita tambahkan di sprite.</p></div>
+        <div class="big-card"><div class="step-num">3</div><h3>Animation</h3><p><b>Next costume</b> membuat sprite seperti bergerak sedikit.</p></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Recording Voice">
+      <div class="slide-head center">
+        <span class="kicker">EXTRA SKILL</span>
+        <h2>Mau Pakai Suara Sendiri?</h2>
+        <p>Selain memakai sound bawaan Scratch, kamu juga bisa merekam suara sendiri.</p>
+      </div>
+      <div class="two-col">
+        <div class="big-card">
+          <h3>Contoh Ide Rekaman</h3>
+          <ul>
+            <li>"Moo!" untuk sapi</li>
+            <li>"Welcome to my animal farm!" untuk pembuka project</li>
+            <li>"Klik hewan lain ya!" untuk petunjuk bermain</li>
+          </ul>
+          <p class="lead" style="margin-top:12px">Kalau belum ingin merekam, tidak apa-apa. Kita tetap bisa memakai sound yang sudah tersedia.</p>
+        </div>
+        <div class="hero-emoji"><div><span class="big">🎙️✨</span><span class="small">Rekaman suara bisa membuat project terasa lebih personal.</span></div></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Challenge BGM">
+      <div class="slide-head center">
+        <span class="kicker">CHALLENGE</span>
+        <h2>Bonus Challenge: Tambahkan Background Sound</h2>
+        <p>Kalau sudah selesai, coba tambahkan satu musik latar yang terus berbunyi selama project berjalan.</p>
+      </div>
+      <div class="challenge-box">
+        <div class="challenge-emoji"><div><div class="big">🎵🔁</div><div class="small">Bayangkan project-mu punya lagu latar yang terus menemani saat kita klik-klik hewan.</div></div></div>
+        <div class="big-card">
+          <h3>Ide Caranya</h3>
+          <ol style="margin:10px 0 0; padding-left: 20px; color:#4f647c; line-height:1.5;">
+            <li>Pilih <b>Stage</b> atau satu sprite khusus.</li>
+            <li>Tambahkan satu sound musik pendek.</li>
+            <li>Hubungkan dengan <b>when green flag clicked</b>.</li>
+            <li>Buat musik diputar terus selama project berjalan.</li>
+          </ol>
+          <div class="pill-row"><span class="pill sound">background music</span><span class="pill green">green flag</span><span class="pill">repeat / forever</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Testing">
+      <div class="slide-head center">
+        <span class="kicker">TESTING TIME</span>
+        <h2>Waktunya Test Project</h2>
+        <p>Sesudah semua hewan diberi sound dan coding, coba jalankan project-mu.</p>
+      </div>
+      <div class="checklist">
+        <div class="tick"><div class="mark">🚩</div><div><h4>Klik Green Flag</h4><p>Pastikan semua sprite mulai dari kondisi awal.</p></div></div>
+        <div class="tick"><div class="mark">🖱️</div><div><h4>Klik Tiap Hewan</h4><p>Apakah sound muncul saat sprite diklik?</p></div></div>
+        <div class="tick"><div class="mark">👀</div><div><h4>Lihat Costumenya</h4><p>Apakah sprite berganti costume atau terlihat bergerak?</p></div></div>
+        <div class="tick"><div class="mark">🔧</div><div><h4>Perbaiki Jika Perlu</h4><p>Kalau ada sprite belum berbunyi, cek tab Sounds dan bloknya lagi.</p></div></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="How to Play & Notes">
+      <div class="slide-head center">
+        <span class="kicker">PUBLISHING</span>
+        <h2>Tambahkan How to Play, Notes, dan Credit</h2>
+        <p>Kalau project sudah bagus, tambahkan penjelasan singkat supaya orang lain tahu cara memainkannya.</p>
+      </div>
+      <div class="two-col">
+        <div class="big-card">
+          <h3>Contoh Isi Petunjuk</h3>
+          <ul>
+            <li><b>How to Play:</b> Click the animals to hear their sounds.</li>
+            <li><b>Notes:</b> Some animals have costume animation.</li>
+            <li><b>Credit:</b> Thanks to Scratch sounds / Thanks to ...</li>
+          </ul>
+        </div>
+        <div class="big-card">
+          <h3>Kenapa Ini Penting?</h3>
+          <ul>
+            <li>Project jadi lebih mudah dipahami.</li>
+            <li>Penonton tahu cara mencoba project-mu.</li>
+            <li>Kita tetap menghargai sumber kalau memakai asset dari luar.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Save & Share">
+      <div class="slide-head center">
+        <span class="kicker">SAVE YOUR WORK</span>
+        <h2>Jangan Lupa Save dan Share Project 💾</h2>
+        <p>Saat project selesai, klik <b>Share</b> agar project tersimpan dan bisa dibuka kembali.</p>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <img class="image-box zoomable" src="https://brightchamps.com/blog/wp-content/uploads/2022/02/save-and-share-a-project-in-Scratch-step-7-1-1024x481.png" alt="Tombol Share Scratch">
+        </div>
+        <div class="big-card">
+          <h3>Before You Leave</h3>
+          <ul>
+            <li>Klik <b>File → Save now</b> atau pastikan project tersimpan.</li>
+            <li>Klik <b>Share</b> kalau project sudah siap ditunjukkan.</li>
+            <li>Coba buka lagi project untuk memastikan semuanya aman.</li>
+          </ul>
+          <div class="pill-row"><span class="pill green">Save</span><span class="pill">Share</span><span class="pill sound">Ready to show</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Quick Quiz">
+      <div class="slide-head center compact">
+        <span class="kicker">QUICK QUIZ</span>
+        <h2>Cek Pemahamanmu 🧠</h2>
+        <p>Jawab 3 pertanyaan singkat tentang materi hari ini.</p>
+      </div>
+      <div class="quiz-panel">
+        <div class="quiz-status" id="quizProgressText">Soal 1 dari 3</div>
+        <div class="quiz-progress"><div id="quizProgressBar"></div></div>
+        <div id="quiz1" class="quiz-card active">
+          <h3>1. Tab apa yang kita buka untuk mengecek apakah sprite sudah punya suara?</h3>
+          <div class="quiz-option-wrap">
+            <button class="quiz-btn" onclick="answerQuiz(this,false,'quiz1','quiz2')">A. Costumes</button>
+            <button class="quiz-btn" onclick="answerQuiz(this,true,'quiz1','quiz2')">B. Sounds</button>
+            <button class="quiz-btn" onclick="answerQuiz(this,false,'quiz1','quiz2')">C. Variables</button>
+          </div>
+        </div>
+        <div id="quiz2" class="quiz-card" style="display:none">
+          <h3>2. Event apa yang cocok dipakai agar hewan berbunyi saat diklik?</h3>
+          <div class="quiz-option-wrap">
+            <button class="quiz-btn" onclick="answerQuiz(this,true,'quiz2','quiz3')">A. When this sprite clicked</button>
+            <button class="quiz-btn" onclick="answerQuiz(this,false,'quiz2','quiz3')">B. When backdrop switches to</button>
+            <button class="quiz-btn" onclick="answerQuiz(this,false,'quiz2','quiz3')">C. When I start as a clone</button>
+          </div>
+        </div>
+        <div id="quiz3" class="quiz-card" style="display:none">
+          <h3>3. Kalau project ingin punya musik latar selama game berjalan, kita bisa memulainya saat...</h3>
+          <div class="quiz-option-wrap">
+            <button class="quiz-btn" onclick="answerQuiz(this,false,'quiz3','quizDone')">A. Sprite di-drag</button>
+            <button class="quiz-btn" onclick="answerQuiz(this,true,'quiz3','quizDone')">B. Green flag clicked</button>
+            <button class="quiz-btn" onclick="answerQuiz(this,false,'quiz3','quizDone')">C. Mouse menyentuh layar</button>
+          </div>
+        </div>
+        <div id="quizDone" class="quiz-card" style="display:none">
+          <h3>Yeay, quiz selesai! 🎉</h3>
+          <p>Kamu sudah mengecek pemahaman tentang sound, event, dan penggunaan audio di Scratch.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Review Today">
+      <div class="slide-head center">
+        <span class="kicker">REVIEW</span>
+        <h2>Apa Saja yang Sudah Kita Pelajari?</h2>
+        <p>Hari ini kita menambahkan dunia suara ke dalam project Scratch.</p>
+      </div>
+      <div class="review-grid">
+        <div class="mini-card"><div class="icon">🔊</div><h3>Speaker Check</h3><p>Kita mengecek volume dan speaker sebelum mulai.</p></div>
+        <div class="mini-card"><div class="icon">🎵</div><h3>Tab Sounds</h3><p>Kita belajar mengecek dan menambahkan sound ke sprite.</p></div>
+        <div class="mini-card"><div class="icon">🖱️</div><h3>Event Klik</h3><p>Sprite berbunyi saat memakai <b>when this sprite clicked</b>.</p></div>
+        <div class="mini-card"><div class="icon">👕</div><h3>Costume</h3><p><b>Next costume</b> membuat sprite terlihat bergerak sedikit.</p></div>
+        <div class="mini-card"><div class="icon">🐮</div><h3>Animal Sound</h3><p>Kita membuat project hewan dengan suara dan animasi sederhana.</p></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Feedback">
+      <div class="slide-head center">
+        <span class="kicker">YOUR FEEDBACK</span>
+        <h2>Bagaimana Belajar Sound Hari Ini?</h2>
+        <p>Pilih satu yang paling sesuai dengan perasaanmu.</p>
+      </div>
+      <div class="emoji-feedback" id="emojiFeedback">
+        <button onclick="sendFeedback(this)">😍<small>Sangat Seru</small></button>
+        <button onclick="sendFeedback(this)">😊<small>Aku Paham</small></button>
+        <button onclick="sendFeedback(this)">🤔<small>Perlu Latihan Lagi</small></button>
+        <button onclick="sendFeedback(this)">🎵<small>Mau Coba Lagi</small></button>
+      </div>
+      <div class="feedback-thanks" id="feedbackThanks"></div>
+    </section>
+
+    <div class="progress-line" id="progressLine"></div>
+    <footer class="navigation">
+      <div class="nav-title" id="navTitle">Session 8 • Suara dan Rekaman</div>
+      <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" aria-label="Sebelumnya">‹</button>
+        <div class="counter"><span id="currentSlide">1</span> / <span id="totalSlides">1</span></div>
+        <button class="nav-btn next" id="nextBtn" aria-label="Berikutnya">›</button>
+      </div>
+    </footer>
+  </main>
+
+  <div id="imageModal" class="image-modal" onclick="this.classList.remove('show')"><img id="enlargedImg" src="" alt="Enlarged view"></div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = [...document.querySelectorAll('.slide')];
+    function showSlide(index) {
+      if (index < 0 || index >= slides.length) return;
+      slides.forEach((s, i) => s.classList.toggle('active', i === index));
+      currentSlide = index;
+      document.getElementById('currentSlide').textContent = index + 1;
+      document.getElementById('totalSlides').textContent = slides.length;
+      document.getElementById('prevBtn').disabled = index === 0;
+      document.getElementById('nextBtn').disabled = index === slides.length - 1;
+      document.getElementById('navTitle').textContent = 'Session 8 • ' + (slides[index].dataset.title || 'Suara dan Rekaman');
+      document.getElementById('progressLine').style.width = ((index + 1) / slides.length) * 100 + '%';
+      slides[index].scrollTop = 0;
+    }
+    document.getElementById('prevBtn').onclick = () => showSlide(currentSlide - 1);
+    document.getElementById('nextBtn').onclick = () => showSlide(currentSlide + 1);
+    document.addEventListener('keydown', e => {
+      if (['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) return;
+      if (e.key === 'ArrowRight') showSlide(currentSlide + 1);
+      if (e.key === 'ArrowLeft') showSlide(currentSlide - 1);
+    });
+    showSlide(0);
+
+    function setFeedback(id, msg, ok = true) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = msg;
+      el.className = 'feedback ' + (ok ? 'success' : 'error');
+    }
+
+    // Speaker test with Web Audio
+    let audioCtx = null, gainNode = null, oscillator = null, testSoundPlaying = false;
+    function ensureAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        gainNode = audioCtx.createGain();
+        gainNode.gain.value = parseFloat(document.getElementById('volumeSlider').value || '0.25');
+        gainNode.connect(audioCtx.destination);
+      }
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+    }
+    function startTestSound() {
+      ensureAudio();
+      stopTestSound(false);
+      oscillator = audioCtx.createOscillator();
+      const tremolo = audioCtx.createOscillator();
+      const tremoloGain = audioCtx.createGain();
+      oscillator.type = 'triangle';
+      oscillator.frequency.value = 523.25;
+      tremolo.type = 'sine';
+      tremolo.frequency.value = 4.5;
+      tremoloGain.gain.value = 0.16;
+      tremolo.connect(tremoloGain);
+      tremoloGain.connect(gainNode.gain);
+      oscillator.connect(gainNode);
+      oscillator.start();
+      tremolo.start();
+      oscillator._tremolo = tremolo;
+      oscillator._tremoloGain = tremoloGain;
+      testSoundPlaying = true;
+      document.getElementById('testSoundBtn').textContent = 'PLAYING... ▶️';
+      document.getElementById('soundStatus').textContent = 'Kalau terdengar, berarti speaker/headset kamu siap dipakai!';
+    }
+    function stopTestSound(updateText = true) {
+      if (oscillator) {
+        try { oscillator.stop(); } catch(e) {}
+        try { oscillator._tremolo && oscillator._tremolo.stop(); } catch(e) {}
+        oscillator.disconnect();
+        oscillator = null;
+      }
+      testSoundPlaying = false;
+      document.getElementById('testSoundBtn').textContent = 'PLAY TEST SOUND ▶️';
+      if (updateText) document.getElementById('soundStatus').textContent = 'Kalau belum terdengar, tetap bisa ikut bikin project kok.';
+    }
+    function toggleTestSound() {
+      if (testSoundPlaying) stopTestSound(); else startTestSound();
+    }
+    document.getElementById('volumeSlider').addEventListener('input', e => {
+      if (gainNode) gainNode.gain.value = parseFloat(e.target.value);
+      document.getElementById('soundStatus').textContent = 'Volume diubah ke ' + Math.round(parseFloat(e.target.value)*100) + '%. Coba dengarkan lagi ya!';
+    });
+
+    // Mini animal lab
+    function animalBeep(type){
+      ensureAudio();
+      const freqs = { cow: 220, dog: 660, chick: 880 };
+      const ctx = audioCtx;
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'sine';
+      o.frequency.value = freqs[type] || 440;
+      g.gain.value = 0.0001;
+      o.connect(g); g.connect(ctx.destination);
+      const now = ctx.currentTime;
+      g.gain.exponentialRampToValueAtTime(0.05, now + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
+      o.start(now); o.stop(now + 0.36);
+    }
+    function playAnimal(type) {
+      const texts = {
+        cow: { label: 'Moo! 🐮', msg: 'Sapi diklik → sound dimainkan → sprite bisa next costume.' },
+        dog: { label: 'Woof! 🐶', msg: 'Anjing diklik → ini contoh event ketika sprite disentuh mouse.' },
+        chick: { label: 'Cuit! 🐥', msg: 'Anak ayam diklik → kita bisa menambahkan suara dan animasi kecil.' }
+      };
+      document.querySelectorAll('.animal-card').forEach(el => el.classList.remove('active'));
+      const active = { cow:'animalCow', dog:'animalDog', chick:'animalChick' }[type];
+      document.getElementById(active).classList.add('active');
+      document.getElementById('animalBubble').textContent = texts[type].label;
+      setFeedback('animalFeedback', texts[type].msg, true);
+      animalBeep(type);
+    }
+
+    // Quiz
+    let quizNumber = 1;
+    function answerQuiz(btn, correct, current, next) {
+      const q = document.getElementById(current), buttons = q.querySelectorAll('button');
+      buttons.forEach(b => b.disabled = true);
+      btn.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) buttons.forEach(b => { if (b.getAttribute('onclick').includes('true')) b.classList.add('correct'); });
+      setTimeout(() => {
+        q.style.display = 'none';
+        document.getElementById(next).style.display = 'block';
+        quizNumber = Math.min(3, quizNumber + 1);
+        document.getElementById('quizProgressText').textContent = next === 'quizDone' ? 'Selesai' : 'Soal ' + quizNumber + ' dari 3';
+        document.getElementById('quizProgressBar').style.width = (next === 'quizDone' ? 100 : quizNumber * 33.3) + '%';
+      }, 650);
+    }
+
+    function sendFeedback(btn) {
+      document.querySelectorAll('#emojiFeedback button').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      document.getElementById('feedbackThanks').textContent = 'Terima kasih sudah belajar hari ini. Sampai jumpa di pertemuan berikutnya!';
+    }
+
+    document.querySelectorAll('.zoomable').forEach(img => img.addEventListener('click', () => {
+      document.getElementById('enlargedImg').src = img.src;
+      document.getElementById('imageModal').classList.add('show');
+    }));
+  </script>
+</body>
+</html>
