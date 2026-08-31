@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Session 9 - Debugging Robo-KAL | Ruangguru Coding</title>
+    <link rel="icon"
+        href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue: #2f80ed;
+            --cyan: #16bde8;
+            --purple: #845ef7;
+            --orange: #ff8a34;
+            --yellow: #ffd53d;
+            --green: #28b875;
+            --red: #ef5350;
+            --pink: #ff6fb5;
+            --ink: #20324a;
+            --muted: #66788d;
+            --shadow: 0 22px 55px rgba(22, 44, 76, .18);
+            --cardBorder: #e0e8f2;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--ink);
+            background: #f8fffe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 12% 18%, rgba(47, 128, 237, .11), transparent 30%),
+                radial-gradient(circle at 88% 12%, rgba(255, 213, 61, .18), transparent 28%),
+                radial-gradient(circle at 15% 88%, rgba(40, 184, 117, .13), transparent 32%),
+                radial-gradient(circle at 88% 86%, rgba(132, 94, 247, .11), transparent 28%),
+                radial-gradient(circle at 55% 40%, rgba(255, 111, 181, .08), transparent 26%);
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        body:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(22, 189, 232, .08) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(22, 189, 232, .08) 2px, transparent 2px);
+            background-size: 76px 76px;
+            opacity: .6;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .brand-logo {
+            position: fixed;
+            left: 22px;
+            top: 16px;
+            z-index: 2000;
+            background: #fff;
+            border: 2.5px solid rgba(0, 188, 212, .22);
+            border-radius: 22px;
+            padding: 10px 20px;
+            box-shadow: 0 8px 32px rgba(0, 188, 212, .18), 0 2px 8px rgba(0, 0, 0, .07);
+            display: flex;
+            align-items: center;
+        }
+
+        .brand-logo img {
+            display: block;
+            height: 80px;
+            max-width: 220px;
+            object-fit: contain;
+        }
+
+        .presentation-container {
+            width: 86vw;
+            height: 80vh;
+            max-width: 1500px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(30, 56, 93, .25);
+            overflow: hidden;
+            position: relative;
+            border: 4px solid rgba(255, 255, 255, .85);
+        }
+
+        .presentation-container:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 26px;
+            box-shadow: inset 0 0 0 1px rgba(91, 124, 164, .10);
+            z-index: 30;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 42px 58px 76px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(42px) scale(.985);
+            transition: .46s ease;
+            background: linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(249, 252, 255, .98));
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            z-index: 10;
+        }
+
+        .cover-slide {
+            background:
+                radial-gradient(circle at top left, rgba(255, 255, 255, .35), transparent 36%),
+                linear-gradient(135deg, #5ec7ff 0%, #4c97ff 35%, #8f75ea 68%, #ff8a34 100%);
+            color: #fff;
+        }
+
+        .cover-scene {
+            width: 100%;
+            max-width: 980px;
+            text-align: center;
+            position: relative;
+            padding: 24px 0;
+        }
+
+        .orbit {
+            position: absolute;
+            width: 86px;
+            height: 86px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, .18);
+            backdrop-filter: blur(6px);
+            border: 2px solid rgba(255, 255, 255, .28);
+            font-size: 2.4rem;
+            animation: floaty 4.2s ease-in-out infinite;
+        }
+
+        .orbit-a {
+            left: 10%;
+            top: 0;
+        }
+
+        .orbit-b {
+            right: 8%;
+            top: 12%;
+            animation-delay: .6s;
+        }
+
+        .orbit-c {
+            left: 18%;
+            bottom: 6%;
+            animation-delay: 1.1s;
+        }
+
+        .orbit-d {
+            right: 18%;
+            bottom: 4%;
+            animation-delay: 1.7s;
+        }
+
+        @keyframes floaty {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .18);
+            border: 2px solid rgba(255, 255, 255, .28);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: .04em;
+        }
+
+        .hero-icon {
+            font-size: 6rem;
+            margin: 18px 0 6px;
+        }
+
+        .eyebrow {
+            margin: 0;
+            font-size: 1rem;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            font-weight: 700;
+            opacity: .96;
+        }
+
+        .display-title {
+            font-size: clamp(3rem, 5vw, 5rem);
+            line-height: 1.02;
+            margin: 10px 0 14px;
+            font-weight: 700;
+        }
+
+        .display-title span {
+            color: #fff8a8;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.16rem, 1.8vw, 1.45rem);
+            line-height: 1.6;
+            max-width: 860px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, .95);
+        }
+
+        .hero-pills {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .hero-pills span {
+            background: rgba(255, 255, 255, .17);
+            border: 2px solid rgba(255, 255, 255, .24);
+            padding: 10px 14px;
+            border-radius: 999px;
+            font-weight: 700;
+        }
+
+        .slide-head {
+            width: 100%;
+            max-width: 1180px;
+            margin-bottom: 22px;
+        }
+
+        .slide-head.center {
+            text-align: center;
+        }
+
+        .slide-head h1,
+        .slide-head h2 {
+            font-size: clamp(2.2rem, 4vw, 4rem);
+            line-height: 1.06;
+            margin: 6px 0 12px;
+            color: #24344d;
+        }
+
+        .slide-head p,
+        .lead {
+            font-size: clamp(1.08rem, 1.6vw, 1.45rem);
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.52;
+        }
+
+        .kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: .95rem;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: var(--blue);
+            background: rgba(76, 151, 255, .12);
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-weight: 700;
+        }
+
+        .grid-2,
+        .grid-3,
+        .grid-4,
+        .grid-5,
+        .hero-row,
+        .project-grid,
+        .quiz-grid,
+        .feedback-grid {
+            width: 100%;
+            max-width: 1140px;
+            display: grid;
+            gap: 18px;
+        }
+
+        .hero-row {
+            grid-template-columns: 1.06fr .94fr;
+            align-items: center;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .grid-5 {
+            grid-template-columns: repeat(5, 1fr);
+        }
+
+        .project-grid {
+            grid-template-columns: 1.2fr .8fr;
+            align-items: stretch;
+        }
+
+        .quiz-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .feedback-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .card,
+        .agenda-card,
+        .project-card,
+        .speaker-box,
+        .quiz-panel,
+        .lab-box,
+        .drop-card,
+        .image-card,
+        .mini-card {
+            background: #fff;
+            border: 3px solid var(--cardBorder);
+            border-radius: 26px;
+            box-shadow: var(--shadow);
+        }
+
+        .card {
+            padding: 20px;
+        }
+
+        .agenda-card {
+            padding: 18px;
+            text-align: center;
+        }
+
+        .project-card {
+            padding: 22px;
+        }
+
+        .speaker-box,
+        .quiz-panel,
+        .lab-box {
+            padding: 22px;
+        }
+
+        .drop-card {
+            padding: 18px;
+        }
+
+        .image-card {
+            padding: 16px;
+            text-align: center;
+        }
+
+        .mini-card {
+            padding: 16px;
+            text-align: center;
+        }
+
+        .agenda-card .icon,
+        .mini-card .icon {
+            font-size: 2.7rem;
+            margin-bottom: 6px;
+        }
+
+        .agenda-card h3,
+        .card h3,
+        .project-card h3,
+        .drop-card h3,
+        .mini-card h3 {
+            margin: 4px 0 6px;
+            font-size: 1.28rem;
+            color: #20324a;
+        }
+
+        .agenda-card p,
+        .card p,
+        .project-card p,
+        .drop-card p,
+        .mini-card p,
+        .project-card li {
+            margin: 0;
+            color: #61768d;
+            line-height: 1.46;
+            font-size: 1.02rem;
+        }
+
+        .card ul,
+        .project-card ul {
+            margin: 10px 0 0;
+            padding-left: 20px;
+            color: #4f647c;
+            line-height: 1.5;
+        }
+
+        .card li,
+        .project-card li {
+            margin: 6px 0;
+        }
+
+        .hero-emoji {
+            width: 100%;
+            min-height: 300px;
+            border-radius: 32px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #e8f4ff, #fdf2ff 55%, #fff8d9);
+            border: 3px dashed #b8d7ff;
+            text-align: center;
+            padding: 18px;
+        }
+
+        .hero-emoji .big {
+            font-size: 6rem;
+            display: block;
+        }
+
+        .hero-emoji .small {
+            display: block;
+            margin-top: 8px;
+            font-size: 1.15rem;
+            color: #5c7190;
+        }
+
+        .pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .pill {
+            padding: 10px 14px;
+            border-radius: 999px;
+            font-weight: 700;
+            background: #f3f8ff;
+            color: #3a5d84;
+            border: 2px solid #d7e8ff;
+        }
+
+        .pill.green {
+            background: #eefcf6;
+            color: #1f7d55;
+            border-color: #c8f0dd;
+        }
+
+        .pill.orange {
+            background: #fff6e8;
+            color: #a86000;
+            border-color: #ffd59e;
+        }
+
+        .pill.purple {
+            background: #f5efff;
+            color: #6c3de4;
+            border-color: #dac8ff;
+        }
+
+        .pill.red {
+            background: #fff0ef;
+            color: #be433f;
+            border-color: #f7c0bc;
+        }
+
+        .image-box,
+        .sample-shot,
+        .zoom-card img {
+            width: 100%;
+            background: #f8fbff;
+            border-radius: 20px;
+            border: 2px solid #e3edf7;
+            object-fit: contain;
+        }
+
+        .image-box {
+            max-height: 330px;
+            padding: 10px;
+        }
+
+        .sample-shot {
+            height: 320px;
+        }
+
+        .zoom-card img {
+            max-height: 320px;
+            padding: 10px;
+            cursor: zoom-in;
+        }
+
+        .iframe-wrap {
+            background: #f7fbff;
+            border-radius: 22px;
+            overflow: hidden;
+            border: 3px solid #dae8ff;
+            box-shadow: var(--shadow);
+        }
+
+        .iframe-wrap iframe {
+            width: 100%;
+            height: 360px;
+            border: 0;
+            display: block;
+        }
+
+        .project-btns,
+        .cta-row,
+        .action-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .project-btn,
+        .huge-btn,
+        .quiz-btn,
+        .tiny-btn,
+        .feedback-option {
+            appearance: none;
+            border: none;
+            text-decoration: none;
+            font-family: inherit;
+            cursor: pointer;
+            font-weight: 700;
+            transition: .2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-btn,
+        .huge-btn {
+            padding: 13px 18px;
+            border-radius: 16px;
+            color: #fff;
+            font-size: 1rem;
+            box-shadow: 0 10px 18px rgba(47, 128, 237, .23);
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+        }
+
+        .huge-btn {
+            font-size: 1.08rem;
+            padding: 14px 24px;
+        }
+
+        .project-btn.orange,
+        .huge-btn.orange {
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            box-shadow: 0 10px 18px rgba(255, 138, 52, .24);
+        }
+
+        .project-btn.purple,
+        .huge-btn.purple {
+            background: linear-gradient(135deg, var(--purple), #9d79ff);
+            box-shadow: 0 10px 18px rgba(132, 94, 247, .23);
+        }
+
+        .project-btn.green,
+        .huge-btn.green {
+            background: linear-gradient(135deg, var(--green), #52d18d);
+            box-shadow: 0 10px 18px rgba(40, 184, 117, .23);
+        }
+
+        .project-btn:hover,
+        .huge-btn:hover {
+            transform: translateY(-2px) scale(1.01);
+        }
+
+        .status-line {
+            margin-top: 12px;
+            font-weight: 700;
+            color: #53677f;
+            min-height: 28px;
+            text-align: center;
+        }
+
+        .drop-layout {
+            width: 100%;
+            max-width: 1060px;
+        }
+
+        .drop-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 14px;
+        }
+
+        .drop-target {
+            min-height: 140px;
+            background: #fcfdfe;
+            border: 3px dashed #cfd9e4;
+            border-radius: 20px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+            box-shadow: inset 0 -12px 20px rgba(0, 0, 0, .02);
+        }
+
+        .drop-target.active {
+            border-color: #0ba7a5;
+            background: #effcfb;
+        }
+
+        .drop-target.correct {
+            border-color: #28b875;
+            background: #edfbf4;
+        }
+
+        .drop-target .label {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #26405e;
+            text-align: center;
+        }
+
+        .drop-target .filled {
+            background: #eaf6ff;
+            border: 2px solid #9ac5e3;
+            color: #285b7d;
+            border-radius: 12px;
+            padding: 10px 12px;
+            font-weight: 700;
+            text-align: center;
+            width: 100%;
+            font-size: .98rem;
+        }
+
+        .drag-pool {
+            margin-top: 18px;
+            background: #fff;
+            border: 3px dashed #cbd8e2;
+            border-radius: 20px;
+            padding: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .draggable {
+            background: #3776ab;
+            color: #fff;
+            border-radius: 12px;
+            padding: 11px 15px;
+            cursor: grab;
+            font-weight: 700;
+            user-select: none;
+        }
+
+        .draggable.dragging {
+            opacity: .5;
+        }
+
+        .checklist {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-width: 1020px;
+        }
+
+        .check-item {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 18px;
+            padding: 14px 16px;
+            box-shadow: 0 10px 22px rgba(40, 70, 100, .08);
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .check-item input {
+            margin-top: 4px;
+            transform: scale(1.3);
+        }
+
+        .check-item label {
+            font-weight: 700;
+            color: #38516e;
+            line-height: 1.45;
+        }
+
+        .step-ribbon {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .step-ribbon .pill {
+            font-size: 1rem;
+        }
+
+        .quiz-shell {
+            width: 100%;
+            max-width: 950px;
+            background: #fff;
+            border: 3px solid #e1e8f2;
+            border-radius: 30px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+        }
+
+        .quiz-question {
+            display: none;
+        }
+
+        .quiz-question.active {
+            display: block;
+        }
+
+        .quiz-question h3 {
+            font-size: 1.9rem;
+            margin: 0 0 18px;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .quiz-options button {
+            border: 3px solid #dfe7f0;
+            background: #f9fbfd;
+            border-radius: 16px;
+            padding: 15px 18px;
+            text-align: left;
+            font: 600 1.08rem 'Fredoka';
+            cursor: pointer;
+        }
+
+        .quiz-options button:hover {
+            border-color: #8f75ea;
+            background: #f5f0ff;
+        }
+
+        .quiz-options button.correct {
+            border-color: var(--green);
+            background: #eafaf3;
+        }
+
+        .quiz-options button.wrong {
+            border-color: var(--red);
+            background: #fff0ef;
+        }
+
+        .quiz-result {
+            margin-top: 12px;
+            font-weight: 700;
+            min-height: 24px;
+            color: #526981;
+        }
+
+        .quiz-progress {
+            margin-top: 20px;
+            color: #63778e;
+            font-weight: 700;
+        }
+
+        .quiz-progress>div {
+            height: 10px;
+            background: #e9eef4;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 7px;
+        }
+
+        .quiz-progress i {
+            display: block;
+            height: 100%;
+            width: 33.33%;
+            background: linear-gradient(90deg, var(--orange), var(--purple));
+            transition: .3s;
+        }
+
+        .feedback-emoji {
+            display: flex;
+            gap: 22px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+
+        .feedback-option {
+            width: 130px;
+            height: 130px;
+            border-radius: 28px;
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            box-shadow: 0 10px 24px rgba(40, 70, 100, .08);
+            flex-direction: column;
+            gap: 6px;
+            font-size: 3rem;
+            color: #50657d;
+        }
+
+        .feedback-option small {
+            font-family: 'Fredoka', sans-serif;
+            font-size: .95rem;
+            font-weight: 700;
+            color: #61768d;
+        }
+
+        .feedback-option:hover,
+        .feedback-option.selected {
+            transform: translateY(-4px) scale(1.03);
+            border-color: var(--purple);
+            background: #f5efff;
+        }
+
+        .feedback-thanks {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #6c4ddd;
+            margin-top: 20px;
+            min-height: 30px;
+            text-align: center;
+        }
+
+        .notice {
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: #fff8db;
+            border: 2px solid #f7d95d;
+            color: #7b6412;
+            font-weight: 600;
+            margin-top: 14px;
+        }
+
+        .navigation {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, .97);
+            border-top: 1px solid #e7edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b7d92;
+            max-width: 42%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #d9e3ef;
+            background: #fff;
+            color: #4c6077;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            color: #fff;
+            border: 0;
+            box-shadow: 0 7px 16px rgba(255, 138, 52, .3);
+        }
+
+        .nav-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed;
+        }
+
+        .counter {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #53677f;
+            min-width: 74px;
+            text-align: center;
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 0;
+            bottom: 62px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--orange), var(--pink), var(--purple), var(--cyan));
+            width: 0;
+            transition: .35s;
+            z-index: 110;
+        }
+
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            inset: 0;
+            background: rgba(14, 25, 41, .85);
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .image-modal.show {
+            display: flex;
+        }
+
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, .3);
+        }
+
+        @media(max-width:1050px) {
+            .presentation-container {
+                width: 95vw;
+                height: 84vh;
+            }
+
+            .slide {
+                padding: 34px 28px 74px;
+            }
+
+            .hero-row,
+            .project-grid,
+            .grid-4,
+            .grid-5,
+            .feedback-grid,
+            .drop-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .grid-3,
+            .grid-2,
+            .checklist {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width:700px) {
+            .brand-logo {
+                left: 8px;
+                top: 6px;
+                padding: 7px 12px;
+            }
+
+            .brand-logo img {
+                height: 32px;
+            }
+
+            .presentation-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: 0;
+            }
+
+            .slide {
+                padding: 68px 16px 74px;
+            }
+
+            .hero-row,
+            .project-grid,
+            .grid-4,
+            .grid-5,
+            .feedback-grid,
+            .drop-grid,
+            .grid-3,
+            .grid-2,
+            .checklist {
+                grid-template-columns: 1fr;
+            }
+
+            .display-title {
+                font-size: 3.2rem;
+            }
+
+            .hero-icon {
+                font-size: 5rem;
+            }
+
+            .nav-title {
+                display: none;
+            }
+
+            .orbit {
+                display: none;
+            }
+
+            .feedback-option {
+                width: 110px;
+                height: 110px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="brand-logo"><img
+            src="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+            alt="Ruangguru Coding"></div>
+
+    <main class="presentation-container" id="presentation">
+        <section class="slide cover-slide active" data-title="Opening">
+            <div class="cover-scene">
+                <div class="orbit orbit-a">🤖</div>
+                <div class="orbit orbit-b">🐑</div>
+                <div class="orbit orbit-c">📦</div>
+                <div class="orbit orbit-d">🧭</div>
+                <div class="hero-badge">SESSION 9 • SCRATCH SD • DEBUGGING</div>
+                <div class="hero-icon">🛠️🤖</div>
+                <p class="eyebrow">LET'S FIX A PROGRAM!</p>
+                <h1 class="display-title">Debugging <span>Robo-KAL</span></h1>
+                <p class="hero-subtitle">Hari ini kita belajar mencari bug, memahami kenapa program bisa salah, lalu
+                    membantu Robo-KAL mengantar paket ke semua barn dengan urutan yang benar.</p>
+                <div class="hero-pills"><span>🐞 Bug</span><span>🔎 Debugging</span><span>📍 Coordinate</span><span>🤖
+                        Robo-KAL</span></div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Review Meet 6-8">
+            <div class="slide-head center">
+                <span class="kicker">REVIEW</span>
+                <h2>Apa yang Sudah Kita Pelajari?</h2>
+                <p>Sebelum debugging, ayo ingat lagi materi-materi penting yang sudah pernah kita coba.</p>
+            </div>
+            <div class="grid-4">
+                <div class="agenda-card">
+                    <div class="icon">🌱</div>
+                    <h3>Meet 6</h3>
+                    <p>Events dan interaction untuk project <b>Grow a Plant</b>.</p>
+                </div>
+                <div class="agenda-card">
+                    <div class="icon">🎨</div>
+                    <h3>Meet 7</h3>
+                    <p>Membuat aset sendiri dan belajar <b>credit</b> serta <b>hak cipta</b>.</p>
+                </div>
+                <div class="agenda-card">
+                    <div class="icon">🔊</div>
+                    <h3>Meet 8</h3>
+                    <p>Menambahkan <b>sound</b>, efek suara, dan suara latar ke project.</p>
+                </div>
+                <div class="agenda-card">
+                    <div class="icon">🧠</div>
+                    <h3>Hari Ini</h3>
+                    <p>Kita belajar menemukan kesalahan program dan memperbaikinya.</p>
+                </div>
+            </div>
+            <div class="pill-row" style="justify-content:center; max-width:980px;">
+                <span class="pill">When Green Flag Clicked</span>
+                <span class="pill orange">When This Sprite Clicked</span>
+                <span class="pill purple">Sound</span>
+                <span class="pill green">Coordinate x y</span>
+                <span class="pill red">Next Costume</span>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Today's Agenda">
+            <div class="slide-head center">
+                <span class="kicker">TODAY'S AGENDA</span>
+                <h2>What We Will Do Today 🗓️</h2>
+                <p>Kita akan belajar konsep debugging dengan cara yang seru dan mudah dipahami.</p>
+            </div>
+            <div class="grid-4">
+                <div class="agenda-card">
+                    <div class="icon">👀</div>
+                    <h3>Find the Weird Things</h3>
+                    <p>Mencari hal janggal pada gambar seperti detektif kecil.</p>
+                </div>
+                <div class="agenda-card">
+                    <div class="icon">🐞</div>
+                    <h3>Learn Debugging</h3>
+                    <p>Memahami apa itu bug dan langkah-langkah debugging.</p>
+                </div>
+                <div class="agenda-card">
+                    <div class="icon">🤖</div>
+                    <h3>Fix Robo-KAL</h3>
+                    <p>Menganalisis project Scratch lalu memperbaiki gerak Robo-KAL.</p>
+                </div>
+                <div class="agenda-card">
+                    <div class="icon">✅</div>
+                    <h3>Quiz & Review</h3>
+                    <p>Menutup sesi dengan quick quiz, review, dan feedback.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Spot the Odd Things">
+            <div class="slide-head center">
+                <span class="kicker">ANALOGY</span>
+                <h2>Ada yang Aneh, Nggak? 🧐</h2>
+                <p>Lihat gambar ini baik-baik. Coba temukan <b>5 hal janggal</b>. Ini mirip seperti mencari bug di dalam
+                    program.</p>
+            </div>
+            <div class="image-card" style="width:100%; max-width:980px;">
+                <img class="sample-shot zoomable"
+                    src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/a98ad0a2-fff7-4c78-8305-d060cfae3f02.png"
+                    alt="Find 5 odd things in the picture">
+            </div>
+            <div class="notice">💡 Tips: Lihat tulisan, posisi orang, dan benda-benda yang ada di lapangan.</div>
+        </section>
+
+        <section class="slide" data-title="Answer Reveal">
+            <div class="slide-head center">
+                <span class="kicker">REVEAL</span>
+                <h2>Jawabannya Ada di Sini! 🎯</h2>
+                <p>Kalau ada sesuatu yang tidak sesuai, berarti ada masalah yang perlu diperbaiki. Sama seperti bug pada
+                    program.</p>
+            </div>
+            <div class="hero-row">
+                <div class="image-card zoom-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/4978890d-6f44-4682-8d9f-52f7b8b9a3f3.png"
+                        alt="Odd things answer"></div>
+                <div class="project-card">
+                    <h3>5 Hal Janggal</h3>
+                    <ul>
+                        <li>🌭 Tulisan <b>hot dog stand</b> salah.</li>
+                        <li>🤸 Ada orang <b>hand stand</b> di stand.</li>
+                        <li>🪑 Ada orang duduk menghadap stand, bukan ke lapangan.</li>
+                        <li>🐶 Ada orang dengan kepala hewan.</li>
+                        <li>⚾ Barang baseball tergeletak jauh di lapangan.</li>
+                    </ul>
+                    <div class="pill-row">
+                        <span class="pill orange">Yang terlihat aneh = masalah</span>
+                        <span class="pill red">Masalah di program = bug</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="What is Debugging">
+            <div class="slide-head center">
+                <span class="kicker">CORE CONCEPT</span>
+                <h2>Jadi, Apa Itu Debugging? 🐞</h2>
+                <p>Debugging adalah kegiatan mencari dan memperbaiki kesalahan pada program supaya hasilnya sesuai
+                    dengan yang kita inginkan.</p>
+            </div>
+            <div class="hero-row">
+                <div class="project-card">
+                    <h3>Bug Itu Apa?</h3>
+                    <p>Bug adalah kesalahan di dalam program. Kadang program masih bisa jalan, <b>tapi hasilnya tidak
+                            benar</b>.</p>
+                    <div class="pill-row">
+                        <span class="pill">Program berjalan</span>
+                        <span class="pill red">Output salah</span>
+                        <span class="pill green">Perlu diperbaiki</span>
+                    </div>
+                    <ul>
+                        <li>Bug bisa membuat sprite bergerak ke tempat yang salah.</li>
+                        <li>Bug bisa membuat urutan aksi menjadi tidak sesuai.</li>
+                        <li>Bug harus dicari dengan teliti.</li>
+                    </ul>
+                </div>
+                <div class="hero-emoji">
+                    <div>
+                        <span class="big">🔎🐞🛠️</span>
+                        <span class="small">Cari masalah → pahami masalah → perbaiki → test lagi!</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Debugging Steps">
+            <div class="slide-head center">
+                <span class="kicker">INTERACTIVE ACTIVITY</span>
+                <h2>Urutkan Langkah Debugging 🧩</h2>
+                <p>Tarik kotak-kotak ini ke urutan yang benar.</p>
+            </div>
+            <div class="drop-layout">
+                <div class="drop-grid" id="debugDropGrid">
+                    <div class="drop-target" data-step="1">
+                        <div class="label">1️⃣ Langkah Pertama</div>
+                    </div>
+                    <div class="drop-target" data-step="2">
+                        <div class="label">2️⃣ Langkah Kedua</div>
+                    </div>
+                    <div class="drop-target" data-step="3">
+                        <div class="label">3️⃣ Langkah Ketiga</div>
+                    </div>
+                    <div class="drop-target" data-step="4">
+                        <div class="label">4️⃣ Langkah Keempat</div>
+                    </div>
+                    <div class="drop-target" data-step="5">
+                        <div class="label">5️⃣ Langkah Kelima</div>
+                    </div>
+                    <div class="drop-target" data-step="6">
+                        <div class="label">6️⃣ Langkah Keenam</div>
+                    </div>
+                </div>
+                <div class="drag-pool" id="debugPool">
+                    <div class="draggable" draggable="true" data-step="6">Test lagi. Kalau masih salah, ulangi.</div>
+                    <div class="draggable" draggable="true" data-step="1">Jalankan dulu programnya.</div>
+                    <div class="draggable" draggable="true" data-step="4">Cari solusi yang cocok.</div>
+                    <div class="draggable" draggable="true" data-step="3">Tentukan bagian mana yang bermasalah.</div>
+                    <div class="draggable" draggable="true" data-step="5">Perbaiki kodenya.</div>
+                    <div class="draggable" draggable="true" data-step="2">Identifikasi masalahnya.</div>
+                </div>
+                <div class="status-line" id="debugStatus">Ayo susun urutannya dengan benar ✨</div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Meet Robo-KAL">
+            <div class="slide-head center">
+                <span class="kicker">STORY TIME</span>
+                <h2>Meet Robo-KAL 🤖📦</h2>
+                <p>Robo-KAL adalah robot kurir di farm. Tugasnya mengantar paket ke barn 1 sampai barn 5 secara
+                    berurutan.</p>
+            </div>
+            <div class="hero-row">
+                <div class="image-card zoom-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/fc48a008-9bfb-401e-a217-24ae0aab4373.png"
+                        alt="Robo-KAL"></div>
+                <div class="project-card">
+                    <h3>Tugas Robo-KAL</h3>
+                    <ul>
+                        <li>🚚 Bergerak mengikuti titik <b>coordinate</b> yang sudah diprogram.</li>
+                        <li>📍 Mengunjungi <b>barn 1, barn 2, barn 3, barn 4, dan barn 5</b>.</li>
+                        <li>📦 Mengantar paket di setiap barn.</li>
+                        <li>✅ Bergerak dengan urutan dan posisi yang benar.</li>
+                    </ul>
+                    <div class="notice">Masalahnya: sekarang Robo-KAL <b>belum bergerak dengan benar</b>. Ada barn yang
+                        tidak dikunjungi atau titiknya salah.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Sample Project">
+            <div class="slide-head center">
+                <span class="kicker">OBSERVE FIRST</span>
+                <h2>Perhatikan Project Ini 👀</h2>
+                <p>Tonton gerakan Robo-KAL. Menurutmu, bagian mana yang masih salah?</p>
+            </div>
+            <div class="project-grid">
+                <div class="iframe-wrap">
+                    <iframe src="https://scratch.mit.edu/projects/1376533385/embed" allowtransparency="true"
+                        frameborder="0" scrolling="no" allowfullscreen></iframe>
+                </div>
+                <div class="project-card">
+                    <h3>Hal yang Harus Diamati</h3>
+                    <ul>
+                        <li>Apakah Robo-KAL mengunjungi semua barn?</li>
+                        <li>Apakah urutannya sudah benar?</li>
+                        <li>Apakah posisi berhentinya pas di barn?</li>
+                        <li>Apakah ada barn yang terlewat?</li>
+                    </ul>
+                    <div class="project-btns">
+                        <a class="project-btn" href="https://scratch.mit.edu/projects/1376533385/" target="_blank">▶️
+                            Try Sample Project</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Remix Project">
+            <div class="slide-head center">
+                <span class="kicker">LET'S FIX IT</span>
+                <h2>Remix Project Robo-KAL ✨</h2>
+                <p>Kalau kamu sudah tahu kira-kira masalahnya ada di mana, sekarang saatnya membuka project dan
+                    memperbaikinya.</p>
+            </div>
+            <div class="hero-row">
+                <div class="project-card">
+                    <h3>Langkah Kerja</h3>
+                    <ul>
+                        <li>1️⃣ Buka project Robo-KAL.</li>
+                        <li>2️⃣ Klik tombol <b>See inside</b> atau <b>Remix</b>.</li>
+                        <li>3️⃣ Jalankan project lagi untuk melihat kesalahannya.</li>
+                        <li>4️⃣ Cek blok gerakan yang berisi <b>glide to x y</b>.</li>
+                        <li>5️⃣ Perbaiki titik coordinate sampai semua barn dikunjungi.</li>
+                    </ul>
+                </div>
+                <div class="project-card">
+                    <h3>Buka Project</h3>
+                    <p>Klik tombol di bawah ini untuk membuka project yang akan kita debug.</p>
+                    <div class="project-btns">
+                        <a class="project-btn orange" href="https://scratch.mit.edu/projects/1376533385/"
+                            target="_blank">🔗 Open Project</a>
+                        <a class="project-btn purple" href="https://scratch.mit.edu/projects/1376533385/"
+                            target="_blank">🌀 Remix This Project</a>
+                    </div>
+                    <div class="notice">Kalau belum bisa klik Remix langsung, buka dulu project-nya lalu pilih
+                        <b>Remix</b> di Scratch.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Coordinate Reminder">
+            <div class="slide-head center">
+                <span class="kicker">REMINDER</span>
+                <h2>Ingat Lagi Tentang Coordinate 📍</h2>
+                <p>Robo-KAL bergerak berdasarkan titik x dan y. Kalau angkanya salah, tujuan Robo-KAL juga bisa salah.
+                </p>
+            </div>
+            <div class="grid-3">
+                <div class="mini-card">
+                    <div class="icon">↔️</div>
+                    <h3>Sumbu X</h3>
+                    <p>X mengatur gerak ke kiri dan ke kanan.</p>
+                </div>
+                <div class="mini-card">
+                    <div class="icon">↕️</div>
+                    <h3>Sumbu Y</h3>
+                    <p>Y mengatur gerak ke atas dan ke bawah.</p>
+                </div>
+                <div class="mini-card">
+                    <div class="icon">🎯</div>
+                    <h3>Titik Tujuan</h3>
+                    <p>Blok <b>glide to x: y:</b> membuat sprite menuju titik tertentu.</p>
+                </div>
+            </div>
+            <div class="pill-row" style="justify-content:center; max-width:1000px;">
+                <span class="pill">x salah → geser kiri/kanan salah</span>
+                <span class="pill orange">y salah → naik/turun salah</span>
+                <span class="pill green">x & y benar → Robo-KAL sampai barn</span>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Debug Mission">
+            <div class="slide-head center">
+                <span class="kicker">MISSION</span>
+                <h2>Misi Debugging Hari Ini 🚀</h2>
+                <p>Bantu Robo-KAL agar bisa menyelesaikan semua delivery dengan benar.</p>
+            </div>
+            <div class="grid-4">
+                <div class="agenda-card">
+                    <div class="icon">▶️</div>
+                    <h3>Run</h3>
+                    <p>Jalankan project dan lihat dulu kesalahannya.</p>
+                </div>
+                <div class="agenda-card">
+                    <div class="icon">🧱</div>
+                    <h3>Check Blocks</h3>
+                    <p>Cek urutan blok dan angka coordinate pada setiap glide.</p>
+                </div>
+                <div class="agenda-card">
+                    <div class="icon">🛠️</div>
+                    <h3>Fix</h3>
+                    <p>Ganti angka atau urutan yang belum benar.</p>
+                </div>
+                <div class="agenda-card">
+                    <div class="icon">✅</div>
+                    <h3>Retest</h3>
+                    <p>Ulangi sampai semua barn berhasil dikunjungi.</p>
+                </div>
+            </div>
+            <div class="step-ribbon">
+                <span class="pill">Barn 1</span>
+                <span class="pill">Barn 2</span>
+                <span class="pill">Barn 3</span>
+                <span class="pill">Barn 4</span>
+                <span class="pill">Barn 5</span>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Testing Checklist">
+            <div class="slide-head center">
+                <span class="kicker">CHECK YOUR WORK</span>
+                <h2>Checklist Setelah Debugging ✅</h2>
+                <p>Gunakan checklist ini saat kamu menguji project Robo-KAL.</p>
+            </div>
+            <div class="checklist">
+                <div class="check-item"><input type="checkbox" id="c1"><label for="c1">Robo-KAL bergerak saat <b>green
+                            flag</b> ditekan.</label></div>
+                <div class="check-item"><input type="checkbox" id="c2"><label for="c2">Robo-KAL mengunjungi <b>barn
+                            1</b> dengan benar.</label></div>
+                <div class="check-item"><input type="checkbox" id="c3"><label for="c3">Robo-KAL mengunjungi <b>barn
+                            2</b> dengan benar.</label></div>
+                <div class="check-item"><input type="checkbox" id="c4"><label for="c4">Robo-KAL mengunjungi <b>barn
+                            3</b> dengan benar.</label></div>
+                <div class="check-item"><input type="checkbox" id="c5"><label for="c5">Robo-KAL mengunjungi <b>barn
+                            4</b> dengan benar.</label></div>
+                <div class="check-item"><input type="checkbox" id="c6"><label for="c6">Robo-KAL mengunjungi <b>barn
+                            5</b> dengan benar.</label></div>
+                <div class="check-item"><input type="checkbox" id="c7"><label for="c7">Urutan delivery sudah
+                        sesuai.</label></div>
+                <div class="check-item"><input type="checkbox" id="c8"><label for="c8">Tidak ada barn yang terlewat
+                        lagi.</label></div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Save Project">
+            <div class="slide-head center">
+                <span class="kicker">DON'T FORGET</span>
+                <h2>Simpan Karyamu 💾</h2>
+                <p>Kalau project sudah benar, jangan lupa simpan dan share project-mu.</p>
+            </div>
+            <div class="grid-2">
+                <div class="project-card">
+                    <h3>Setelah Berhasil Debugging</h3>
+                    <ul>
+                        <li>Klik <b>File &gt; Save now</b> atau tunggu Scratch menyimpan otomatis.</li>
+                        <li>Klik <b>Share</b> supaya project tersimpan dan bisa dibuka lagi.</li>
+                        <li>Beri nama project yang jelas, misalnya <b>Robo-KAL Fixed</b>.</li>
+                    </ul>
+                </div>
+                <div class="image-card zoom-card">
+                    <img src="https://brightchamps.com/blog/wp-content/uploads/2022/02/save-and-share-a-project-in-Scratch-step-7-1-1024x481.png"
+                        alt="Scratch share button">
+                </div>
+            </div>
+            <div class="notice">✅ Before you leave: save atau share project yang sudah kamu perbaiki.</div>
+        </section>
+
+        <section class="slide" data-title="Temukan Kesalahan Teacher">
+            <div class="slide-head center">
+                <span class="kicker">CLASS ACTIVITY 🔎</span>
+                <h2>Bisakah Kamu Temukan Bug-nya? 🐞</h2>
+                <p>Perhatikan project yang sedang ditampilkan teacher di layar. Lihat baik-baik, lalu diskusikan bersama teman-teman!</p>
+            </div>
+            <div class="grid-3" style="max-width:1060px; margin-bottom:18px;">
+                <div class="agenda-card" style="border: 3px solid #dae8ff;">
+                    <div class="icon">👀</div>
+                    <h3>1. Amati</h3>
+                    <p>Perhatikan program yang berjalan. Lihat apa yang terjadi dari awal hingga akhir.</p>
+                </div>
+                <div class="agenda-card" style="border: 3px solid #ffd59e;">
+                    <div class="icon">🐞</div>
+                    <h3>2. Temukan</h3>
+                    <p>Cari bagian yang terlihat <b>aneh</b>, <b>salah</b>, atau <b>tidak sesuai</b> harapan.</p>
+                </div>
+                <div class="agenda-card" style="border: 3px solid #c8f0dd;">
+                    <div class="icon">🗣️</div>
+                    <h3>3. Diskusi</h3>
+                    <p>Angkat tangan dan ceritakan apa yang kamu temukan ke teman-teman.</p>
+                </div>
+            </div>
+            <div style="width:100%; max-width:1060px; background: linear-gradient(135deg, #fff8e1, #fce4ec); border-radius: 22px; padding: 20px 28px; border: 2.5px solid #ffcc80; display:flex; align-items:center; gap:18px;">
+                <div style="font-size:3rem; flex-shrink:0;">💡</div>
+                <div>
+                    <p style="margin:0; font-weight:700; color:#7b4a00; font-size:1.1rem;">Ingat: Bug tidak selalu membuat program berhenti!</p>
+                    <p style="margin:6px 0 0; color:#a05a00; font-size:.98rem;">Kadang program tetap jalan tapi hasilnya tidak sesuai — itu juga bug. Tugas kita adalah menemukan <i>di mana letak masalahnya</i>.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Quick Quiz">
+            <div class="slide-head center">
+                <span class="kicker">QUICK QUIZ</span>
+                <h2>Yuk Cek Pemahamanmu! 🧠</h2>
+                <p>Pilih jawaban yang paling tepat. Ada 3 soal singkat.</p>
+            </div>
+            <div class="quiz-shell">
+                <div class="quiz-question active" data-answer="b">
+                    <h3>1. Apa itu debugging?</h3>
+                    <div class="quiz-options">
+                        <button data-choice="a">A. Membuat sprite baru</button>
+                        <button data-choice="b">B. Mencari dan memperbaiki kesalahan program</button>
+                        <button data-choice="c">C. Mengganti warna backdrop</button>
+                    </div>
+                    <div class="quiz-result"></div>
+                </div>
+                <div class="quiz-question" data-answer="c">
+                    <h3>2. Kalau coordinate x Robo-KAL salah, apa yang mungkin terjadi?</h3>
+                    <div class="quiz-options">
+                        <button data-choice="a">A. Suara project hilang</button>
+                        <button data-choice="b">B. Costumenya berubah sendiri</button>
+                        <button data-choice="c">C. Robo-KAL berhenti di posisi kiri/kanan yang salah</button>
+                    </div>
+                    <div class="quiz-result"></div>
+                </div>
+                <div class="quiz-question" data-answer="a">
+                    <h3>3. Setelah memperbaiki kode, apa yang harus kita lakukan?</h3>
+                    <div class="quiz-options">
+                        <button data-choice="a">A. Menjalankan dan mengetes lagi project-nya</button>
+                        <button data-choice="b">B. Langsung menutup Scratch</button>
+                        <button data-choice="c">C. Menghapus semua sprite</button>
+                    </div>
+                    <div class="quiz-result"></div>
+                </div>
+                <div class="quiz-progress">Progress Quiz<div><i id="quizBar"></i></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Review Today">
+            <div class="slide-head center">
+                <span class="kicker">REVIEW</span>
+                <h2>Apa yang Kita Pelajari Hari Ini? 🌟</h2>
+                <p>Hebat! Hari ini kamu sudah belajar seperti programmer sungguhan.</p>
+            </div>
+            <div class="grid-5">
+                <div class="mini-card">
+                    <div class="icon">🧐</div>
+                    <h3>Analisis</h3>
+                    <p>Mencari hal janggal dan memahami arti bug.</p>
+                </div>
+                <div class="mini-card">
+                    <div class="icon">🐞</div>
+                    <h3>Bug</h3>
+                    <p>Bug adalah kesalahan yang membuat hasil program tidak sesuai.</p>
+                </div>
+                <div class="mini-card">
+                    <div class="icon">🛠️</div>
+                    <h3>Debugging</h3>
+                    <p>Kita belajar langkah mencari dan memperbaiki bug.</p>
+                </div>
+                <div class="mini-card">
+                    <div class="icon">📍</div>
+                    <h3>Coordinate</h3>
+                    <p>Robo-KAL perlu titik x dan y yang tepat.</p>
+                </div>
+                <div class="mini-card">
+                    <div class="icon">🤖</div>
+                    <h3>Project</h3>
+                    <p>Kita memperbaiki project <b>Robo-KAL Delivery in the Farm</b>.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Feedback">
+            <div class="slide-head center">
+                <span class="kicker">FEEDBACK</span>
+                <h2>Bagaimana Perasaanmu Hari Ini? 💬</h2>
+                <p>Pilih emoji yang paling cocok dengan pengalaman belajarmu hari ini.</p>
+            </div>
+            <div class="feedback-emoji">
+                <button class="feedback-option" data-feedback="Senang sekali!"><span>🤩</span><small>Seru
+                        banget</small></button>
+                <button class="feedback-option" data-feedback="Aku paham!"><span>😄</span><small>Aku
+                        paham</small></button>
+                <button class="feedback-option"
+                    data-feedback="Lumayan, mau coba lagi."><span>🙂</span><small>Lumayan</small></button>
+                <button class="feedback-option" data-feedback="Aku butuh bantuan lagi."><span>🤔</span><small>Butuh
+                        bantuan</small></button>
+            </div>
+            <div class="feedback-thanks" id="feedbackThanks">Terima kasih sudah belajar dan membantu Robo-KAL hari ini!
+                🚚✨</div>
+        </section>
+
+        <div class="progress-line" id="progressLine"></div>
+        <div class="navigation">
+            <div class="nav-title" id="navTitle">Opening</div>
+            <div class="nav-controls">
+                <button class="nav-btn" id="prevBtn" aria-label="Previous slide">‹</button>
+                <div class="counter" id="counter">1 / 15</div>
+                <button class="nav-btn next" id="nextBtn" aria-label="Next slide">›</button>
+            </div>
+        </div>
+    </main>
+
+    <div class="image-modal" id="imageModal">
+        <img id="modalImg" alt="Zoomed image">
+    </div>
+
+    <script>
+        const slides = Array.from(document.querySelectorAll('.slide'));
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const counter = document.getElementById('counter');
+        const navTitle = document.getElementById('navTitle');
+        const progressLine = document.getElementById('progressLine');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            if (index < 0 || index >= slides.length) return;
+            slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+            currentSlide = index;
+            counter.textContent = `${index + 1} / ${slides.length}`;
+            navTitle.textContent = slides[index].dataset.title || `Slide ${index + 1}`;
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === slides.length - 1;
+            progressLine.style.width = `${((index + 1) / slides.length) * 100}%`;
+        }
+        prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+        nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown') showSlide(currentSlide + 1);
+            if (e.key === 'ArrowLeft' || e.key === 'PageUp') showSlide(currentSlide - 1);
+        });
+        showSlide(0);
+
+        // Image modal
+        const imageModal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+        document.querySelectorAll('.zoom-card img, .zoomable').forEach(img => {
+            img.addEventListener('click', () => {
+                modalImg.src = img.src;
+                imageModal.classList.add('show');
+            });
+        });
+        imageModal.addEventListener('click', () => imageModal.classList.remove('show'));
+
+        // Drag and drop activity
+        let draggedItem = null;
+        const draggables = document.querySelectorAll('.draggable');
+        const dropTargets = document.querySelectorAll('.drop-target');
+        const debugStatus = document.getElementById('debugStatus');
+
+        draggables.forEach(item => {
+            item.addEventListener('dragstart', () => {
+                draggedItem = item;
+                item.classList.add('dragging');
+            });
+            item.addEventListener('dragend', () => item.classList.remove('dragging'));
+        });
+
+        dropTargets.forEach(target => {
+            target.addEventListener('dragover', e => {
+                e.preventDefault();
+                target.classList.add('active');
+            });
+            target.addEventListener('dragleave', () => target.classList.remove('active'));
+            target.addEventListener('drop', e => {
+                e.preventDefault();
+                target.classList.remove('active');
+                if (!draggedItem) return;
+                if (draggedItem.dataset.step === target.dataset.step) {
+                    if (!target.querySelector('.filled')) {
+                        const filled = document.createElement('div');
+                        filled.className = 'filled';
+                        filled.textContent = draggedItem.textContent;
+                        target.appendChild(filled);
+                        target.classList.add('correct');
+                        draggedItem.remove();
+                        checkDebugComplete();
+                    }
+                } else {
+                    debugStatus.textContent = 'Ups, urutannya belum tepat. Coba lagi ya!';
+                    debugStatus.style.color = '#be433f';
+                }
+            });
+        });
+
+        function checkDebugComplete() {
+            const complete = [...dropTargets].every(target => target.querySelector('.filled'));
+            if (complete) {
+                debugStatus.textContent = 'Hebat! Urutan debugging sudah benar 🎉';
+                debugStatus.style.color = '#1f7d55';
+            } else {
+                debugStatus.textContent = 'Bagus! Lanjutkan sampai semua langkah terisi.';
+                debugStatus.style.color = '#53677f';
+            }
+        }
+
+        // Quiz
+        const quizQuestions = Array.from(document.querySelectorAll('.quiz-question'));
+        const quizBar = document.getElementById('quizBar');
+
+        quizQuestions.forEach((question, index) => {
+            const correct = question.dataset.answer;
+            const result = question.querySelector('.quiz-result');
+            const options = question.querySelectorAll('button');
+            options.forEach(button => {
+                button.addEventListener('click', () => {
+                    if (question.dataset.done === 'true') return;
+                    question.dataset.done = 'true';
+                    const choice = button.dataset.choice;
+                    options.forEach(btn => {
+                        if (btn.dataset.choice === correct) btn.classList.add('correct');
+                        else if (btn === button) btn.classList.add('wrong');
+                        btn.disabled = true;
+                    });
+                    if (choice === correct) {
+                        result.textContent = 'Benar! 👍';
+                        result.style.color = '#1f7d55';
+                    } else {
+                        result.textContent = 'Belum tepat, tapi tidak apa-apa. Kita belajar bersama!';
+                        result.style.color = '#be433f';
+                    }
+                    setTimeout(() => {
+                        if (index < quizQuestions.length - 1) {
+                            question.classList.remove('active');
+                            quizQuestions[index + 1].classList.add('active');
+                            quizBar.style.width = `${((index + 2) / quizQuestions.length) * 100}%`;
+                        }
+                    }, 900);
+                });
+            });
+        });
+
+        // Feedback
+        const feedbackButtons = document.querySelectorAll('.feedback-option');
+        const feedbackThanks = document.getElementById('feedbackThanks');
+        feedbackButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                feedbackButtons.forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                feedbackThanks.textContent = `Terima kasih! ${btn.dataset.feedback} Kamu hebat hari ini 🌟`;
+            });
+        });
+    </script>
+</body>
+
+</html>

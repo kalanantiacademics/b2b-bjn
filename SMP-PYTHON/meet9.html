@@ -1,0 +1,2252 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Session 9 - GUI dengan Tkinter | Ruangguru Coding</title>
+    <link rel="icon"
+        href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        type="image/png" />
+    <link rel="shortcut icon"
+        href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --blue: #2f80ed;
+            --cyan: #16bde8;
+            --purple: #845ef7;
+            --orange: #ff8a34;
+            --yellow: #ffd53d;
+            --green: #28b875;
+            --red: #ef5350;
+            --ink: #20324a;
+            --muted: #66788d;
+            --shadow: 0 22px 55px rgba(22, 44, 76, .18);
+            --py-blue: #3776ab;
+            --py-yellow: #ffd343;
+            --teal: #0ba7a5;
+            --navy: #2f4661;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--ink);
+            background: #f8fffe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 8% 18%, rgba(22, 189, 232, .13), transparent 24%),
+                radial-gradient(circle at 90% 14%, rgba(255, 211, 67, .16), transparent 24%),
+                radial-gradient(circle at 14% 90%, rgba(40, 184, 117, .13), transparent 24%),
+                radial-gradient(circle at 88% 88%, rgba(132, 94, 247, .10), transparent 25%), #f8fffe;
+        }
+
+        body:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background-image: linear-gradient(rgba(22, 189, 232, .08) 2px, transparent 2px), linear-gradient(90deg, rgba(22, 189, 232, .08) 2px, transparent 2px);
+            background-size: 96px 96px;
+        }
+
+        .brand-logo {
+            position: fixed;
+            left: 22px;
+            top: 16px;
+            z-index: 2000;
+            background: #fff;
+            border: 2.5px solid rgba(0, 188, 212, .22);
+            border-radius: 22px;
+            padding: 10px 20px;
+            box-shadow: 0 8px 32px rgba(0, 188, 212, .18);
+            display: flex;
+            align-items: center
+        }
+
+        .brand-logo img {
+            height: 80px;
+            max-width: 220px;
+            object-fit: contain;
+            display: block
+        }
+
+        .presentation-container {
+            width: 88vw;
+            height: 82vh;
+            max-width: 1500px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(30, 56, 93, .25);
+            overflow: hidden;
+            position: relative;
+            border: 4px solid rgba(255, 255, 255, .85)
+        }
+
+        .presentation-container:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 26px;
+            box-shadow: inset 0 0 0 1px rgba(91, 124, 164, .10);
+            z-index: 30
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 42px 58px 74px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(42px) scale(.985);
+            transition: .46s ease;
+            background: linear-gradient(145deg, #ffffff, #f7fcfd);
+            overflow-y: auto;
+            overflow-x: hidden
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            z-index: 10
+        }
+
+        .navigation {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, .96);
+            border-top: 1px solid #e7edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 100;
+            backdrop-filter: blur(12px)
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b7d92;
+            max-width: 42%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px
+        }
+
+        .counter {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #53677f;
+            min-width: 74px;
+            text-align: center
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #d9e3ef;
+            background: #fff;
+            color: #4c6077;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            border-color: var(--blue);
+            color: var(--blue)
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            color: #fff;
+            border: 0;
+            box-shadow: 0 7px 16px rgba(255, 138, 52, .3)
+        }
+
+        .nav-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 0;
+            bottom: 62px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--orange), var(--purple), var(--cyan));
+            width: 0;
+            transition: .35s;
+            z-index: 110
+        }
+
+        .slide-head {
+            width: 100%;
+            max-width: 1180px;
+            margin-bottom: 22px
+        }
+
+        .slide-head.center {
+            text-align: center
+        }
+
+        .slide-head.compact {
+            margin-bottom: 14px
+        }
+
+        .slide-head h2,
+        .single-focus h2 {
+            font-size: clamp(2.2rem, 4vw, 4rem);
+            line-height: 1.06;
+            margin: 6px 0 12px;
+            color: #24344d
+        }
+
+        .slide-head p,
+        .single-focus p,
+        .lead {
+            font-size: clamp(1.1rem, 1.55vw, 1.45rem);
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.5
+        }
+
+        .kicker {
+            display: inline-block;
+            font-size: .92rem;
+            letter-spacing: .16em;
+            font-weight: 700;
+            color: var(--purple);
+            background: #f0eaff;
+            border-radius: 999px;
+            padding: 7px 13px
+        }
+
+        .eyebrow {
+            letter-spacing: .22em;
+            font-weight: 700;
+            color: var(--py-blue);
+            margin: 0 0 10px
+        }
+
+        .cover-slide {
+            background: linear-gradient(135deg, #f4fbff, #eefcf8 48%, #fff8df) !important;
+            color: var(--ink) !important
+        }
+
+        .cover-scene {
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #fff;
+            border: 2px solid #dbe9f2;
+            color: #40566d;
+            box-shadow: 0 8px 20px rgba(44, 80, 115, .08);
+            padding: 9px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            margin-bottom: 18px
+        }
+
+        .hero-icon {
+            font-size: 7rem;
+            filter: drop-shadow(0 12px 16px rgba(55, 118, 171, .18));
+            animation: float 3s ease-in-out infinite
+        }
+
+        .display-title {
+            font-size: clamp(3.4rem, 7vw, 6.2rem);
+            line-height: .95;
+            margin: 8px 0 18px;
+            color: #233a55
+        }
+
+        .display-title span {
+            color: var(--py-blue)
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            max-width: 960px;
+            margin: 0 auto;
+            color: #52677c
+        }
+
+        .hero-pills {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 26px
+        }
+
+        .hero-pills span {
+            background: #fff;
+            border: 2px solid #dbe9f2;
+            color: #40566d;
+            box-shadow: 0 8px 20px rgba(44, 80, 115, .08);
+            padding: 10px 16px;
+            border-radius: 15px;
+            font-weight: 600
+        }
+
+        .orbit {
+            position: absolute;
+            font-size: 2.6rem;
+            animation: float 3.5s ease-in-out infinite
+        }
+
+        .orbit-a {
+            left: 8%;
+            top: 12%
+        }
+
+        .orbit-b {
+            right: 8%;
+            top: 18%;
+            animation-delay: .7s
+        }
+
+        .orbit-c {
+            right: 15%;
+            bottom: 10%;
+            animation-delay: 1.2s
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-12px) rotate(3deg)
+            }
+        }
+
+        .soft-blue {
+            background: linear-gradient(145deg, #edf7ff, #f7fbff) !important
+        }
+
+        .soft-green {
+            background: linear-gradient(145deg, #effcf5, #fbfffd) !important
+        }
+
+        .soft-orange {
+            background: linear-gradient(145deg, #fff6ea, #fffdf8) !important
+        }
+
+        .soft-purple {
+            background: linear-gradient(145deg, #f6f0ff, #fbf9ff) !important
+        }
+
+        .feedback-final {
+            background: linear-gradient(145deg, #fff0f6, #eef4ff) !important
+        }
+
+        .yellow {
+            background: #fff8db !important;
+            border-color: #f5d86d !important
+        }
+
+        .blue {
+            background: #eef7ff !important;
+            border-color: #b9dcff !important
+        }
+
+        .orange {
+            background: #fff4e8 !important;
+            border-color: #ffd3a7 !important
+        }
+
+        .purple {
+            background: #f5efff !important;
+            border-color: #d9c6ff !important
+        }
+
+        .green {
+            background: #ebfbf4 !important;
+            border-color: #b7ebd2 !important
+        }
+
+        .red {
+            background: #fff0ef !important;
+            border-color: #f5aaa7 !important
+        }
+
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1040px
+        }
+
+        .agenda-card {
+            position: relative;
+            padding: 24px;
+            border-radius: 26px;
+            border: 2px solid;
+            min-height: 150px;
+            overflow: hidden;
+            background: #fff
+        }
+
+        .agenda-card>b {
+            position: absolute;
+            right: 18px;
+            top: 10px;
+            font-size: 3rem;
+            opacity: .12
+        }
+
+        .agenda-card>span {
+            font-size: 3.1rem
+        }
+
+        .agenda-card h3 {
+            font-size: 1.48rem;
+            margin: 8px 0 3px
+        }
+
+        .agenda-card p {
+            margin: 0;
+            color: #52667c
+        }
+
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 34px;
+            width: 100%;
+            max-width: 1120px;
+            align-items: center
+        }
+
+        .three-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            width: 100%;
+            max-width: 1120px
+        }
+
+        .single-focus,
+        .image-card,
+        .choice-card,
+        .logic-panel,
+        .test-panel {
+            background: #fff;
+            border: 3px solid #dce8f0;
+            border-radius: 24px;
+            padding: 22px;
+            box-shadow: 0 12px 28px rgba(38, 73, 103, .09)
+        }
+
+        .single-focus {
+            max-width: 900px;
+            text-align: center;
+            padding: 40px;
+            border-radius: 34px
+        }
+
+        .choice-card h3,
+        .logic-panel h3,
+        .test-panel h3 {
+            margin: 0 0 12px;
+            font-size: 1.45rem;
+            color: var(--navy)
+        }
+
+        .choice-card p,
+        .logic-panel p,
+        .test-panel p {
+            margin: 0;
+            color: #60758b;
+            line-height: 1.45
+        }
+
+        .giant-emoji {
+            font-size: 6rem;
+            line-height: 1;
+            margin-bottom: 12px
+        }
+
+        .medium-emoji {
+            font-size: 4.2rem;
+            line-height: 1
+        }
+
+        .notice {
+            background: #fff9e8;
+            border: 1.5px solid #ffe29f;
+            color: #855400;
+            border-radius: 18px;
+            padding: 14px 18px;
+            margin: 16px auto 0;
+            font-weight: 600;
+            line-height: 1.45
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            border: none;
+            border-radius: 999px;
+            padding: 12px 18px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 6px;
+            transition: .2s
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(55, 118, 171, .18)
+        }
+
+        .primary-btn:hover,
+        .secondary-btn:hover {
+            transform: translateY(-2px)
+        }
+
+        .secondary-btn {
+            background: #eef5ff;
+            color: var(--navy);
+            border: 2px solid #d8e6f5
+        }
+
+        .feedback {
+            margin-top: 14px;
+            min-height: 42px;
+            border-radius: 16px;
+            padding: 12px 14px;
+            background: #f4f7fb;
+            color: var(--ink);
+            white-space: pre-line;
+            font-weight: 700
+        }
+
+        .feedback.success {
+            background: #ecfff4;
+            color: #18794e;
+            border: 1px solid #bde5cb
+        }
+
+        .feedback.error {
+            background: #fff1f1;
+            color: #c63d3d;
+            border: 1px solid #f0c0c0
+        }
+
+        .button-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 12px
+        }
+
+        .image-card {
+            text-align: center
+        }
+
+        .image-card img {
+            width: 100%;
+            max-height: 315px;
+            object-fit: contain;
+            border-radius: 16px;
+            background: #f6f9fb;
+            cursor: zoom-in
+        }
+
+        .image-card h3 {
+            margin: 10px 0 4px
+        }
+
+        .image-card p {
+            margin: 0;
+            color: #64768a
+        }
+
+        .code-font,
+        code,
+        pre,
+        .mini-code,
+        .terminal {
+            font-family: 'Courier New', Courier, monospace !important
+        }
+
+        .mini-code {
+            background: #17212b;
+            color: #ecf4ff;
+            padding: 18px;
+            border-radius: 18px;
+            overflow: auto;
+            font-size: .96rem;
+            line-height: 1.45;
+            white-space: pre-wrap
+        }
+
+        .command-chip {
+            display: inline-block;
+            background: #17212b;
+            color: #ecf4ff;
+            border-radius: 12px;
+            padding: 9px 12px;
+            font-family: 'Courier New', monospace;
+            font-weight: 700
+        }
+
+        .terminal {
+            background: #17212b;
+            color: #ecf4ff;
+            border-radius: 18px;
+            padding: 18px;
+            min-height: 150px;
+            white-space: pre-wrap;
+            line-height: 1.45;
+            font-size: .95rem
+        }
+
+        .flow-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: 14px;
+            align-items: stretch;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .flow-box {
+            background: #fff;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            border: 1px solid #e4edf7
+        }
+
+        .flow-box span {
+            font-size: 2.8rem;
+            display: block;
+            margin-bottom: 8px
+        }
+
+        .flow-box h3 {
+            margin: 0 0 8px;
+            color: var(--navy)
+        }
+
+        .flow-box p {
+            margin: 0;
+            color: #60758b
+        }
+
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--cyan);
+            font-weight: 700
+        }
+
+        .cli-gui {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .cli-window,
+        .gui-window {
+            border-radius: 26px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 3px solid #dce8f0;
+            background: #fff
+        }
+
+        .win-top {
+            height: 38px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 0 14px;
+            font-weight: 700;
+            color: #50657b;
+            background: #eef4f8
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ef5350
+        }
+
+        .dot.y {
+            background: #ffd53d
+        }
+
+        .dot.g {
+            background: #28b875
+        }
+
+        .cli-body {
+            background: #17212b;
+            color: #ecf4ff;
+            min-height: 280px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            line-height: 1.6
+        }
+
+        .gui-body {
+            min-height: 280px;
+            padding: 26px;
+            background: linear-gradient(145deg, #f7fbff, #eef7ff);
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .app-mock {
+            width: 300px;
+            background: #fff;
+            border-radius: 22px;
+            border: 3px solid #dce8f0;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(30, 56, 93, .12)
+        }
+
+        .app-mock h3 {
+            margin: 0 0 12px;
+            color: #233a55
+        }
+
+        .app-mock input {
+            width: 100%;
+            border: 2px solid #d8e6f5;
+            border-radius: 12px;
+            padding: 10px;
+            margin: 8px 0;
+            font-family: 'Fredoka'
+        }
+
+        .app-mock button {
+            width: 100%;
+            border: 0;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--py-blue), var(--teal));
+            color: #fff;
+            padding: 11px;
+            font-weight: 700;
+            font-family: 'Fredoka'
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-width: 1150px
+        }
+
+        .gallery-card {
+            background: #fff;
+            border: 2px solid #dce8f0;
+            border-radius: 18px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 8px 18px rgba(38, 73, 103, .08)
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #f6f9fb
+        }
+
+        .gallery-card b {
+            display: block;
+            font-size: .95rem;
+            margin-top: 7px
+        }
+
+        .gallery-card small {
+            color: #66788d
+        }
+
+        .widget-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .widget-card {
+            background: #fff;
+            border: 3px solid #dce8f0;
+            border-radius: 22px;
+            padding: 18px;
+            text-align: center
+        }
+
+        .widget-card span {
+            font-size: 3rem
+        }
+
+        .widget-card b {
+            display: block;
+            font-size: 1.15rem;
+            margin: 5px 0
+        }
+
+        .widget-card p {
+            margin: 0;
+            color: #64768a;
+            font-size: .95rem
+        }
+
+        .builder-lab {
+            display: grid;
+            grid-template-columns: 1.05fr .95fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 1120px
+        }
+
+        .builder-preview {
+            background: #f0f5fa;
+            border: 4px solid #d5e2ee;
+            border-radius: 28px;
+            padding: 20px;
+            min-height: 395px
+        }
+
+        .build-window {
+            width: 100%;
+            height: 350px;
+            background: #fff;
+            border: 3px solid #b9cde0;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(30, 56, 93, .16)
+        }
+
+        .build-window-top {
+            height: 36px;
+            background: #eaf0f5;
+            padding: 8px 12px;
+            color: #566c82;
+            font-weight: 700
+        }
+
+        .build-canvas {
+            height: 314px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            justify-content: flex-start
+        }
+
+        .build-canvas .title {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #233a55
+        }
+
+        .build-canvas .label {
+            font-size: 1.1rem;
+            color: #52677c
+        }
+
+        .build-canvas .entry {
+            width: 75%;
+            height: 40px;
+            border: 2px solid #d9e5ef;
+            border-radius: 12px;
+            background: #fff
+        }
+
+        .build-canvas .button {
+            background: linear-gradient(135deg, var(--py-blue), var(--teal));
+            color: #fff;
+            border-radius: 12px;
+            padding: 10px 18px;
+            font-weight: 700
+        }
+
+        .build-canvas .slider {
+            width: 70%;
+            height: 8px;
+            background: #dfe8f2;
+            border-radius: 999px;
+            position: relative
+        }
+
+        .build-canvas .slider:after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--blue);
+            left: 46%;
+            top: -6px
+        }
+
+        .builder-tools {
+            background: #fff;
+            border: 3px solid #dce8f0;
+            border-radius: 28px;
+            padding: 20px
+        }
+
+        .builder-tools button {
+            width: 100%;
+            text-align: left;
+            margin: 6px 0;
+            border: 3px solid #dce8f0;
+            border-radius: 16px;
+            background: #fbfdff;
+            padding: 13px;
+            font-family: 'Fredoka';
+            font-weight: 700;
+            cursor: pointer;
+            color: #304963
+        }
+
+        .builder-tools button:hover {
+            border-color: var(--cyan);
+            background: #eefbff
+        }
+
+        .small-input {
+            width: 100%;
+            border: 2px solid #d8e6f5;
+            border-radius: 14px;
+            padding: 12px;
+            font: 600 1rem 'Fredoka';
+            margin-bottom: 8px
+        }
+
+        .drop-layout {
+            width: 100%;
+            max-width: 1080px
+        }
+
+        .drop-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px
+        }
+
+        .drop-target {
+            min-height: 220px;
+            background: #fcfdfe;
+            border: 3px dashed #cfd9e4;
+            border-radius: 22px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-direction: column;
+            gap: 10px
+        }
+
+        .drop-target.active {
+            border-color: var(--teal);
+            background: #effcfb
+        }
+
+        .drop-target h3 {
+            margin: 0;
+            font-size: 1.6rem
+        }
+
+        .drop-target .hint {
+            color: #66788d;
+            font-size: .95rem
+        }
+
+        .drop-pool {
+            margin-top: 18px;
+            background: #fff;
+            border: 3px dashed #cbd8e2;
+            border-radius: 20px;
+            padding: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center
+        }
+
+        .draggable {
+            background: #3776ab;
+            color: #fff;
+            border-radius: 12px;
+            padding: 11px 16px;
+            cursor: grab;
+            font-weight: 700;
+            user-select: none;
+            max-width: 315px;
+            text-align: center
+        }
+
+        .draggable.locked {
+            cursor: default;
+            background: #28b875
+        }
+
+        .draggable.wrong {
+            animation: shake .25s
+        }
+
+        @keyframes shake {
+            25% {
+                transform: translateX(-6px)
+            }
+
+            50% {
+                transform: translateX(6px)
+            }
+
+            75% {
+                transform: translateX(-4px)
+            }
+        }
+
+        .vscode-tour {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            width: 100%;
+            max-width: 1120px
+        }
+
+        .tour-card {
+            background: #fff;
+            border: 2px solid #dce7ef;
+            border-radius: 22px;
+            padding: 14px;
+            box-shadow: 0 12px 28px rgba(38, 73, 103, .06)
+        }
+
+        .tour-card img {
+            width: 100%;
+            height: 170px;
+            object-fit: contain;
+            border-radius: 14px;
+            background: #f6f9fb;
+            cursor: zoom-in
+        }
+
+        .tour-card h3 {
+            font-size: 1.15rem;
+            margin: 9px 0 4px
+        }
+
+        .tour-card p {
+            margin: 0;
+            color: #64768a
+        }
+
+        .step-list {
+            display: grid;
+            gap: 12px;
+            width: 100%;
+            max-width: 960px
+        }
+
+        .step-item {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            background: #fff;
+            border: 3px solid #dfe8f1;
+            border-radius: 22px;
+            padding: 18px
+        }
+
+        .step-num {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            flex-shrink: 0
+        }
+
+        .step-item h3 {
+            margin: 0 0 4px
+        }
+
+        .step-item p {
+            margin: 0;
+            color: #63778c;
+            line-height: 1.45
+        }
+
+        .line-explain {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 1120px
+        }
+
+        .line-list {
+            display: grid;
+            gap: 8px
+        }
+
+        .line-chip {
+            background: #fff;
+            border: 2px solid #d6e2eb;
+            border-radius: 12px;
+            padding: 12px;
+            font-weight: 700;
+            color: #253d55;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer
+        }
+
+        .line-chip:hover,
+        .line-chip.active {
+            background: #eef7ff;
+            border-color: #70aed3
+        }
+
+        .explain-box {
+            background: #fff;
+            border: 3px solid #dce8f0;
+            border-radius: 24px;
+            padding: 22px;
+            box-shadow: var(--shadow)
+        }
+
+        .explain-box h3 {
+            margin: 0 0 10px;
+            font-size: 1.7rem
+        }
+
+        .explain-box p {
+            margin: 0;
+            color: #60758b;
+            line-height: 1.5;
+            font-size: 1.15rem
+        }
+
+        .experiment-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1080px
+        }
+
+        .experiment-card {
+            background: #fff;
+            border: 3px solid #dce8f0;
+            border-radius: 22px;
+            padding: 18px;
+            text-align: center
+        }
+
+        .experiment-card span {
+            font-size: 3.4rem
+        }
+
+        .experiment-card h3 {
+            margin: 8px 0 4px
+        }
+
+        .experiment-card p {
+            margin: 0;
+            color: #64768a
+        }
+
+        .quiz-shell {
+            width: 100%;
+            max-width: 950px;
+            background: #fff;
+            border: 3px solid #e1e8f2;
+            border-radius: 30px;
+            padding: 28px;
+            box-shadow: var(--shadow)
+        }
+
+        .quiz-question {
+            display: none
+        }
+
+        .quiz-question.active {
+            display: block
+        }
+
+        .quiz-question h3 {
+            font-size: 2rem;
+            margin: 0 0 18px
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px
+        }
+
+        .quiz-options button {
+            border: 3px solid #dfe7f0;
+            background: #f9fbfd;
+            border-radius: 16px;
+            padding: 15px 18px;
+            text-align: left;
+            font: 600 1.1rem 'Fredoka';
+            cursor: pointer
+        }
+
+        .quiz-options button:hover {
+            border-color: #8f75ea;
+            background: #f5f0ff
+        }
+
+        .quiz-options button.correct {
+            border-color: var(--green);
+            background: #eafaf3
+        }
+
+        .quiz-options button.wrong {
+            border-color: var(--red);
+            background: #fff0ef
+        }
+
+        .quiz-progress {
+            margin-top: 20px;
+            color: #63778e;
+            font-weight: 700
+        }
+
+        .quiz-progress>div {
+            height: 10px;
+            background: #e9eef4;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 7px
+        }
+
+        .quiz-progress i {
+            display: block;
+            height: 100%;
+            width: 33%;
+            background: linear-gradient(90deg, var(--orange), var(--purple));
+            transition: .3s
+        }
+
+        .recap-path {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .recap-path>div {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 23px;
+            padding: 20px;
+            text-align: center
+        }
+
+        .recap-path span {
+            font-size: 3.5rem
+        }
+
+        .recap-path b {
+            display: block;
+            font-size: 1.25rem;
+            margin: 7px
+        }
+
+        .recap-path p {
+            margin: 0;
+            color: #61758b
+        }
+
+        .emoji-feedback {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 30px
+        }
+
+        .emoji-feedback button {
+            border: 3px solid #e0e7ef;
+            background: #fff;
+            border-radius: 25px;
+            padding: 18px;
+            font-size: 5rem;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .emoji-feedback button:hover,
+        .emoji-feedback button.selected {
+            transform: scale(1.12);
+            border-color: var(--purple);
+            background: #f5efff
+        }
+
+        .emoji-feedback small {
+            display: block;
+            font: 600 .9rem 'Fredoka'
+        }
+
+        .feedback-thanks {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c4ddd;
+            margin-top: 25px;
+            min-height: 35px
+        }
+
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            inset: 0;
+            background-color: rgba(14, 25, 41, .85);
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px)
+        }
+
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, .3);
+            animation: zoomIn .3s ease
+        }
+
+        .image-modal.show {
+            display: flex
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(.9);
+                opacity: 0
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+
+        @media(max-width:1050px) {
+            .presentation-container {
+                width: 95vw;
+                height: 84vh
+            }
+
+            .slide {
+                padding: 32px 30px 72px
+            }
+
+            .agenda-grid,
+            .split-layout,
+            .cli-gui,
+            .builder-lab,
+            .drop-grid,
+            .line-explain {
+                grid-template-columns: 1fr
+            }
+
+            .three-grid,
+            .gallery-grid,
+            .widget-grid,
+            .vscode-tour,
+            .experiment-grid,
+            .recap-path {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .flow-grid {
+                grid-template-columns: 1fr
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg)
+            }
+        }
+
+        @media(max-width:700px) {
+            .brand-logo {
+                left: 8px;
+                top: 6px;
+                padding: 7px 12px
+            }
+
+            .brand-logo img {
+                height: 32px
+            }
+
+            .presentation-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: 0
+            }
+
+            .slide {
+                padding: 68px 18px 74px
+            }
+
+            .agenda-grid,
+            .three-grid,
+            .gallery-grid,
+            .widget-grid,
+            .vscode-tour,
+            .experiment-grid,
+            .recap-path {
+                grid-template-columns: 1fr
+            }
+
+            .nav-title {
+                display: none
+            }
+
+            .display-title {
+                font-size: 3.2rem
+            }
+
+            .hero-icon {
+                font-size: 5rem
+            }
+
+            .emoji-feedback {
+                gap: 8px;
+                flex-wrap: wrap
+            }
+
+            .emoji-feedback button {
+                font-size: 3.5rem
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="brand-logo"><img alt="Ruangguru Coding"
+            src="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png" /></div>
+    <main class="presentation-container" id="presentation">
+        <section class="slide cover-slide" data-title="GUI dengan Tkinter">
+            <div class="cover-scene">
+                <div class="orbit orbit-a">🖱️</div>
+                <div class="orbit orbit-b">🪟</div>
+                <div class="orbit orbit-c">🐍</div>
+                <div class="hero-badge">SESSION 9 • PYTHON GUI</div>
+                <div class="hero-icon">🖥️</div>
+                <p class="eyebrow">PYTHON PROJECT</p>
+                <h1 class="display-title">From <span>CLI</span><br>to GUI</h1>
+                <p class="hero-subtitle">Mengenal Tkinter sebagai library untuk membuat aplikasi dengan tampilan visual:
+                    window, title, ukuran, dan mainloop.</p>
+                <div class="hero-pills"><span>💬 CLI vs GUI</span><span>🧰 CustomTkinter</span><span>📦 Virtual
+                        Environment</span><span>🪟 First Window</span></div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Review Sebelumnya">
+            <div class="slide-head center">
+                <span class="kicker">WHAT WE ALREADY BUILT</span>
+                <h2>Kita Sudah Bisa Membuat Program CLI</h2>
+                <p>Program yang kita buat memang masih tampil di terminal, tapi logic-nya sudah bisa membantu manusia
+                    menyelesaikan masalah.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><b>01</b><span>🌱</span>
+                    <h3>Pengecek Panen</h3>
+                    <p>Membantu menentukan tanaman siap panen atau belum.</p>
+                </div>
+                <div class="agenda-card green"><b>02</b><span>💧</span>
+                    <h3>Kebutuhan Air</h3>
+                    <p>Menghitung kebutuhan air berdasarkan luas kebun.</p>
+                </div>
+                <div class="agenda-card orange"><b>03</b><span>📋</span>
+                    <h3>Menu Terminal</h3>
+                    <p>Program bisa menerima pilihan user dan menjalankan fungsi berbeda.</p>
+                </div>
+                <div class="agenda-card purple"><b>04</b><span>🍅</span>
+                    <h3>Smart Tomato Harvest</h3>
+                    <p>Menggabungkan input, list, function, conditional, loop, dan riwayat.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Masalah CLI">
+            <div class="split-layout">
+                <div>
+                    <span class="kicker">LIMITATION</span>
+                    <h2>CLI Itu Kuat, Tapi Belum Ramah untuk Semua Orang</h2>
+                    <p class="lead">Terminal cocok untuk programmer. Tetapi masyarakat umum bisa bingung karena harus
+                        membaca teks, mengetik command, dan memahami output yang panjang.</p>
+                    <div class="notice">Hari ini kita akan mulai menerjemahkan output terminal menjadi tampilan yang
+                        lebih mudah dipahami.</div>
+                </div>
+                <div class="terminal">SMART TOMATO HARVEST
+                    ====================
+
+                    MENU UTAMA
+                    ==========
+                    1. Cek kesiapan panen
+                    2. Tampilkan warna tomat
+                    3. Tampilkan riwayat
+                    4. Keluar
+
+                    Pilih menu (1-4): _</div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="CLI vs GUI">
+            <div class="slide-head center compact">
+                <span class="kicker">CLI VS GUI</span>
+                <h2>Dua Cara Berinteraksi dengan Program</h2>
+                <p>Logic program bisa sama, tetapi tampilan dan cara pakainya bisa dibuat berbeda.</p>
+            </div>
+            <div class="cli-gui">
+                <div class="cli-window">
+                    <div class="win-top"><span class="dot"></span><span class="dot y"></span><span class="dot g"></span>
+                        CLI / Terminal</div>
+                    <div class="cli-body">Masukkan warna tomat: merah
+                        Masukkan tekstur tomat: keras
+
+                        HASIL PEMERIKSAAN
+                        -----------------
+                        Tomat siap dipanen untuk pasar dekat.</div>
+                </div>
+                <div class="gui-window">
+                    <div class="win-top"><span class="dot"></span><span class="dot y"></span><span class="dot g"></span>
+                        GUI / Visual App</div>
+                    <div class="gui-body">
+                        <div class="app-mock">
+                            <h3>🍅 Tomato Checker</h3><label>Warna tomat</label><input value="merah"
+                                readonly><label>Tekstur</label><input value="keras" readonly><button>Cek Panen</button>
+                            <div class="notice" style="margin-top:12px">Siap dipanen ✅</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Agenda Hari Ini">
+            <div class="slide-head center">
+                <span class="kicker">TODAY'S AGENDA</span>
+                <h2>Apa yang Akan Kita Lakukan Hari Ini?</h2>
+                <p>Kita belum membuat project besar. Hari ini fokus memahami fondasi GUI dulu.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><b>01</b><span>🪟</span>
+                    <h3>Kenalan GUI</h3>
+                    <p>Memahami kenapa aplikasi visual lebih mudah dipakai.</p>
+                </div>
+                <div class="agenda-card orange"><b>02</b><span>🧰</span>
+                    <h3>Kenalan Tkinter</h3>
+                    <p>Library Python untuk membuat window, button, entry, label, dan widget lain.</p>
+                </div>
+                <div class="agenda-card purple"><b>03</b><span>📦</span>
+                    <h3>Siapkan Environment</h3>
+                    <p>Membuat folder project, virtual environment, dan install customtkinter.</p>
+                </div>
+                <div class="agenda-card green"><b>04</b><span>🐍</span>
+                    <h3>First Window</h3>
+                    <p>Membuat window pertama dan mengatur title, size, theme, dan mainloop.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Apa Itu GUI?">
+            <div class="flow-grid">
+                <div class="flow-box"><span>👤</span>
+                    <h3>User</h3>
+                    <p>Mengklik, mengetik, memilih menu, atau menggeser slider.</p>
+                </div>
+                <div class="flow-arrow">➜</div>
+                <div class="flow-box"><span>🪟</span>
+                    <h3>GUI</h3>
+                    <p>Tampilan visual yang membuat program mudah digunakan.</p>
+                </div>
+                <div class="flow-arrow">➜</div>
+                <div class="flow-box"><span>🐍</span>
+                    <h3>Python Logic</h3>
+                    <p>Program tetap bekerja di belakang layar.</p>
+                </div>
+            </div>
+            <div class="notice" style="max-width:920px;text-align:center">GUI adalah “wajah” dari program. Logic tetap
+                dibuat dengan Python, tetapi user tidak perlu melihat semua code atau terminal.</div>
+        </section>
+
+        <section class="slide" data-title="Mengenal Tkinter">
+            <div class="split-layout">
+                <div class="image-card">
+                    <img src="https://miro.medium.com/1*wEAtpMCNxjcW_9VZyGafdg.png" alt="Tkinter logo"
+                        onclick="openImageModal(this.src)">
+                    <h3>Tkinter / CustomTkinter</h3>
+                    <p>Library untuk membuat aplikasi desktop dengan Python.</p>
+                </div>
+                <div>
+                    <span class="kicker">PYTHON GUI LIBRARY</span>
+                    <h2>Apa Fungsi Tkinter?</h2>
+                    <p class="lead">Tkinter membantu kita membuat aplikasi visual seperti window, text box, button,
+                        menu, dan area tampilan. Jadi script Python yang tadinya hanya berjalan di terminal bisa punya
+                        tampilan yang lebih ramah.</p>
+                    <div class="notice">CustomTkinter adalah versi modern yang membuat widget terlihat lebih rapi,
+                        rounded, dan mudah diatur warnanya.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Contoh GUI Python">
+            <div class="slide-head center compact">
+                <span class="kicker">VISUAL EXAMPLE</span>
+                <h2>Seperti Apa GUI di Python?</h2>
+                <p>Ini contoh tampilan aplikasi Python yang menggunakan Tkinter.</p>
+            </div>
+            <div class="image-card" style="max-width:920px;width:100%">
+                <img src="https://files.realpython.com/media/Python-GUI-Programming-With-Tkinter_Watermarked.9e1a9c9070e4.jpg"
+                    alt="Python GUI Programming with Tkinter" onclick="openImageModal(this.src)">
+            </div>
+        </section>
+
+        <section class="slide" data-title="Widget Tkinter">
+            <div class="slide-head center compact">
+                <span class="kicker">WIDGETS</span>
+                <h2>Bagian-Bagian Kecil di GUI Disebut Widget</h2>
+                <p>Widget adalah komponen visual yang bisa dilihat dan digunakan oleh user.</p>
+            </div>
+            <div class="split-layout">
+                <div class="image-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/d5c6cfc8-2a34-4962-8c72-eceef63f611b.png"
+                        alt="Tkinter widgets" onclick="openImageModal(this.src)"></div>
+                <div class="widget-grid" style="grid-template-columns:1fr 1fr;max-width:520px">
+                    <div class="widget-card"><span>🏷️</span><b>Label</b>
+                        <p>Menampilkan teks.</p>
+                    </div>
+                    <div class="widget-card"><span>🔘</span><b>Button</b>
+                        <p>Tombol yang bisa diklik.</p>
+                    </div>
+                    <div class="widget-card"><span>⌨️</span><b>Entry</b>
+                        <p>Kotak untuk mengetik input.</p>
+                    </div>
+                    <div class="widget-card"><span>🧱</span><b>Frame</b>
+                        <p>Area untuk mengelompokkan widget.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Contoh Aplikasi">
+            <div class="slide-head center compact"><span class="kicker">WHAT CAN WE BUILD?</span>
+                <h2>Dengan GUI, Python Bisa Jadi Banyak Aplikasi</h2>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-card"><img
+                        src="https://media.geeksforgeeks.org/wp-content/uploads/20230112155309/basic_gui_ctk_design.png"
+                        alt="simple form" onclick="openImageModal(this.src)"><b>Form Input</b><small>Data user</small>
+                </div>
+                <div class="gallery-card"><img src="https://i.sstatic.net/n2IYb.png" alt="graphic"
+                        onclick="openImageModal(this.src)"><b>Graphic</b><small>Visual data</small></div>
+                <div class="gallery-card"><img
+                        src="https://coderspace-storage-prod.s3.eu-central-1.amazonaws.com/media/blog/post/content_images/2033039a-85a5-4577-adb4-bf929b8fd601.webp"
+                        alt="board game" onclick="openImageModal(this.src)"><b>Board Game</b><small>Game
+                        sederhana</small></div>
+                <div class="gallery-card"><img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5E0xrfsfarofUheqQ_T9yR3zBYZq0ZfAigbQk78axCA&s=10"
+                        alt="calculator" onclick="openImageModal(this.src)"><b>Calculator</b><small>Perhitungan</small>
+                </div>
+                <div class="gallery-card"><img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT068gAUpSZ9ilPp4e3q3cG6hTYnAQ2ykAkmQ99gLX09Q&s=10"
+                        alt="image gallery" onclick="openImageModal(this.src)"><b>Image Gallery</b><small>Koleksi
+                        gambar</small></div>
+            </div>
+            <div class="notice" style="max-width:980px;text-align:center">GUI juga bisa dipakai untuk dashboard, control
+                panel robot, aplikasi catatan, quiz, planner, hingga tool internal untuk memasukkan data.</div>
+        </section>
+
+        <section class="slide" data-title="Activity: Susun Layout GUI">
+            <div class="slide-head center compact"><span class="kicker">INTERACTIVE ACTIVITY</span>
+                <h2>Coba Susun Layout GUI Sederhana</h2>
+                <p>Klik tombol di kanan untuk menambahkan widget ke window di kiri.</p>
+            </div>
+            <div class="builder-lab">
+                <div class="builder-preview">
+                    <div class="build-window">
+                        <div class="build-window-top">Learn Tkinter First</div>
+                        <div class="build-canvas" id="buildCanvas"></div>
+                    </div>
+                </div>
+                <div class="builder-tools">
+                    <h3 style="margin-top:0">Widget Tools</h3>
+                    <input id="widgetText" class="small-input" value="Smart Garden App"
+                        placeholder="Tulis teks widget...">
+                    <button onclick="addWidget('title')">➕ Add Text Title</button>
+                    <button onclick="addWidget('label')">➕ Add Label</button>
+                    <button onclick="addWidget('entry')">➕ Add Text Box / Entry</button>
+                    <button onclick="addWidget('button')">➕ Add Button</button>
+                    <button onclick="addWidget('slider')">➕ Add Slider</button>
+                    <button onclick="clearBuilder()">🧹 Clear Window</button>
+                    <div class="feedback" id="builderFeedback">Window masih kosong. Tambahkan 3 widget.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Good UI Principles">
+            <div class="split-layout">
+                <div class="image-card"><img
+                        src="https://www.redant.my/wp-content/uploads/2023/08/UI-Design-1024x479.webp"
+                        alt="Good UI Design" onclick="openImageModal(this.src)">
+                    <h3>Good UI Design</h3>
+                    <p>User bisa langsung paham apa yang harus dilakukan.</p>
+                </div>
+                <div>
+                    <span class="kicker">DESIGN THINKING</span>
+                    <h2>GUI Bukan Hanya “Kelihatan Cantik”</h2>
+                    <p class="lead">Saat membuat GUI, kita harus memikirkan pengguna. Apakah tombolnya jelas? Apakah
+                        teksnya terbaca? Apakah alurnya mudah diikuti?</p>
+                    <div class="notice">Program yang bagus bukan hanya benar secara logic, tetapi juga mudah digunakan.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Activity: UI Do & Don't">
+            <div class="slide-head center compact"><span class="kicker">DESIGN CHECK</span>
+                <h2>Mana Kebiasaan UI yang Baik?</h2>
+                <p>Drag pilihan ke kolom yang sesuai. Kalau salah, item akan kembali.</p>
+            </div>
+            <div class="drop-layout">
+                <div class="drop-grid">
+                    <div class="drop-target" data-accept="good">
+                        <h3>✅ Good UI</h3>
+                        <div class="hint">Membantu user memahami aplikasi.</div>
+                    </div>
+                    <div class="drop-target" data-accept="bad">
+                        <h3>⚠️ Needs Fix</h3>
+                        <div class="hint">Membuat aplikasi sulit digunakan.</div>
+                    </div>
+                </div>
+                <div class="drop-pool" id="uiPool">
+                    <div class="draggable" draggable="true" data-type="good">Tombol utama mudah ditemukan</div>
+                    <div class="draggable" draggable="true" data-type="bad">Warna teks mirip dengan background</div>
+                    <div class="draggable" draggable="true" data-type="good">Label input menjelaskan data yang diminta
+                    </div>
+                    <div class="draggable" draggable="true" data-type="bad">Semua informasi ditumpuk di satu area kecil
+                    </div>
+                    <div class="draggable" draggable="true" data-type="good">Feedback muncul setelah user menekan tombol
+                    </div>
+                    <div class="draggable" draggable="true" data-type="bad">User harus menebak fungsi tombol dari ikon
+                        saja</div>
+                </div>
+                <div class="feedback" id="uiDndFeedback">Pindahkan setiap kartu ke kolom yang tepat.</div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Sebelum Coding">
+            <div class="single-focus">
+                <div class="giant-emoji">📁</div>
+                <span class="kicker">PROJECT SETUP</span>
+                <h2>Kita Akan Membuat Folder Baru</h2>
+                <p>Buka VS Code, lalu buat folder baru bernama <span class="command-chip">PythonProject9</span>. Di
+                    dalam folder itu, buat file <span class="command-chip">learn-tkinter.py</span>.</p>
+                <div class="notice">Semua file latihan hari ini disimpan di folder ini agar tidak tercampur dengan
+                    project sebelumnya.</div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Apa Itu Virtual Environment?">
+            <div class="split-layout">
+                <div>
+                    <span class="kicker">VENV</span>
+                    <h2>Kenapa Kita Perlu Virtual Environment?</h2>
+                    <p class="lead">Bayangkan setiap project punya “kotak alat” sendiri. Library yang dipakai project
+                        ini disimpan di kotak itu, sehingga tidak mengganggu project lain.</p>
+                    <div class="notice">Virtual environment membantu project Python lebih rapi dan aman saat kita mulai
+                        memakai library tambahan.</div>
+                </div>
+                <div class="flow-grid" style="grid-template-columns:1fr;max-width:520px">
+                    <div class="flow-box"><span>📦</span>
+                        <h3>Project A</h3>
+                        <p>Punya library sendiri.</p>
+                    </div>
+                    <div class="flow-box"><span>🧰</span>
+                        <h3>Project B</h3>
+                        <p>Bisa punya versi library berbeda.</p>
+                    </div>
+                    <div class="flow-box"><span>✅</span>
+                        <h3>Tidak Berantakan</h3>
+                        <p>Setiap project lebih mudah dikelola.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Install Step 1">
+            <div class="slide-head center compact"><span class="kicker">STEP 1</span>
+                <h2>Buat Virtual Environment</h2>
+                <p>Buka terminal di VS Code, lalu ketik command berikut.</p>
+            </div>
+            <div class="split-layout">
+                <div class="image-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/a47dd76e-88d6-47c2-96ef-a051676c420e.png"
+                        alt="create venv" onclick="openImageModal(this.src)"></div>
+                <div class="logic-panel">
+                    <h3>Command</h3>
+                    <div class="mini-code">python -m venv .venv</div>
+                    <div class="notice">Jika command <b>python</b> tidak dikenali, coba gunakan <b>py -m venv .venv</b>.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Install Step 2">
+            <div class="slide-head center compact"><span class="kicker">STEP 2</span>
+                <h2>Cek Folder .venv</h2>
+                <p>Setelah command berhasil, akan muncul folder baru bernama <b>.venv</b>.</p>
+            </div>
+            <div class="image-card" style="max-width:900px;width:100%"><img
+                    src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/641887ad-fab4-4611-b316-65f1fff56341.png"
+                    alt="venv folder" onclick="openImageModal(this.src)"></div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Install Step 3">
+            <div class="slide-head center compact"><span class="kicker">STEP 3</span>
+                <h2>Aktifkan Virtual Environment</h2>
+                <p>Di terminal, jalankan command aktivasi.</p>
+            </div>
+            <div class="split-layout">
+                <div class="logic-panel">
+                    <h3>Windows PowerShell</h3>
+                    <div class="mini-code">.venv\Scripts\Activate.ps1</div>
+                    <div class="notice">Jika berhasil, biasanya terminal akan menampilkan tanda <b>(.venv)</b> di awal
+                        baris.</div>
+                </div>
+                <div class="image-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/ab3c81c0-b495-4d11-ad1f-5946a48c2ec0.png"
+                        alt="activate venv" onclick="openImageModal(this.src)"></div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Install Step 4">
+            <div class="slide-head center compact"><span class="kicker">STEP 4</span>
+                <h2>Install CustomTkinter</h2>
+                <p>Setelah venv aktif, baru install library yang kita pakai.</p>
+            </div>
+            <div class="split-layout">
+                <div class="image-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/8069e453-08f6-42c3-85c7-07592a5198de.png"
+                        alt="pip install customtkinter" onclick="openImageModal(this.src)"></div>
+                <div class="logic-panel">
+                    <h3>Command</h3>
+                    <div class="mini-code">pip install customtkinter</div>
+                    <div class="notice">Tunggu sampai proses selesai. Jangan menutup terminal saat install masih
+                        berjalan.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Install Selesai">
+            <div class="slide-head center compact"><span class="kicker">INSTALLATION CHECK</span>
+                <h2>Tunggu Sampai Install Selesai</h2>
+                <p>Kalau sudah selesai, kita bisa coba menjalankan program pertama.</p>
+            </div>
+            <div class="image-card" style="max-width:900px;width:100%"><img
+                    src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/1596c816-6f45-4138-ada2-768b642a0ab8.png"
+                    alt="install selesai" onclick="openImageModal(this.src)"></div>
+        </section>
+
+        <section class="slide soft-green" data-title="Troubleshooting">
+            <div class="slide-head center"><span class="kicker">IF SOMETHING GOES WRONG</span>
+                <h2>Kalau Masih Ada Warning atau Error?</h2>
+                <p>Jangan panik. Coba cek satu per satu.</p>
+            </div>
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <div>
+                        <h3>Pastikan Folder Benar</h3>
+                        <p>VS Code harus membuka folder <b>PythonProject9</b>, bukan folder lain.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <div>
+                        <h3>Pastikan Venv Aktif</h3>
+                        <p>Cek apakah terminal sudah menampilkan tanda <b>(.venv)</b>.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <div>
+                        <h3>Install Ulang Jika Perlu</h3>
+                        <p>Jalankan lagi <span class="command-chip">pip install customtkinter</span>.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">4</div>
+                    <div>
+                        <h3>Restart VS Code</h3>
+                        <p>Kalau garis warning masih muncul, tutup folder / VS Code lalu buka lagi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="First Window Code">
+            <div class="slide-head center compact"><span class="kicker">FIRST WINDOW</span>
+                <h2>Sekarang Tulis Program Pertama</h2>
+                <p>File: <b>learn-tkinter.py</b>. Ini hanya membuat window kosong.</p>
+            </div>
+            <div class="split-layout">
+                <div class="logic-panel">
+                    <h3>Code</h3>
+                    <pre class="mini-code">import customtkinter as ctk
+
+app = ctk.CTk()
+app.title("Learn Tkinter First")
+app.geometry("400x600")
+
+app.mainloop()</pre>
+                </div>
+                <div class="logic-panel">
+                    <h3>Apa yang Harus Terjadi?</h3>
+                    <p>Ketika dijalankan, akan muncul window desktop baru berukuran 400 x 600 dengan title “Learn
+                        Tkinter First”.</p>
+                    <div class="notice">Kalau window muncul, berarti setup Tkinter kamu berhasil.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Line by Line 1">
+            <div class="slide-head center compact"><span class="kicker">READ THE CODE</span>
+                <h2>Mari Baca Code-nya Satu Baris Satu Baris</h2>
+                <p>Klik baris di kiri untuk melihat penjelasannya.</p>
+            </div>
+            <div class="line-explain">
+                <div class="line-list" id="lineListA">
+                    <button class="line-chip active"
+                        onclick="explainLine('import customtkinter as ctk','Kita memanggil library CustomTkinter dan memberi nama pendek ctk agar lebih mudah dipakai.')">import
+                        customtkinter as ctk <span>➜</span></button>
+                    <button class="line-chip"
+                        onclick="explainLine('app = ctk.CTk()','Kita membuat window utama aplikasi. Variable app menyimpan window tersebut agar bisa kita atur.')">app
+                        = ctk.CTk() <span>➜</span></button>
+                    <button class="line-chip"
+                        onclick="explainLine('app.title(...)','Memberi nama pada bagian atas window. Ini seperti judul aplikasi.')">app.title("Learn
+                        Tkinter First") <span>➜</span></button>
+                    <button class="line-chip"
+                        onclick="explainLine('app.geometry(...)','Mengatur ukuran window. 400x600 artinya lebar 400 pixel dan tinggi 600 pixel.')">app.geometry("400x600")
+                        <span>➜</span></button>
+                    <button class="line-chip"
+                        onclick="explainLine('app.mainloop()','Menjaga window tetap tampil dan menunggu interaksi user. Tanpa ini, window bisa langsung tertutup.')">app.mainloop()
+                        <span>➜</span></button>
+                </div>
+                <div class="explain-box">
+                    <h3 id="lineTitle">import customtkinter as ctk</h3>
+                    <p id="lineDesc">Kita memanggil library CustomTkinter dan memberi nama pendek ctk agar lebih mudah
+                        dipakai.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Add Window Settings">
+            <div class="slide-head center compact"><span class="kicker">IMPROVE THE WINDOW</span>
+                <h2>Tambahkan Pengaturan Window</h2>
+                <p>Sekarang kita membuat window lebih rapi: tidak bisa di-resize, mode light, dan tema biru.</p>
+            </div>
+            <div class="split-layout">
+                <pre class="mini-code">import customtkinter as ctk
+
+app = ctk.CTk()
+app.title("Learn Tkinter First")
+app.geometry("400x600")
+app.resizable(False, False)
+ctk.set_appearance_mode("light")
+ctk.set_default_color_theme("blue")
+
+app.mainloop()</pre>
+                <div class="image-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/dfa8e626-561e-4591-80a7-a8efbe4ea115.png"
+                        alt="CustomTkinter first window" onclick="openImageModal(this.src)">
+                    <h3>Hasil Window</h3>
+                    <p>Window kosong yang siap diisi widget.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Line by Line 2">
+            <div class="slide-head center compact"><span class="kicker">NEW LINES</span>
+                <h2>Baris Tambahan Ini Untuk Apa?</h2>
+            </div>
+            <div class="three-grid">
+                <div class="choice-card">
+                    <div class="medium-emoji">📏</div>
+                    <h3>app.resizable(False, False)</h3>
+                    <p>Membuat window tidak bisa dibesarkan atau dikecilkan. Ukurannya tetap.</p>
+                </div>
+                <div class="choice-card">
+                    <div class="medium-emoji">☀️</div>
+                    <h3>set_appearance_mode("light")</h3>
+                    <p>Mengatur tampilan aplikasi menjadi light mode.</p>
+                </div>
+                <div class="choice-card">
+                    <div class="medium-emoji">🔵</div>
+                    <h3>set_default_color_theme("blue")</h3>
+                    <p>Mengatur warna tema default menjadi biru.</p>
+                </div>
+            </div>
+            <div class="notice" style="max-width:900px;text-align:center">Mulai hari ini kita tidak hanya memikirkan
+                logic, tapi juga tampilan aplikasi.</div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Activity: Experiment">
+            <div class="slide-head center"><span class="kicker">TRY IT YOURSELF</span>
+                <h2>Eksperimen Kecil di VS Code</h2>
+                <p>Ubah sedikit code-mu, lalu run lagi dan amati bedanya.</p>
+            </div>
+            <div class="experiment-grid">
+                <div class="experiment-card"><span>🏷️</span>
+                    <h3>Ganti Title</h3>
+                    <p>Ubah title menjadi nama aplikasi yang kamu mau.</p>
+                </div>
+                <div class="experiment-card"><span>📐</span>
+                    <h3>Ganti Ukuran</h3>
+                    <p>Coba 600x400 atau 500x500. Apa yang berubah?</p>
+                </div>
+                <div class="experiment-card"><span>🌙</span>
+                    <h3>Ganti Appearance</h3>
+                    <p>Coba ubah light menjadi dark. Bagaimana tampilannya?</p>
+                </div>
+            </div>
+            <div class="notice" style="max-width:900px;text-align:center">Challenge: coba hapus sementara
+                <b>app.mainloop()</b>, run program, lalu bandingkan hasilnya.</div>
+        </section>
+
+        <section class="slide" data-title="Run & Save Checklist">
+            <div class="slide-head center"><span class="kicker">CHECKPOINT</span>
+                <h2>Pastikan Project Berjalan</h2>
+                <p>Sebelum lanjut, cek hal-hal penting ini.</p>
+            </div>
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <div>
+                        <h3>File tersimpan</h3>
+                        <p>Nama file: <b>learn-tkinter.py</b> di dalam folder <b>PythonProject9</b>.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <div>
+                        <h3>Venv aktif</h3>
+                        <p>Terminal menunjukkan <b>(.venv)</b> sebelum command.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <div>
+                        <h3>Run berhasil</h3>
+                        <p>Window aplikasi muncul dan tidak langsung tertutup.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">4</div>
+                    <div>
+                        <h3>Eksperimen berhasil</h3>
+                        <p>Kamu bisa mengubah title, ukuran window, dan appearance mode.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="What Comes Next">
+            <div class="single-focus">
+                <div class="giant-emoji">🚀</div>
+                <span class="kicker">NEXT STEP</span>
+                <h2>Hari Ini Kita Baru Membuat “Rumah”-nya</h2>
+                <p>Window adalah rumah aplikasi. Di pertemuan berikutnya, kita bisa mulai memasukkan “isi rumah”: label,
+                    input, button, dan logic yang berjalan saat tombol diklik.</p>
+                <div class="notice">GUI akan membuat project Python kita lebih dekat dengan aplikasi yang digunakan
+                    orang sehari-hari.</div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Quick Quiz">
+            <div class="slide-head compact center"><span class="kicker">QUICK QUIZ</span>
+                <h2>Cek Pemahamanmu</h2>
+                <p>Pilih jawaban yang paling tepat.</p>
+            </div>
+            <div class="quiz-shell">
+                <div class="quiz-question active" id="quiz1">
+                    <h3>1. Apa kepanjangan GUI?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz1','quiz2')">A. General User
+                            Input</button><button onclick="answerQuiz(this,true,'quiz1','quiz2')">B. Graphical User
+                            Interface</button><button onclick="answerQuiz(this,false,'quiz1','quiz2')">C. Global Utility
+                            Installation</button></div>
+                </div>
+                <div class="quiz-question" id="quiz2">
+                    <h3>2. Apa fungsi <span class="code-font">app.mainloop()</span>?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz2','quiz3')">A. Menghapus
+                            window</button><button onclick="answerQuiz(this,true,'quiz2','quiz3')">B. Menjaga window
+                            tetap berjalan dan menunggu interaksi</button><button
+                            onclick="answerQuiz(this,false,'quiz2','quiz3')">C. Mengganti warna Python</button></div>
+                </div>
+                <div class="quiz-question" id="quiz3">
+                    <h3>3. Kenapa kita membuat virtual environment?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,true,'quiz3','quizDone')">A. Agar library
+                            project tersimpan rapi dan tidak mengganggu project lain</button><button
+                            onclick="answerQuiz(this,false,'quiz3','quizDone')">B. Agar komputer tidak bisa membuka
+                            browser</button><button onclick="answerQuiz(this,false,'quiz3','quizDone')">C. Agar code
+                            Python berubah menjadi Scratch</button></div>
+                </div>
+                <div class="quiz-question" id="quizDone" style="text-align:center">
+                    <div class="giant-emoji">🎉</div>
+                    <h3>Quiz Selesai!</h3>
+                    <p>Kamu sudah memahami dasar GUI dan window pertama di Python.</p>
+                </div>
+                <div class="quiz-progress"><span id="quizProgressText">Soal 1 dari 3</span>
+                    <div><i id="quizProgressBar"></i></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Review Hari Ini">
+            <div class="slide-head center"><span class="kicker">TODAY'S REVIEW</span>
+                <h2>Apa Saja yang Sudah Dipelajari?</h2>
+            </div>
+            <div class="recap-path">
+                <div><span>💻</span><b>CLI</b>
+                    <p>Program terminal kuat, tapi kurang ramah untuk user umum.</p>
+                </div>
+                <div><span>🪟</span><b>GUI</b>
+                    <p>Tampilan visual untuk berinteraksi dengan program.</p>
+                </div>
+                <div><span>🧰</span><b>CustomTkinter</b>
+                    <p>Library modern untuk membuat GUI Python.</p>
+                </div>
+                <div><span>📦</span><b>Virtual Environment</b>
+                    <p>Kotak alat khusus untuk library project.</p>
+                </div>
+                <div><span>📏</span><b>Window Setting</b>
+                    <p>Title, geometry, resizable, theme, dan mode.</p>
+                </div>
+                <div><span>🔁</span><b>Mainloop</b>
+                    <p>Menjaga window tetap tampil dan aktif.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide feedback-final" data-title="Feedback">
+            <div class="slide-head center"><span class="kicker">YOUR FEEDBACK</span>
+                <h2>Bagaimana Perasaanmu Setelah Belajar GUI?</h2>
+                <p>Pilih satu emoji yang paling sesuai.</p>
+            </div>
+            <div class="emoji-feedback" id="emojiFeedback"><button onclick="sendFeedback(this)">😍<small>Sangat
+                        siap</small></button><button onclick="sendFeedback(this)">😊<small>Paham</small></button><button
+                    onclick="sendFeedback(this)">🤔<small>Perlu latihan</small></button><button
+                    onclick="sendFeedback(this)">🆘<small>Butuh bantuan</small></button></div>
+            <div class="feedback-thanks" id="feedbackThanks"></div>
+        </section>
+
+        <div class="progress-line" id="progressLine"></div>
+        <footer class="navigation">
+            <div class="nav-title" id="navTitle">Session 9 • GUI dengan Tkinter</div>
+            <div class="nav-controls"><button aria-label="Sebelumnya" class="nav-btn" id="prevBtn">‹</button>
+                <div class="counter"><span id="currentSlide">1</span> / <span id="totalSlides">1</span></div><button
+                    aria-label="Berikutnya" class="nav-btn next" id="nextBtn">›</button>
+            </div>
+        </footer>
+    </main>
+
+    <div class="image-modal" id="imageModal" onclick="closeImageModal()"><img id="modalImage" src="" alt="Preview">
+    </div>
+
+    <script>
+        let currentSlide = 0; const slides = [...document.querySelectorAll('.slide')];
+        function showSlide(index) { if (index < 0 || index >= slides.length) return; slides.forEach((slide, i) => slide.classList.toggle('active', i === index)); currentSlide = index; document.getElementById('currentSlide').textContent = index + 1; document.getElementById('totalSlides').textContent = slides.length; document.getElementById('prevBtn').disabled = index === 0; document.getElementById('nextBtn').disabled = index === slides.length - 1; document.getElementById('progressLine').style.width = ((index + 1) / slides.length * 100) + '%'; document.getElementById('navTitle').textContent = 'Session 9 • ' + slides[index].dataset.title; slides[index].scrollTop = 0; }
+        document.getElementById('prevBtn').onclick = () => showSlide(currentSlide - 1); document.getElementById('nextBtn').onclick = () => showSlide(currentSlide + 1); document.addEventListener('keydown', e => { if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return; if (e.key === 'ArrowRight') showSlide(currentSlide + 1); if (e.key === 'ArrowLeft') showSlide(currentSlide - 1); }); showSlide(0);
+        function openImageModal(src) { document.getElementById('modalImage').src = src; document.getElementById('imageModal').classList.add('show'); }
+        function closeImageModal() { document.getElementById('imageModal').classList.remove('show'); }
+
+        function addWidget(type) { const canvas = document.getElementById('buildCanvas'); const text = document.getElementById('widgetText').value || 'New Widget'; const el = document.createElement('div'); el.className = type; if (type === 'title') { el.textContent = text } else if (type === 'label') { el.textContent = 'Label: ' + text } else if (type === 'entry') { el.className = 'entry'; el.textContent = '' } else if (type === 'button') { el.className = 'button'; el.textContent = text } else if (type === 'slider') { el.className = 'slider' } canvas.appendChild(el); const count = canvas.children.length; const fb = document.getElementById('builderFeedback'); fb.textContent = count >= 3 ? 'Mantap! Window sudah punya beberapa widget.' : 'Tambahkan lagi widget agar layout lebih lengkap.'; fb.className = 'feedback ' + (count >= 3 ? 'success' : ''); }
+        function clearBuilder() { document.getElementById('buildCanvas').innerHTML = ''; const fb = document.getElementById('builderFeedback'); fb.textContent = 'Window dibersihkan. Coba susun layout baru.'; fb.className = 'feedback'; }
+
+        let draggedItem = null; document.querySelectorAll('.draggable').forEach(item => { item.addEventListener('dragstart', e => { draggedItem = item; setTimeout(() => item.style.opacity = '.45', 0); }); item.addEventListener('dragend', () => { item.style.opacity = '1'; }); }); document.querySelectorAll('.drop-target').forEach(zone => { zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('active'); }); zone.addEventListener('dragleave', () => zone.classList.remove('active')); zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('active'); if (!draggedItem) return; const fb = document.getElementById('uiDndFeedback'); if (draggedItem.dataset.type === zone.dataset.accept) { zone.appendChild(draggedItem); draggedItem.classList.add('locked'); draggedItem.draggable = false; fb.textContent = 'Benar! UI yang baik harus membantu user, bukan membuat bingung.'; fb.className = 'feedback success'; } else { draggedItem.classList.add('wrong'); setTimeout(() => draggedItem.classList.remove('wrong'), 300); fb.textContent = 'Belum tepat. Pikirkan: apakah ini membuat aplikasi lebih mudah dipakai atau lebih membingungkan?'; fb.className = 'feedback error'; } draggedItem = null; }); });
+
+        function explainLine(title, desc) { document.getElementById('lineTitle').textContent = title; document.getElementById('lineDesc').textContent = desc; document.querySelectorAll('.line-chip').forEach(b => b.classList.remove('active')); event.currentTarget.classList.add('active'); }
+
+        let quizNumber = 1; function answerQuiz(btn, correct, current, next) { const q = document.getElementById(current), buttons = q.querySelectorAll('button'); buttons.forEach(b => b.disabled = true); btn.classList.add(correct ? 'correct' : 'wrong'); if (!correct) buttons.forEach(b => { if (b.getAttribute('onclick').includes('true')) b.classList.add('correct') }); setTimeout(() => { q.classList.remove('active'); document.getElementById(next).classList.add('active'); quizNumber = Math.min(3, quizNumber + 1); document.getElementById('quizProgressText').textContent = next === 'quizDone' ? 'Selesai' : 'Soal ' + quizNumber + ' dari 3'; document.getElementById('quizProgressBar').style.width = (next === 'quizDone' ? 100 : quizNumber * 33.34) + '%'; }, 650); }
+        function sendFeedback(btn) { document.querySelectorAll('#emojiFeedback button').forEach(x => x.classList.remove('selected')); btn.classList.add('selected'); document.getElementById('feedbackThanks').textContent = 'Terima kasih. Di pertemuan berikutnya kita akan mulai mengisi window dengan widget dan logic.'; }
+    </script>
+</body>
+
+</html>
