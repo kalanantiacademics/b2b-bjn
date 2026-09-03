@@ -1,0 +1,2069 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Session 10 - Visual Design Tkinter | Ruangguru Coding</title>
+    <link rel="icon"
+        href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --blue: #2f80ed;
+            --cyan: #16bde8;
+            --purple: #845ef7;
+            --orange: #ff8a34;
+            --yellow: #ffd53d;
+            --green: #28b875;
+            --red: #ef5350;
+            --ink: #20324a;
+            --muted: #66788d;
+            --py-blue: #3776ab;
+            --teal: #0ba7a5;
+            --navy: #2f4661;
+            --shadow: 0 22px 55px rgba(22, 44, 76, .18);
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--ink);
+            background: #f8fffe;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        body:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background: radial-gradient(circle at 8% 18%, rgba(22, 189, 232, .13), transparent 24%), radial-gradient(circle at 90% 14%, rgba(255, 211, 67, .16), transparent 24%), radial-gradient(circle at 14% 90%, rgba(40, 184, 117, .13), transparent 24%), radial-gradient(circle at 88% 88%, rgba(132, 94, 247, .10), transparent 25%), #f8fffe
+        }
+
+        body:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image: linear-gradient(rgba(22, 189, 232, .08) 2px, transparent 2px), linear-gradient(90deg, rgba(22, 189, 232, .08) 2px, transparent 2px);
+            background-size: 96px 96px;
+            pointer-events: none
+        }
+
+        .brand-logo {
+            position: fixed;
+            left: 22px;
+            top: 16px;
+            z-index: 2000;
+            background: #fff;
+            border: 2.5px solid rgba(0, 188, 212, .22);
+            border-radius: 22px;
+            padding: 10px 20px;
+            box-shadow: 0 8px 32px rgba(0, 188, 212, .18);
+            display: flex;
+            align-items: center
+        }
+
+        .brand-logo img {
+            height: 80px;
+            max-width: 220px;
+            object-fit: contain;
+            display: block
+        }
+
+        .presentation-container {
+            width: 88vw;
+            height: 82vh;
+            max-width: 1500px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(30, 56, 93, .25);
+            overflow: hidden;
+            position: relative;
+            border: 4px solid rgba(255, 255, 255, .85)
+        }
+
+        .presentation-container:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 26px;
+            box-shadow: inset 0 0 0 1px rgba(91, 124, 164, .10);
+            z-index: 30
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 42px 58px 74px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(42px) scale(.985);
+            transition: .46s ease;
+            background: linear-gradient(145deg, #fff, #f7fcfd);
+            overflow-y: auto;
+            overflow-x: hidden
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            z-index: 10
+        }
+
+        .navigation {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, .96);
+            border-top: 1px solid #e7edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 100;
+            backdrop-filter: blur(12px)
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b7d92;
+            max-width: 42%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px
+        }
+
+        .counter {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #53677f;
+            min-width: 74px;
+            text-align: center
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #d9e3ef;
+            background: #fff;
+            color: #4c6077;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            border-color: var(--blue);
+            color: var(--blue)
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            color: #fff;
+            border: 0;
+            box-shadow: 0 7px 16px rgba(255, 138, 52, .3)
+        }
+
+        .nav-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 0;
+            bottom: 62px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--orange), var(--purple), var(--cyan));
+            width: 0;
+            transition: .35s;
+            z-index: 110
+        }
+
+        .slide-head {
+            width: 100%;
+            max-width: 1180px;
+            margin-bottom: 22px
+        }
+
+        .slide-head.center {
+            text-align: center
+        }
+
+        .slide-head.compact {
+            margin-bottom: 14px
+        }
+
+        .slide-head h2,
+        .single-focus h2 {
+            font-size: clamp(2.2rem, 4vw, 4rem);
+            line-height: 1.06;
+            margin: 6px 0 12px;
+            color: #24344d
+        }
+
+        .slide-head p,
+        .single-focus p,
+        .lead {
+            font-size: clamp(1.1rem, 1.55vw, 1.45rem);
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.5
+        }
+
+        .kicker {
+            display: inline-block;
+            font-size: .92rem;
+            letter-spacing: .16em;
+            font-weight: 700;
+            color: var(--purple);
+            background: #f0eaff;
+            border-radius: 999px;
+            padding: 7px 13px
+        }
+
+        .eyebrow {
+            letter-spacing: .22em;
+            font-weight: 700;
+            color: var(--py-blue);
+            margin: 0 0 10px
+        }
+
+        .cover-slide {
+            background: linear-gradient(135deg, #f4fbff, #eefcf8 48%, #fff8df) !important;
+            color: var(--ink) !important
+        }
+
+        .cover-scene {
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #fff;
+            border: 2px solid #dbe9f2;
+            color: #40566d;
+            box-shadow: 0 8px 20px rgba(44, 80, 115, .08);
+            padding: 9px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            margin-bottom: 18px
+        }
+
+        .hero-icon {
+            font-size: 7rem;
+            filter: drop-shadow(0 12px 16px rgba(55, 118, 171, .18));
+            animation: float 3s ease-in-out infinite
+        }
+
+        .display-title {
+            font-size: clamp(3.4rem, 7vw, 6.2rem);
+            line-height: .95;
+            margin: 8px 0 18px;
+            color: #233a55
+        }
+
+        .display-title span {
+            color: #1b5e20
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            max-width: 980px;
+            margin: 0 auto;
+            color: #52677c
+        }
+
+        .hero-pills {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 26px
+        }
+
+        .hero-pills span {
+            background: #fff;
+            border: 2px solid #dbe9f2;
+            color: #40566d;
+            box-shadow: 0 8px 20px rgba(44, 80, 115, .08);
+            padding: 10px 16px;
+            border-radius: 15px;
+            font-weight: 600
+        }
+
+        .orbit {
+            position: absolute;
+            font-size: 2.6rem;
+            animation: float 3.5s ease-in-out infinite
+        }
+
+        .orbit-a {
+            left: 8%;
+            top: 12%
+        }
+
+        .orbit-b {
+            right: 8%;
+            top: 18%;
+            animation-delay: .7s
+        }
+
+        .orbit-c {
+            right: 15%;
+            bottom: 10%;
+            animation-delay: 1.2s
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-12px) rotate(3deg)
+            }
+        }
+
+        .soft-blue {
+            background: linear-gradient(145deg, #edf7ff, #f7fbff) !important
+        }
+
+        .soft-green {
+            background: linear-gradient(145deg, #effcf5, #fbfffd) !important
+        }
+
+        .soft-orange {
+            background: linear-gradient(145deg, #fff6ea, #fffdf8) !important
+        }
+
+        .soft-purple {
+            background: linear-gradient(145deg, #f6f0ff, #fbf9ff) !important
+        }
+
+        .feedback-final {
+            background: linear-gradient(145deg, #fff0f6, #eef4ff) !important
+        }
+
+        .blue {
+            background: #eef7ff !important;
+            border-color: #b9dcff !important
+        }
+
+        .orange {
+            background: #fff4e8 !important;
+            border-color: #ffd3a7 !important
+        }
+
+        .purple {
+            background: #f5efff !important;
+            border-color: #d9c6ff !important
+        }
+
+        .green {
+            background: #ebfbf4 !important;
+            border-color: #b7ebd2 !important
+        }
+
+        .yellow {
+            background: #fff8db !important;
+            border-color: #f5d86d !important
+        }
+
+        .red {
+            background: #fff0ef !important;
+            border-color: #f5aaa7 !important
+        }
+
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1040px
+        }
+
+        .agenda-card {
+            position: relative;
+            padding: 24px;
+            border-radius: 26px;
+            border: 2px solid;
+            min-height: 150px;
+            overflow: hidden;
+            background: #fff
+        }
+
+        .agenda-card>b {
+            position: absolute;
+            right: 18px;
+            top: 10px;
+            font-size: 3rem;
+            opacity: .12
+        }
+
+        .agenda-card>span {
+            font-size: 3.1rem
+        }
+
+        .agenda-card h3 {
+            font-size: 1.48rem;
+            margin: 8px 0 3px
+        }
+
+        .agenda-card p {
+            margin: 0;
+            color: #52667c
+        }
+
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 34px;
+            width: 100%;
+            max-width: 1120px;
+            align-items: center
+        }
+
+        .three-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            width: 100%;
+            max-width: 1120px
+        }
+
+        .single-focus,
+        .image-card,
+        .choice-card,
+        .logic-panel,
+        .test-panel {
+            background: #fff;
+            border: 3px solid #dce8f0;
+            border-radius: 24px;
+            padding: 22px;
+            box-shadow: 0 12px 28px rgba(38, 73, 103, .09)
+        }
+
+        .single-focus {
+            max-width: 900px;
+            text-align: center;
+            padding: 40px;
+            border-radius: 34px
+        }
+
+        .choice-card h3,
+        .logic-panel h3,
+        .test-panel h3 {
+            margin: 0 0 12px;
+            font-size: 1.45rem;
+            color: var(--navy)
+        }
+
+        .choice-card p,
+        .logic-panel p,
+        .test-panel p {
+            margin: 0;
+            color: #60758b;
+            line-height: 1.45
+        }
+
+        .giant-emoji {
+            font-size: 6rem;
+            line-height: 1;
+            margin-bottom: 12px
+        }
+
+        .medium-emoji {
+            font-size: 4.2rem;
+            line-height: 1
+        }
+
+        .notice {
+            background: #fff9e8;
+            border: 1.5px solid #ffe29f;
+            color: #855400;
+            border-radius: 18px;
+            padding: 14px 18px;
+            margin: 16px auto 0;
+            font-weight: 600;
+            line-height: 1.45
+        }
+
+        .teal-note {
+            background: #eafbf9;
+            border-left: 7px solid var(--teal);
+            color: #254b53;
+            border-radius: 18px;
+            padding: 18px 24px;
+            font-size: 1.18rem;
+            line-height: 1.5
+        }
+
+        .code-font,
+        code,
+        pre,
+        .mini-code,
+        .terminal {
+            font-family: 'Courier New', Courier, monospace !important
+        }
+
+        .mini-code {
+            background: #17212b;
+            color: #ecf4ff;
+            padding: 18px;
+            border-radius: 18px;
+            overflow: auto;
+            font-size: .92rem;
+            line-height: 1.45;
+            white-space: pre-wrap
+        }
+
+        .command-chip {
+            display: inline-block;
+            background: #17212b;
+            color: #ecf4ff;
+            border-radius: 12px;
+            padding: 8px 11px;
+            font-family: 'Courier New', monospace;
+            font-weight: 700
+        }
+
+        .image-card {
+            text-align: center
+        }
+
+        .image-card img,
+        .tour-card img {
+            width: 100%;
+            max-height: 360px;
+            object-fit: contain;
+            border-radius: 14px;
+            background: #f6f9fb;
+            cursor: zoom-in
+        }
+
+        .image-card h3 {
+            margin: 10px 0 4px
+        }
+
+        .image-card p {
+            margin: 0;
+            color: #64768a
+        }
+
+        .flow-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: 14px;
+            align-items: stretch;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .flow-box {
+            background: #fff;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            border: 1px solid #e4edf7
+        }
+
+        .flow-box span {
+            font-size: 2.8rem;
+            display: block;
+            margin-bottom: 8px
+        }
+
+        .flow-box h3 {
+            margin: 0 0 8px;
+            color: var(--navy)
+        }
+
+        .flow-box p {
+            margin: 0;
+            color: #60758b
+        }
+
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--cyan);
+            font-weight: 700
+        }
+
+        .code-output {
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 1180px;
+            align-items: center
+        }
+
+        .tk-window {
+            width: 350px;
+            height: 450px;
+            background: #f8f8f8;
+            border: 2px solid #cfd8df;
+            border-radius: 12px;
+            box-shadow: 0 14px 35px rgba(30, 56, 93, .18);
+            overflow: hidden;
+            margin: auto
+        }
+
+        .tk-title {
+            height: 32px;
+            background: #eef1f4;
+            border-bottom: 1px solid #ccd5de;
+            font: 600 .82rem 'Arial';
+            display: flex;
+            align-items: center;
+            padding-left: 12px;
+            color: #333
+        }
+
+        .tk-body {
+            height: 418px;
+            background: #fafafa;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            text-align: center
+        }
+
+        .tk-label {
+            font-family: Arial, sans-serif;
+            display: inline-block
+        }
+
+        .pack-pill {
+            display: inline-block;
+            background: #f0eaff;
+            color: #6845c8;
+            border-radius: 12px;
+            padding: 6px 10px;
+            font-weight: 700;
+            margin: 3px
+        }
+
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-width: 1000px
+        }
+
+        .property-card {
+            background: #fff;
+            border: 2px solid #dce8f0;
+            border-radius: 20px;
+            padding: 17px;
+            box-shadow: 0 8px 18px rgba(38, 73, 103, .06)
+        }
+
+        .property-card h3 {
+            margin: 0 0 7px;
+            color: #24344d
+        }
+
+        .property-card p {
+            margin: 0;
+            color: #64768a
+        }
+
+        .pack-visual {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            width: 100%;
+            max-width: 980px
+        }
+
+        .axis-box {
+            background: #fff;
+            border: 3px solid #dce8f0;
+            border-radius: 24px;
+            padding: 20px;
+            text-align: center
+        }
+
+        .axis-preview {
+            height: 190px;
+            border: 2px dashed #cbd8e2;
+            border-radius: 18px;
+            position: relative;
+            background: #fbfdff;
+            margin-top: 12px
+        }
+
+        .axis-label {
+            position: absolute;
+            background: #3776ab;
+            color: #fff;
+            border-radius: 12px;
+            padding: 9px 13px;
+            font-weight: 700
+        }
+
+        .axis-x {
+            left: 38%;
+            top: 70px
+        }
+
+        .axis-y {
+            left: 38%;
+            top: 80px
+        }
+
+        .pad-x {
+            position: absolute;
+            left: 7px;
+            right: 7px;
+            top: 74px;
+            height: 38px;
+            border-left: 14px solid rgba(255, 138, 52, .45);
+            border-right: 14px solid rgba(255, 138, 52, .45)
+        }
+
+        .pad-y {
+            position: absolute;
+            left: 39%;
+            top: 10px;
+            bottom: 10px;
+            width: 118px;
+            border-top: 14px solid rgba(40, 184, 117, .45);
+            border-bottom: 14px solid rgba(40, 184, 117, .45)
+        }
+
+        .lab-grid {
+            display: grid;
+            grid-template-columns: 1fr .9fr;
+            gap: 18px;
+            width: 100%;
+            max-width: 1180px
+        }
+
+        .lab-controls {
+            background: #fff;
+            border: 3px solid #dce8f0;
+            border-radius: 26px;
+            padding: 18px;
+            box-shadow: var(--shadow)
+        }
+
+        .control-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px
+        }
+
+        .control-grid label {
+            font-weight: 700;
+            color: #415973;
+            font-size: .92rem
+        }
+
+        .control-grid select,
+        .control-grid input {
+            width: 100%;
+            border: 2px solid #d8e6f5;
+            border-radius: 12px;
+            padding: 10px;
+            font-family: 'Fredoka';
+            font-weight: 600
+        }
+
+        .live-code {
+            margin-top: 12px;
+            max-height: 220px;
+            overflow: auto
+        }
+
+        .lab-preview {
+            background: #f0f5fa;
+            border: 4px solid #d5e2ee;
+            border-radius: 28px;
+            padding: 20px;
+            min-height: 470px;
+            box-shadow: var(--shadow)
+        }
+
+        .mock-app {
+            width: 350px;
+            height: 450px;
+            margin: auto;
+            background: #fff;
+            border: 3px solid #b9cde0;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(30, 56, 93, .16)
+        }
+
+        .mock-top {
+            height: 32px;
+            background: #eaf0f5;
+            padding: 8px 12px;
+            color: #566c82;
+            font-weight: 700;
+            font-size: .8rem
+        }
+
+        .mock-body {
+            height: 418px;
+            position: relative;
+            background: #fafafa;
+            padding: 12px
+        }
+
+        .mock-label {
+            position: absolute;
+            max-width: 310px;
+            text-align: center;
+            white-space: normal
+        }
+
+        .quick-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px
+        }
+
+        .small-btn {
+            border: 0;
+            border-radius: 12px;
+            padding: 8px 12px;
+            background: #eef5ff;
+            color: #2f4661;
+            font-family: 'Fredoka';
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .small-btn:hover {
+            background: #e3f7ff;
+            transform: translateY(-1px)
+        }
+
+        .step-list {
+            display: grid;
+            gap: 12px;
+            width: 100%;
+            max-width: 960px
+        }
+
+        .step-item {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            background: #fff;
+            border: 3px solid #dfe8f1;
+            border-radius: 22px;
+            padding: 18px
+        }
+
+        .step-num {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            flex-shrink: 0
+        }
+
+        .step-item h3 {
+            margin: 0 0 4px
+        }
+
+        .step-item p {
+            margin: 0;
+            color: #63778c;
+            line-height: 1.45
+        }
+
+        .quiz-shell {
+            width: 100%;
+            max-width: 950px;
+            background: #fff;
+            border: 3px solid #e1e8f2;
+            border-radius: 30px;
+            padding: 28px;
+            box-shadow: var(--shadow)
+        }
+
+        .quiz-question {
+            display: none
+        }
+
+        .quiz-question.active {
+            display: block
+        }
+
+        .quiz-question h3 {
+            font-size: 2rem;
+            margin: 0 0 18px
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px
+        }
+
+        .quiz-options button {
+            border: 3px solid #dfe7f0;
+            background: #f9fbfd;
+            border-radius: 16px;
+            padding: 15px 18px;
+            text-align: left;
+            font: 600 1.1rem 'Fredoka';
+            cursor: pointer
+        }
+
+        .quiz-options button:hover {
+            border-color: #8f75ea;
+            background: #f5f0ff
+        }
+
+        .quiz-options button.correct {
+            border-color: var(--green);
+            background: #eafaf3
+        }
+
+        .quiz-options button.wrong {
+            border-color: var(--red);
+            background: #fff0ef
+        }
+
+        .quiz-progress {
+            margin-top: 20px;
+            color: #63778e;
+            font-weight: 700
+        }
+
+        .quiz-progress>div {
+            height: 10px;
+            background: #e9eef4;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 7px
+        }
+
+        .quiz-progress i {
+            display: block;
+            height: 100%;
+            width: 25%;
+            background: linear-gradient(90deg, var(--orange), var(--purple));
+            transition: .3s
+        }
+
+        .feedback {
+            margin-top: 14px;
+            min-height: 42px;
+            border-radius: 16px;
+            padding: 12px 14px;
+            background: #f4f7fb;
+            color: var(--ink);
+            white-space: pre-line;
+            font-weight: 700
+        }
+
+        .feedback.success {
+            background: #ecfff4;
+            color: #18794e;
+            border: 1px solid #bde5cb
+        }
+
+        .feedback.error {
+            background: #fff1f1;
+            color: #c63d3d;
+            border: 1px solid #f0c0c0
+        }
+
+        .emoji-feedback {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 30px
+        }
+
+        .emoji-feedback button {
+            border: 3px solid #e0e7ef;
+            background: #fff;
+            border-radius: 25px;
+            padding: 18px;
+            font-size: 5rem;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .emoji-feedback button:hover,
+        .emoji-feedback button.selected {
+            transform: scale(1.12);
+            border-color: var(--purple);
+            background: #f5efff
+        }
+
+        .emoji-feedback small {
+            display: block;
+            font: 600 .9rem 'Fredoka'
+        }
+
+        .feedback-thanks {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c4ddd;
+            margin-top: 25px;
+            min-height: 35px
+        }
+
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            inset: 0;
+            background-color: rgba(14, 25, 41, .85);
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px)
+        }
+
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, .3);
+            animation: zoomIn .3s ease
+        }
+
+        .image-modal.show {
+            display: flex
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(.9);
+                opacity: 0
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+
+        @media(max-width:1050px) {
+            .presentation-container {
+                width: 95vw;
+                height: 84vh
+            }
+
+            .slide {
+                padding: 32px 30px 72px
+            }
+
+            .agenda-grid,
+            .split-layout,
+            .flow-grid,
+            .code-output,
+            .lab-grid,
+            .pack-visual {
+                grid-template-columns: 1fr !important
+            }
+
+            .three-grid,
+            .property-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .flow-arrow {
+                display: none
+            }
+
+            .brand-logo img {
+                height: 50px
+            }
+        }
+
+        @media(max-width:700px) {
+            .brand-logo {
+                left: 8px;
+                top: 6px;
+                padding: 7px 12px
+            }
+
+            .brand-logo img {
+                height: 34px
+            }
+
+            .presentation-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: 0
+            }
+
+            .slide {
+                padding: 68px 18px 74px
+            }
+
+            .display-title {
+                font-size: 3.2rem
+            }
+
+            .hero-icon {
+                font-size: 5rem
+            }
+
+            .agenda-grid,
+            .three-grid,
+            .property-grid {
+                grid-template-columns: 1fr !important
+            }
+
+            .nav-title {
+                display: none
+            }
+
+            .emoji-feedback {
+                gap: 8px;
+                flex-wrap: wrap
+            }
+
+            .emoji-feedback button {
+                font-size: 3.5rem
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="brand-logo"><img alt="Ruangguru Coding"
+            src="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png" /></div>
+    <main class="presentation-container" id="presentation">
+
+        <section class="slide cover-slide" data-title="Visual Design Tkinter">
+            <div class="cover-scene">
+                <div class="orbit orbit-a">🌿</div>
+                <div class="orbit orbit-b">🏷️</div>
+                <div class="orbit orbit-c">🖼️</div>
+                <div class="hero-badge">SESSION 10 • PYTHON GUI • 90 MENIT</div>
+                <div class="hero-icon">🪟</div>
+                <p class="eyebrow">PYTHON PROJECT</p>
+                <h1 class="display-title">Visual <span>Design</span><br>with Tkinter</h1>
+                <p class="hero-subtitle">Mengisi window dengan Label, mengatur text, warna, font, padding, posisi pack,
+                    lalu menambahkan image untuk Plant Dictionary.</p>
+                <div class="hero-pills"><span>CTkLabel()</span><span>.pack()</span><span>font & color</span><span>pady /
+                        padx</span><span>CTkImage + Pillow</span></div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Review Sesi Sebelumnya">
+            <div class="slide-head center"><span class="kicker">REVIEW</span>
+                <h2>Kemarin Kita Sudah Menyiapkan “Rumah” Aplikasi</h2>
+                <p>Sekarang window sudah bisa muncul. Hari ini kita mulai memasukkan isi window dengan widget visual.
+                </p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><b>01</b><span>📦</span>
+                    <h3>CustomTkinter</h3>
+                    <p>Library modern untuk membuat GUI Python.</p>
+                </div>
+                <div class="agenda-card green"><b>02</b><span>🪟</span>
+                    <h3>Window Pertama</h3>
+                    <p>Window bisa dibuat dengan <span class="code-font">ctk.CTk()</span>.</p>
+                </div>
+                <div class="agenda-card orange"><b>03</b><span>📏</span>
+                    <h3>Title & Geometry</h3>
+                    <p>Kita bisa mengatur nama dan ukuran window.</p>
+                </div>
+                <div class="agenda-card purple"><b>04</b><span>▶️</span>
+                    <h3>Run di VS Code</h3>
+                    <p>Program Tkinter sudah bisa dijalankan dari terminal.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Agenda Hari Ini">
+            <div class="slide-head center"><span class="kicker">TODAY'S AGENDA</span>
+                <h2>Apa yang Akan Kita Buat Hari Ini?</h2>
+                <p>Fokus hari ini: visual design paling basic sebelum masuk ke aplikasi yang lebih kompleks.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card green"><b>01</b><span>🏷️</span>
+                    <h3>Label Text</h3>
+                    <p>Menampilkan judul, subtitle, icon emoji, dan status loading.</p>
+                </div>
+                <div class="agenda-card blue"><b>02</b><span>🎨</span>
+                    <h3>Text Style</h3>
+                    <p>Mengatur font, size, bold, italic, dan text color.</p>
+                </div>
+                <div class="agenda-card orange"><b>03</b><span>📦</span>
+                    <h3>Pack Layout</h3>
+                    <p>Mengatur posisi widget dengan side, padx, dan pady.</p>
+                </div>
+                <div class="agenda-card purple"><b>04</b><span>🖼️</span>
+                    <h3>Image</h3>
+                    <p>Install Pillow, load gambar, buat CTkImage, lalu tampilkan lewat Label.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Big Picture">
+            <div class="flow-grid">
+                <div class="flow-box"><span>🪟</span>
+                    <h3>Window</h3>
+                    <p>Tempat utama aplikasi berjalan.</p>
+                </div>
+                <div class="flow-arrow">➜</div>
+                <div class="flow-box"><span>🏷️</span>
+                    <h3>Widget</h3>
+                    <p>Isi visual seperti Label dan Image.</p>
+                </div>
+                <div class="flow-arrow">➜</div>
+                <div class="flow-box"><span>🎨</span>
+                    <h3>Properties</h3>
+                    <p>Text, font, warna, ukuran, padding, dan posisi.</p>
+                </div>
+            </div>
+            <div class="notice" style="max-width:900px;text-align:center">Hari ini kita belum masuk logic button. Kita
+                fokus membuat tampilan awal aplikasi Plant Dictionary terlihat rapi.</div>
+        </section>
+
+        <section class="slide" data-title="Struktur Awal">
+            <div class="slide-head center compact"><span class="kicker">STARTER CODE</span>
+                <h2>Setiap Project Tkinter Dimulai dari Struktur Ini</h2>
+                <p>Bagian tengah adalah tempat kita menaruh widget.</p>
+            </div>
+            <div class="split-layout">
+                <pre class="mini-code">import customtkinter as ctk
+
+app = ctk.CTk()
+app.title("Plant Dictionary")
+app.geometry("350x450")
+
+ctk.set_appearance_mode("light")
+
+# disini tempat kita naro widget-widgetnya
+
+app.mainloop()</pre>
+                <div class="logic-panel">
+                    <h3>Yang Harus Diingat</h3>
+                    <p><b>app</b> adalah window utama. Semua widget yang ingin muncul di window ini harus ditempatkan ke
+                        dalam <span class="code-font">app</span>.</p>
+                    <div class="notice">Tanpa <span class="code-font">app.mainloop()</span>, window bisa langsung
+                        tertutup.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Apa Itu Label">
+            <div class="single-focus">
+                <div class="giant-emoji">🏷️</div><span class="kicker">TKINTER WIDGET</span>
+                <h2>Label = Teks yang Ditampilkan di Window</h2>
+                <p>Di CustomTkinter, kita memakai <span class="command-chip">ctk.CTkLabel()</span> untuk membuat text
+                    seperti judul, instruksi, caption, status, atau icon emoji.</p>
+                <div class="notice">Label tidak muncul otomatis. Setelah dibuat, widget harus ditampilkan dengan layout
+                    command seperti <span class="code-font">.pack()</span>.</div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="CTkLabel Basic">
+            <div class="split-layout">
+                <pre class="mini-code">ctk.CTkLabel(
+    app, # posisi label ini dimana
+    text="Plant Dictionary", # text yang ditampilkan
+    font=("Arial", 26, "bold"), # font style dan size
+    text_color="#1B5E20" # font color
+)</pre>
+                <div class="logic-panel">
+                    <h3>Kenapa Ada <span class="code-font">ctk.</span>?</h3>
+                    <p><span class="code-font">CTkLabel</span> adalah class bagian dari CustomTkinter. Karena kita
+                        import sebagai <span class="code-font">ctk</span>, maka cara panggilnya adalah <span
+                            class="code-font">ctk.CTkLabel(...)</span>.</p>
+                    <div class="teal-note">Label ini sudah dibuat, tapi belum tampil kalau belum diberikan <span
+                            class="code-font">.pack()</span>.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Tampilkan Label">
+            <div class="slide-head center compact"><span class="kicker">SHOW THE WIDGET</span>
+                <h2>Supaya Muncul, Tambahkan <span class="code-font">.pack()</span></h2>
+            </div>
+            <div class="split-layout">
+                <pre class="mini-code">ctk.CTkLabel(
+    app,
+    text="Plant Dictionary",
+    font=("Arial", 26, "bold"),
+    text_color="#1B5E20"
+).pack()</pre>
+                <div class="tk-window">
+                    <div class="tk-title">Plant Dictionary</div>
+                    <div class="tk-body">
+                        <div class="tk-label" style="font-size:26px;font-weight:bold;color:#1B5E20;margin-top:2px">Plant
+                            Dictionary</div>
+                    </div>
+                </div>
+            </div>
+            <div class="notice" style="max-width:900px;text-align:center">Analogi mudah: <span
+                    class="code-font">CTkLabel()</span> membuat benda, <span class="code-font">.pack()</span> menaruh
+                benda itu ke window.</div>
+        </section>
+
+        <section class="slide" data-title="Duplicate Label">
+            <div class="slide-head center compact"><span class="kicker">TRY IT</span>
+                <h2>Coba Duplicate Label-nya</h2>
+                <p>Copy satu paket <span class="code-font">ctk.CTkLabel(...).pack()</span>, lalu run lagi.</p>
+            </div>
+            <div class="code-output">
+                <pre class="mini-code">ctk.CTkLabel(
+    app,
+    text="Plant Dictionary",
+    font=("Arial", 26, "bold"),
+    text_color="#1B5E20"
+).pack()
+
+ctk.CTkLabel(
+    app,
+    text="Plant Dictionary",
+    font=("Arial", 26, "bold"),
+    text_color="#1B5E20"
+).pack()</pre>
+                <div class="tk-window">
+                    <div class="tk-title">Plant Dictionary</div>
+                    <div class="tk-body">
+                        <div class="tk-label"
+                            style="font-size:26px;font-weight:bold;color:#1B5E20;margin-top:2px;display:block">Plant
+                            Dictionary</div>
+                        <div class="tk-label" style="font-size:26px;font-weight:bold;color:#1B5E20;display:block">Plant
+                            Dictionary</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Challenge Title Subtitle">
+            <div class="single-focus">
+                <div class="giant-emoji">🎯</div><span class="kicker">MINI CHALLENGE</span>
+                <h2>Buat Title dan Subtitle</h2>
+                <p>Buat dua label berbeda: title besar berwarna hijau, dan subtitle lebih kecil berwarna abu-abu.</p>
+                <div class="teal-note" style="margin-top:18px;text-align:left">Target output: bagian atas window
+                    menampilkan <b>Plant Dictionary</b>, lalu di bawahnya ada <b>Complete Guide & Flora Directory</b>.
+                    Coba dulu sebelum lihat contoh code.</div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Contoh Title Subtitle">
+            <div class="slide-head center compact"><span class="kicker">SOLUTION EXAMPLE</span>
+                <h2>Contoh Code Title dan Subtitle</h2>
+            </div>
+            <div class="code-output">
+                <pre class="mini-code">import customtkinter as ctk
+
+app = ctk.CTk()
+app.title("Plant Dictionary")
+app.geometry("350x450")
+
+ctk.set_appearance_mode("light")
+
+ctk.CTkLabel(
+    app,
+    text="Plant Dictionary",
+    font=("Arial", 26, "bold"),
+    text_color="#1B5E20"
+).pack()
+
+ctk.CTkLabel(
+    app,
+    text="Complete Guide & Flora Directory",
+    font=("Arial", 12, "italic"),
+    text_color="#555555"
+).pack()
+
+app.mainloop()</pre>
+                <div class="tk-window">
+                    <div class="tk-title">Plant Dictionary</div>
+                    <div class="tk-body">
+                        <div class="tk-label"
+                            style="font-size:26px;font-weight:bold;color:#1B5E20;margin-top:3px;display:block">Plant
+                            Dictionary</div>
+                        <div class="tk-label" style="font-size:12px;font-style:italic;color:#555;display:block">Complete
+                            Guide & Flora Directory</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Step 1 Code Output">
+            <div class="slide-head center compact"><span class="kicker">STEP 1</span>
+                <h2>Inisialisasi Tkinter Awal</h2>
+                <p>Di tahap pertama, window masih kosong.</p>
+            </div>
+            <div class="notice" style="max-width:900px;text-align:center;margin-bottom:15px">Buat file baru dengan nama <span class="command-chip">tkinter-label.py</span> lalu mulai test code dari Step 1, 2, dan 3. Setelah selesai, run di terminal dengan <span class="command-chip">python tkinter-label.py</span>.</div>
+            <div class="code-output">
+                <div class="image-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/4520f31a-7c72-4053-8347-e4c89aef3499.png"
+                        alt="Step 1 code" onclick="openImageModal(this.src)">
+                    <h3>Program</h3>
+                    <p>Struktur awal CustomTkinter.</p>
+                </div>
+                <div class="image-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/148ed52f-4ecc-47eb-a0f1-3b128ce935f8.png"
+                        alt="Step 1 output" onclick="openImageModal(this.src)">
+                    <h3>Output</h3>
+                    <p>Window kosong 350 x 450.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Step 2 Code Output">
+            <div class="slide-head center compact"><span class="kicker">STEP 2</span>
+                <h2>Tambah 2 Label Pertama</h2>
+                <p>Icon emoji dan title mulai muncul di window.</p>
+            </div>
+            <div class="code-output">
+                <div class="image-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/7224ca4a-f504-488f-a3ce-6cfe1510ebd2.png"
+                        alt="Step 2 code" onclick="openImageModal(this.src)">
+                    <h3>Program</h3>
+                    <p>Menambah icon dan title.</p>
+                </div>
+                <div class="image-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/d94caeb4-c947-4244-91f8-e27337fe0774.png"
+                        alt="Step 2 output" onclick="openImageModal(this.src)">
+                    <h3>Output</h3>
+                    <p>Window mulai punya identitas.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Step 3 Code Output">
+            <div class="slide-head center compact"><span class="kicker">STEP 3</span>
+                <h2>Tambah Subtitle dan Loading Text</h2>
+                <p>Splash screen mulai terasa lengkap.</p>
+            </div>
+            <div class="code-output">
+                <div class="image-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/c6af606d-c002-48bd-8894-811ef13dbe51.png"
+                        alt="Step 3 code" onclick="openImageModal(this.src)">
+                    <h3>Program</h3>
+                    <p>Empat label dalam satu window.</p>
+                </div>
+                <div class="image-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/bd1d3b93-8cdf-4f41-90a5-ac5c7db4e64e.png"
+                        alt="Step 3 output" onclick="openImageModal(this.src)">
+                    <h3>Output</h3>
+                    <p>Hasil akhir splash screen label.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Pack Side">
+            <div class="slide-head center compact"><span class="kicker">LAYOUT</span>
+                <h2>Mengenal <span class="code-font">.pack(side=...)</span></h2>
+                <p><span class="code-font">side</span> menentukan widget menempel di sisi mana.</p>
+            </div>
+            <div class="three-grid">
+                <div class="choice-card green">
+                    <div class="medium-emoji">⬆️</div>
+                    <h3>side="top"</h3>
+                    <p>Widget muncul dari atas ke bawah. Ini default pack.</p>
+                </div>
+                <div class="choice-card orange">
+                    <div class="medium-emoji">⬇️</div>
+                    <h3>side="bottom"</h3>
+                    <p>Widget ditempatkan di bagian bawah window.</p>
+                </div>
+                <div class="choice-card blue">
+                    <div class="medium-emoji">↔️</div>
+                    <h3>side="left" / "right"</h3>
+                    <p>Widget ditempatkan dari sisi kiri atau kanan.</p>
+                </div>
+            </div>
+            <div class="notice" style="max-width:920px;text-align:center">Contoh: <span
+                    class="code-font">.pack(side="bottom", pady=30)</span> membuat label “Loading app...” berada di
+                bawah.</div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Padding">
+            <div class="slide-head center compact"><span class="kicker">PADDING</span>
+                <h2>Bedanya <span class="code-font">padx</span> dan <span class="code-font">pady</span></h2>
+                <p>Padding adalah jarak kosong di sekitar widget.</p>
+            </div>
+            <div class="pack-visual">
+                <div class="axis-box">
+                    <h3><span class="code-font">padx</span> = jarak kiri-kanan</h3>
+                    <div class="axis-preview">
+                        <div class="pad-x"></div>
+                        <div class="axis-label axis-x">Label</div>
+                    </div>
+                    <p class="lead" style="font-size:1.08rem">Contoh: <span class="code-font">.pack(padx=25)</span></p>
+                </div>
+                <div class="axis-box">
+                    <h3><span class="code-font">pady</span> = jarak atas-bawah</h3>
+                    <div class="axis-preview">
+                        <div class="pad-y"></div>
+                        <div class="axis-label axis-y">Label</div>
+                    </div>
+                    <p class="lead" style="font-size:1.08rem">Contoh: <span class="code-font">.pack(pady=(5,25))</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Pack Examples">
+            <div class="slide-head center compact"><span class="kicker">EXAMPLES</span>
+                <h2>Format Pack yang Sering Dipakai</h2>
+            </div>
+            <div class="property-grid">
+                <div class="property-card">
+                    <h3>.pack()</h3>
+                    <p>Menampilkan widget dengan posisi default.</p>
+                </div>
+                <div class="property-card">
+                    <h3>.pack(side="bottom")</h3>
+                    <p>Menaruh widget di bagian bawah.</p>
+                </div>
+                <div class="property-card">
+                    <h3>.pack(pady=25)</h3>
+                    <p>Memberi jarak atas-bawah sebesar 25 pixel.</p>
+                </div>
+                <div class="property-card">
+                    <h3>.pack(padx=25)</h3>
+                    <p>Memberi jarak kiri-kanan sebesar 25 pixel.</p>
+                </div>
+                <div class="property-card">
+                    <h3>.pack(pady=(5, 25))</h3>
+                    <p>Jarak atas 5 pixel, bawah 25 pixel.</p>
+                </div>
+                <div class="property-card">
+                    <h3>.pack(padx=(5, 25))</h3>
+                    <p>Jarak kiri 5 pixel, kanan 25 pixel.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Interactive Sandbox">
+            <div class="slide-head center compact" style="margin-bottom: 5px;"><span class="kicker">INTERACTIVE SANDBOX</span>
+                <h2 style="font-size: 2.2rem; margin-top: 0; margin-bottom: 5px;">Eksperimen Label Properties dan Pack</h2>
+                <p style="font-size: 1.1rem;">Pilih label yang ingin diedit, ubah style dan pack-nya, lalu lihat preview serta code berubah
+                    otomatis.</p>
+            </div>
+            <div class="lab-grid" style="gap: 12px; align-items: start;">
+                <div class="lab-controls" style="padding: 14px;">
+                    <div class="control-grid" style="gap: 8px;">
+                        <label>Label yang diedit<select id="targetLabel" onchange="loadTarget()">
+                                <option value="title">Title</option>
+                                <option value="subtitle">Subtitle</option>
+                            </select></label>
+                        <label>Text<input id="labelText" value="Plant Dictionary" oninput="updateLab()"></label>
+                        <label>Font Family<select id="fontFamily" onchange="updateLab()">
+                                <option>Arial</option>
+                                <option>Verdana</option>
+                                <option>Georgia</option>
+                                <option>Courier New</option>
+                                <option>Times New Roman</option>
+                            </select></label>
+                        <label>Font Size<input id="fontSize" type="number" min="8" max="60" value="26"
+                                oninput="updateLab()"></label>
+                        <label>Font Style<select id="fontStyle" onchange="updateLab()">
+                                <option value="bold">bold</option>
+                                <option value="italic">italic</option>
+                                <option value="normal">normal</option>
+                            </select></label>
+                        <label>Text Color<input id="textColor" type="color" value="#1B5E20"
+                                oninput="updateLab()"></label>
+                        <label>pack side<select id="packSide" onchange="updateLab()">
+                                <option value="top">top</option>
+                                <option value="bottom">bottom</option>
+                                <option value="left">left</option>
+                                <option value="right">right</option>
+                            </select></label>
+                        <label>pady<input id="packPady" type="number" min="0" max="120" value="5"
+                                oninput="updateLab()"></label>
+                        <label>padx<input id="packPadx" type="number" min="0" max="120" value="0"
+                                oninput="updateLab()"></label>
+                    </div>
+                    <div class="quick-buttons" style="margin-top: 6px;"><button class="small-btn" onclick="presetSplash()">Reset
+                            Splash</button><button class="small-btn" onclick="presetBottom()">Loading di
+                            Bottom</button><button class="small-btn" onclick="swapColors()">Swap Color</button></div>
+                    <pre class="mini-code live-code" id="liveCode" style="max-height: 140px; padding: 12px; font-size: 0.85rem; margin-top: 8px;"></pre>
+                </div>
+                <div class="lab-preview" style="min-height: 400px; padding: 15px;">
+                    <div class="mock-app" style="transform: scale(0.8); transform-origin: top center; margin-bottom: -80px;">
+                        <div class="mock-top">Plant Dictionary</div>
+                        <div class="mock-body" id="mockBody">
+                            <div id="mockTitle" class="mock-label"></div>
+                            <div id="mockSubtitle" class="mock-label"></div>
+                        </div>
+                    </div>
+                    <div class="notice" style="text-align:center">Ini simulasi posisi pack. Di VS Code, hasilnya akan
+                        mengikuti engine Tkinter asli.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Color Picker">
+            <div class="split-layout">
+                <div class="single-focus" style="box-shadow:none">
+                    <div class="giant-emoji">🎨</div><span class="kicker">COLOR TIP</span>
+                    <h2>Bingung Pilih Warna?</h2>
+                    <p>Cari <span class="command-chip">color picker</span> di Google, atau gunakan <b>Color Picker Interaktif</b> di samping, lalu copy hex code-nya.</p>
+                    <div class="notice">Hex code selalu diawali tanda pagar (#), lalu kombinasi angka/huruf.</div>
+                </div>
+                <div class="choice-card" style="text-align:center">
+                    <div style="margin-bottom: 20px;">
+                        <input type="color" id="slideColorPicker" value="#1B5E20" style="width: 140px; height: 140px; border: none; border-radius: 20px; cursor: pointer; padding: 0; background: none; box-shadow: var(--shadow);" oninput="document.getElementById('hexOutput').textContent = this.value.toUpperCase()">
+                    </div>
+                    <h3 style="margin-bottom: 4px;">Hex Code Warna:</h3>
+                    <div id="hexOutput" style="font-size: 2.2rem; font-family: monospace; font-weight: bold; color: var(--navy); background: #f0f5fa; padding: 12px; border-radius: 12px; display: inline-block; margin-bottom: 15px; border: 2px solid #dce8f0;">#1B5E20</div>
+                    <p>Klik kotak warna di atas untuk memilih warna, lalu copy kode hex-nya untuk <span class="code-font">text_color</span>.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Project Label">
+            <div class="slide-head center compact"><span class="kicker">TODAY'S PROJECT</span>
+                <h2>Buat File <span class="code-font">tkinter-label.py</span></h2>
+                <p>Kita membuat splash screen awal untuk aplikasi Plant Dictionary.</p>
+            </div>
+            <div class="code-output" style="align-items: start;">
+                <pre class="mini-code" style="max-height: 380px; overflow-y: auto;">import customtkinter as ctk
+
+app = ctk.CTk()
+app.title("Plant Dictionary")
+app.geometry("350x450")
+
+ctk.set_appearance_mode("light")
+
+ctk.CTkLabel(
+    app,
+    text="📖🌿",
+    font=("Arial", 70)
+).pack(pady=(80, 10))
+
+ctk.CTkLabel(
+    app,
+    text="Plant Dictionary",
+    font=("Arial", 26, "bold"),
+    text_color="#1B5E20"
+).pack(pady=5)
+
+ctk.CTkLabel(
+    app,
+    text="Complete Guide & Flora Directory",
+    font=("Arial", 12, "italic"),
+    text_color="#555555"
+).pack(pady=5)
+
+ctk.CTkLabel(
+    app,
+    text="Loading app...",
+    font=("Arial", 11),
+    text_color="#888888"
+).pack(side="bottom", pady=30)
+
+app.mainloop()</pre>
+                <div class="tk-window">
+                    <div class="tk-title">Plant Dictionary</div>
+                    <div class="tk-body">
+                        <div class="tk-label" style="font-size:70px;margin-top:80px;display:block">📖🌿</div>
+                        <div class="tk-label"
+                            style="font-size:26px;font-weight:bold;color:#1B5E20;display:block;margin-top:5px">Plant
+                            Dictionary</div>
+                        <div class="tk-label"
+                            style="font-size:12px;font-style:italic;color:#555;display:block;margin-top:5px">Complete
+                            Guide & Flora Directory</div>
+                        <div class="tk-label"
+                            style="font-size:11px;color:#888;position:absolute;bottom:30px;left:0;right:0">Loading
+                            app...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Next: Image">
+            <div class="single-focus">
+                <div class="giant-emoji">🖼️</div><span class="kicker">NEXT STEP</span>
+                <h2>Setelah Text Bisa Muncul, Kita Tambahkan Image</h2>
+                <p>Buat file baru: <span class="command-chip">tkinter-image.py</span>. Kali ini kita belajar menampilkan
+                    gambar tanaman di window.</p>
+                <div class="notice">Untuk gambar, kita butuh package tambahan bernama Pillow.</div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Image Starter Code">
+            <div class="split-layout">
+                <pre class="mini-code">import customtkinter as ctk
+from PIL import Image
+
+app = ctk.CTk()
+app.title("Image Viewer")
+app.geometry("350x450")
+
+ctk.set_appearance_mode("light")
+
+app.mainloop()</pre>
+                <div class="logic-panel">
+                    <h3>Kenapa Import PIL?</h3>
+                    <p><span class="code-font">PIL</span> berasal dari package <b>Pillow</b>. Package ini membantu
+                        Python membuka file gambar seperti JPG atau PNG agar bisa dipakai di Tkinter.</p>
+                    <div class="notice">Kalau belum install Pillow, bagian <span class="code-font">from PIL import
+                            Image</span> bisa error.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Install Pillow">
+            <div class="slide-head center compact"><span class="kicker">PACKAGE INSTALL</span>
+                <h2>Install Library Pillow</h2>
+                <p>Jalankan command di terminal VS Code.</p>
+            </div>
+            <div class="code-output">
+                <div class="image-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/1fe4f119-0073-4954-93c6-90b9c5d9d50d.png"
+                        alt="Install Pillow command" onclick="openImageModal(this.src)">
+                    <h3>Command</h3>
+                    <p><span class="code-font">python -m pip install pillow</span></p>
+                </div>
+                <div class="image-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/ac63ccf9-e647-405e-bd10-5d749e6eeb39.png"
+                        alt="Pillow success" onclick="openImageModal(this.src)">
+                    <h3>Success</h3>
+                    <p>Tunggu sampai proses install selesai.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Siapkan File Gambar">
+            <div class="split-layout">
+                <div class="image-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/43471f4e-89bd-4219-b240-cff6a42b7c66.png"
+                        alt="Plant image folder" onclick="openImageModal(this.src)">
+                    <h3>Letakkan Gambar di Folder yang Sama</h3>
+                    <p>Contoh nama file: <span class="code-font">plant.jpg</span></p>
+                </div>
+                <div class="logic-panel">
+                    <h3>Aturan Penting</h3>
+                    <p>File gambar harus berada di folder yang sama dengan <span
+                            class="code-font">tkinter-image.py</span>, supaya cukup dipanggil dengan nama file.</p>
+                    <div class="notice">Gunakan file <span class="code-font">.jpg</span> atau <span
+                            class="code-font">.png</span> agar lebih mudah.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="CTkImage">
+            <div class="slide-head center compact"><span class="kicker">IMAGE WIDGET</span>
+                <h2>Buat Variabel <span class="code-font">title_image</span></h2>
+                <p>Variabel ini menyimpan widget image yang nanti dipasang ke Label.</p>
+            </div>
+            <div class="code-output">
+                <div class="image-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/9d34da29-98ca-44dc-b09c-2e16f3692027.png"
+                        alt="CTkImage code" onclick="openImageModal(this.src)">
+                    <h3>Program</h3>
+                    <p>Open image lalu buat CTkImage.</p>
+                </div>
+                <pre class="mini-code">image_path = Image.open("plant.jpg")
+
+title_image = ctk.CTkImage(
+    light_image=image_path,
+    dark_image=image_path,
+    size=(200, 200)
+)</pre>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Show Image with Label">
+            <div class="slide-head center compact"><span class="kicker">IMPORTANT</span>
+                <h2>Image Tetap Ditampilkan Lewat Label</h2>
+                <p>CTkImage adalah object image. Agar terlihat di window, image dipasang pada <span
+                        class="code-font">ctk.CTkLabel()</span>.</p>
+            </div>
+            <div class="split-layout">
+                <pre class="mini-code">ctk.CTkLabel(
+    app,
+    image=title_image,
+    text=""
+).pack(pady=10)</pre>
+                <div class="logic-panel">
+                    <h3>Kenapa <span class="code-font">text=""</span>?</h3>
+                    <p>Karena Label ini dipakai untuk menampilkan gambar, bukan teks. Jadi teksnya dikosongkan, lalu
+                        image diambil dari variabel <span class="code-font">title_image</span>.</p>
+                    <div class="teal-note">Rumus mudah: <b>Image file → CTkImage variable → CTkLabel(image=...)</b>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Image Final Code Output">
+            <div class="slide-head center compact"><span class="kicker">FINAL IMAGE STEP</span>
+                <h2>Gabungkan Title, Image, dan Subtitle</h2>
+            </div>
+            <div class="code-output">
+                <div class="image-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/a15f947f-24d1-4571-acaa-750f17f33d5c.png"
+                        alt="Final image code" onclick="openImageModal(this.src)">
+                    <h3>Program</h3>
+                    <p>Label text + Label image.</p>
+                </div>
+                <div class="image-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/47352873-897e-4551-adb9-89dbbd91b1bd.png"
+                        alt="Final image output" onclick="openImageModal(this.src)">
+                    <h3>Output</h3>
+                    <p>Plant Dictionary tampil dengan gambar.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Full Image Code">
+            <div class="slide-head center compact"><span class="kicker">COPY AFTER UNDERSTAND</span>
+                <h2>Full Code <span class="code-font">tkinter-image.py</span></h2>
+            </div>
+            <pre class="mini-code" style="max-width:1000px;width:100%;font-size:.86rem">import customtkinter as ctk
+from PIL import Image
+
+app = ctk.CTk()
+app.title("Image Viewer")
+app.geometry("350x450")
+
+ctk.set_appearance_mode("light")
+
+image_path = Image.open("plant.jpg")
+
+title_image = ctk.CTkImage(
+    light_image=image_path,
+    dark_image=image_path,
+    size=(200, 200)
+)
+
+ctk.CTkLabel(
+    app,
+    text="Plant Dictionary",
+    font=("Arial", 24, "bold"),
+    text_color="#1B5E20"
+).pack(pady=(30, 15))
+
+ctk.CTkLabel(
+    app,
+    image=title_image,
+    text=""
+).pack(pady=10)
+
+ctk.CTkLabel(
+    app,
+    text="Complete Guide & Flora Directory",
+    font=("Arial", 14, "italic"),
+    text_color="#555555"
+).pack(pady=10)
+
+app.mainloop()</pre>
+        </section>
+
+        <section class="slide soft-purple" data-title="Final Challenge">
+            <div class="single-focus">
+                <div class="giant-emoji">🚀</div><span class="kicker">FINAL CHALLENGE</span>
+                <h2>Upgrade <span class="code-font">tkinter-label.py</span> dengan Image</h2>
+                <p>Buka file splash screen label yang sudah dibuat, lalu coba tambahkan gambar tanaman di dalamnya.</p>
+                <div class="teal-note" style="margin-top:18px;text-align:left"><b>Target:</b> window punya icon/gambar
+                    tanaman, title, subtitle, dan loading text. Gunakan <span class="code-font">Pillow</span>, <span
+                        class="code-font">CTkImage</span>, dan <span class="code-font">CTkLabel(image=...)</span>.</div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Checklist">
+            <div class="slide-head center"><span class="kicker">CHECKPOINT</span>
+                <h2>Sebelum Quick Quiz, Pastikan Ini Selesai</h2>
+            </div>
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <div>
+                        <h3><span class="code-font">tkinter-label.py</span> berhasil run</h3>
+                        <p>Splash screen menampilkan icon, title, subtitle, dan loading text.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <div>
+                        <h3>Berani mengubah properties</h3>
+                        <p>Bisa mengganti text, font, ukuran, warna, dan padding.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <div>
+                        <h3>Pillow berhasil terinstall</h3>
+                        <p>Command <span class="code-font">python -m pip install pillow</span> sudah success.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">4</div>
+                    <div>
+                        <h3>Image berhasil tampil</h3>
+                        <p>Gambar dipanggil dari file dan ditampilkan melalui Label.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Quick Quiz">
+            <div class="slide-head compact center"><span class="kicker">QUICK QUIZ</span>
+                <h2>Cek Pemahamanmu</h2>
+                <p>Pilih jawaban. Jawaban benar akan tetap ditampilkan meskipun pilihanmu salah.</p>
+            </div>
+            <div class="quiz-shell">
+                <div class="quiz-question active" id="quiz1">
+                    <h3>1. Apa fungsi <span class="code-font">ctk.CTkLabel()</span>?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz1','quiz2')">A. Menutup window
+                            aplikasi</button><button onclick="answerQuiz(this,true,'quiz1','quiz2')">B. Membuat widget
+                            untuk menampilkan teks atau image</button><button
+                            onclick="answerQuiz(this,false,'quiz1','quiz2')">C. Menginstall package Pillow</button>
+                    </div>
+                </div>
+                <div class="quiz-question" id="quiz2">
+                    <h3>2. Apa fungsi <span class="code-font">.pack()</span>?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz2','quiz3')">A. Mengubah
+                            Python menjadi file gambar</button><button
+                            onclick="answerQuiz(this,false,'quiz2','quiz3')">B. Menghapus label dari
+                            window</button><button onclick="answerQuiz(this,true,'quiz2','quiz3')">C. Menampilkan dan
+                            menempatkan widget di window</button></div>
+                </div>
+                <div class="quiz-question" id="quiz3">
+                    <h3>3. Jika ingin memberi jarak atas-bawah pada Label, property pack mana yang dipakai?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,true,'quiz3','quiz4')">A.
+                            pady</button><button onclick="answerQuiz(this,false,'quiz3','quiz4')">B.
+                            text_color</button><button onclick="answerQuiz(this,false,'quiz3','quiz4')">C.
+                            light_image</button></div>
+                </div>
+                <div class="quiz-question" id="quiz4">
+                    <h3>4. Package apa yang dibutuhkan untuk membuka file gambar dengan <span class="code-font">from PIL
+                            import Image</span>?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz4','quizDone')">A.
+                            customtkinter saja</button><button onclick="answerQuiz(this,false,'quiz4','quizDone')">B.
+                            pygame</button><button onclick="answerQuiz(this,true,'quiz4','quizDone')">C. Pillow</button>
+                    </div>
+                </div>
+                <div class="quiz-question" id="quizDone" style="text-align:center">
+                    <div class="giant-emoji">🎉</div>
+                    <h3>Quiz Selesai!</h3>
+                    <p>Kamu sudah memahami Label, pack, warna, dan image dasar di CustomTkinter.</p>
+                </div>
+                <div class="quiz-progress"><span id="quizProgressText">Soal 1 dari 4</span>
+                    <div><i id="quizProgressBar"></i></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Review Hari Ini">
+            <div class="slide-head center"><span class="kicker">SESSION REVIEW</span>
+                <h2>Apa Saja yang Sudah Dipelajari?</h2>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card green"><b>01</b><span>🏷️</span>
+                    <h3>Label</h3>
+                    <p>Widget untuk menampilkan text atau image.</p>
+                </div>
+                <div class="agenda-card blue"><b>02</b><span>🎨</span>
+                    <h3>Properties</h3>
+                    <p>Text, font, size, style, dan text color.</p>
+                </div>
+                <div class="agenda-card orange"><b>03</b><span>📦</span>
+                    <h3>Pack</h3>
+                    <p>Menampilkan widget dan mengatur posisi/padding.</p>
+                </div>
+                <div class="agenda-card purple"><b>04</b><span>🖼️</span>
+                    <h3>Image</h3>
+                    <p>Pillow membuka gambar, CTkImage menyiapkan image, Label menampilkannya.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide feedback-final" data-title="Feedback">
+            <div class="slide-head center"><span class="kicker">YOUR FEEDBACK</span>
+                <h2>Bagaimana Perasaanmu Setelah Mendesain GUI?</h2>
+                <p>Pilih satu emoji yang paling sesuai.</p>
+            </div>
+            <div class="emoji-feedback" id="emojiFeedback"><button onclick="sendFeedback(this)">😍<small>Sangat
+                        siap</small></button><button onclick="sendFeedback(this)">😊<small>Paham</small></button><button
+                    onclick="sendFeedback(this)">🤔<small>Perlu latihan</small></button><button
+                    onclick="sendFeedback(this)">🆘<small>Butuh bantuan</small></button></div>
+            <div class="feedback-thanks" id="feedbackThanks"></div>
+        </section>
+
+        <div class="progress-line" id="progressLine"></div>
+        <footer class="navigation">
+            <div class="nav-title" id="navTitle">Session 10 • Visual Design Tkinter</div>
+            <div class="nav-controls"><button aria-label="Sebelumnya" class="nav-btn" id="prevBtn">‹</button>
+                <div class="counter"><span id="currentSlide">1</span> / <span id="totalSlides">1</span></div><button
+                    aria-label="Berikutnya" class="nav-btn next" id="nextBtn">›</button>
+            </div>
+        </footer>
+    </main>
+    <div class="image-modal" id="imageModal" onclick="closeImageModal()"><img id="modalImage" src="" alt="Preview">
+    </div>
+
+    <script>
+        let currentSlide = 0; const slides = [...document.querySelectorAll('.slide')];
+        function showSlide(index) { if (index < 0 || index >= slides.length) return; slides.forEach((slide, i) => slide.classList.toggle('active', i === index)); currentSlide = index; document.getElementById('currentSlide').textContent = index + 1; document.getElementById('totalSlides').textContent = slides.length; document.getElementById('prevBtn').disabled = index === 0; document.getElementById('nextBtn').disabled = index === slides.length - 1; document.getElementById('progressLine').style.width = ((index + 1) / slides.length * 100) + '%'; document.getElementById('navTitle').textContent = 'Session 10 • ' + slides[index].dataset.title; slides[index].scrollTop = 0 }
+        document.getElementById('prevBtn').onclick = () => showSlide(currentSlide - 1); document.getElementById('nextBtn').onclick = () => showSlide(currentSlide + 1); document.addEventListener('keydown', e => { if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return; if (e.key === 'ArrowRight') showSlide(currentSlide + 1); if (e.key === 'ArrowLeft') showSlide(currentSlide - 1) }); showSlide(0);
+        function openImageModal(src) { document.getElementById('modalImage').src = src; document.getElementById('imageModal').classList.add('show') } function closeImageModal() { document.getElementById('imageModal').classList.remove('show') }
+
+        const labelState = { title: { text: 'Plant Dictionary', family: 'Arial', size: 26, style: 'bold', color: '#1B5E20', side: 'top', pady: 5, padx: 0 }, subtitle: { text: 'Complete Guide & Flora Directory', family: 'Arial', size: 12, style: 'italic', color: '#555555', side: 'top', pady: 5, padx: 0 } };
+        function loadTarget() { const t = document.getElementById('targetLabel').value, s = labelState[t]; document.getElementById('labelText').value = s.text; document.getElementById('fontFamily').value = s.family; document.getElementById('fontSize').value = s.size; document.getElementById('fontStyle').value = s.style; document.getElementById('textColor').value = s.color; document.getElementById('packSide').value = s.side; document.getElementById('packPady').value = s.pady; document.getElementById('packPadx').value = s.padx; renderLab() }
+        function updateLab() { const t = document.getElementById('targetLabel').value; labelState[t] = { text: document.getElementById('labelText').value, family: document.getElementById('fontFamily').value, size: Number(document.getElementById('fontSize').value || 20), style: document.getElementById('fontStyle').value, color: document.getElementById('textColor').value, side: document.getElementById('packSide').value, pady: Number(document.getElementById('packPady').value || 0), padx: Number(document.getElementById('packPadx').value || 0) }; renderLab() }
+        function placeLabel(el, s, order) { el.textContent = s.text; el.style.fontFamily = s.family; el.style.fontSize = s.size + 'px'; el.style.color = s.color; el.style.fontWeight = s.style === 'bold' ? '700' : '400'; el.style.fontStyle = s.style === 'italic' ? 'italic' : 'normal'; const maxW = 310; let top = 20 + order * 42 + s.pady, left = 20 + s.padx; if (s.side === 'bottom') { top = 360 - order * 42 - s.pady } if (s.side === 'left') { top = 90 + order * 48 + s.pady; left = 10 + s.padx; el.style.textAlign = 'left' } else if (s.side === 'right') { top = 90 + order * 48 + s.pady; left = 330 - Math.min(maxW, Math.max(80, s.text.length * 9)) - s.padx; el.style.textAlign = 'right' } else { left = (350 - Math.min(maxW, Math.max(100, s.text.length * 8))) / 2 + s.padx / 4; el.style.textAlign = 'center' } el.style.top = top + 'px'; el.style.left = Math.max(8, left) + 'px'; el.style.width = Math.min(maxW, Math.max(115, s.text.length * 9)) + 'px' }
+        function renderLab() { placeLabel(document.getElementById('mockTitle'), labelState.title, 0); placeLabel(document.getElementById('mockSubtitle'), labelState.subtitle, 1); const t = labelState.title, st = labelState.subtitle; document.getElementById('liveCode').textContent = `ctk.CTkLabel(\n    app,\n    text="${t.text}",\n    font=("${t.family}", ${t.size}, "${t.style}"),\n    text_color="${t.color}"\n).pack(side="${t.side}", padx=${t.padx}, pady=${t.pady})\n\nctk.CTkLabel(\n    app,\n    text="${st.text}",\n    font=("${st.family}", ${st.size}, "${st.style}"),\n    text_color="${st.color}"\n).pack(side="${st.side}", padx=${st.padx}, pady=${st.pady})` }
+        function presetSplash() { labelState.title = { text: 'Plant Dictionary', family: 'Arial', size: 26, style: 'bold', color: '#1B5E20', side: 'top', pady: 5, padx: 0 }; labelState.subtitle = { text: 'Complete Guide & Flora Directory', family: 'Arial', size: 12, style: 'italic', color: '#555555', side: 'top', pady: 5, padx: 0 }; loadTarget() }
+        function presetBottom() { labelState.subtitle.side = 'bottom'; labelState.subtitle.pady = 30; document.getElementById('targetLabel').value = 'subtitle'; loadTarget() }
+        function swapColors() { const a = labelState.title.color; labelState.title.color = labelState.subtitle.color; labelState.subtitle.color = a; loadTarget() }
+        loadTarget();
+
+        let quizNumber = 1; function answerQuiz(btn, correct, current, next) { const q = document.getElementById(current), buttons = q.querySelectorAll('button'); buttons.forEach(b => { b.disabled = true; if (b.getAttribute('onclick').includes('true')) b.classList.add('correct') }); btn.classList.add(correct ? 'correct' : 'wrong'); setTimeout(() => { q.classList.remove('active'); document.getElementById(next).classList.add('active'); quizNumber = Math.min(4, quizNumber + 1); document.getElementById('quizProgressText').textContent = next === 'quizDone' ? 'Quiz selesai' : 'Soal ' + quizNumber + ' dari 4'; document.getElementById('quizProgressBar').style.width = (next === 'quizDone' ? 100 : quizNumber * 25) + '%' }, 750) }
+        function sendFeedback(btn) { document.querySelectorAll('#emojiFeedback button').forEach(x => x.classList.remove('selected')); btn.classList.add('selected'); document.getElementById('feedbackThanks').textContent = 'Terima kasih. Di pertemuan berikutnya kita bisa lanjut membuat UI yang lebih lengkap.' }
+    </script>
+</body>
+
+</html>
