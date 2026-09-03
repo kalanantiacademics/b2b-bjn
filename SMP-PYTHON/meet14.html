@@ -1,0 +1,2479 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Session 14 - Application Logic Water Calculator | Ruangguru Coding</title>
+    <link rel="icon"
+        href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --blue: #2f80ed;
+            --cyan: #16bde8;
+            --purple: #845ef7;
+            --orange: #ff8a34;
+            --yellow: #ffd53d;
+            --green: #28b875;
+            --red: #ef5350;
+            --ink: #20324a;
+            --muted: #66788d;
+            --py-blue: #3776ab;
+            --teal: #0ba7a5;
+            --navy: #2f4661;
+            --shadow: 0 22px 55px rgba(22, 44, 76, .18);
+            --sky: #0284C7;
+            --sky2: #BAE6FD;
+            --gold: #EAB308;
+            --cream: #FEFCE8
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--ink);
+            background: #f8fffe;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        body:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background: radial-gradient(circle at 8% 18%, rgba(22, 189, 232, .13), transparent 24%), radial-gradient(circle at 90% 14%, rgba(255, 211, 67, .16), transparent 24%), radial-gradient(circle at 14% 90%, rgba(40, 184, 117, .13), transparent 24%), radial-gradient(circle at 88% 88%, rgba(132, 94, 247, .10), transparent 25%), #f8fffe
+        }
+
+        body:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image: linear-gradient(rgba(22, 189, 232, .08) 2px, transparent 2px), linear-gradient(90deg, rgba(22, 189, 232, .08) 2px, transparent 2px);
+            background-size: 96px 96px;
+            pointer-events: none
+        }
+
+        .brand-logo {
+            position: fixed;
+            left: 22px;
+            top: 16px;
+            z-index: 2000;
+            background: #fff;
+            border: 2.5px solid rgba(0, 188, 212, .22);
+            border-radius: 22px;
+            padding: 10px 20px;
+            box-shadow: 0 8px 32px rgba(0, 188, 212, .18);
+            display: flex;
+            align-items: center
+        }
+
+        .brand-logo img {
+            height: 80px;
+            max-width: 220px;
+            object-fit: contain;
+            display: block
+        }
+
+        .presentation-container {
+            width: 88vw;
+            height: 82vh;
+            max-width: 1500px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(30, 56, 93, .25);
+            overflow: hidden;
+            position: relative;
+            border: 4px solid rgba(255, 255, 255, .85)
+        }
+
+        .presentation-container:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 26px;
+            box-shadow: inset 0 0 0 1px rgba(91, 124, 164, .10);
+            z-index: 30
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 36px 52px 72px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(42px) scale(.985);
+            transition: .46s ease;
+            background: linear-gradient(145deg, #fff, #f7fcfd);
+            overflow: hidden
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            z-index: 10
+        }
+
+        .navigation {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, .96);
+            border-top: 1px solid #e7edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 100;
+            backdrop-filter: blur(12px)
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b7d92;
+            max-width: 42%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px
+        }
+
+        .counter {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #53677f;
+            min-width: 74px;
+            text-align: center
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #d9e3ef;
+            background: #fff;
+            color: #4c6077;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            border-color: var(--blue);
+            color: var(--blue)
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            color: #fff;
+            border: 0;
+            box-shadow: 0 7px 16px rgba(255, 138, 52, .3)
+        }
+
+        .nav-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 0;
+            bottom: 62px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--orange), var(--purple), var(--cyan));
+            width: 0;
+            transition: .35s;
+            z-index: 110
+        }
+
+        .slide-head {
+            width: 100%;
+            max-width: 1180px;
+            margin-bottom: 16px
+        }
+
+        .slide-head.center {
+            text-align: center
+        }
+
+        .slide-head.compact {
+            margin-bottom: 8px
+        }
+
+        .slide-head h2,
+        .single-focus h2 {
+            font-size: clamp(1.95rem, 3.25vw, 3.45rem);
+            line-height: 1.05;
+            margin: 6px 0 10px;
+            color: #24344d
+        }
+
+        .slide-head p,
+        .single-focus p,
+        .lead {
+            font-size: clamp(1rem, 1.28vw, 1.21rem);
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.38
+        }
+
+        .kicker {
+            display: inline-block;
+            font-size: .84rem;
+            letter-spacing: .16em;
+            font-weight: 700;
+            color: var(--purple);
+            background: #f0eaff;
+            border-radius: 999px;
+            padding: 7px 13px
+        }
+
+        .eyebrow {
+            letter-spacing: .22em;
+            font-weight: 700;
+            color: var(--py-blue);
+            margin: 0 0 10px
+        }
+
+        .cover-slide {
+            background: linear-gradient(135deg, #f4fbff, #eefcf8 48%, #fff8df) !important;
+            color: var(--ink) !important
+        }
+
+        .cover-scene {
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #fff;
+            border: 2px solid #dbe9f2;
+            color: #40566d;
+            box-shadow: 0 8px 20px rgba(44, 80, 115, .08);
+            padding: 9px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            margin-bottom: 16px
+        }
+
+        .hero-icon {
+            font-size: 6.4rem;
+            filter: drop-shadow(0 12px 16px rgba(55, 118, 171, .18));
+            animation: float 3s ease-in-out infinite
+        }
+
+        .display-title {
+            font-size: clamp(3.1rem, 6.3vw, 5.6rem);
+            line-height: .95;
+            margin: 8px 0 16px;
+            color: #233a55
+        }
+
+        .display-title span {
+            color: #0284C7
+        }
+
+        .hero-subtitle {
+            font-size: 1.28rem;
+            max-width: 980px;
+            margin: 0 auto;
+            color: #52677c
+        }
+
+        .hero-pills {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 22px
+        }
+
+        .hero-pills span {
+            background: #fff;
+            border: 2px solid #dbe9f2;
+            color: #40566d;
+            box-shadow: 0 8px 20px rgba(44, 80, 115, .08);
+            padding: 9px 15px;
+            border-radius: 15px;
+            font-weight: 600
+        }
+
+        .orbit {
+            position: absolute;
+            font-size: 2.5rem;
+            animation: float 3.5s ease-in-out infinite
+        }
+
+        .orbit-a {
+            left: 8%;
+            top: 12%
+        }
+
+        .orbit-b {
+            right: 8%;
+            top: 18%;
+            animation-delay: .7s
+        }
+
+        .orbit-c {
+            right: 15%;
+            bottom: 10%;
+            animation-delay: 1.2s
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-12px) rotate(3deg)
+            }
+        }
+
+        .soft-blue {
+            background: linear-gradient(145deg, #edf7ff, #f7fbff) !important
+        }
+
+        .soft-green {
+            background: linear-gradient(145deg, #effcf5, #fbfffd) !important
+        }
+
+        .soft-orange {
+            background: linear-gradient(145deg, #fff6ea, #fffdf8) !important
+        }
+
+        .soft-purple {
+            background: linear-gradient(145deg, #f6f0ff, #fbf9ff) !important
+        }
+
+        .feedback-final {
+            background: linear-gradient(145deg, #fff0f6, #eef4ff) !important
+        }
+
+        .blue {
+            background: #eef7ff !important;
+            border-color: #b9dcff !important
+        }
+
+        .orange {
+            background: #fff4e8 !important;
+            border-color: #ffd3a7 !important
+        }
+
+        .purple {
+            background: #f5efff !important;
+            border-color: #d9c6ff !important
+        }
+
+        .green {
+            background: #ebfbf4 !important;
+            border-color: #b7ebd2 !important
+        }
+
+        .yellow {
+            background: #fff8db !important;
+            border-color: #f5d86d !important
+        }
+
+        .red {
+            background: #fff0ef !important;
+            border-color: #f5aaa7 !important
+        }
+
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+            width: 100%;
+            max-width: 1040px
+        }
+
+        .agenda-card {
+            position: relative;
+            padding: 19px;
+            border-radius: 24px;
+            border: 2px solid;
+            min-height: 126px;
+            overflow: hidden;
+            background: #fff
+        }
+
+        .agenda-card>b {
+            position: absolute;
+            right: 16px;
+            top: 7px;
+            font-size: 2.7rem;
+            opacity: .12
+        }
+
+        .agenda-card>span {
+            font-size: 2.65rem
+        }
+
+        .agenda-card h3 {
+            font-size: 1.3rem;
+            margin: 6px 0 3px
+        }
+
+        .agenda-card p {
+            margin: 0;
+            color: #52667c;
+            line-height: 1.33
+        }
+
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            width: 100%;
+            max-width: 1120px;
+            align-items: center
+        }
+
+        .three-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            width: 100%;
+            max-width: 1080px
+        }
+
+        .single-focus,
+        .image-card,
+        .choice-card,
+        .logic-panel,
+        .test-panel,
+        .prop-card {
+            background: #fff;
+            border: 3px solid #dce8f0;
+            border-radius: 24px;
+            padding: 19px;
+            box-shadow: 0 12px 28px rgba(38, 73, 103, .09)
+        }
+
+        .single-focus {
+            max-width: 920px;
+            text-align: center;
+            padding: 32px;
+            border-radius: 34px
+        }
+
+        .choice-card h3,
+        .logic-panel h3,
+        .test-panel h3,
+        .prop-card h3 {
+            margin: 0 0 9px;
+            font-size: 1.27rem;
+            color: var(--navy)
+        }
+
+        .choice-card p,
+        .logic-panel p,
+        .test-panel p,
+        .prop-card p {
+            margin: 0;
+            color: #60758b;
+            line-height: 1.37
+        }
+
+        .giant-emoji {
+            font-size: 5.1rem;
+            line-height: 1;
+            margin-bottom: 9px
+        }
+
+        .medium-emoji {
+            font-size: 3.3rem;
+            line-height: 1
+        }
+
+        .notice {
+            background: #fff9e8;
+            border: 1.5px solid #ffe29f;
+            color: #855400;
+            border-radius: 18px;
+            padding: 11px 15px;
+            margin: 13px auto 0;
+            font-weight: 600;
+            line-height: 1.35
+        }
+
+        .teal-note {
+            background: #eafbf9;
+            border-left: 7px solid var(--teal);
+            color: #254b53;
+            border-radius: 18px;
+            padding: 14px 19px;
+            font-size: 1.02rem;
+            line-height: 1.42
+        }
+
+        .code-font,
+        code,
+        pre,
+        .mini-code,
+        .terminal {
+            font-family: 'Courier New', Courier, monospace !important
+        }
+
+        .mini-code {
+            background: #17212b;
+            color: #ecf4ff;
+            padding: 14px;
+            border-radius: 18px;
+            overflow: hidden;
+            font-size: .74rem;
+            line-height: 1.25;
+            white-space: pre-wrap
+        }
+
+        .mini-code.small {
+            font-size: .62rem;
+            line-height: 1.16;
+            padding: 12px
+        }
+
+        .command-chip {
+            display: inline-block;
+            background: #17212b;
+            color: #ecf4ff;
+            border-radius: 12px;
+            padding: 7px 10px;
+            font-family: 'Courier New', monospace;
+            font-weight: 700
+        }
+
+        .image-card {
+            text-align: center
+        }
+
+        .image-card img,
+        .tour-card img {
+            width: 100%;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 14px;
+            background: #f6f9fb;
+            cursor: zoom-in
+        }
+
+        .image-card.contain img {
+            object-fit: contain
+        }
+
+        .image-card h3 {
+            margin: 8px 0 4px
+        }
+
+        .image-card p {
+            margin: 0;
+            color: #64768a;
+            line-height: 1.35
+        }
+
+        .button-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            border: none;
+            border-radius: 999px;
+            padding: 11px 16px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin: 3px;
+            transition: .2s
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(55, 118, 171, .18)
+        }
+
+        .secondary-btn {
+            background: #eef5ff;
+            color: var(--navy);
+            border: 2px solid #d8e6f5
+        }
+
+        .primary-btn:hover,
+        .secondary-btn:hover {
+            transform: translateY(-2px)
+        }
+
+        .feedback {
+            margin-top: 12px;
+            min-height: 40px;
+            border-radius: 16px;
+            padding: 11px 13px;
+            background: #f4f7fb;
+            color: var(--ink);
+            white-space: pre-line;
+            font-weight: 700;
+            line-height: 1.35
+        }
+
+        .feedback.success {
+            background: #ecfff4;
+            color: #18794e;
+            border: 1px solid #bde5cb
+        }
+
+        .feedback.error {
+            background: #fff1f1;
+            color: #c63d3d;
+            border: 1px solid #f0c0c0
+        }
+
+        .flow-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: 14px;
+            align-items: stretch;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .flow-box {
+            background: #fff;
+            border-radius: 24px;
+            padding: 17px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            border: 1px solid #e4edf7
+        }
+
+        .flow-box span {
+            font-size: 2.45rem;
+            display: block;
+            margin-bottom: 7px
+        }
+
+        .flow-box h3 {
+            margin: 0 0 6px;
+            color: var(--navy)
+        }
+
+        .flow-box p {
+            margin: 0;
+            color: #60758b;
+            line-height: 1.33
+        }
+
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--cyan);
+            font-weight: 700
+        }
+
+        .vscode-tour {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            width: 100%;
+            max-width: 1080px
+        }
+
+        .tour-card {
+            background: #fff;
+            border: 2px solid #dce7ef;
+            border-radius: 22px;
+            padding: 14px;
+            box-shadow: 0 12px 28px rgba(38, 73, 103, .06);
+            text-align: center
+        }
+
+        .tour-card h3 {
+            font-size: 1.12rem;
+            margin: 8px 0 4px
+        }
+
+        .tour-card p {
+            margin: 0;
+            color: #64768a;
+            line-height: 1.35
+        }
+
+        .tour-icon {
+            font-size: 4.6rem;
+            line-height: 1;
+            margin: 8px
+        }
+
+        .code-output {
+            display: grid;
+            grid-template-columns: 1.05fr .95fr;
+            gap: 18px;
+            width: 100%;
+            max-width: 1160px;
+            align-items: center
+        }
+
+        .screenshot-duo {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            width: 100%;
+            max-width: 1120px
+        }
+
+        .step-list {
+            display: grid;
+            gap: 9px;
+            width: 100%;
+            max-width: 960px
+        }
+
+        .step-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            background: #fff;
+            border: 3px solid #dfe8f1;
+            border-radius: 22px;
+            padding: 14px
+        }
+
+        .step-num {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            flex-shrink: 0
+        }
+
+        .step-item h3 {
+            margin: 0 0 3px
+        }
+
+        .step-item p {
+            margin: 0;
+            color: #63778c;
+            line-height: 1.36
+        }
+
+        .prop-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-width: 1000px
+        }
+
+        .recap-path {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            width: 100%;
+            max-width: 1080px
+        }
+
+        .recap-path>div {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 23px;
+            padding: 18px;
+            text-align: center
+        }
+
+        .recap-path span {
+            font-size: 2.9rem
+        }
+
+        .recap-path b {
+            display: block;
+            font-size: 1.14rem;
+            margin: 5px
+        }
+
+        .recap-path p {
+            margin: 0;
+            color: #61758b;
+            line-height: 1.33
+        }
+
+        .emoji-feedback {
+            display: flex;
+            gap: 22px;
+            justify-content: center;
+            margin-top: 26px
+        }
+
+        .emoji-feedback button {
+            border: 3px solid #e0e7ef;
+            background: #fff;
+            border-radius: 25px;
+            padding: 17px;
+            font-size: 4.3rem;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .emoji-feedback button:hover,
+        .emoji-feedback button.selected {
+            transform: scale(1.12);
+            border-color: var(--purple);
+            background: #f5efff
+        }
+
+        .emoji-feedback small {
+            display: block;
+            font: 600 .9rem 'Fredoka'
+        }
+
+        .feedback-thanks {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #6c4ddd;
+            margin-top: 20px;
+            min-height: 32px
+        }
+
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            inset: 0;
+            background-color: rgba(14, 25, 41, .85);
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px)
+        }
+
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, .3);
+            animation: zoomIn .3s ease;
+            object-fit: contain
+        }
+
+        .image-modal.show {
+            display: flex
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(.9);
+                opacity: 0
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+
+        .tk-window {
+            width: 380px;
+            height: 600px;
+            background: #f8f8f8;
+            border: 2px solid #cfd8df;
+            border-radius: 12px;
+            box-shadow: 0 14px 35px rgba(30, 56, 93, .18);
+            overflow: hidden;
+            margin: auto
+        }
+
+        .tk-title {
+            height: 32px;
+            background: #eef1f4;
+            border-bottom: 1px solid #ccd5de;
+            font: 600 .82rem Arial;
+            display: flex;
+            align-items: center;
+            padding-left: 12px;
+            color: #333
+        }
+
+        .tk-body {
+            height: 568px;
+            background: #fafafa;
+            position: relative;
+            overflow: hidden;
+            text-align: center
+        }
+
+        .water-title {
+            font: 700 20px 'Segoe UI', Arial;
+            color: #0284C7;
+            margin: 20px 0 12px
+        }
+
+        .mock-form {
+            margin: 5px 20px;
+            background: #F0F9FF;
+            border: 1px solid #BAE6FD;
+            border-radius: 14px;
+            padding: 14px 15px
+        }
+
+        .mock-entry,
+        .mock-combo {
+            height: 40px;
+            border: 2px solid #7DD3FC;
+            background: #fff;
+            border-radius: 8px;
+            color: #64748B;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            font: 12px 'Segoe UI', Arial;
+            text-align: left
+        }
+
+        .mock-combo {
+            justify-content: space-between;
+            color: #0369A1;
+            margin-top: 8px
+        }
+
+        .mock-radio-row {
+            display: flex;
+            gap: 20px;
+            margin: 13px 0 8px;
+            text-align: left
+        }
+
+        .mock-radio,
+        .mock-check {
+            display: inline-flex;
+            gap: 7px;
+            align-items: center;
+            color: #1E293B;
+            font: 12px 'Segoe UI', Arial
+        }
+
+        .dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 3px solid #EAB308;
+            display: inline-block;
+            position: relative
+        }
+
+        .dot.on:after {
+            content: "";
+            position: absolute;
+            inset: 3px;
+            border-radius: 50%;
+            background: #EAB308
+        }
+
+        .box {
+            width: 17px;
+            height: 17px;
+            border: 3px solid #EAB308;
+            border-radius: 4px;
+            display: inline-grid;
+            place-items: center;
+            color: #EAB308;
+            font-size: 12px;
+            font-weight: 700
+        }
+
+        .calc-btn {
+            margin: 12px 20px;
+            height: 45px;
+            border-radius: 10px;
+            background: #FEF08A;
+            color: #713F12;
+            display: grid;
+            place-items: center;
+            font: 700 14px 'Segoe UI', Arial
+        }
+
+        .result-mock {
+            margin: 0 20px 20px;
+            background: #FEFCE8;
+            border: 1px solid #FEF08A;
+            border-radius: 14px;
+            text-align: left;
+            padding: 13px 15px;
+            height: 180px
+        }
+
+        .result-mock h4 {
+            margin: 0 0 8px;
+            color: #854D0E;
+            font: 700 13px 'Segoe UI', Arial
+        }
+
+        .result-mock p {
+            margin: 0;
+            color: #64748B;
+            font: 12px 'Segoe UI', Arial;
+            line-height: 1.35;
+            white-space: pre-line
+        }
+
+        .frame-map {
+            position: relative;
+            width: 380px;
+            height: 520px;
+            background: #fff;
+            border: 3px solid #cbd8e2;
+            border-radius: 22px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin: auto
+        }
+
+        .zone {
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            border: 3px dashed #7dd3fc;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: 700;
+            color: #075985
+        }
+
+        .zone.title {
+            top: 20px;
+            height: 62px;
+            background: #eef7ff;
+            border-color: #9bd7ff
+        }
+
+        .zone.form {
+            top: 98px;
+            height: 220px;
+            background: #F0F9FF
+        }
+
+        .zone.button {
+            top: 334px;
+            height: 58px;
+            background: #FEF08A;
+            border-color: #EAB308;
+            color: #713F12
+        }
+
+        .zone.result {
+            top: 410px;
+            height: 88px;
+            background: #FEFCE8;
+            border-color: #FEF08A;
+            color: #854D0E
+        }
+
+        .formula-box {
+            width: 100%;
+            max-width: 1060px;
+            background: #fff;
+            border: 3px solid #dce8f0;
+            border-radius: 28px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+            text-align: center
+        }
+
+        .formula {
+            font-size: clamp(1.5rem, 2.5vw, 2.4rem);
+            font-weight: 700;
+            color: #1E3A8A;
+            line-height: 1.35
+        }
+
+        .factor-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .factor-card {
+            background: #fff;
+            border: 3px solid #dce8f0;
+            border-radius: 22px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 10px 22px rgba(38, 73, 103, .07)
+        }
+
+        .factor-card span {
+            font-size: 2.7rem
+        }
+
+        .factor-card h3 {
+            margin: 6px 0 4px;
+            font-size: 1.12rem;
+            color: #24344d
+        }
+
+        .factor-card p {
+            margin: 0;
+            color: #60758b;
+            line-height: 1.3
+        }
+
+        .sim-grid {
+            display: grid;
+            grid-template-columns: .95fr 1.05fr;
+            gap: 18px;
+            width: 100%;
+            max-width: 1120px;
+            align-items: center
+        }
+
+        .sim-card {
+            background: #fff;
+            border: 3px solid #dce8f0;
+            border-radius: 26px;
+            padding: 18px;
+            box-shadow: var(--shadow)
+        }
+
+        .sim-card label {
+            font-weight: 700;
+            color: #40566d;
+            font-size: .92rem
+        }
+
+        .sim-card input,
+        .sim-card select {
+            width: 100%;
+            border: 2px solid #7DD3FC;
+            border-radius: 12px;
+            padding: 10px;
+            font-family: 'Fredoka';
+            font-weight: 600;
+            margin: 5px 0 9px
+        }
+
+        .sim-card button {
+            width: 100%;
+            border: 0;
+            border-radius: 12px;
+            background: #FEF08A;
+            color: #713F12;
+            font: 700 1rem 'Fredoka';
+            padding: 12px;
+            cursor: pointer
+        }
+
+        .water-result {
+            background: #FEFCE8;
+            border: 2px solid #FEF08A;
+            border-radius: 18px;
+            min-height: 230px;
+            padding: 18px;
+            white-space: pre-line;
+            color: #334155;
+            font-weight: 600;
+            line-height: 1.45
+        }
+
+        .quiz-shell {
+            width: 100%;
+            max-width: 950px;
+            background: #fff;
+            border: 3px solid #e1e8f2;
+            border-radius: 30px;
+            padding: 24px;
+            box-shadow: var(--shadow)
+        }
+
+        .quiz-question {
+            display: none
+        }
+
+        .quiz-question.active {
+            display: block
+        }
+
+        .quiz-question h3 {
+            font-size: 1.75rem;
+            margin: 0 0 16px
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px
+        }
+
+        .quiz-options button {
+            border: 3px solid #dfe7f0;
+            background: #f9fbfd;
+            border-radius: 16px;
+            padding: 14px 18px;
+            text-align: left;
+            font: 600 1.05rem 'Fredoka';
+            cursor: pointer
+        }
+
+        .quiz-options button:hover {
+            border-color: #8f75ea;
+            background: #f5f0ff
+        }
+
+        .quiz-options button.correct {
+            border-color: var(--green);
+            background: #eafaf3
+        }
+
+        .quiz-options button.wrong {
+            border-color: var(--red);
+            background: #fff0ef
+        }
+
+        .quiz-progress {
+            margin-top: 18px;
+            color: #63778e;
+            font-weight: 700
+        }
+
+        .quiz-progress>div {
+            height: 10px;
+            background: #e9eef4;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 7px
+        }
+
+        .quiz-progress i {
+            display: block;
+            height: 100%;
+            width: 33%;
+            background: linear-gradient(90deg, var(--orange), var(--purple));
+            transition: .3s
+        }
+
+        @media(max-width:1050px) {
+            .presentation-container {
+                width: 95vw;
+                height: 84vh
+            }
+
+            .slide {
+                padding: 32px 30px 72px
+            }
+
+            .agenda-grid,
+            .split-layout,
+            .flow-grid,
+            .code-output,
+            .sim-grid,
+            .screenshot-duo {
+                grid-template-columns: 1fr !important
+            }
+
+            .three-grid,
+            .prop-grid,
+            .vscode-tour,
+            .recap-path,
+            .factor-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .flow-arrow {
+                display: none
+            }
+
+            .brand-logo img {
+                height: 50px
+            }
+        }
+
+        @media(max-width:700px) {
+            .brand-logo {
+                left: 8px;
+                top: 6px;
+                padding: 7px 12px
+            }
+
+            .brand-logo img {
+                height: 34px
+            }
+
+            .presentation-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: 0
+            }
+
+            .slide {
+                padding: 68px 18px 74px
+            }
+
+            .display-title {
+                font-size: 3.1rem
+            }
+
+            .hero-icon {
+                font-size: 5rem
+            }
+
+            .agenda-grid,
+            .three-grid,
+            .prop-grid,
+            .vscode-tour,
+            .recap-path,
+            .factor-grid {
+                grid-template-columns: 1fr !important
+            }
+
+            .nav-title {
+                display: none
+            }
+
+            .emoji-feedback {
+                gap: 8px;
+                flex-wrap: wrap
+            }
+
+            .emoji-feedback button {
+                font-size: 3.4rem
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="brand-logo"><img alt="Ruangguru Coding"
+            src="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png" /></div>
+    <main class="presentation-container" id="presentation">
+        <section class="slide cover-slide" data-title="Application Logic Water Calculator">
+            <div class="cover-scene">
+                <div class="orbit orbit-a">💧</div>
+                <div class="orbit orbit-b">🌾</div>
+                <div class="orbit orbit-c">⚙️</div>
+                <div class="hero-badge">SESSION 14 • PYTHON GUI • 90 MENIT</div>
+                <div class="hero-icon">📊</div>
+                <p class="eyebrow">PYTHON PROJECT</p>
+                <h1 class="display-title">Application <span>Logic</span><br>with Tkinter</h1>
+                <p class="hero-subtitle">Menggunakan function untuk mengambil input dari beberapa widget, menghitung
+                    kebutuhan air tanaman, lalu memperbarui tampilan aplikasi.</p>
+                <div class="hero-pills">
+                    <span>function</span><span>.get()</span><span>if-elif-else</span><span>try-except</span><span>calculation</span><span>.configure()</span>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Review Sebelumnya">
+            <div class="slide-head center"><span class="kicker">REVIEW</span>
+                <h2>Dari Form Menjadi Aplikasi yang Berpikir</h2>
+                <p>Kemarin form sudah bisa menerima data. Hari ini data itu akan diproses menjadi hasil perhitungan.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card green"><b>01</b><span>⌨️</span>
+                    <h3>Entry</h3>
+                    <p>Menerima input teks atau angka dari user.</p>
+                </div>
+                <div class="agenda-card blue"><b>02</b><span>📦</span>
+                    <h3>ComboBox</h3>
+                    <p>Memilih crop type dari daftar pilihan.</p>
+                </div>
+                <div class="agenda-card orange"><b>03</b><span>🔘</span>
+                    <h3>Radio & CheckBox</h3>
+                    <p>Memilih season dan drip irrigation.</p>
+                </div>
+                <div class="agenda-card purple"><b>04</b><span>🏷️</span>
+                    <h3>Label Result</h3>
+                    <p>Menampilkan hasil dengan <span class="code-font">configure()</span>.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Objective">
+            <div class="slide-head center"><span class="kicker">OBJECTIVE</span>
+                <h2>Hari Ini Kita Membuat 1 Program Utama</h2>
+                <p>Nama file: <span class="command-chip">water-calculator.py</span></p>
+            </div>
+            <div class="flow-grid">
+                <div class="flow-box"><span>📥</span>
+                    <h3>Ambil Input</h3>
+                    <p>Area, tanaman, musim, dan metode irigasi.</p>
+                </div>
+                <div class="flow-arrow">➜</div>
+                <div class="flow-box"><span>🧮</span>
+                    <h3>Olah Data</h3>
+                    <p>Function menghitung kebutuhan air per hari.</p>
+                </div>
+                <div class="flow-arrow">➜</div>
+                <div class="flow-box"><span>📋</span>
+                    <h3>Update UI</h3>
+                    <p>Label result menampilkan hasil dan error message.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-green" data-title="Analogi Function">
+            <div class="single-focus">
+                <div class="giant-emoji">👨‍🍳</div><span class="kicker">ANALOGY</span>
+                <h2>Function Itu Seperti Mesin Pengolah Data</h2>
+                <p>User memasukkan bahan mentah: luas lahan, jenis tanaman, season, dan irrigation. Function mengambil
+                    bahan itu, menghitung dengan aturan, lalu mengeluarkan hasil yang siap dibaca.</p>
+                <div class="teal-note" style="margin-top:16px;text-align:left"><b>Input:</b> data dari widget →
+                    <b>Process:</b> rumus + kondisi → <b>Output:</b> text baru di label.</div>
+            </div>
+        </section>
+        <section class="slide soft-orange" data-title="Fun Facts">
+            <div class="slide-head center"><span class="kicker">FUN FACTS</span>
+                <h2>Kenapa Air Perlu Dihitung?</h2>
+                <p>Di dunia nyata, penyiraman bukan sekadar “asal basah”.</p>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card blue"><b>01</b><span>🌱</span>
+                    <h3>Setiap Tanaman Berbeda</h3>
+                    <p>Sayur, jagung, dan padi punya kebutuhan air yang berbeda.</p>
+                </div>
+                <div class="agenda-card green"><b>02</b><span>☀️</span>
+                    <h3>Musim Mengubah Kebutuhan</h3>
+                    <p>Dry season membuat air lebih cepat menguap.</p>
+                </div>
+                <div class="agenda-card yellow"><b>03</b><span>💧</span>
+                    <h3>Drip Irrigation Lebih Efisien</h3>
+                    <p>Air diarahkan langsung ke akar, sehingga pemakaian bisa lebih hemat.</p>
+                </div>
+                <div class="agenda-card purple"><b>04</b><span>📊</span>
+                    <h3>Data Membantu Keputusan</h3>
+                    <p>Petani bisa mengambil keputusan lebih cepat dan presisi.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="The Problem">
+            <div class="slide-head center compact"><span class="kicker">THE PROBLEM</span>
+                <h2>Masalah Awal: Banyak Penyiraman Masih Tebak-tebakan</h2>
+            </div>
+            <div class="screenshot-duo">
+                <div class="image-card"><img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGgYBZzH_hqwC_rIuAP_n8wBbuUV5LkRUY_MAxY2GG6vB_wk-OnHuA4_w&s=10"
+                        alt="farmer watering field" onclick="openImageModal(this.src)">
+                    <h3>Guesswork</h3>
+                    <p>Kadang penyiraman hanya berdasarkan rutinitas atau perasaan.</p>
+                </div>
+                <div class="logic-panel">
+                    <h3>Dampaknya</h3>
+                    <p>Tanpa perhitungan, pengguna tidak tahu volume air yang benar-benar dibutuhkan tanaman. Terlalu
+                        banyak dan terlalu sedikit air sama-sama bisa merugikan.</p>
+                    <div class="notice">Aplikasi sederhana dapat membantu mengubah keputusan dari “kira-kira” menjadi
+                        berbasis data.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Water Waste">
+            <div class="split-layout">
+                <div class="image-card"><img src="https://img.khetivyapar.com/images/blogs/1702368823-tap-water.jpg"
+                        alt="water resources" onclick="openImageModal(this.src)">
+                    <h3>Sumber Daya Air Terbatas</h3>
+                    <p>Over-watering membuat air terbuang sia-sia.</p>
+                </div>
+                <div><span class="kicker">RESOURCE ISSUE</span>
+                    <h2>Pemborosan Air Bisa Menjadi Masalah Besar</h2>
+                    <p class="lead">Pada musim kemarau atau area rawan kekeringan, penggunaan air yang tidak presisi
+                        dapat berdampak pada lingkungan dan biaya.</p>
+                    <div class="teal-note">Program ini membantu memperkirakan kebutuhan air berdasarkan luas, tanaman,
+                        season, dan irrigation method.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-orange" data-title="Crop Damage">
+            <div class="split-layout">
+                <div><span class="kicker">PLANT HEALTH</span>
+                    <h2>Terlalu Banyak atau Terlalu Sedikit Air Sama-sama Berbahaya</h2>
+                    <p class="lead"><b>Terlalu banyak air</b> bisa menyebabkan akar busuk, unsur hara tercuci, dan
+                        jamur. <b>Terlalu sedikit air</b> bisa menghambat pertumbuhan hingga tanaman mati.</p>
+                    <div class="notice">Aplikasi calculator membantu user melihat estimasi kebutuhan air secara lebih
+                        jelas.</div>
+                </div>
+                <div class="image-card"><img
+                        src="https://insideclimatenews.org/wp-content/uploads/2022/03/iowa-flood_david-greedy-getty-scaled.jpg"
+                        alt="damaged farm" onclick="openImageModal(this.src)">
+                    <h3>Farm Damage</h3>
+                    <p>Air yang tidak terkendali dapat merusak lahan dan tanaman.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-purple" data-title="Operational Cost">
+            <div class="screenshot-duo">
+                <div class="image-card"><img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy3mW-k_d4QlVmgnPY-dnaYwIKYoO25z5O35bHwympEBbziKwCxRJBw9w&s=10"
+                        alt="operational cost" onclick="openImageModal(this.src)">
+                    <h3>Biaya Operasional</h3>
+                    <p>Pompa air membutuhkan listrik atau bahan bakar.</p>
+                </div>
+                <div class="image-card"><img src="https://nuwater.com/wp-content/uploads/NuWater-Image-13.png"
+                        alt="field irrigation" onclick="openImageModal(this.src)">
+                    <h3>Irrigation Planning</h3>
+                    <p>Perhitungan membantu pemakaian air lebih terarah.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-green" data-title="Why Important">
+            <div class="slide-head center"><span class="kicker">WHY THIS APP MATTERS</span>
+                <h2>Kenapa Program Ini Penting?</h2>
+            </div>
+            <div class="agenda-grid">
+                <div class="agenda-card green"><b>01</b><span>🎯</span>
+                    <h3>Efisien & Presisi</h3>
+                    <p>Perhitungan memakai variabel nyata: luas tanah, crop type, season, dan irrigation.</p>
+                </div>
+                <div class="agenda-card blue"><b>02</b><span>💧</span>
+                    <h3>Menghemat Air</h3>
+                    <p>Drip irrigation mengurangi kebutuhan air di hasil kalkulasi.</p>
+                </div>
+                <div class="agenda-card orange"><b>03</b><span>⚡</span>
+                    <h3>Keputusan Cepat</h3>
+                    <p>User tidak perlu menghitung manual di kertas.</p>
+                </div>
+                <div class="agenda-card purple"><b>04</b><span>🧠</span>
+                    <h3>Value Edukasi</h3>
+                    <p>Python function, variable, if-else, dan GUI dipakai untuk masalah nyata.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Formula">
+            <div class="slide-head center compact"><span class="kicker">MAIN FORMULA</span>
+                <h2>Rumus Utama Perhitungan</h2>
+            </div>
+            <div class="formula-box">
+                <div class="formula">Total Air = (Luas Lahan × Base Water Rate × Faktor Musim) × Faktor Irigasi</div>
+                <div class="notice" style="max-width:850px">Hasil akhir akan ditampilkan dalam <span
+                        class="code-font">Liters/day</span>.</div>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Formula Components">
+            <div class="slide-head center compact"><span class="kicker">COMPONENTS</span>
+                <h2>Apa Saja Komponen Rumusnya?</h2>
+            </div>
+            <div class="factor-grid">
+                <div class="factor-card"><span>📏</span>
+                    <h3>Luas Lahan</h3>
+                    <p>Semakin luas area, semakin besar total air.</p>
+                </div>
+                <div class="factor-card"><span>🌾</span>
+                    <h3>Crop Type</h3>
+                    <p>Vegetables 4.0, Corn 6.0, Rice 8.0 L/m²/day.</p>
+                </div>
+                <div class="factor-card"><span>☀️</span>
+                    <h3>Season</h3>
+                    <p>Dry ×1.2, Rainy ×0.8.</p>
+                </div>
+                <div class="factor-card"><span>💧</span>
+                    <h3>Drip Irrigation</h3>
+                    <p>Jika dicentang, total ×0.8.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-orange" data-title="Crop Rates">
+            <div class="slide-head center compact"><span class="kicker">CROP WATER RATE</span>
+                <h2>Base Water Rate Berdasarkan Tanaman</h2>
+            </div>
+            <div class="three-grid">
+                <div class="choice-card green">
+                    <div class="medium-emoji">🥬</div>
+                    <h3>Vegetables</h3>
+                    <p><b>4.0 L/m²/day</b><br>Sayuran daun relatif lebih sedikit karena akar dangkal dan masa tanam
+                        pendek.</p>
+                </div>
+                <div class="choice-card yellow">
+                    <div class="medium-emoji">🌽</div>
+                    <h3>Corn</h3>
+                    <p><b>6.0 L/m²/day</b><br>Jagung lebih besar dan butuh air untuk pembentukan tongkol.</p>
+                </div>
+                <div class="choice-card blue">
+                    <div class="medium-emoji">🌾</div>
+                    <h3>Rice</h3>
+                    <p><b>8.0 L/m²/day</b><br>Padi membutuhkan air tinggi karena tumbuh di tanah basah/sawah.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-green" data-title="Season and Drip">
+            <div class="screenshot-duo">
+                <div class="image-card"><img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3te7pdbcoR9uk3j0iYRAiI0R904Ec1z-YBGwmQj_fPFIt1brFoq2WAmyY&s=10"
+                        alt="water flow in farm" onclick="openImageModal(this.src)">
+                    <h3>Aliran Air di Lahan</h3>
+                    <p>Teknik irigasi memengaruhi efisiensi penggunaan air.</p>
+                </div>
+                <div class="logic-panel">
+                    <h3>Season & Irrigation Factor</h3>
+                    <p><b>Dry season ×1.2</b>: air lebih cepat menguap, jadi kebutuhan naik 20%.</p>
+                    <p style="margin-top:8px"><b>Rainy season ×0.8</b>: tanah mendapat bantuan air hujan, jadi kebutuhan
+                        turun 20%.</p>
+                    <p style="margin-top:8px"><b>Drip irrigation ×0.8</b>: air langsung ke akar, jadi lebih hemat.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Manual Simulation">
+            <div class="slide-head center compact"><span class="kicker">MANUAL SIMULATION</span>
+                <h2>Contoh Perhitungan Manual</h2>
+                <p>Area 100 m², Corn, Dry Season, Drip Irrigation.</p>
+            </div>
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <div>
+                        <h3>Base Water</h3>
+                        <p>100 m² × 6.0 L/m² = 600 Liters</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <div>
+                        <h3>Dry Season</h3>
+                        <p>600 Liters × 1.2 = 720 Liters</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <div>
+                        <h3>Drip Irrigation</h3>
+                        <p>720 Liters × 0.8 = <b>576.0 Liters/day</b></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-purple" data-title="App Overview">
+            <div class="single-focus">
+                <div class="giant-emoji">💧</div><span class="kicker">TODAY'S APP</span>
+                <h2>Crop Water Calculator</h2>
+                <p>Aplikasi ini membantu user memperkirakan kebutuhan air tanaman per hari berdasarkan luas lahan, jenis
+                    tanaman, musim, dan metode irigasi.</p>
+                <div class="teal-note" style="margin-top:16px;text-align:left"><b>File:</b> <span
+                        class="code-font">water-calculator.py</span><br><b>Fitur:</b> input area, pilih crop, pilih
+                    season, centang drip irrigation, lalu calculate result.</div>
+            </div>
+        </section>
+        <section class="slide" data-title="Target Output">
+            <div class="slide-head center compact"><span class="kicker">FINAL TARGET</span>
+                <h2>Target Hasil Akhir Program</h2>
+            </div>
+            <div class="image-card contain" style="max-width:680px;width:100%"><img
+                    src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/b92369cc-358e-4eb2-bef3-238f623d26b2.png"
+                    alt="final water calculator output" onclick="openImageModal(this.src)">
+                <h3>Crop Water Calculator</h3>
+                <p>Form input di atas, result preview di bawah.</p>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Frame Structure">
+            <div class="slide-head center compact"><span class="kicker">APP STRUCTURE</span>
+                <h2>Pembagian Area di Window</h2>
+                <p>Title dan button calculate berada langsung di app. Form dan result memakai frame.</p>
+            </div>
+            <div class="split-layout">
+                <div class="frame-map">
+                    <div class="zone title">Title Label<br><small>langsung di app</small></div>
+                    <div class="zone form">form_frame<br><small>Entry, ComboBox, RadioButton, CheckBox</small></div>
+                    <div class="zone button">Calculate Button<br><small>langsung di app</small></div>
+                    <div class="zone result">result_frame<br><small>Result Preview</small></div>
+                </div>
+                <div class="logic-panel">
+                    <h3>Kenapa Dibagi Frame?</h3>
+                    <p>Agar program lebih rapi. Input widgets dikumpulkan di <span class="code-font">form_frame</span>,
+                        sedangkan hasil output dikumpulkan di <span class="code-font">result_frame</span>.</p>
+                    <div class="notice">Ini melanjutkan konsep Frame dari Meet 11.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-green" data-title="Starter Code">
+            <div class="slide-head center compact"><span class="kicker">STEP 1</span>
+                <h2>Buat File Baru: <span class="code-font">water-calculator.py</span></h2>
+            </div>
+            <div class="screenshot-duo">
+                <div class="image-card contain"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/099643bc-3ec5-442c-a60b-6ebbe2a4b216.png"
+                        alt="starter code" onclick="openImageModal(this.src)">
+                    <h3>Program</h3>
+                    <p>Inisialisasi awal CustomTkinter.</p>
+                </div>
+                <div class="image-card contain"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/7935fa05-3d86-4099-af71-3e45266cc98a.png"
+                        alt="starter output" onclick="openImageModal(this.src)">
+                    <h3>Output</h3>
+                    <p>Window kosong 380 x 600.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Add Title">
+            <div class="slide-head center compact"><span class="kicker">STEP 2</span>
+                <h2>Tambahkan Title Label</h2>
+            </div>
+            <div class="screenshot-duo">
+                <div class="image-card contain"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/98566bc3-9fbb-41eb-8527-44697c366579.png"
+                        alt="title code" onclick="openImageModal(this.src)">
+                    <h3>Program</h3>
+                    <p>Title dibuat langsung di app.</p>
+                </div>
+                <div class="image-card contain"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/273812eb-4333-4486-8ea5-80a148f109fb.png"
+                        alt="title output" onclick="openImageModal(this.src)">
+                    <h3>Output</h3>
+                    <p>Judul tampil di bagian atas.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-orange" data-title="Form Frame">
+            <div class="slide-head center compact"><span class="kicker">STEP 3</span>
+                <h2>Buat <span class="code-font">form_frame</span></h2>
+            </div>
+            <div class="screenshot-duo">
+                <div class="image-card contain"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/799f91b0-ffda-4569-9f43-1271ffbc34b2.png"
+                        alt="form frame code" onclick="openImageModal(this.src)">
+                    <h3>Program</h3>
+                    <p>Frame untuk semua widget form.</p>
+                </div>
+                <div class="image-card contain"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/e95fcc24-8158-41a8-8e4c-ff8910b7f226.png"
+                        alt="form frame output" onclick="openImageModal(this.src)">
+                    <h3>Output</h3>
+                    <p>Area form biru muda muncul.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Entry and Combo">
+            <div class="slide-head center compact"><span class="kicker">STEP 4</span>
+                <h2>Tambahkan Entry dan ComboBox</h2>
+            </div>
+            <div class="screenshot-duo">
+                <div class="image-card contain"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/551fee29-fa53-4a32-993e-43a08f5ac3ee.png"
+                        alt="entry combobox code" onclick="openImageModal(this.src)">
+                    <h3>Program</h3>
+                    <p>Entry area dan pilihan crop type.</p>
+                </div>
+                <div class="image-card contain"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/e5854cd3-ee97-4736-b6bf-58a27cb43e16.png"
+                        alt="entry combobox output" onclick="openImageModal(this.src)">
+                    <h3>Output</h3>
+                    <p>Input luas dan pilihan tanaman tampil.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-green" data-title="Radio Button">
+            <div class="slide-head center compact"><span class="kicker">STEP 5</span>
+                <h2>Tambahkan RadioButton untuk Season</h2>
+            </div>
+            <div class="screenshot-duo">
+                <div class="image-card contain"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/5b64117f-993f-4624-ac5f-8075d1bb418a.png"
+                        alt="radio code" onclick="openImageModal(this.src)">
+                    <h3>Program</h3>
+                    <p>Dry dan Rainy ditaruh di frame_radio.</p>
+                </div>
+                <div class="image-card contain"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/c2a0e0ff-0b92-4ec5-883a-2f805d826e73.png"
+                        alt="radio output" onclick="openImageModal(this.src)">
+                    <h3>Output</h3>
+                    <p>Pilihan season tampil di form.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-purple" data-title="Checkbox">
+            <div class="slide-head center compact"><span class="kicker">STEP 6</span>
+                <h2>Tambahkan CheckBox untuk Drip Irrigation</h2>
+            </div>
+            <div class="screenshot-duo">
+                <div class="image-card contain"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/9711dd99-71da-475c-9c4e-8930dc9cf6ae.png"
+                        alt="checkbox code" onclick="openImageModal(this.src)">
+                    <h3>Program</h3>
+                    <p>CheckBox bernilai 1 jika dicentang.</p>
+                </div>
+                <div class="image-card contain"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/4df373c1-fe18-42ca-a22b-cc4572c46a88.png"
+                        alt="checkbox output" onclick="openImageModal(this.src)">
+                    <h3>Output</h3>
+                    <p>Form frame selesai.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Calculate Button">
+            <div class="slide-head center compact"><span class="kicker">STEP 7</span>
+                <h2>Tambahkan Button Calculate</h2>
+                <p>Button ini berada langsung di <span class="code-font">app</span>, bukan di <span
+                        class="code-font">form_frame</span>.</p>
+            </div>
+            <div class="screenshot-duo">
+                <div class="image-card contain"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/a9fbaf64-e11b-40dd-8cc2-65531081f2f6.png"
+                        alt="calculate button code" onclick="openImageModal(this.src)">
+                    <h3>Program</h3>
+                    <p>Button visual belum punya command.</p>
+                </div>
+                <div class="image-card contain"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/9786a9df-b003-44ef-a099-0fd91724cde1.png"
+                        alt="calculate button output" onclick="openImageModal(this.src)">
+                    <h3>Output</h3>
+                    <p>Button calculate tampil di bawah form.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-orange" data-title="Result Frame">
+            <div class="slide-head center compact"><span class="kicker">STEP 8</span>
+                <h2>Buat <span class="code-font">result_frame</span></h2>
+            </div>
+            <div class="screenshot-duo">
+                <div class="image-card contain"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/ea34efc3-59f3-43a0-8aca-164d0d39f7b3.png"
+                        alt="result frame code" onclick="openImageModal(this.src)">
+                    <h3>Program</h3>
+                    <p>Frame untuk menampilkan hasil.</p>
+                </div>
+                <div class="image-card contain"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/350c34aa-3a91-47f0-997f-672ba266eaee.png"
+                        alt="result frame output" onclick="openImageModal(this.src)">
+                    <h3>Output</h3>
+                    <p>Result frame muncul di bawah.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Result Labels">
+            <div class="slide-head center compact"><span class="kicker">STEP 9</span>
+                <h2>Tambahkan Label Result Preview</h2>
+            </div>
+            <div class="screenshot-duo">
+                <div class="image-card contain"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/4168fda6-0896-4db3-a4f3-e02d13ef8db1.png"
+                        alt="result labels code" onclick="openImageModal(this.src)">
+                    <h3>Program</h3>
+                    <p>Title result dan label output.</p>
+                </div>
+                <div class="image-card contain"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/83f4bcce-f499-4060-b6c3-a7ace4599968.png"
+                        alt="result labels output" onclick="openImageModal(this.src)">
+                    <h3>Output</h3>
+                    <p>UI sudah jadi, logic belum aktif.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-green" data-title="Interactive Preview">
+            <div class="slide-head center compact"><span class="kicker">LIVE PREVIEW</span>
+                <h2>Simulasi Water Calculator</h2>
+                <p>Masukkan data untuk melihat cara function mengambil input, menghitung, dan update result.</p>
+            </div>
+            <div class="sim-grid">
+                <div class="sim-card"><label>Field Area (m²)<input id="simArea" type="number" value="100"
+                            min="0"></label><label>Crop Type<select id="simCrop">
+                            <option>Vegetables 🥬</option>
+                            <option selected>Corn 🌽</option>
+                            <option>Rice 🌾</option>
+                        </select></label><label>Season<select id="simSeason">
+                            <option selected>Dry</option>
+                            <option>Rainy</option>
+                        </select></label><label style="display:flex;gap:8px;align-items:center;margin:5px 0 12px"><input
+                            id="simDrip" type="checkbox" checked style="width:auto;margin:0"> Use Drip Irrigation
+                        (-20%)</label><button onclick="calculateSim()">Calculate Water Needs 📊</button></div>
+                <div class="water-result" id="simResult">Klik Calculate untuk melihat hasil.</div>
+            </div>
+        </section>
+        <section class="slide" data-title="Logic Big Picture">
+            <div class="slide-head center"><span class="kicker">APPLICATION LOGIC</span>
+                <h2>Alur Function <span class="code-font">calculate_water()</span></h2>
+            </div>
+            <div class="flow-grid">
+                <div class="flow-box"><span>📥</span>
+                    <h3>Get Values</h3>
+                    <p>Ambil data dari Entry, ComboBox, Radio, CheckBox.</p>
+                </div>
+                <div class="flow-arrow">➜</div>
+                <div class="flow-box"><span>🧪</span>
+                    <h3>Validate</h3>
+                    <p>Cek area harus angka dan lebih dari 0.</p>
+                </div>
+                <div class="flow-arrow">➜</div>
+                <div class="flow-box"><span>📋</span>
+                    <h3>Show Result</h3>
+                    <p>Hitung total lalu update Label.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-purple" data-title="Season Variable">
+            <div class="split-layout">
+                <pre class="mini-code">season_var = ctk.StringVar(value="Dry")
+
+radio_dry = ctk.CTkRadioButton(
+    frame_radio,
+    text="Dry",
+    value="Dry",
+    variable=season_var
+)
+
+radio_rainy = ctk.CTkRadioButton(
+    frame_radio,
+    text="Rainy",
+    value="Rainy",
+    variable=season_var
+)</pre>
+                <div class="logic-panel">
+                    <h3>Kenapa Pakai <span class="code-font">StringVar</span>?</h3>
+                    <p>Agar RadioButton Dry dan Rainy menjadi satu group. Karena keduanya memakai variable yang sama,
+                        user hanya bisa memilih satu season.</p>
+                    <div class="notice">Default value dibuat <span class="code-font">Dry</span>, jadi saat aplikasi
+                        dibuka pilihan awalnya sudah jelas.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Get Values">
+            <div class="split-layout">
+                <pre class="mini-code">def calculate_water():
+    area_text = entry_area.get()
+    crop_type = combo_crop.get()
+    season = season_var.get()
+    is_drip = check_drip.get()</pre>
+                <div class="logic-panel">
+                    <h3>Step Pertama: Ambil Semua Value</h3>
+                    <p>Function membaca semua data yang dipilih user. Entry dan ComboBox memakai <span
+                            class="code-font">.get()</span>. RadioButton dibaca dari <span
+                            class="code-font">season_var.get()</span>. CheckBox menghasilkan 1 atau 0.</p>
+                    <div class="teal-note">Data yang sudah diambil baru bisa diproses di langkah berikutnya.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-orange" data-title="Validation">
+            <div class="slide-head center compact"><span class="kicker">VALIDATION</span>
+                <h2>Cek Input Area dengan <span class="code-font">try-except</span></h2>
+            </div>
+            <div class="split-layout">
+                <pre class="mini-code">try:
+    area = float(area_text)
+    if area <= 0:
+        lbl_result.configure(
+            text="⚠️ Area must be greater than 0!",
+            text_color="#EF4444"
+        )
+        return
+except ValueError:
+    lbl_result.configure(
+        text="⚠️ Enter a valid number for Area!",
+        text_color="#EF4444"
+    )
+    return</pre>
+                <div class="logic-panel">
+                    <h3>Kenapa Harus Dicek?</h3>
+                    <p>Entry menerima text. Jadi user bisa saja mengetik huruf, kosong, atau angka negatif. <span
+                            class="code-font">try-except</span> membantu mencegah program error.</p>
+                    <div class="notice"><span class="code-font">return</span> menghentikan function agar perhitungan
+                        tidak lanjut saat input salah.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-green" data-title="Crop Logic">
+            <div class="split-layout">
+                <pre class="mini-code">base_water_rate = 5.0
+
+if crop_type == "Rice 🌾":
+    base_water_rate = 8.0
+elif crop_type == "Corn 🌽":
+    base_water_rate = 6.0
+elif crop_type == "Vegetables 🥬":
+    base_water_rate = 4.0</pre>
+                <div class="logic-panel">
+                    <h3>Step Berikutnya: Tentukan Base Water Rate</h3>
+                    <p>Setiap pilihan tanaman punya angka kebutuhan air dasar. Karena itu kita memakai <span
+                            class="code-font">if-elif-else</span> untuk mengecek crop type yang dipilih.</p>
+                    <div class="teal-note">Ini contoh nyata penggunaan conditional untuk mengubah hasil program.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Season Logic">
+            <div class="split-layout">
+                <pre class="mini-code">season_multiplier = 0
+
+if season == "Dry":
+    season_multiplier = 1.2
+else:
+    season_multiplier = 0.8
+
+total_water = area * base_water_rate * season_multiplier</pre>
+                <div class="logic-panel">
+                    <h3>Season Mengubah Total</h3>
+                    <p>Dry season meningkatkan kebutuhan air 20%. Rainy season menurunkan kebutuhan air 20%.</p>
+                    <div class="notice">Perhitungan awal: luas area × kebutuhan air tanaman × faktor musim.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Drip Logic">
+            <div class="split-layout">
+                <pre class="mini-code">if is_drip == 1:
+    total_water *= 0.8</pre>
+                <div class="logic-panel">
+                    <h3>CheckBox Mengubah Rumus</h3>
+                    <p>Jika user mencentang Drip Irrigation, nilai <span class="code-font">check_drip.get()</span>
+                        menjadi 1. Program lalu mengalikan total dengan 0.8.</p>
+                    <div class="teal-note">Artinya hasil akhir turun 20% karena drip irrigation lebih hemat air.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-orange" data-title="Update Result">
+            <div class="slide-head center compact"><span class="kicker">UPDATE UI</span>
+                <h2>Tampilkan Hasil ke Label</h2>
+            </div>
+            <div class="split-layout">
+                <pre class="mini-code">lbl_result.configure(
+    text_color="#1E293B",
+    text=f"🌾 Area: {area:,.0f} m²\n\n"
+         f"🌱 Crop: {crop_type}\n\n"
+         f"☀️ Season: {season}\n\n"
+         f"💧 Water Needed:\n"
+         f"   👉 {total_water:,.1f} Liters/day"
+)</pre>
+                <div class="logic-panel">
+                    <h3>Fungsi <span class="code-font">configure()</span></h3>
+                    <p>Setelah perhitungan selesai, label result diubah supaya menampilkan data user dan hasil total
+                        water.</p>
+                    <div class="notice"><span class="code-font">:,.1f</span> membuat angka tampil rapi dengan 1 angka
+                        desimal.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Function Part 1">
+            <div class="slide-head center compact"><span class="kicker">FUNCTION • PART 1</span>
+                <h2>Ambil Data dan Validasi Area</h2>
+            </div>
+            <pre class="mini-code" style="max-width:1060px;width:100%">season_var = ctk.StringVar(value="Dry")
+
+def calculate_water():
+    area_text = entry_area.get()
+    crop_type = combo_crop.get()
+    season = season_var.get()
+    is_drip = check_drip.get()
+
+    try:
+        area = float(area_text)
+        if area <= 0:
+            lbl_result.configure(text="⚠️ Area must be greater than 0!", text_color="#EF4444")
+            return
+    except ValueError:
+        lbl_result.configure(text="⚠️ Enter a valid number for Area!", text_color="#EF4444")
+        return</pre>
+        </section>
+        <section class="slide soft-blue" data-title="Function Part 2">
+            <div class="slide-head center compact"><span class="kicker">FUNCTION • PART 2</span>
+                <h2>Tentukan Faktor dan Hitung Total</h2>
+            </div>
+            <pre class="mini-code" style="max-width:1060px;width:100%">    base_water_rate = 5.0
+    if crop_type == "Rice 🌾":
+        base_water_rate = 8.0
+    elif crop_type == "Corn 🌽":
+        base_water_rate = 6.0
+    elif crop_type == "Vegetables 🥬":
+        base_water_rate = 4.0
+
+    season_multiplier = 0
+    if season == "Dry":
+        season_multiplier = 1.2
+    else:
+        season_multiplier = 0.8
+
+    total_water = area * base_water_rate * season_multiplier
+
+    if is_drip == 1:
+        total_water *= 0.8</pre>
+        </section>
+        <section class="slide soft-green" data-title="Function Part 3">
+            <div class="slide-head center compact"><span class="kicker">FUNCTION • PART 3</span>
+                <h2>Update Tampilan Hasil</h2>
+            </div>
+            <pre class="mini-code" style="max-width:1060px;width:100%">    lbl_result.configure(
+        text_color="#1E293B",
+        text=f"🌾 Area: {area:,.0f} m²\n\n"
+             f"🌱 Crop: {crop_type}\n\n"
+             f"☀️ Season: {season}\n\n"
+             f"💧 Water Needed:\n"
+             f"   👉 {total_water:,.1f} Liters/day"
+    )</pre>
+            <div class="notice" style="max-width:900px;text-align:center">Setelah function selesai dibuat, pasang ke
+                button dengan <span class="code-font">command=calculate_water</span>.</div>
+        </section>
+        <section class="slide soft-purple" data-title="Command">
+            <div class="split-layout">
+                <pre class="mini-code">btn_calc = ctk.CTkButton(
+    app,
+    text="Calculate Water Needs 📊",
+    font=("Segoe UI Rounded", 14, "bold"),
+    height=45,
+    corner_radius=10,
+    fg_color="#FEF08A",
+    text_color="#713F12",
+    hover_color="#FDE047",
+    command=calculate_water
+)
+btn_calc.pack(fill="x", padx=20, pady=12)</pre>
+                <div class="logic-panel">
+                    <h3>Button Menjadi Aktif</h3>
+                    <p>Tanpa <span class="code-font">command=calculate_water</span>, button hanya menjadi tampilan
+                        visual. Dengan command, button menjalankan function saat diklik.</p>
+                    <div class="teal-note">Ingat: tulis <span class="code-font">calculate_water</span>, bukan <span
+                            class="code-font">calculate_water()</span>.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Full Code Part 1">
+            <div class="slide-head center compact"><span class="kicker">FULL PROGRAM • PART 1</span>
+                <h2 style="font-size:2.05rem">Import, Window, Variable, dan Function</h2>
+            </div>
+            <pre class="mini-code small" style="max-width:1100px;width:100%">import customtkinter as ctk
+
+app = ctk.CTk()
+app.title("Crop Water Calculator")
+app.geometry("380x600")
+app.resizable(False, False)
+
+ctk.set_appearance_mode("light")
+season_var = ctk.StringVar(value="Dry")
+
+def calculate_water():
+    area_text = entry_area.get()
+    crop_type = combo_crop.get()
+    season = season_var.get()
+    is_drip = check_drip.get()
+
+    try:
+        area = float(area_text)
+        if area <= 0:
+            lbl_result.configure(text="⚠️ Area must be greater than 0!", text_color="#EF4444")
+            return
+    except ValueError:
+        lbl_result.configure(text="⚠️ Enter a valid number for Area!", text_color="#EF4444")
+        return
+
+    base_water_rate = 5.0
+    if crop_type == "Rice 🌾": base_water_rate = 8.0
+    elif crop_type == "Corn 🌽": base_water_rate = 6.0
+    elif crop_type == "Vegetables 🥬": base_water_rate = 4.0</pre>
+        </section>
+        <section class="slide soft-blue" data-title="Full Code Part 2">
+            <div class="slide-head center compact"><span class="kicker">FULL PROGRAM • PART 2</span>
+                <h2 style="font-size:2.05rem">Calculation dan Title/Form</h2>
+            </div>
+            <pre class="mini-code small" style="max-width:1100px;width:100%">    season_multiplier = 1.2 if season == "Dry" else 0.8
+    total_water = area * base_water_rate * season_multiplier
+    if is_drip == 1:
+        total_water *= 0.8
+
+    lbl_result.configure(
+        text_color="#1E293B",
+        text=f"🌾 Area: {area:,.0f} m²\n\n"
+             f"🌱 Crop: {crop_type}\n\n"
+             f"☀️ Season: {season}\n\n"
+             f"💧 Water Needed:\n   👉 {total_water:,.1f} Liters/day"
+    )
+
+ctk.CTkLabel(app, text="💧 Crop Water Calculator", font=("Segoe UI Rounded", 20, "bold"), text_color="#0284C7").pack(pady=(20, 12))
+
+form_frame = ctk.CTkFrame(app, fg_color="#F0F9FF", corner_radius=14, border_width=1, border_color="#BAE6FD")
+form_frame.pack(fill="x", padx=20, pady=5)
+
+entry_area = ctk.CTkEntry(form_frame, placeholder_text="Enter Field Area (m²)...", placeholder_text_color="#64748B", height=40, corner_radius=8, border_color="#7DD3FC", fg_color="#FFFFFF", text_color="#0F172A")
+entry_area.pack(fill="x", padx=15, pady=(15, 8))</pre>
+        </section>
+        <section class="slide soft-green" data-title="Full Code Part 3">
+            <div class="slide-head center compact"><span class="kicker">FULL PROGRAM • PART 3</span>
+                <h2 style="font-size:2.05rem">Widgets Form</h2>
+            </div>
+            <pre class="mini-code small" style="max-width:1100px;width:100%">combo_crop = ctk.CTkComboBox(form_frame, values=["Vegetables 🥬", "Corn 🌽", "Rice 🌾"], height=40, corner_radius=8, fg_color="#FFFFFF", text_color="#0369A1", dropdown_fg_color="#FFFFFF", dropdown_text_color="#0F172A", button_color="#7DD3FC", button_hover_color="#38BDF8", border_color="#7DD3FC")
+combo_crop.set("Vegetables 🥬")
+combo_crop.pack(fill="x", padx=15, pady=8)
+
+frame_radio = ctk.CTkFrame(form_frame, fg_color="transparent")
+frame_radio.pack(fill="x", padx=15, pady=8)
+
+radio_dry = ctk.CTkRadioButton(frame_radio, text="Dry", value="Dry", fg_color="#EAB308", hover_color="#CA8A04", text_color="#1E293B", variable=season_var)
+radio_dry.pack(side="left", padx=(0, 20))
+
+radio_rainy = ctk.CTkRadioButton(frame_radio, text="Rainy", value="Rainy", fg_color="#EAB308", hover_color="#CA8A04", text_color="#1E293B", variable=season_var)
+radio_rainy.pack(side="left")
+
+check_drip = ctk.CTkCheckBox(form_frame, text="Use Drip Irrigation (-20% water)", fg_color="#EAB308", hover_color="#CA8A04", text_color="#1E293B")
+check_drip.pack(anchor="w", padx=15, pady=(8, 15))</pre>
+        </section>
+        <section class="slide soft-orange" data-title="Full Code Part 4">
+            <div class="slide-head center compact"><span class="kicker">FULL PROGRAM • PART 4</span>
+                <h2 style="font-size:2.05rem">Button, Result Frame, dan Mainloop</h2>
+            </div>
+            <pre class="mini-code small" style="max-width:1100px;width:100%">btn_calc = ctk.CTkButton(app, text="Calculate Water Needs 📊", font=("Segoe UI Rounded", 14, "bold"), height=45, corner_radius=10, fg_color="#FEF08A", text_color="#713F12", hover_color="#FDE047", command=calculate_water)
+btn_calc.pack(fill="x", padx=20, pady=12)
+
+result_frame = ctk.CTkFrame(app, fg_color="#FEFCE8", corner_radius=14, border_width=1, border_color="#FEF08A")
+result_frame.pack(fill="both", expand=True, padx=20, pady=(0, 20))
+
+ctk.CTkLabel(result_frame, text="📋 Result Preview", font=("Segoe UI Rounded", 13, "bold"), text_color="#854D0E").pack(anchor="w", padx=15, pady=(12, 5))
+
+lbl_result = ctk.CTkLabel(result_frame, text="Fill in the field size and options,\nthen tap Calculate.", font=("Segoe UI Rounded", 12), text_color="#64748B", justify="left")
+lbl_result.pack(anchor="w", padx=15, pady=5)
+
+app.mainloop()</pre>
+        </section>
+        <section class="slide" data-title="Final Output">
+            <div class="slide-head center compact"><span class="kicker">TEST OUTPUT</span>
+                <h2>Test Program dan Cek Hasilnya</h2>
+                <p>Coba input angka, pilih crop, pilih season, lalu klik Calculate.</p>
+            </div>
+            <div class="screenshot-duo">
+                <div class="image-card contain"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/06b123d8-e43b-4b7b-90f9-307664b42ac4.png"
+                        alt="final result" onclick="openImageModal(this.src)">
+                    <h3>Output Setelah Calculate</h3>
+                    <p>Result label menampilkan data dan kebutuhan air.</p>
+                </div>
+                <div class="logic-panel">
+                    <h3>Apakah Hasilnya Masuk Akal?</h3>
+                    <p>Kalau ragu, hitung manual menggunakan rumus. Contoh 100 m² Corn Dry Drip menghasilkan 576.0
+                        Liters/day.</p>
+                    <div class="notice">Debugging terbaik: bandingkan hasil aplikasi dengan perhitungan manual kecil.
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-purple" data-title="Validation Test">
+            <div class="slide-head center"><span class="kicker">CHECKPOINT</span>
+                <h2>Coba Test Error Handling</h2>
+            </div>
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <div>
+                        <h3>Area dikosongkan</h3>
+                        <p>Program harus menampilkan warning: Enter a valid number.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <div>
+                        <h3>Area diisi huruf</h3>
+                        <p>Misalnya “abc”, program tidak boleh crash.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <div>
+                        <h3>Area diisi 0 atau negatif</h3>
+                        <p>Program harus memberi warning: Area must be greater than 0.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Run Program">
+            <div class="slide-head center compact"><span class="kicker">RUN & SAVE</span>
+                <h2>Cara Run <span class="code-font">water-calculator.py</span></h2>
+                <p>Simpan file dulu, lalu jalankan dari terminal.</p>
+            </div>
+            <div class="vscode-tour">
+                <div class="tour-card">
+                    <div class="tour-icon">💾</div>
+                    <h3>1. Save File</h3>
+                    <p>Tekan <span class="code-font">Ctrl + S</span> agar kode terbaru tersimpan.</p>
+                </div>
+                <div class="tour-card"><img
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/27071bf1-56be-4702-ba4c-94f480c63d8a.png"
+                        alt="open terminal" onclick="openImageModal(this.src)">
+                    <h3>2. Open Integrated Terminal</h3>
+                    <p>Buka terminal dari folder file Python.</p>
+                </div>
+                <div class="tour-card">
+                    <div class="tour-icon">▶️</div>
+                    <h3>3. Run Command</h3>
+                    <p>Ketik <span class="code-font">python water-calculator.py</span> lalu Enter.</p>
+                </div>
+            </div>
+            <div class="notice" style="max-width:900px;text-align:center">Kalau device kamu memakai <span
+                    class="code-font">py water-calculator.py</span>, itu juga boleh.</div>
+        </section>
+        <section class="slide" data-title="Debugging">
+            <div class="slide-head center compact"><span class="kicker">DEBUGGING</span>
+                <h2>Kesalahan yang Sering Terjadi</h2>
+            </div>
+            <div class="prop-grid">
+                <div class="prop-card">
+                    <h3>📛 Nama Variabel Salah</h3>
+                    <p><span class="code-font">entry_area.get()</span> harus sesuai nama widget.</p>
+                </div>
+                <div class="prop-card">
+                    <h3>🔢 Lupa <span class="code-font">float()</span></h3>
+                    <p>Data dari Entry masih text, jadi perlu diubah ke angka.</p>
+                </div>
+                <div class="prop-card">
+                    <h3>🔘 Radio Tanpa Variable</h3>
+                    <p>Tambahkan <span class="code-font">variable=season_var</span> di kedua RadioButton.</p>
+                </div>
+                <div class="prop-card">
+                    <h3>🟡 Lupa Command</h3>
+                    <p>Button calculate perlu <span class="code-font">command=calculate_water</span>.</p>
+                </div>
+                <div class="prop-card">
+                    <h3>↩️ Lupa Return</h3>
+                    <p>Saat input salah, <span class="code-font">return</span> menghentikan function.</p>
+                </div>
+                <div class="prop-card">
+                    <h3>🏷️ Result Tidak Berubah</h3>
+                    <p>Cek <span class="code-font">lbl_result.configure(...)</span> dan nama label.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-green" data-title="Checklist">
+            <div class="slide-head center"><span class="kicker">CHECKPOINT</span>
+                <h2>Sebelum Quick Quiz, Pastikan Ini Selesai</h2>
+            </div>
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <div>
+                        <h3>File <span class="code-font">water-calculator.py</span> berhasil dibuat</h3>
+                        <p>Window Crop Water Calculator bisa muncul.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <div>
+                        <h3>Form input lengkap</h3>
+                        <p>Ada Entry, ComboBox, RadioButton, CheckBox, dan Button.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <div>
+                        <h3>Function berjalan</h3>
+                        <p>Data diambil dengan <span class="code-font">.get()</span>, divalidasi, lalu dihitung.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">4</div>
+                    <div>
+                        <h3>Result tampil benar</h3>
+                        <p>Label menampilkan kebutuhan air dalam Liters/day.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="slide" data-title="Quick Quiz">
+            <div class="slide-head compact center"><span class="kicker">QUICK QUIZ</span>
+                <h2>Cek Pemahamanmu</h2>
+                <p>Pilih jawaban yang paling tepat.</p>
+            </div>
+            <div class="quiz-shell">
+                <div class="quiz-question active" id="quiz1">
+                    <h3>1. Kenapa input area perlu diubah dengan <span class="code-font">float()</span>?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz1','quiz2')">A. Agar warna
+                            Entry berubah otomatis</button><button onclick="answerQuiz(this,false,'quiz1','quiz2')">B.
+                            Agar Button bisa pindah Frame</button><button
+                            onclick="answerQuiz(this,true,'quiz1','quiz2')">C. Karena data dari Entry masih berupa
+                            text</button></div>
+                </div>
+                <div class="quiz-question" id="quiz2">
+                    <h3>2. Apa fungsi <span class="code-font">try-except</span> pada program ini?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,true,'quiz2','quiz3')">A. Mencegah
+                            program crash saat input bukan angka</button><button
+                            onclick="answerQuiz(this,false,'quiz2','quiz3')">B. Mengganti gambar tanaman</button><button
+                            onclick="answerQuiz(this,false,'quiz2','quiz3')">C. Menghapus result_frame</button></div>
+                </div>
+                <div class="quiz-question" id="quiz3">
+                    <h3>3. Jika Drip Irrigation dicentang, apa yang terjadi pada total water?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false,'quiz3',null)">A. Total dikali
+                            1.2</button><button onclick="answerQuiz(this,true,'quiz3',null)">B. Total dikali
+                            0.8</button><button onclick="answerQuiz(this,false,'quiz3',null)">C. Total selalu menjadi
+                            0</button></div>
+                </div>
+                <div class="feedback" id="quizFeedback">Jawaban benar akan ditandai setelah kamu memilih.</div>
+                <div class="quiz-progress"><span id="quizProgressText">Soal 1 dari 3</span>
+                    <div><i id="quizProgressBar"></i></div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Review Hari Ini">
+            <div class="slide-head center"><span class="kicker">SESSION REVIEW</span>
+                <h2>Apa Saja yang Sudah Dipelajari?</h2>
+            </div>
+            <div class="recap-path">
+                <div><span>⚙️</span><b>Function Logic</b>
+                    <p>Function mengambil data, memproses, dan menampilkan hasil.</p>
+                </div>
+                <div><span>📥</span><b>.get()</b>
+                    <p>Membaca value dari Entry, ComboBox, Radio, dan CheckBox.</p>
+                </div>
+                <div><span>🧪</span><b>Validation</b>
+                    <p><span class="code-font">try-except</span> mengecek input angka agar aman.</p>
+                </div>
+                <div><span>📊</span><b>Calculator App</b>
+                    <p>Rumus dipakai untuk menghitung kebutuhan air tanaman.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide feedback-final" data-title="Feedback">
+            <div class="slide-head center"><span class="kicker">YOUR FEEDBACK</span>
+                <h2>Bagaimana Perasaanmu Setelah Membuat Water Calculator?</h2>
+                <p>Pilih satu respons yang paling sesuai.</p>
+            </div>
+            <div class="emoji-feedback" id="emojiFeedback"><button onclick="sendFeedback(this)">😄<small>Sangat
+                        Paham</small></button><button onclick="sendFeedback(this)">🙂<small>Cukup
+                        Paham</small></button><button onclick="sendFeedback(this)">🤔<small>Perlu
+                        Latihan</small></button><button onclick="sendFeedback(this)">🆘<small>Perlu
+                        Bantuan</small></button></div>
+            <div class="feedback-thanks" id="feedbackThanks"></div>
+        </section>
+        <div class="progress-line" id="progressLine"></div>
+        <footer class="navigation">
+            <div class="nav-title" id="navTitle">Session 14 • Application Logic Water Calculator</div>
+            <div class="nav-controls"><button aria-label="Sebelumnya" class="nav-btn" id="prevBtn">‹</button>
+                <div class="counter"><span id="currentSlide">1</span> / <span id="totalSlides">1</span></div><button
+                    aria-label="Berikutnya" class="nav-btn next" id="nextBtn">›</button>
+            </div>
+        </footer>
+    </main>
+    <div class="image-modal" id="imageModal" onclick="closeImageModal()"><img id="modalImage" src="" alt="Preview">
+    </div>
+    <script>
+        let currentSlide = 0; const slides = [...document.querySelectorAll('.slide')]; function showSlide(index) { if (index < 0 || index >= slides.length) return; slides.forEach((slide, i) => slide.classList.toggle('active', i === index)); currentSlide = index; document.getElementById('currentSlide').textContent = index + 1; document.getElementById('totalSlides').textContent = slides.length; document.getElementById('prevBtn').disabled = index === 0; document.getElementById('nextBtn').disabled = index === slides.length - 1; document.getElementById('progressLine').style.width = ((index + 1) / slides.length * 100) + '%'; document.getElementById('navTitle').textContent = 'Session 14 • ' + slides[index].dataset.title } document.getElementById('prevBtn').onclick = () => showSlide(currentSlide - 1); document.getElementById('nextBtn').onclick = () => showSlide(currentSlide + 1); document.addEventListener('keydown', e => { if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return; if (e.key === 'ArrowRight' || e.key === ' ') showSlide(currentSlide + 1); if (e.key === 'ArrowLeft') showSlide(currentSlide - 1) }); function openImageModal(src) { document.getElementById('modalImage').src = src; document.getElementById('imageModal').classList.add('show') } function closeImageModal() { document.getElementById('imageModal').classList.remove('show') }
+        function calculateSim() { const areaText = document.getElementById('simArea').value; const crop = document.getElementById('simCrop').value; const season = document.getElementById('simSeason').value; const drip = document.getElementById('simDrip').checked; const out = document.getElementById('simResult'); const area = parseFloat(areaText); if (isNaN(area)) { out.textContent = '⚠️ Enter a valid number for Area!'; out.style.color = '#EF4444'; return } if (area <= 0) { out.textContent = '⚠️ Area must be greater than 0!'; out.style.color = '#EF4444'; return } let rate = 5.0; if (crop === 'Rice 🌾') rate = 8.0; else if (crop === 'Corn 🌽') rate = 6.0; else if (crop === 'Vegetables 🥬') rate = 4.0; let seasonMul = season === 'Dry' ? 1.2 : 0.8; let total = area * rate * seasonMul; let steps = `🌾 Area: ${area.toLocaleString('en-US', { maximumFractionDigits: 0 })} m²\n\n🌱 Crop: ${crop}\nBase Rate: ${rate} L/m²/day\n\n☀️ Season: ${season} ×${seasonMul}\n`; if (drip) { total *= 0.8; steps += `💧 Drip Irrigation: Yes ×0.8\n\n` } else { steps += `💧 Drip Irrigation: No\n\n` } steps += `Water Needed:\n👉 ${total.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Liters/day`; out.style.color = '#334155'; out.textContent = steps }
+        function answerQuiz(btn, isCorrect, current, next) { const wrap = document.getElementById(current); wrap.querySelectorAll('button').forEach(b => b.disabled = true); btn.classList.add(isCorrect ? 'correct' : 'wrong'); if (!isCorrect) { wrap.querySelectorAll('button').forEach(b => { if (b.getAttribute('onclick').includes('true')) b.classList.add('correct') }) } document.getElementById('quizFeedback').textContent = isCorrect ? 'Benar. Great job!' : 'Belum tepat. Jawaban benar sudah ditandai.'; document.getElementById('quizFeedback').className = 'feedback ' + (isCorrect ? 'success' : 'error'); let n = parseInt(current.replace('quiz', '')); document.getElementById('quizProgressText').textContent = 'Soal ' + Math.min(n + 1, 3) + ' dari 3'; document.getElementById('quizProgressBar').style.width = (n / 3 * 100) + '%'; if (next) { setTimeout(() => { document.getElementById(current).classList.remove('active'); document.getElementById(next).classList.add('active'); document.getElementById('quizFeedback').textContent = 'Pilih jawaban yang paling tepat.'; document.getElementById('quizFeedback').className = 'feedback' }, 900) } else { document.getElementById('quizProgressText').textContent = 'Quiz selesai'; document.getElementById('quizProgressBar').style.width = '100%' } } function sendFeedback(btn) { document.querySelectorAll('#emojiFeedback button').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); document.getElementById('feedbackThanks').textContent = 'Terima kasih. Feedback kamu membantu menentukan bagian yang perlu diulang.' } calculateSim(); showSlide(0);
+    </script>
+</body>
+
+</html>
