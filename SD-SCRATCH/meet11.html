@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Session 11 - Variasi Loop dan Pola | Ruangguru Coding</title>
+    <link href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        rel="icon" type="image/png" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --blue: #2f80ed;
+            --scratchBlue: #4c97ff;
+            --cyan: #16bde8;
+            --purple: #845ef7;
+            --orange: #ff8a34;
+            --yellow: #ffd53d;
+            --green: #28b875;
+            --red: #ef5350;
+            --pink: #ff6fb5;
+            --ink: #20324a;
+            --muted: #66788d;
+            --cardBorder: #e0e8f2;
+            --shadow: 0 22px 55px rgba(22, 44, 76, .18);
+            --event: #ffbf00;
+            --motion: #4c97ff;
+            --looks: #9966ff;
+            --control: #ffab19;
+            --sound: #d65cd6;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--ink);
+            background: #f8fffe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 12% 18%, rgba(47, 128, 237, .11), transparent 30%),
+                radial-gradient(circle at 88% 12%, rgba(255, 213, 61, .18), transparent 28%),
+                radial-gradient(circle at 15% 88%, rgba(40, 184, 117, .13), transparent 32%),
+                radial-gradient(circle at 88% 86%, rgba(132, 94, 247, .11), transparent 28%),
+                radial-gradient(circle at 48% 42%, rgba(255, 171, 25, .08), transparent 30%);
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        body:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(22, 189, 232, .08) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(22, 189, 232, .08) 2px, transparent 2px);
+            background-size: 76px 76px;
+            opacity: .6;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .brand-logo {
+            position: fixed;
+            left: 22px;
+            top: 16px;
+            z-index: 2000;
+            background: #fff;
+            border: 2.5px solid rgba(0, 188, 212, .22);
+            border-radius: 22px;
+            padding: 10px 20px;
+            box-shadow: 0 8px 32px rgba(0, 188, 212, .18), 0 2px 8px rgba(0, 0, 0, .07);
+            display: flex;
+            align-items: center;
+        }
+
+        .brand-logo img {
+            display: block;
+            height: 80px;
+            max-width: 220px;
+            object-fit: contain
+        }
+
+        .presentation-container {
+            width: 86vw;
+            height: 80vh;
+            max-width: 1500px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(30, 56, 93, .25);
+            overflow: hidden;
+            position: relative;
+            border: 4px solid rgba(255, 255, 255, .85);
+        }
+
+        .presentation-container:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 26px;
+            box-shadow: inset 0 0 0 1px rgba(91, 124, 164, .10);
+            z-index: 30;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 42px 58px 76px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(42px) scale(.985);
+            transition: .46s ease;
+            background: linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(249, 252, 255, .98));
+            overflow: hidden;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            z-index: 10
+        }
+
+        .cover-slide {
+            background:
+                radial-gradient(circle at top left, rgba(255, 255, 255, .30), transparent 34%),
+                linear-gradient(135deg, #153f6a, #2f80ed 38%, #845ef7 70%, #ff8a34);
+            color: #fff;
+        }
+
+        .cover-title {
+            font-size: clamp(3.4rem, 7vw, 6.6rem);
+            line-height: .95;
+            margin: 8px 0 18px;
+            font-weight: 800;
+            text-align: center;
+            color: #fff;
+        }
+
+        .gradient-text {
+            color: #ffd65a;
+            background: none;
+            -webkit-background-clip: initial;
+            background-clip: initial;
+            filter: none
+        }
+
+        .cover-subtitle {
+            font-size: 1.48rem;
+            max-width: 940px;
+            margin: 0 auto;
+            color: #edf2ff;
+            line-height: 1.42;
+            border: 0;
+            padding: 0;
+            display: block;
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+            display: inline-block
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-12px) rotate(3deg)
+            }
+        }
+
+        .soft-blue {
+            background: linear-gradient(145deg, #edf7ff, #f7fbff)
+        }
+
+        .soft-green {
+            background: linear-gradient(145deg, #effcf5, #fbfffd)
+        }
+
+        .soft-orange {
+            background: linear-gradient(145deg, #fff6ea, #fffdf8)
+        }
+
+        .soft-purple {
+            background: linear-gradient(145deg, #f6f0ff, #fbf9ff)
+        }
+
+        .warm-slide {
+            background: linear-gradient(145deg, #fff8e9, #fffdf6)
+        }
+
+        .feedback-final {
+            background: linear-gradient(145deg, #fff0f6, #eef4ff)
+        }
+
+        .agenda-title {
+            width: 100%;
+            max-width: 1180px;
+            text-align: center;
+            font-size: clamp(2.2rem, 4vw, 4rem);
+            line-height: 1.06;
+            margin: 6px 0 22px;
+            color: #24344d;
+            font-weight: 800;
+        }
+
+        .subtitle,
+        .lead {
+            font-size: clamp(1.08rem, 1.6vw, 1.38rem);
+            color: var(--muted);
+            margin: -6px 0 18px;
+            line-height: 1.46;
+            text-align: center;
+        }
+
+        .grid,
+        .grid-2,
+        .grid-3,
+        .grid-4,
+        .two-col,
+        .activity-layout {
+            width: 100%;
+            max-width: 1140px;
+            display: grid;
+            gap: 18px;
+        }
+
+        .grid-2,
+        .two-col,
+        .activity-layout {
+            grid-template-columns: repeat(2, 1fr);
+            align-items: center
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr)
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(4, 1fr)
+        }
+
+        .card,
+        .activity-box,
+        .quiz-box,
+        .image-panel,
+        .code-panel {
+            background: #fff;
+            border: 3px solid var(--cardBorder);
+            border-radius: 26px;
+            box-shadow: var(--shadow);
+        }
+
+        .card {
+            padding: 18px;
+            min-height: 145px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-icon {
+            font-size: 2.7rem;
+            margin-bottom: 6px
+        }
+
+        .card h3,
+        .activity-box h3,
+        .image-panel h3 {
+            margin: 4px 0 6px;
+            font-size: 1.28rem;
+            color: #20324a
+        }
+
+        .card p,
+        .activity-box p,
+        .image-panel p {
+            margin: 0;
+            color: #61768d;
+            line-height: 1.42;
+            font-size: 1.02rem
+        }
+
+        .note,
+        .warning {
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 1.08rem;
+            line-height: 1.42;
+            max-width: 920px;
+            font-weight: 600;
+        }
+
+        .note {
+            background: #eefcf6;
+            border: 2px solid #c8f0dd;
+            color: #1f7d55
+        }
+
+        .warning {
+            background: #fff8db;
+            border: 2px solid #f7d95d;
+            color: #7b6412
+        }
+
+        .btn,
+        .choice,
+        .run-btn {
+            appearance: none;
+            border: none;
+            text-decoration: none;
+            font-family: inherit;
+            cursor: pointer;
+            font-weight: 700;
+            transition: .2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 13px 18px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            color: #fff;
+            box-shadow: 0 10px 18px rgba(47, 128, 237, .23);
+            font-size: 1rem;
+        }
+
+        .btn:hover,
+        .choice:hover,
+        .run-btn:hover {
+            transform: translateY(-2px)
+        }
+
+        .choice {
+            background: #f9fbfd;
+            border: 3px solid #dfe7f0;
+            border-radius: 16px;
+            padding: 14px 16px;
+            text-align: left;
+            width: 100%;
+            color: #29425f;
+            font-size: 1.02rem;
+        }
+
+        .choice.correct {
+            background: #eafaf3;
+            border-color: var(--green);
+            color: #136740
+        }
+
+        .choice.wrong {
+            background: #fff0ef;
+            border-color: var(--red);
+            color: #b24439
+        }
+
+        .choice.selected {
+            background: #eef7ff;
+            border-color: var(--blue)
+        }
+
+        .feedback,
+        .status-line {
+            min-height: 28px;
+            margin-top: 12px;
+            text-align: center;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #566b81;
+        }
+
+        .activity-box {
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 292px;
+        }
+
+        .code-panel {
+            padding: 16px;
+            text-align: left;
+            font-size: 1rem;
+            line-height: 1.25;
+            width: 100%;
+            max-width: 560px;
+        }
+
+        .code-panel.compact {
+            max-height: 330px;
+            overflow: hidden
+        }
+
+        .code-line {
+            display: block;
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 7px 10px;
+            margin: 4px 0;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .scratch-block {
+            border-radius: 12px;
+            padding: 9px 13px;
+            font-weight: 700;
+            display: inline-block;
+            margin: 3px 0;
+            box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .12);
+            font-size: .96rem;
+        }
+
+        .b-event {
+            background: var(--event);
+            color: #4c3a00
+        }
+
+        .b-control {
+            background: var(--control);
+            color: #553400
+        }
+
+        .b-motion {
+            background: var(--motion);
+            color: #fff
+        }
+
+        .b-look {
+            background: var(--looks);
+            color: #fff
+        }
+
+        .b-sound {
+            background: var(--sound);
+            color: #fff
+        }
+
+        .b-sensing {
+            background: #5cb1d6;
+            color: #fff
+        }
+
+        .drop-zone {
+            min-height: 78px;
+            width: 100%;
+            border: 3px dashed #cbd8e2;
+            border-radius: 16px;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            align-content: flex-start;
+            background: #f8fbff;
+        }
+
+        .drop-zone.over {
+            border-color: var(--orange);
+            background: #fff8db
+        }
+
+        .drag-pool {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 12px
+        }
+
+        .drag-item {
+            background: #4c97ff;
+            color: #fff;
+            padding: 9px 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: grab;
+            box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .12)
+        }
+
+        .drag-item.locked {
+            background: var(--green);
+            cursor: default
+        }
+
+        .robot-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 54px);
+            grid-template-rows: repeat(4, 54px);
+            gap: 6px;
+            background: #20324a;
+            border-radius: 22px;
+            padding: 14px;
+            border: 6px solid #26394f;
+            box-shadow: var(--shadow);
+        }
+
+        .cell {
+            width: 54px;
+            height: 54px;
+            border-radius: 13px;
+            background: #f7fbff;
+            border: 3px solid #dfe8f2;
+            display: grid;
+            place-items: center;
+            font-size: 1.6rem
+        }
+
+        .cell.path {
+            background: #eafaf3;
+            border-color: #9dddb9
+        }
+
+        .mini-stage {
+            background: linear-gradient(180deg, #dff7ff, #fff7df);
+            border: 4px solid var(--blue);
+            border-radius: 22px;
+            min-height: 190px;
+            display: grid;
+            place-items: center;
+            box-shadow: var(--shadow);
+            overflow: hidden
+        }
+
+        .firework-stage {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(180deg, #10193a, #26345f 72%, #35274b);
+            border-radius: 24px;
+            overflow: hidden;
+            border: 5px solid var(--yellow);
+            box-shadow: var(--shadow)
+        }
+
+        .firework {
+            position: absolute;
+            font-size: 3.2rem;
+            animation: burst 2.8s infinite ease-in-out
+        }
+
+        .fw1 {
+            left: 17%;
+            top: 18%;
+            animation-delay: .1s
+        }
+
+        .fw2 {
+            left: 55%;
+            top: 23%;
+            animation-delay: .8s
+        }
+
+        .fw3 {
+            left: 36%;
+            top: 48%;
+            animation-delay: 1.5s
+        }
+
+        .fw4 {
+            right: 12%;
+            top: 44%;
+            animation-delay: 2.1s
+        }
+
+        @keyframes burst {
+            0% {
+                transform: scale(.2);
+                opacity: 0
+            }
+
+            25% {
+                transform: translateY(-35px) scale(1.1);
+                opacity: 1
+            }
+
+            45% {
+                transform: scale(1.5);
+                opacity: .95
+            }
+
+            65%,
+            100% {
+                transform: scale(.1);
+                opacity: 0
+            }
+        }
+
+        .image-panel {
+            padding: 16px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px
+        }
+
+        .image-panel img {
+            width: 100%;
+            max-height: 320px;
+            object-fit: contain;
+            border-radius: 18px;
+            background: #f7fbff;
+            border: 2px solid #e2ebf5
+        }
+
+        .quiz-box {
+            padding: 28px;
+            width: 100%;
+            max-width: 900px
+        }
+
+        .quiz-box h3 {
+            font-size: 1.8rem;
+            margin: 0 0 18px;
+            color: #24344d;
+            line-height: 1.35
+        }
+
+        .options {
+            display: grid;
+            gap: 10px
+        }
+
+        .small-tag {
+            display: inline-flex;
+            background: #f3f8ff;
+            color: #3a5d84;
+            border: 2px solid #d7e8ff;
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-weight: 700;
+            margin: 4px
+        }
+
+        .step-num {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: inline-grid;
+            place-items: center;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--orange), #ffb445);
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(255, 138, 52, .25);
+            margin-right: 8px
+        }
+
+        .navigation {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, .96);
+            border-top: 1px solid #e7edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b7d92;
+            max-width: 42%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #d9e3ef;
+            background: #fff;
+            color: #4c6077;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            border-color: var(--blue);
+            color: var(--blue)
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            color: #fff;
+            border: 0;
+            box-shadow: 0 7px 16px rgba(255, 138, 52, .3)
+        }
+
+        .nav-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed
+        }
+
+        .counter {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #53677f;
+            min-width: 74px;
+            text-align: center
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 0;
+            bottom: 62px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--orange), var(--pink), var(--purple), var(--cyan));
+            width: 0;
+            transition: .35s;
+            z-index: 110
+        }
+
+        @media(max-width:1200px) {
+            .grid-4 {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .grid-3,
+            .grid-2,
+            .two-col,
+            .activity-layout {
+                grid-template-columns: 1fr
+            }
+
+            .card {
+                min-height: 118px
+            }
+
+            .image-panel {
+                min-height: 220px
+            }
+
+            .code-panel.compact {
+                max-height: 280px
+            }
+        }
+
+        @media(max-width:700px) {
+            .brand-logo {
+                left: 8px;
+                top: 6px;
+                padding: 7px 12px
+            }
+
+            .brand-logo img {
+                height: 32px
+            }
+
+            .presentation-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: 0
+            }
+
+            .slide {
+                padding: 68px 18px 74px
+            }
+
+            .grid-3,
+            .grid-4 {
+                grid-template-columns: 1fr
+            }
+
+            .cover-title {
+                font-size: 3.2rem
+            }
+
+            .nav-title {
+                display: none
+            }
+
+            .robot-grid {
+                grid-template-columns: repeat(5, 44px);
+                grid-template-rows: repeat(4, 44px)
+            }
+
+            .cell {
+                width: 44px;
+                height: 44px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="brand-logo"><img alt="Ruangguru Coding"
+            src="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png" /></div>
+
+
+    <div class="presentation-container">
+        <section class="slide cover-slide active" data-title="LOOP PATTERN FIREWORKS SHOW">
+            <h1 class="cover-title"><span class="gradient-text">LOOP PATTERN</span><br />FIREWORKS SHOW</h1>
+            <div class="float" style="font-size:7rem;margin:8px 0">🎆🔁🐱</div>
+            <p class="cover-subtitle">Sesi 11: Variasi Loop dan Pola</p>
+        </section>
+        <section class="slide soft-blue" data-title="Review Meet 10: Loop Dasar 🔁">
+            <h2 class="agenda-title">Review Meet 10: Loop Dasar 🔁</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">🔁</div>
+                    <h3>Repeat</h3>
+                    <p>Mengulang perintah sejumlah angka tertentu.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">♾️</div>
+                    <h3>Forever</h3>
+                    <p>Mengulang terus selama project berjalan.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🧹</div>
+                    <h3>DRY</h3>
+                    <p>Jangan menulis code yang sama berkali-kali.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎬</div>
+                    <h3>Animation</h3>
+                    <p>Loop membantu costume bergerak berulang.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-green" data-title="Today's Agenda 🚀">
+            <h2 class="agenda-title">Today's Agenda 🚀</h2>
+            <div class="grid grid-3">
+                <div class="card">
+                    <div class="card-icon">🔍</div>
+                    <h3>Recognize Pattern</h3>
+                    <p>Melihat bagian code yang sebenarnya berulang.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🧩</div>
+                    <h3>Choose Loop</h3>
+                    <p>Membedakan Repeat, Forever, dan Repeat di dalam Repeat.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎆</div>
+                    <h3>Scratch Project</h3>
+                    <p>Membuat Fireworks Animation dengan loop yang tepat.</p>
+                </div>
+            </div>
+            <div class="note" style="margin-top:22px;text-align:center">Hari ini kita tidak hanya memakai loop, tapi
+                belajar membaca pola agar code lebih rapi dan mudah dikembangkan.</div>
+        </section>
+        <section class="slide soft-orange" data-title="Activity 1: Spot the Repetition 🔍">
+            <h2 class="agenda-title">Activity 1: Spot the Repetition 🔍</h2>
+            <p class="subtitle">Klik pasangan block yang berulang terus.</p>
+            <div class="activity-layout">
+                <div class="activity-box">
+                    <h3>Code Panjang</h3>
+                    <div class="code-panel compact" id="spotCode">
+                        <span class="code-line">move 10 steps</span><span class="code-line">next costume</span>
+                        <span class="code-line">move 10 steps</span><span class="code-line">next costume</span>
+                        <span class="code-line">move 10 steps</span><span class="code-line">next costume</span>
+                        <span class="code-line">move 10 steps</span><span class="code-line">next costume</span>
+                    </div>
+                </div>
+                <div class="activity-box">
+                    <h3>Pilih Pola</h3>
+                    <button class="choice" onclick="spotPattern(this,false)">Hanya block <b>move 10 steps</b></button>
+                    <button class="choice" onclick="spotPattern(this,true)"><b>move 10 steps</b> + <b>next
+                            costume</b></button>
+                    <button class="choice" onclick="spotPattern(this,false)">Hanya block <b>next costume</b></button>
+                    <div class="feedback" id="spotFeedback"></div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-purple" data-title="Activity 2: Compress the Code 🧹">
+            <h2 class="agenda-title">Activity 2: Compress the Code 🧹</h2>
+            <p class="subtitle">Dua code ini menghasilkan gerakan yang sama. Pilih yang lebih rapi.</p>
+            <div class="grid grid-2">
+                <button class="choice" onclick="compressCode(this,false)">
+                    <b>Code A</b><br />move • turn • move • turn • move • turn • move • turn
+                </button>
+                <button class="choice" onclick="compressCode(this,true)">
+                    <b>Code B</b><br /><span class="scratch-block b-control">repeat 4</span><br /><span
+                        class="scratch-block b-motion">move</span> <span class="scratch-block b-motion">turn</span>
+                </button>
+            </div>
+            <div class="feedback" id="compressFeedback"></div>
+            <div class="warning" style="margin-top:12px;text-align:center">Loop membuat algoritma lebih singkat, lebih
+                mudah dibaca, dan lebih mudah diperbaiki.</div>
+        </section>
+        <section class="slide warm-slide" data-title="Activity 3: Repeat atau Forever? 🔁♾️">
+            <h2 class="agenda-title">Activity 3: Repeat atau Forever? 🔁♾️</h2>
+            <div class="quiz-box">
+                <h3 id="rfQuestion">Pertanyaan akan muncul di sini.</h3>
+                <div class="options">
+                    <button class="choice" onclick="answerRF('repeat',this)">Repeat [angka]</button>
+                    <button class="choice" onclick="answerRF('forever',this)">Forever</button>
+                </div>
+                <div class="feedback" id="rfFeedback"></div>
+                <button class="btn" id="rfNext" onclick="nextRF()" style="display:none;margin-top:8px">Pertanyaan
+                    Berikutnya ➜</button>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Activity 4: How Many Repeats? 🔢">
+            <h2 class="agenda-title">Activity 4: How Many Repeats? 🔢</h2>
+            <div class="activity-layout">
+                <div class="activity-box">
+                    <h3>Target Robot</h3>
+                    <div class="robot-grid" id="robotGridA"></div>
+                </div>
+                <div class="activity-box">
+                    <h3>Lengkapi Code</h3>
+                    <div class="code-panel" style="width:100%;max-width:360px">
+                        <span class="scratch-block b-event">when green flag clicked</span><br />
+                        <span class="scratch-block b-control">repeat ?</span><br />
+                        <span class="scratch-block b-motion">move right</span>
+                    </div>
+                    <div style="display:flex;gap:10px;margin-top:14px;width:100%">
+                        <button class="choice" onclick="repeatNumber(this,2)">2</button>
+                        <button class="choice" onclick="repeatNumber(this,3)">3</button>
+                        <button class="choice" onclick="repeatNumber(this,4)">4</button>
+                    </div>
+                    <div class="feedback" id="repeatNumFeedback"></div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-green" data-title="Activity 5: Apa yang Masuk ke Loop? 📦">
+            <h2 class="agenda-title">Activity 5: Apa yang Masuk ke Loop? 📦</h2>
+            <p class="subtitle">Target: karakter berjalan sambil ganti costume 5 kali. Setelah selesai, baru bilang
+                “Done!”.</p>
+            <div class="activity-layout">
+                <div class="activity-box">
+                    <h3>Drop ke Repeat</h3>
+                    <div class="drop-zone" data-accept="inside" id="insideLoop"></div>
+                    <h3 style="margin-top:18px">Di Luar Repeat</h3>
+                    <div class="drop-zone" data-accept="outside" id="outsideLoop"></div>
+                </div>
+                <div class="activity-box">
+                    <h3>Block Pool</h3>
+                    <div class="drag-pool">
+                        <div class="drag-item" data-type="inside" draggable="true">move 10 steps</div>
+                        <div class="drag-item" data-type="inside" draggable="true">next costume</div>
+                        <div class="drag-item" data-type="outside" draggable="true">say Done!</div>
+                    </div>
+                    <div class="feedback" id="dropFeedback">Tarik block ke tempat yang tepat.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-orange" data-title="Activity 6: Predict the Output ▶️">
+            <h2 class="agenda-title">Activity 6: Predict the Output ▶️</h2>
+            <div class="activity-layout">
+                <div class="activity-box">
+                    <h3>Baca Code Ini</h3>
+                    <div class="code-panel">
+                        <span class="scratch-block b-event">when green flag clicked</span><br />
+                        <span class="scratch-block b-control">repeat 4</span><br />
+                        <span style="margin-left:22px"><span class="scratch-block b-motion">move 30
+                                steps</span></span><br />
+                        <span style="margin-left:22px"><span class="scratch-block b-motion">turn right 90°</span></span>
+                    </div>
+                </div>
+                <div class="activity-box">
+                    <h3>Apa yang Terjadi?</h3>
+                    <button class="choice" onclick="predictOutput(this,false)">Sprite hanya maju lurus.</button>
+                    <button class="choice" onclick="predictOutput(this,true)">Sprite bergerak membentuk pola
+                        kotak.</button>
+                    <button class="choice" onclick="predictOutput(this,false)">Sprite hilang dari stage.</button>
+                    <div class="feedback" id="predictFeedback"></div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-purple" data-title="Activity 7: Debug the Loop 🐞">
+            <h2 class="agenda-title">Activity 7: Debug the Loop 🐞</h2>
+            <p class="subtitle">Target: sprite harus loncat 4 kali dan kembali turun setiap loncat.</p>
+            <div class="activity-layout">
+                <div class="activity-box">
+                    <h3>Code Bermasalah</h3>
+                    <div class="code-panel">
+                        <span class="scratch-block b-control">repeat 4</span><br />
+                        <span style="margin-left:22px"><span class="scratch-block b-motion">change y by
+                                30</span></span><br />
+                        <span class="scratch-block b-motion">change y by -30</span>
+                    </div>
+                </div>
+                <div class="activity-box">
+                    <h3>Apa yang Harus Diperbaiki?</h3>
+                    <button class="choice" onclick="debugLoop(this,true)">Masukkan <b>change y by -30</b> ke dalam
+                        repeat.</button>
+                    <button class="choice" onclick="debugLoop(this,false)">Hapus block repeat.</button>
+                    <button class="choice" onclick="debugLoop(this,false)">Ganti semua block menjadi say Hello.</button>
+                    <div class="feedback" id="debugFeedback"></div>
+                </div>
+            </div>
+        </section>
+        <section class="slide warm-slide" data-title="Activity 8: Pattern Builder 🎨">
+            <h2 class="agenda-title">Activity 8: Pattern Builder 🎨</h2>
+            <p class="subtitle">Pilih pola code yang cocok untuk membuat bentuk kotak.</p>
+            <div class="grid grid-3">
+                <button class="choice" onclick="patternBuilder(this,false)"><span class="scratch-block b-control">repeat
+                        3</span><br />move + turn 90°</button>
+                <button class="choice" onclick="patternBuilder(this,true)"><span class="scratch-block b-control">repeat
+                        4</span><br />move + turn 90°</button>
+                <button class="choice" onclick="patternBuilder(this,false)"><span
+                        class="scratch-block b-control">forever</span><br />move only</button>
+            </div>
+            <div class="mini-stage" style="margin-top:18px;min-height:190px;width:100%;max-width:820px">
+                <div style="font-size:5rem">⬛➡️⬛<br />⬆️     ⬇️<br />⬛⬅️⬛</div>
+            </div>
+            <div class="feedback" id="patternFeedback"></div>
+        </section>
+        <section class="slide soft-blue" data-title="Activity 9: Loop di Dalam Loop 🧩">
+            <h2 class="agenda-title">Activity 9: Loop di Dalam Loop 🧩</h2>
+            <div class="activity-layout">
+                <div class="activity-box">
+                    <h3>Code Masih Panjang</h3>
+                    <div class="code-panel compact">
+                        <span class="code-line">move • move • move • turn</span>
+                        <span class="code-line">move • move • move • turn</span>
+                        <span class="code-line">move • move • move • turn</span>
+                        <span class="code-line">move • move • move • turn</span>
+                    </div>
+                </div>
+                <div class="activity-box">
+                    <h3>Versi Lebih Rapi</h3>
+                    <button class="choice" onclick="nestedIntro(this,true)">
+                        <span class="scratch-block b-control">repeat 4</span><br />
+                        <span style="margin-left:18px"><span class="scratch-block b-control">repeat
+                                3</span></span><br />
+                        <span style="margin-left:36px"><span class="scratch-block b-motion">move</span></span><br />
+                        <span style="margin-left:18px"><span class="scratch-block b-motion">turn</span></span>
+                    </button>
+                    <button class="choice" onclick="nestedIntro(this,false)">forever → hide → stop all</button>
+                    <div class="feedback" id="nestedFeedback"></div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-green" data-title="Activity 10: Nested Loop Simulator 🎆">
+            <h2 class="agenda-title">Activity 10: Nested Loop Simulator 🎆</h2>
+            <p class="subtitle">Coba ubah angka repeat luar dan repeat dalam, lalu lihat berapa ledakan muncul.</p>
+            <div class="activity-layout">
+                <div class="activity-box">
+                    <h3>Atur Loop</h3>
+                    <label><b>Repeat luar</b>: <span id="outerVal">3</span></label>
+                    <input id="outerLoop" max="5" min="1" oninput="updateNestedVals()"
+                        style="width:90%;accent-color:#f2c140" type="range" value="3" />
+                    <label style="margin-top:12px"><b>Repeat dalam</b>: <span id="innerVal">4</span></label>
+                    <input id="innerLoop" max="6" min="1" oninput="updateNestedVals()"
+                        style="width:90%;accent-color:#008080" type="range" value="4" />
+                    <button class="btn" onclick="runNestedSim()" style="margin-top:18px">Run Fireworks 🎆</button>
+                </div>
+                <div class="activity-box">
+                    <h3>Output</h3>
+                    <div id="nestedOutput" style="font-size:2rem;min-height:150px;line-height:1.35;text-align:center">
+                    </div>
+                    <div class="feedback" id="nestedSimFeedback">Total ledakan = repeat luar × repeat dalam.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-orange" data-title="Project Preview: Fireworks Show 🎆">
+            <h2 class="agenda-title">Project Preview: Fireworks Show 🎆</h2>
+            <div class="two-col">
+                <div class="image-panel"><img alt="Fireworks preview"
+                        src="https://cdn-web.ruangguru.com/file-uploader/d47a34ea-ef1e-49ad-8119-aee0d0634a66.gif" />
+                </div>
+                <div style="text-align:left">
+                    <p style="font-size:1.35rem;line-height:1.45">Perhatikan gerakan fireworks. Apakah dia menyala terus
+                        tanpa jeda, atau muncul, memainkan animasi, lalu berpindah posisi?</p>
+                    <div class="note">Di project ini, kita akan memakai <b>repeat number</b> di dalam <b>repeat
+                            forever</b> agar animasi fireworks berjalan satu putaran, lalu muncul lagi di posisi acak.
+                    </div>
+                    <a class="btn" href="https://scratch.mit.edu/projects/845839911/" rel="noopener noreferrer"
+                        style="margin-top:18px" target="_blank">Buka Contoh Project ↗</a>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-purple" data-title="Buka Starter Project dan Remix 🛠️">
+            <h2 class="agenda-title">Buka Starter Project dan Remix 🛠️</h2>
+            <div class="two-col">
+                <div class="image-panel"><img alt="Cara remix Scratch"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/ffbc76a6-9956-41e1-9d5d-7812625add3c.png" />
+                </div>
+                <div style="text-align:left">
+                    <div class="card" style="align-items:flex-start;text-align:left">
+                        <h3>Langkah:</h3>
+                        <p><span class="step-num">1</span>Buka starter project.</p>
+                        <p><span class="step-num">2</span>Klik tombol <b>Remix</b>.</p>
+                        <p><span class="step-num">3</span>Pastikan project tersimpan di akun Scratch.</p>
+                    </div>
+                    <a class="btn" href="https://scratch.mit.edu/projects/1375846131/" rel="noopener noreferrer"
+                        style="margin-top:18px" target="_blank">Buka Starter Project 🎆</a>
+                </div>
+            </div>
+        </section>
+        <section class="slide warm-slide" data-title="Costume Check 👀">
+            <h2 class="agenda-title">Costume Check 👀</h2>
+            <div class="two-col">
+                <div class="image-panel"><img alt="Fireworks costumes"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/18e51f5d-a8e0-459b-bfa1-866422523212.png" />
+                </div>
+                <div style="text-align:left">
+                    <p style="font-size:1.32rem;line-height:1.45">Sprite fireworks punya banyak costume. Costume inilah
+                        yang akan membuat efek ledakan terlihat seperti animasi.</p>
+                    <div class="warning">Pastikan sprite fireworks sudah memiliki costume sebelum mulai coding. Kalau
+                        costume tidak ada, animasinya tidak akan terlihat.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-blue" data-title="Challenge: Buat Logic Fireworks Sendiri 🧠">
+            <h2 class="agenda-title">Challenge: Buat Logic Fireworks Sendiri 🧠</h2>
+            <div class="two-col">
+                <div class="firework-stage">
+                    <div class="firework fw1">🎆</div>
+                    <div class="firework fw2">🎇</div>
+                    <div class="firework fw3">✨</div>
+                    <div class="firework fw4">🎆</div>
+                </div>
+                <div style="text-align:left">
+                    <div class="card" style="align-items:flex-start;text-align:left;gap:8px">
+                        <h3>Petunjuk Logic</h3>
+                        <p>1. Firework tidak langsung dimainkan forever tanpa jeda.</p>
+                        <p>2. Mainkan costume satu putaran dulu.</p>
+                        <p>3. Setelah selesai, hide sebentar.</p>
+                        <p>4. Tunggu waktu random, pergi ke posisi random, lalu show lagi.</p>
+                    </div>
+                    <div class="note" style="margin-top:14px">Coba susun code-mu sendiri dulu. Kalau masih bingung,
+                        diskusikan dengan teacher.</div>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-green" data-title="Upgrade Challenge ✨">
+            <h2 class="agenda-title">Upgrade Challenge ✨</h2>
+            <div class="grid grid-3">
+                <div class="card">
+                    <div class="card-icon">🔊</div>
+                    <h3>Sound Effect</h3>
+                    <p>Tambahkan suara ledakan saat fireworks muncul.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🌈</div>
+                    <h3>Color Effect</h3>
+                    <p>Gunakan effect agar fireworks terlihat lebih meriah.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎆</div>
+                    <h3>More Fireworks</h3>
+                    <p>Duplikat sprite agar show terlihat ramai.</p>
+                </div>
+            </div>
+            <div class="warning" style="margin-top:20px;text-align:center">Ingat: fokus utamanya adalah memakai loop
+                yang tepat, bukan menumpuk block terlalu panjang.</div>
+        </section>
+        <section class="slide soft-orange" data-title="Save dan Share Project 💾">
+            <h2 class="agenda-title">Save dan Share Project 💾</h2>
+            <div class="grid grid-3">
+                <div class="card">
+                    <div class="card-icon">💾</div>
+                    <h3>Save</h3>
+                    <p>Pastikan project sudah tersimpan. Biasanya Scratch auto-save saat login.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">▶️</div>
+                    <h3>Test</h3>
+                    <p>Klik green flag dan cek apakah fireworks muncul berulang dengan jeda.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔗</div>
+                    <h3>Share</h3>
+                    <p>Jika sudah selesai, klik Share agar project bisa dilihat teacher.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide soft-purple" data-title="Quick Quiz ⏱️">
+            <h2 class="agenda-title">Quick Quiz ⏱️</h2>
+            <div class="quiz-box">
+                <h3 id="qText">Pertanyaan akan muncul di sini.</h3>
+                <div class="options" id="qOptions"></div>
+                <div class="feedback" id="qFeedback"></div>
+                <button class="btn" id="qNext" onclick="nextQuiz()" style="display:none;margin-top:8px">Soal Berikutnya
+                    ➜</button>
+            </div>
+        </section>
+        <section class="slide warm-slide" data-title="Review Hari Ini 📝">
+            <h2 class="agenda-title">Review Hari Ini 📝</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">🔁</div>
+                    <h3>Repeat</h3>
+                    <p>Dipakai saat jumlah pengulangan jelas.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">♾️</div>
+                    <h3>Forever</h3>
+                    <p>Dipakai saat program perlu terus berjalan.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🧩</div>
+                    <h3>Nested Loop</h3>
+                    <p>Loop bisa berada di dalam loop lain.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎆</div>
+                    <h3>Animation</h3>
+                    <p>Costume bisa dimainkan berulang dengan loop.</p>
+                </div>
+            </div>
+        </section>
+        <section class="slide feedback-final" data-title="Bagaimana Kelas Hari Ini? 💖">
+            <h2 class="agenda-title">Bagaimana Kelas Hari Ini? 💖</h2>
+            <p class="subtitle">Terima kasih sudah belajar variasi loop dan membuat Fireworks Show!</p>
+            <div class="two-col" style="max-width:880px">
+                <div style="position:relative;height:260px;display:flex;align-items:flex-end;justify-content:center">
+                    <div class="float" style="position:absolute;top:25px;left:55px;font-size:3rem">✨</div>
+                    <div class="float" style="position:absolute;top:35px;right:50px;font-size:3.5rem">🎆</div>
+                    <img alt="Happy Cat" class="float"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/756d9713-87b5-4ec4-ae39-9f2352b8e280.png"
+                        style="width:215px;filter:drop-shadow(0 8px 16px rgba(0,0,0,.2))" />
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎒</div>
+                    <h3>Selesai untuk Hari Ini!</h3>
+                    <p>Pastikan project sudah disimpan, dibagikan, dan feedback sudah diisi.</p>
+                </div>
+            </div>
+        </section>
+
+
+
+        <div class="progress-line" id="progressLine"></div>
+        <div class="navigation">
+            <div class="nav-title" id="navTitle">Loop Pattern Fireworks Show</div>
+            <div class="nav-controls">
+                <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">‹</button>
+                <span class="counter" id="counter">1 / 1</span>
+                <button class="nav-btn next" id="nextBtn" onclick="changeSlide(1)">›</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const slides = Array.from(document.querySelectorAll('.presentation-container .slide'));
+        let currentSlide = 0;
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const counter = document.getElementById('counter');
+        const navTitle = document.getElementById('navTitle');
+        const progressLine = document.getElementById('progressLine');
+
+        function updateNavigation() {
+            slides.forEach((slide, i) => slide.classList.toggle('active', i === currentSlide));
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            navTitle.textContent = slides[currentSlide].dataset.title || `Slide ${currentSlide + 1}`;
+            progressLine.style.width = `${((currentSlide + 1) / slides.length) * 100}%`;
+        }
+        function changeSlide(dir) {
+            const n = currentSlide + dir;
+            if (n >= 0 && n < slides.length) { currentSlide = n; updateNavigation(); }
+        }
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight') changeSlide(1);
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+        });
+
+        function resetChoices(scope) {
+            scope.querySelectorAll('.choice').forEach(b => {
+                b.classList.remove('correct', 'wrong', 'selected');
+                b.disabled = false;
+            });
+        }
+        function mark(btn, ok, fb, msg) {
+            const parent = btn.closest('.slide') || document;
+            resetChoices(parent);
+            btn.classList.add(ok ? 'correct' : 'wrong');
+            const el = document.getElementById(fb);
+            if (el) {
+                el.textContent = msg;
+                el.style.color = ok ? '#12834e' : '#ce3f3c';
+            }
+        }
+        function spotPattern(btn, ok) { mark(btn, ok, 'spotFeedback', ok ? 'Tepat! Satu pola berisi move dan next costume. Pola ini bisa dimasukkan ke repeat.' : 'Coba lihat lagi. Yang berulang adalah pasangan move + next costume.'); }
+        function compressCode(btn, ok) { mark(btn, ok, 'compressFeedback', ok ? 'Benar! Code B lebih singkat dan mudah dibaca.' : 'Belum tepat. Code yang memakai repeat lebih rapi karena tidak menulis perintah yang sama berkali-kali.'); }
+
+        const rfData = [
+            { q: 'Karakter jumping jack 5 kali.', a: 'repeat', e: 'Jumlahnya jelas: 5 kali, jadi gunakan Repeat [5].' },
+            { q: 'Background music terus berputar selama game dimainkan.', a: 'forever', e: 'Musik perlu berjalan terus selama project aktif, jadi gunakan Forever.' },
+            { q: 'Sprite berjalan 10 langkah lalu berhenti.', a: 'repeat', e: 'Jumlah langkahnya jelas dan ada akhir, jadi gunakan Repeat.' },
+            { q: 'Bintang terus berkelap-kelip selama animasi berjalan.', a: 'forever', e: 'Efek ini perlu terus berjalan, jadi gunakan Forever.' }
+        ];
+        let rfIdx = 0;
+        function renderRF() {
+            const q = document.getElementById('rfQuestion');
+            if (!q) return;
+            q.textContent = rfData[rfIdx].q;
+            document.getElementById('rfFeedback').textContent = '';
+            document.getElementById('rfNext').style.display = 'none';
+            document.querySelectorAll('#rfQuestion ~ .options .choice').forEach(b => { b.classList.remove('correct', 'wrong'); b.disabled = false; });
+        }
+        function answerRF(ans, btn) {
+            const d = rfData[rfIdx];
+            const ok = ans === d.a;
+            document.querySelectorAll('#rfQuestion ~ .options .choice').forEach(b => b.disabled = true);
+            btn.classList.add(ok ? 'correct' : 'wrong');
+            const fb = document.getElementById('rfFeedback');
+            fb.textContent = (ok ? 'Benar! ' : 'Cek lagi. ') + d.e;
+            fb.style.color = ok ? '#12834e' : '#ce3f3c';
+            document.getElementById('rfNext').style.display = 'inline-flex';
+        }
+        function nextRF() { rfIdx = (rfIdx + 1) % rfData.length; renderRF(); }
+
+        function buildRobotGrid() {
+            const grid = document.getElementById('robotGridA');
+            if (!grid) return;
+            grid.innerHTML = '';
+            for (let r = 0; r < 4; r++) {
+                for (let c = 0; c < 5; c++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    if (r === 1 && c >= 0 && c <= 3) cell.classList.add('path');
+                    if (r === 1 && c === 0) cell.textContent = '🤖';
+                    if (r === 1 && c === 3) cell.textContent = '⭐';
+                    grid.appendChild(cell);
+                }
+            }
+        }
+        function repeatNumber(btn, num) {
+            mark(btn, num === 3, 'repeatNumFeedback', num === 3 ? 'Tepat! Robot perlu move right 3 kali untuk sampai ke bintang.' : 'Coba hitung jumlah langkah dari robot ke bintang.');
+        }
+
+        let dragged = null;
+        document.addEventListener('dragstart', e => {
+            if (e.target.classList.contains('drag-item')) {
+                dragged = e.target;
+                e.target.style.opacity = .55;
+            }
+        });
+        document.addEventListener('dragend', e => {
+            if (e.target.classList.contains('drag-item')) e.target.style.opacity = 1;
+        });
+        function setupDropZones() {
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('over'); });
+                zone.addEventListener('dragleave', () => zone.classList.remove('over'));
+                zone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    zone.classList.remove('over');
+                    if (!dragged) return;
+                    if (dragged.dataset.type === zone.dataset.accept) {
+                        zone.appendChild(dragged);
+                        dragged.draggable = false;
+                        dragged.classList.add('locked');
+                        document.getElementById('dropFeedback').textContent = 'Tepat! Block berhasil masuk ke tempat yang sesuai.';
+                    } else {
+                        document.getElementById('dropFeedback').textContent = 'Belum tepat. Pikirkan: apakah block ini perlu diulang atau hanya dilakukan setelah selesai?';
+                    }
+                    dragged = null;
+                });
+            });
+        }
+        function predictOutput(btn, ok) { mark(btn, ok, 'predictFeedback', ok ? 'Benar! Move + turn 90° yang diulang 4 kali bisa membentuk pola kotak.' : 'Coba bayangkan gerakan move lalu turn 90° diulang 4 kali.'); }
+        function debugLoop(btn, ok) { mark(btn, ok, 'debugFeedback', ok ? 'Tepat! Kalau turunnya di luar repeat, sprite hanya turun sekali.' : 'Belum tepat. Masalahnya ada block turun yang masih di luar repeat.'); }
+        function patternBuilder(btn, ok) { mark(btn, ok, 'patternFeedback', ok ? 'Benar! Kotak memiliki 4 sisi, jadi pola move + turn 90° perlu diulang 4 kali.' : 'Coba ingat: kotak punya 4 sisi.'); }
+        function nestedIntro(btn, ok) { mark(btn, ok, 'nestedFeedback', ok ? 'Tepat! Repeat 3 untuk move, lalu seluruh pola itu diulang 4 kali. Inilah loop di dalam loop.' : 'Coba pilih code yang menyederhanakan move tiga kali di dalam pola yang berulang.'); }
+        function updateNestedVals() {
+            const o = document.getElementById('outerLoop');
+            const i = document.getElementById('innerLoop');
+            if (!o || !i) return;
+            document.getElementById('outerVal').textContent = o.value;
+            document.getElementById('innerVal').textContent = i.value;
+        }
+        function runNestedSim() {
+            const o = Number(document.getElementById('outerLoop').value);
+            const i = Number(document.getElementById('innerLoop').value);
+            const total = o * i;
+            let out = '';
+            for (let n = 0; n < Math.min(total, 24); n++) out += (n % 2 ? '🎇' : '🎆');
+            document.getElementById('nestedOutput').textContent = out;
+            document.getElementById('nestedSimFeedback').textContent = `${o} × ${i} = ${total} ledakan kecil dalam simulasi.`;
+        }
+
+        const quiz = [
+            { q: 'Kapan kita paling tepat memakai Repeat [angka]?', opts: ['Saat jumlah pengulangan sudah jelas', 'Saat program harus berhenti total', 'Saat ingin menghapus sprite'], ans: 0, exp: 'Repeat cocok ketika kita tahu jumlah pengulangannya.' },
+            { q: 'Mengapa fireworks tidak cukup hanya memakai repeat forever untuk next costume terus-menerus?', opts: ['Karena animasi perlu satu putaran lalu hide, menunggu, dan pindah posisi', 'Karena Scratch tidak punya costume', 'Karena forever hanya untuk suara'], ans: 0, exp: 'Fireworks perlu pola: mainkan animasi, hide, tunggu random, pindah random, lalu show lagi.' },
+            { q: 'Apa arti loop di dalam loop?', opts: ['Loop yang tidak boleh dipakai', 'Loop yang berada di dalam loop lain', 'Loop yang hanya bisa dipakai di backdrop'], ans: 1, exp: 'Nested loop berarti ada loop di dalam loop lain.' }
+        ];
+        let qIdx = 0;
+        function renderQuiz() {
+            const qText = document.getElementById('qText');
+            const opts = document.getElementById('qOptions');
+            if (!qText || !opts) return;
+            const q = quiz[qIdx];
+            qText.textContent = `${qIdx + 1}. ${q.q}`;
+            opts.innerHTML = '';
+            q.opts.forEach((t, i) => {
+                const b = document.createElement('button');
+                b.className = 'choice';
+                b.textContent = t;
+                b.onclick = () => checkQuiz(i, b);
+                opts.appendChild(b);
+            });
+            document.getElementById('qFeedback').textContent = '';
+            document.getElementById('qNext').style.display = 'none';
+        }
+        function checkQuiz(i, btn) {
+            const q = quiz[qIdx];
+            document.querySelectorAll('#qOptions .choice').forEach(b => b.disabled = true);
+            btn.classList.add(i === q.ans ? 'correct' : 'wrong');
+            document.querySelectorAll('#qOptions .choice')[q.ans].classList.add('correct');
+            const fb = document.getElementById('qFeedback');
+            fb.textContent = (i === q.ans ? 'Benar! ' : 'Kurang tepat. ') + q.exp;
+            fb.style.color = i === q.ans ? '#12834e' : '#ce3f3c';
+            const next = document.getElementById('qNext');
+            next.style.display = 'inline-flex';
+            next.textContent = qIdx < quiz.length - 1 ? 'Soal Berikutnya ➜' : 'Selesai! Lanjut ➜';
+        }
+        function nextQuiz() {
+            if (qIdx < quiz.length - 1) { qIdx++; renderQuiz(); }
+            else changeSlide(1);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setupDropZones();
+            buildRobotGrid();
+            renderRF();
+            renderQuiz();
+            updateNestedVals();
+            updateNavigation();
+        });
+    </script>
+</body>
+
+</html>

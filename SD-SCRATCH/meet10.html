@@ -1,0 +1,2262 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Session 10 - Loop dan Pengulangan | Ruangguru Coding</title>
+    <link rel="icon"
+        href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue: #2f80ed;
+            --scratchBlue: #4c97ff;
+            --cyan: #16bde8;
+            --purple: #845ef7;
+            --orange: #ff8a34;
+            --yellow: #ffd53d;
+            --green: #28b875;
+            --red: #ef5350;
+            --pink: #ff6fb5;
+            --ink: #20324a;
+            --muted: #66788d;
+            --shadow: 0 22px 55px rgba(22, 44, 76, .18);
+            --cardBorder: #e0e8f2;
+            --event: #ffbf00;
+            --motion: #4c97ff;
+            --looks: #9966ff;
+            --control: #ffab19
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--ink);
+            background: #f8fffe;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        body:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 12% 18%, rgba(47, 128, 237, .11), transparent 30%), radial-gradient(circle at 88% 12%, rgba(255, 213, 61, .18), transparent 28%), radial-gradient(circle at 15% 88%, rgba(40, 184, 117, .13), transparent 32%), radial-gradient(circle at 88% 86%, rgba(132, 94, 247, .11), transparent 28%), radial-gradient(circle at 48% 42%, rgba(255, 171, 25, .08), transparent 30%);
+            z-index: -2;
+            pointer-events: none
+        }
+
+        body:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: linear-gradient(rgba(22, 189, 232, .08) 2px, transparent 2px), linear-gradient(90deg, rgba(22, 189, 232, .08) 2px, transparent 2px);
+            background-size: 76px 76px;
+            opacity: .6;
+            z-index: -1;
+            pointer-events: none
+        }
+
+        .brand-logo {
+            position: fixed;
+            left: 22px;
+            top: 16px;
+            z-index: 2000;
+            background: #fff;
+            border: 2.5px solid rgba(0, 188, 212, .22);
+            border-radius: 22px;
+            padding: 10px 20px;
+            box-shadow: 0 8px 32px rgba(0, 188, 212, .18), 0 2px 8px rgba(0, 0, 0, .07);
+            display: flex;
+            align-items: center
+        }
+
+        .brand-logo img {
+            display: block;
+            height: 80px;
+            max-width: 220px;
+            object-fit: contain
+        }
+
+        .presentation-container {
+            width: 86vw;
+            height: 80vh;
+            max-width: 1500px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(30, 56, 93, .25);
+            overflow: hidden;
+            position: relative;
+            border: 4px solid rgba(255, 255, 255, .85)
+        }
+
+        .presentation-container:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 26px;
+            box-shadow: inset 0 0 0 1px rgba(91, 124, 164, .10);
+            z-index: 30
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 42px 58px 76px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(42px) scale(.985);
+            transition: .46s ease;
+            background: linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(249, 252, 255, .98));
+            overflow-y: auto;
+            overflow-x: hidden
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            z-index: 10
+        }
+
+        .cover-slide {
+            background: linear-gradient(135deg, #153f6a, #2f80ed 40%, #28b875 74%, #ff8a34);
+            color: #fff
+        }
+
+        .cover-scene {
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, .14);
+            border: 1px solid rgba(255, 255, 255, .3);
+            padding: 9px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            margin-bottom: 18px
+        }
+
+        .hero-icon {
+            font-size: 7rem;
+            filter: drop-shadow(0 12px 16px rgba(0, 0, 0, .24));
+            animation: float 3s ease-in-out infinite
+        }
+
+        .eyebrow {
+            letter-spacing: .22em;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 0 10px
+        }
+
+        .display-title {
+            font-size: clamp(3.4rem, 7vw, 6.6rem);
+            line-height: .95;
+            margin: 8px 0 18px
+        }
+
+        .display-title span {
+            color: #ffd65a
+        }
+
+        .hero-subtitle {
+            font-size: 1.48rem;
+            max-width: 940px;
+            margin: 0 auto;
+            color: #edf2ff;
+            line-height: 1.42
+        }
+
+        .hero-pills {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 26px
+        }
+
+        .hero-pills span {
+            background: rgba(255, 255, 255, .13);
+            border: 1px solid rgba(255, 255, 255, .22);
+            padding: 10px 16px;
+            border-radius: 15px;
+            font-weight: 600
+        }
+
+        .orbit {
+            position: absolute;
+            font-size: 2.6rem;
+            animation: float 3.5s ease-in-out infinite
+        }
+
+        .orbit-a {
+            left: 8%;
+            top: 12%
+        }
+
+        .orbit-b {
+            right: 8%;
+            top: 18%;
+            animation-delay: .7s
+        }
+
+        .orbit-c {
+            right: 15%;
+            bottom: 10%;
+            animation-delay: 1.2s
+        }
+
+        .orbit-d {
+            left: 14%;
+            bottom: 10%;
+            animation-delay: 1.7s
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-12px) rotate(3deg)
+            }
+        }
+
+        .navigation {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, .96);
+            border-top: 1px solid #e7edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 100;
+            backdrop-filter: blur(12px)
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b7d92;
+            max-width: 42%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #d9e3ef;
+            background: #fff;
+            color: #4c6077;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            border-color: var(--blue);
+            color: var(--blue)
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            color: #fff;
+            border: 0;
+            box-shadow: 0 7px 16px rgba(255, 138, 52, .3)
+        }
+
+        .nav-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed
+        }
+
+        .counter {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #53677f;
+            min-width: 74px;
+            text-align: center
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 0;
+            bottom: 62px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--orange), var(--pink), var(--purple), var(--cyan));
+            width: 0;
+            transition: .35s;
+            z-index: 110
+        }
+
+        .slide-head {
+            width: 100%;
+            max-width: 1180px;
+            margin-bottom: 22px
+        }
+
+        .slide-head.center {
+            text-align: center
+        }
+
+        .slide-head.compact {
+            margin-bottom: 14px
+        }
+
+        .slide-head h1,
+        .slide-head h2,
+        .single-focus h2 {
+            font-size: clamp(2.2rem, 4vw, 4rem);
+            line-height: 1.06;
+            margin: 6px 0 12px;
+            color: #24344d
+        }
+
+        .slide-head p,
+        .single-focus p,
+        .lead {
+            font-size: clamp(1.08rem, 1.6vw, 1.45rem);
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.48
+        }
+
+        .kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: .95rem;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: var(--blue);
+            background: rgba(76, 151, 255, .12);
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-weight: 700
+        }
+
+        .soft-blue {
+            background: linear-gradient(145deg, #edf7ff, #f7fbff)
+        }
+
+        .soft-green {
+            background: linear-gradient(145deg, #effcf5, #fbfffd)
+        }
+
+        .soft-orange {
+            background: linear-gradient(145deg, #fff6ea, #fffdf8)
+        }
+
+        .soft-purple {
+            background: linear-gradient(145deg, #f6f0ff, #fbf9ff)
+        }
+
+        .warm-slide {
+            background: linear-gradient(145deg, #fff8e9, #fffdf6)
+        }
+
+        .feedback-final {
+            background: linear-gradient(145deg, #fff0f6, #eef4ff)
+        }
+
+        .grid-2,
+        .grid-3,
+        .grid-4,
+        .grid-5,
+        .hero-row,
+        .project-grid,
+        .feedback-grid,
+        .review-grid {
+            width: 100%;
+            max-width: 1140px;
+            display: grid;
+            gap: 18px
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+            align-items: center
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr)
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(4, 1fr)
+        }
+
+        .grid-5 {
+            grid-template-columns: repeat(5, 1fr)
+        }
+
+        .hero-row {
+            grid-template-columns: 1.05fr .95fr;
+            align-items: center
+        }
+
+        .project-grid {
+            grid-template-columns: 1.2fr .8fr;
+            align-items: stretch
+        }
+
+        .feedback-grid {
+            grid-template-columns: repeat(4, 1fr)
+        }
+
+        .review-grid {
+            grid-template-columns: repeat(4, 1fr)
+        }
+
+        .card,
+        .big-card,
+        .mini-card,
+        .agenda-card,
+        .project-card,
+        .speaker-box,
+        .check-card,
+        .quiz-panel,
+        .lab-box,
+        .image-card {
+            background: #fff;
+            border: 3px solid var(--cardBorder);
+            border-radius: 26px;
+            box-shadow: var(--shadow)
+        }
+
+        .card {
+            padding: 20px
+        }
+
+        .big-card {
+            padding: 24px 26px
+        }
+
+        .mini-card {
+            padding: 16px;
+            text-align: center
+        }
+
+        .agenda-card {
+            padding: 18px;
+            text-align: center
+        }
+
+        .project-card,
+        .lab-box,
+        .quiz-panel {
+            padding: 22px
+        }
+
+        .image-card {
+            padding: 16px;
+            text-align: center
+        }
+
+        .agenda-card .icon,
+        .mini-card .icon {
+            font-size: 2.7rem;
+            margin-bottom: 6px
+        }
+
+        .agenda-card h3,
+        .card h3,
+        .mini-card h3,
+        .project-card h3,
+        .big-card h3,
+        .image-card h3 {
+            margin: 4px 0 6px;
+            font-size: 1.28rem;
+            color: #20324a
+        }
+
+        .agenda-card p,
+        .card p,
+        .mini-card p,
+        .project-card p,
+        .big-card p,
+        .image-card p,
+        .project-card li,
+        .big-card li {
+            margin: 0;
+            color: #61768d;
+            line-height: 1.46;
+            font-size: 1.02rem
+        }
+
+        .big-card ul,
+        .project-card ul {
+            margin: 10px 0 0;
+            padding-left: 20px;
+            color: #4f647c;
+            line-height: 1.5
+        }
+
+        .big-card li,
+        .project-card li {
+            margin: 6px 0
+        }
+
+        .notice {
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: #fff8db;
+            border: 2px solid #f7d95d;
+            color: #7b6412;
+            font-weight: 600;
+            margin-top: 14px
+        }
+
+        .pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px
+        }
+
+        .pill {
+            padding: 10px 14px;
+            border-radius: 999px;
+            font-weight: 700;
+            background: #f3f8ff;
+            color: #3a5d84;
+            border: 2px solid #d7e8ff
+        }
+
+        .pill.control {
+            background: #fff3d9;
+            color: #8a5700;
+            border-color: #ffdc8c
+        }
+
+        .pill.motion {
+            background: #eef6ff;
+            color: #245f9b;
+            border-color: #b9dcff
+        }
+
+        .pill.green {
+            background: #eefcf6;
+            color: #1f7d55;
+            border-color: #c8f0dd
+        }
+
+        .pill.purple {
+            background: #f5efff;
+            color: #6c3de4;
+            border-color: #dac8ff
+        }
+
+        .pill.orange {
+            background: #fff6e8;
+            color: #a86000;
+            border-color: #ffd59e
+        }
+
+        .pill.red {
+            background: #fff0ef;
+            color: #be433f;
+            border-color: #f7c0bc
+        }
+
+        .primary-btn,
+        .secondary-btn,
+        .tiny-btn,
+        .quiz-btn,
+        .feedback-option {
+            appearance: none;
+            border: none;
+            text-decoration: none;
+            font-family: inherit;
+            cursor: pointer;
+            font-weight: 700;
+            transition: .2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .primary-btn {
+            padding: 13px 18px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            color: #fff;
+            box-shadow: 0 10px 18px rgba(47, 128, 237, .23);
+            font-size: 1rem
+        }
+
+        .primary-btn.orange {
+            background: linear-gradient(135deg, var(--orange), #ffb24b)
+        }
+
+        .primary-btn.green {
+            background: linear-gradient(135deg, var(--green), #52d18d)
+        }
+
+        .primary-btn.purple {
+            background: linear-gradient(135deg, var(--purple), #9d79ff)
+        }
+
+        .secondary-btn {
+            padding: 13px 18px;
+            border-radius: 16px;
+            background: #eef2f7;
+            color: #465c74;
+            border: 2px solid #d9e1ea
+        }
+
+        .tiny-btn {
+            padding: 8px 12px;
+            border-radius: 12px;
+            background: #f3f8ff;
+            color: #2a4f74;
+            border: 2px solid #d9e9fb;
+            margin: 3px
+        }
+
+        .primary-btn:hover,
+        .secondary-btn:hover,
+        .tiny-btn:hover,
+        .quiz-btn:hover {
+            transform: translateY(-2px)
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 15px;
+            flex-wrap: wrap
+        }
+
+        .status-line,
+        .feedback {
+            min-height: 28px;
+            margin-top: 12px;
+            text-align: center;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #566b81
+        }
+
+        .feedback.success,
+        .status-line.success {
+            color: #12834e
+        }
+
+        .feedback.error,
+        .status-line.error {
+            color: #ce3f3c
+        }
+
+        .image-card img,
+        .zoomable {
+            width: 100%;
+            max-height: 370px;
+            object-fit: contain;
+            border-radius: 18px;
+            cursor: zoom-in;
+            background: #f7fbff;
+            border: 2px solid #e2ebf5
+        }
+
+        .gif-img {
+            height: 210px;
+            object-fit: contain;
+            background: #fff
+        }
+
+        .scratch-block-stack {
+            display: grid;
+            gap: 5px;
+            margin: 12px 0;
+            width: 100%;
+            max-width: 560px
+        }
+
+        .scratch-event,
+        .scratch-looks,
+        .scratch-motion,
+        .scratch-control,
+        .scratch-sound {
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-weight: 700;
+            box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .12);
+            text-align: left
+        }
+
+        .scratch-event {
+            background: var(--event);
+            color: #4c3a00
+        }
+
+        .scratch-looks {
+            background: var(--looks);
+            color: #fff
+        }
+
+        .scratch-motion {
+            background: var(--motion);
+            color: #fff
+        }
+
+        .scratch-control {
+            background: var(--control);
+            color: #553400
+        }
+
+        .scratch-sound {
+            background: #d65cd6;
+            color: #fff
+        }
+
+        .dropdown-pill,
+        .input-pill {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, .35);
+            color: inherit
+        }
+
+        .input-pill {
+            background: #fff;
+            color: #20324a
+        }
+
+        .repeat-wrap {
+            background: #ffab19;
+            border-radius: 14px;
+            padding: 12px 12px 14px;
+            color: #553400;
+            font-weight: 700;
+            box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .12)
+        }
+
+        .repeat-inner {
+            margin: 8px 0 0 22px;
+            display: grid;
+            gap: 5px
+        }
+
+        .repeat-inner .scratch-motion,
+        .repeat-inner .scratch-looks {
+            border: 3px solid rgba(255, 255, 255, .45)
+        }
+
+        .maze-lab {
+            width: 100%;
+            max-width: 1160px;
+            display: grid;
+            grid-template-columns: .92fr 1.08fr;
+            gap: 22px;
+            align-items: center
+        }
+
+        .maze-board {
+            background: #20324a;
+            border: 8px solid #26394f;
+            border-radius: 26px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+            display: grid;
+            grid-template-columns: repeat(5, 72px);
+            grid-template-rows: repeat(5, 72px);
+            gap: 8px;
+            justify-content: center
+        }
+
+        .maze-cell {
+            border-radius: 14px;
+            background: #f7fbff;
+            border: 3px solid #dfe8f2;
+            display: grid;
+            place-items: center;
+            font-size: 1.9rem;
+            position: relative
+        }
+
+        .maze-cell.wall {
+            background: #6b7a8c;
+            border-color: #556575
+        }
+
+        .maze-cell.goal {
+            background: #fff6dc;
+            border-color: #ffd166
+        }
+
+        .maze-cell.start {
+            background: #eafaf3;
+            border-color: #9dddb9
+        }
+
+        .maze-cell.robot:after {
+            content: '🤖';
+            font-size: 2.3rem;
+            position: absolute
+        }
+
+        .code-panel {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 28px;
+            padding: 18px;
+            box-shadow: var(--shadow)
+        }
+
+        .command-list {
+            min-height: 74px;
+            background: #f8fbff;
+            border: 3px dashed #cbd8e2;
+            border-radius: 16px;
+            padding: 10px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-content: flex-start
+        }
+
+        .cmd-chip {
+            background: #4c97ff;
+            color: #fff;
+            border-radius: 12px;
+            padding: 10px 12px;
+            font-weight: 700;
+            box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .12)
+        }
+
+        .cmd-chip.loop {
+            background: #ffab19;
+            color: #553400
+        }
+
+        .cmd-chip.action {
+            background: #28b875;
+            color: #fff
+        }
+
+        .cmd-chip.fix {
+            background: #9966ff;
+            color: #fff
+        }
+
+        .loop-builder {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 10px;
+            align-items: end;
+            margin-top: 12px
+        }
+
+        .loop-builder label {
+            font-weight: 700;
+            color: #425b77
+        }
+
+        .loop-builder select,
+        .loop-builder input {
+            width: 100%;
+            border: 2px solid #d8e6f5;
+            border-radius: 12px;
+            padding: 10px;
+            font-family: 'Fredoka';
+            font-weight: 700
+        }
+
+        .compare-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 1120px;
+            align-items: start
+        }
+
+        .read-card {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 28px;
+            padding: 20px;
+            box-shadow: var(--shadow)
+        }
+
+        .read-card h3 {
+            font-size: 1.4rem;
+            margin: 0 0 12px
+        }
+
+        .voice {
+            background: #f4f7fb;
+            border-radius: 14px;
+            padding: 12px 14px;
+            color: #53677f;
+            font-weight: 700;
+            margin-top: 10px
+        }
+
+        .code-tall {
+            max-height: 360px;
+            overflow: auto
+        }
+
+        .robot-fix {
+            display: grid;
+            grid-template-columns: .95fr 1.05fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 1160px;
+            align-items: start
+        }
+
+        .sequence-card {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 24px;
+            padding: 16px;
+            box-shadow: var(--shadow)
+        }
+
+        .fix-stage {
+            height: 230px;
+            background: linear-gradient(#c9efff 0 55%, #8fd46f 55%);
+            border: 6px solid #26394f;
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .fix-emoji {
+            position: absolute;
+            font-size: 3.4rem;
+            transition: .55s ease
+        }
+
+        .fix-robot {
+            left: 22px;
+            bottom: 34px
+        }
+
+        .fix-tool {
+            left: 165px;
+            bottom: 44px
+        }
+
+        .fix-car {
+            right: 55px;
+            bottom: 38px
+        }
+
+        .fix-log {
+            min-height: 70px;
+            background: #f7fbff;
+            border: 2px solid #dfeaf6;
+            border-radius: 16px;
+            padding: 12px;
+            color: #456079;
+            font-weight: 700;
+            margin-top: 10px
+        }
+
+        .costume-stage {
+            height: 350px;
+            border: 8px solid #26394f;
+            border-radius: 26px;
+            overflow: hidden;
+            background: linear-gradient(#bfeeff 0 62%, #9fd47d 62%);
+            display: grid;
+            place-items: center;
+            position: relative;
+            box-shadow: var(--shadow)
+        }
+
+        .cat-preview {
+            width: 170px;
+            max-height: 220px;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 12px rgba(0, 0, 0, .18));
+            transition: .12s
+        }
+
+        .flag-btn {
+            position: absolute;
+            left: 18px;
+            top: 18px;
+            border: 0;
+            border-radius: 999px;
+            padding: 12px 17px;
+            background: #28b875;
+            color: #fff;
+            font: 700 1rem 'Fredoka';
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(40, 184, 117, .25)
+        }
+
+        .stop-btn {
+            position: absolute;
+            left: 18px;
+            top: 70px;
+            border: 0;
+            border-radius: 999px;
+            padding: 10px 15px;
+            background: #ef5350;
+            color: #fff;
+            font: 700 .95rem 'Fredoka';
+            cursor: pointer
+        }
+
+        .loop-type-card {
+            min-height: 190px
+        }
+
+        .loop-type-card .block-img {
+            height: 68px;
+            border-radius: 16px;
+            background: #ffab19;
+            color: #553400;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            font-weight: 700;
+            box-shadow: inset 0 -5px 0 rgba(0, 0, 0, .14)
+        }
+
+        .scenario-box {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 30px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 960px;
+            text-align: center
+        }
+
+        .scenario-text {
+            font-size: 2rem;
+            color: #24344d;
+            font-weight: 700;
+            margin: 8px 0 18px
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px
+        }
+
+        .quiz-options button,
+        .quiz-btn {
+            border: 3px solid #dfe7f0;
+            background: #f9fbfd;
+            border-radius: 16px;
+            padding: 15px 18px;
+            text-align: left;
+            font: 600 1.08rem 'Fredoka';
+            cursor: pointer;
+            color: #29425f
+        }
+
+        .quiz-options button.correct,
+        .quiz-btn.correct {
+            border-color: var(--green);
+            background: #eafaf3
+        }
+
+        .quiz-options button.wrong,
+        .quiz-btn.wrong {
+            border-color: var(--red);
+            background: #fff0ef
+        }
+
+        .quiz-shell {
+            width: 100%;
+            max-width: 950px;
+            background: #fff;
+            border: 3px solid #e1e8f2;
+            border-radius: 30px;
+            padding: 28px;
+            box-shadow: var(--shadow)
+        }
+
+        .quiz-question {
+            display: none
+        }
+
+        .quiz-question.active {
+            display: block
+        }
+
+        .quiz-question h3 {
+            font-size: 1.85rem;
+            margin: 0 0 18px
+        }
+
+        .quiz-progress {
+            margin-top: 20px;
+            color: #63778e;
+            font-weight: 700
+        }
+
+        .quiz-progress>div {
+            height: 10px;
+            background: #e9eef4;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 7px
+        }
+
+        .quiz-progress i {
+            display: block;
+            height: 100%;
+            width: 33.3%;
+            background: linear-gradient(90deg, var(--orange), var(--purple));
+            transition: .3s
+        }
+
+        .scratch-demo {
+            width: 640px;
+            height: 420px;
+            border: 8px solid #283a51;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: var(--shadow)
+        }
+
+        .scratch-demo iframe {
+            width: 100%;
+            height: 100%;
+            border: 0
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1040px
+        }
+
+        .step-mini {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 22px;
+            padding: 16px;
+            box-shadow: 0 10px 22px rgba(40, 70, 100, .08);
+            text-align: center
+        }
+
+        .step-mini .num {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: inline-grid;
+            place-items: center;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--orange), #ffb445);
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(255, 138, 52, .25);
+            margin-bottom: 8px
+        }
+
+        .checklist {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            width: 100%;
+            max-width: 1040px
+        }
+
+        .tick {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 20px;
+            padding: 16px 18px;
+            box-shadow: var(--shadow)
+        }
+
+        .tick .mark {
+            font-size: 1.6rem
+        }
+
+        .tick h4 {
+            margin: 0 0 4px;
+            font-size: 1.16rem
+        }
+
+        .tick p {
+            margin: 0;
+            color: #61768d
+        }
+
+        .emoji-feedback {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 850px
+        }
+
+        .emoji-feedback button {
+            width: 140px;
+            min-height: 112px;
+            border-radius: 24px;
+            border: 3px solid #dce6f0;
+            background: #fff;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 2.1rem;
+            box-shadow: var(--shadow);
+            font-weight: 700;
+            color: #3a5370;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px
+        }
+
+        .emoji-feedback button small {
+            font-size: 1rem
+        }
+
+        .emoji-feedback button.selected {
+            border-color: var(--orange);
+            background: #fff7ec;
+            transform: translateY(-4px)
+        }
+
+        .feedback-thanks {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #6c4ddd;
+            margin-top: 20px;
+            min-height: 30px;
+            text-align: center
+        }
+
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            inset: 0;
+            background: rgba(14, 25, 41, .85);
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            padding: 22px
+        }
+
+        .image-modal.show {
+            display: flex
+        }
+
+        .image-modal img {
+            max-width: min(92vw, 1300px);
+            max-height: 90vh;
+            background: #fff;
+            border-radius: 20px;
+            padding: 12px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, .35)
+        }
+
+        @media(max-width:1200px) {
+
+            .hero-row,
+            .project-grid,
+            .grid-2,
+            .maze-lab,
+            .compare-box,
+            .robot-fix {
+                grid-template-columns: 1fr
+            }
+
+            .grid-4,
+            .grid-5,
+            .feedback-grid,
+            .review-grid,
+            .steps-grid,
+            .checklist {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:700px) {
+            .brand-logo {
+                left: 8px;
+                top: 6px;
+                padding: 7px 12px
+            }
+
+            .brand-logo img {
+                height: 32px
+            }
+
+            .presentation-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: 0
+            }
+
+            .slide {
+                padding: 68px 18px 74px
+            }
+
+            .grid-3,
+            .grid-4,
+            .grid-5,
+            .feedback-grid,
+            .review-grid,
+            .steps-grid,
+            .checklist {
+                grid-template-columns: 1fr
+            }
+
+            .display-title {
+                font-size: 3.2rem
+            }
+
+            .hero-icon {
+                font-size: 5rem
+            }
+
+            .nav-title {
+                display: none
+            }
+
+            .scratch-demo {
+                width: 100%;
+                height: 360px
+            }
+
+            .orbit {
+                display: none
+            }
+
+            .maze-board {
+                grid-template-columns: repeat(5, 54px);
+                grid-template-rows: repeat(5, 54px)
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="brand-logo"><img
+            src="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+            alt="Ruangguru Coding"></div>
+    <main class="presentation-container" id="presentation">
+
+        <section class="slide cover-slide active" data-title="Loop dan Pengulangan">
+            <div class="cover-scene">
+                <div class="orbit orbit-a">🔁</div>
+                <div class="orbit orbit-b">🐔</div>
+                <div class="orbit orbit-c">🤖</div>
+                <div class="orbit orbit-d">🌱</div>
+                <!-- <div class="hero-badge">SESSION 10 • SCRATCH SD • 90 MENIT</div> -->
+                <div class="hero-icon">🔁</div>
+                <p class="eyebrow">SCRATCH CONTROL FLOW</p>
+                <h1 class="display-title">Loop dan <span>Pengulangan</span></h1>
+                <p class="hero-subtitle">Hari ini kita belajar Repeat dan Forever untuk menjalankan perintah berulang
+                    tanpa menulis blok yang sama berkali-kali.</p>
+                <div class="hero-pills"><span>Repeat</span><span>Forever</span><span>DRY</span><span>Chicken
+                        Walking</span></div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Review Meet 9">
+            <div class="slide-head center"><span class="kicker">REVIEW</span>
+                <h2>Apa yang Kita Pelajari Kemarin?</h2>
+                <p>Kemarin kita belajar debugging: mencari hal yang salah, memperbaiki, lalu test ulang.</p>
+            </div>
+            <div class="review-grid">
+                <div class="agenda-card">
+                    <div class="icon">🐞</div>
+                    <h3>Bug</h3>
+                    <p>Kesalahan yang membuat program tidak sesuai harapan.</p>
+                </div>
+                <div class="agenda-card">
+                    <div class="icon">🔎</div>
+                    <h3>Debugging</h3>
+                    <p>Mencari masalah, memperbaiki, dan mencoba lagi.</p>
+                </div>
+                <div class="agenda-card">
+                    <div class="icon">📍</div>
+                    <h3>Coordinate</h3>
+                    <p>X untuk kiri-kanan, Y untuk atas-bawah.</p>
+                </div>
+                <div class="agenda-card">
+                    <div class="icon">🤖</div>
+                    <h3>Algorithm</h3>
+                    <p>Urutan langkah yang harus dijalankan program.</p>
+                </div>
+            </div>
+            <div class="pill-row" style="justify-content:center"><span class="pill motion">move</span><span
+                    class="pill orange">glide</span><span class="pill green">test</span><span
+                    class="pill red">fix</span></div>
+        </section>
+
+        <section class="slide" data-title="Agenda Hari Ini">
+            <div class="slide-head center"><span class="kicker">TODAY'S AGENDA</span>
+                <h2>Hari Ini Kita Akan...</h2>
+                <p>Belajar menyederhanakan algoritma dengan loop, lalu menerapkannya pada animasi dan gerakan Scratch.
+                </p>
+            </div>
+            <div class="grid-4">
+                <div class="agenda-card">
+                    <div class="icon">🧭</div>
+                    <h3>Robot Maze</h3>
+                    <p>Menyusun algoritma arah kiri, kanan, atas, bawah.</p>
+                </div>
+                <div class="agenda-card">
+                    <div class="icon">🔁</div>
+                    <h3>Repeat Block</h3>
+                    <p>Mengulang perintah dengan jumlah tertentu.</p>
+                </div>
+                <div class="agenda-card">
+                    <div class="icon">♾️</div>
+                    <h3>Forever Block</h3>
+                    <p>Menjalankan aksi terus selama project berjalan.</p>
+                </div>
+                <div class="agenda-card">
+                    <div class="icon">🐔</div>
+                    <h3>Chicken Walking</h3>
+                    <p>Membuat sprite berjalan dan mengikuti mouse pointer.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Algoritma Robot">
+            <div class="hero-row">
+                <div class="big-card"><span class="kicker">REMEMBER</span>
+                    <h2 style="font-size:2.5rem;margin:10px 0">Masih Ingat Algoritma Robot?</h2>
+                    <p class="lead">Robot hanya melakukan apa yang kita perintahkan. Kalau urutannya salah, robot bisa
+                        berhenti di tempat yang salah juga.</p>
+                    <div class="notice">Sebelum belajar loop, kita review dulu cara menyusun langkah satu per satu.
+                    </div>
+                </div>
+                <div class="big-card" style="text-align:center">
+                    <div style="font-size:7rem">🤖➡️🎯</div>
+                    <h3>Algorithm = Step by Step</h3>
+                    <p>Contoh: kanan, kanan, atas, atas. Setiap block adalah satu langkah.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Activity Maze 1">
+            <div class="slide-head center compact"><span class="kicker">INTERACTIVE ACTIVITY 1</span>
+                <h2>Susun Langkah Robot ke Bendera</h2>
+                <p>Gunakan tombol arah. Jalankan, lalu lihat apakah robot sampai tujuan.</p>
+            </div>
+            <div class="maze-lab" data-maze="m1">
+                <div class="maze-board" id="mazeBoard1"></div>
+                <div class="code-panel">
+                    <h3>Algorithm Blocks</h3>
+                    <div class="button-row"><button class="tiny-btn" onclick="addMazeCmd('m1','up')">⬆️ Move
+                            Up</button><button class="tiny-btn" onclick="addMazeCmd('m1','down')">⬇️ Move
+                            Down</button><button class="tiny-btn" onclick="addMazeCmd('m1','left')">⬅️ Move
+                            Left</button><button class="tiny-btn" onclick="addMazeCmd('m1','right')">➡️ Move
+                            Right</button></div>
+                    <div class="command-list" id="mazeList1"></div>
+                    <div class="button-row"><button class="primary-btn green" onclick="runMaze('m1')">Run
+                            ▶️</button><button class="secondary-btn" onclick="resetMaze('m1')">Reset</button></div>
+                    <div class="status-line" id="mazeStatus1">Target: ambil rute yang paling jelas menuju bendera.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Activity Maze 2">
+            <div class="slide-head center compact"><span class="kicker">INTERACTIVE ACTIVITY 2</span>
+                <h2>Tantangan Kedua: Hindari Batu!</h2>
+                <p>Robot tidak boleh menabrak batu. Susun langkahnya dengan teliti.</p>
+            </div>
+            <div class="maze-lab" data-maze="m2">
+                <div class="maze-board" id="mazeBoard2"></div>
+                <div class="code-panel">
+                    <h3>Algorithm Blocks</h3>
+                    <div class="button-row"><button class="tiny-btn" onclick="addMazeCmd('m2','up')">⬆️ Move
+                            Up</button><button class="tiny-btn" onclick="addMazeCmd('m2','down')">⬇️ Move
+                            Down</button><button class="tiny-btn" onclick="addMazeCmd('m2','left')">⬅️ Move
+                            Left</button><button class="tiny-btn" onclick="addMazeCmd('m2','right')">➡️ Move
+                            Right</button></div>
+                    <div class="command-list" id="mazeList2"></div>
+                    <div class="button-row"><button class="primary-btn green" onclick="runMaze('m2')">Run
+                            ▶️</button><button class="secondary-btn" onclick="resetMaze('m2')">Reset</button></div>
+                    <div class="status-line" id="mazeStatus2">Coba buat robot sampai tanpa menabrak obstacle.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Kenalan Repeat">
+            <div class="hero-row">
+                <div class="big-card"><span class="kicker">NEW BLOCK</span>
+                    <h2 style="font-size:2.55rem;margin:10px 0">Repeat = Ulangi Beberapa Kali</h2>
+                    <p class="lead">Kalau robot harus melakukan gerakan yang sama berkali-kali, kita tidak perlu menulis
+                        block yang sama berulang-ulang.</p>
+                    <div class="notice">Contoh: kalau ingin move up 4 kali, cukup masukkan <b>move up</b> ke dalam
+                        <b>repeat 4</b>.</div>
+                </div>
+                <div class="read-card">
+                    <h3>Block Repeat</h3>
+                    <div class="repeat-wrap">repeat <span class="input-pill">4</span>
+                        <div class="repeat-inner">
+                            <div class="scratch-motion">move up</div>
+                        </div>
+                    </div>
+                    <p>Artinya: jalankan isi block ini sebanyak 4 kali.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Loop Maze 1">
+            <div class="slide-head center compact"><span class="kicker">INTERACTIVE ACTIVITY 3</span>
+                <h2>Selesaikan Maze dengan Repeat</h2>
+                <p>Kali ini gunakan minimal satu block repeat agar algoritmanya lebih singkat.</p>
+            </div>
+            <div class="maze-lab" data-maze="m3">
+                <div class="maze-board" id="mazeBoard3"></div>
+                <div class="code-panel">
+                    <h3>Loop Builder</h3>
+                    <div class="loop-builder"><label>Arah<select id="loopDir3">
+                                <option value="up">Move Up</option>
+                                <option value="right">Move Right</option>
+                                <option value="down">Move Down</option>
+                                <option value="left">Move Left</option>
+                            </select></label><label>Repeat<input id="loopCount3" type="number" min="1" max="8"
+                                value="4"></label><button class="primary-btn orange" onclick="addLoopCmd('m3')">Add
+                            Loop</button></div>
+                    <div class="button-row"><button class="tiny-btn" onclick="addMazeCmd('m3','up')">⬆️ Single
+                            Up</button><button class="tiny-btn" onclick="addMazeCmd('m3','right')">➡️ Single
+                            Right</button><button class="tiny-btn" onclick="addMazeCmd('m3','down')">⬇️ Single
+                            Down</button><button class="tiny-btn" onclick="addMazeCmd('m3','left')">⬅️ Single
+                            Left</button></div>
+                    <div class="command-list" id="mazeList3"></div>
+                    <div class="button-row"><button class="primary-btn green" onclick="runMaze('m3',true)">Run
+                            ▶️</button><button class="secondary-btn" onclick="resetMaze('m3')">Reset</button></div>
+                    <div class="status-line" id="mazeStatus3">Hint: ada gerakan yang berulang 4 kali.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Loop Maze 2">
+            <div class="slide-head center compact"><span class="kicker">INTERACTIVE ACTIVITY 4</span>
+                <h2>Tantangan Repeat Kedua</h2>
+                <p>Gunakan kombinasi repeat dan gerakan biasa. Jangan menabrak batu.</p>
+            </div>
+            <div class="maze-lab" data-maze="m4">
+                <div class="maze-board" id="mazeBoard4"></div>
+                <div class="code-panel">
+                    <h3>Loop Builder</h3>
+                    <div class="loop-builder"><label>Arah<select id="loopDir4">
+                                <option value="right">Move Right</option>
+                                <option value="up">Move Up</option>
+                                <option value="down">Move Down</option>
+                                <option value="left">Move Left</option>
+                            </select></label><label>Repeat<input id="loopCount4" type="number" min="1" max="8"
+                                value="3"></label><button class="primary-btn orange" onclick="addLoopCmd('m4')">Add
+                            Loop</button></div>
+                    <div class="button-row"><button class="tiny-btn" onclick="addMazeCmd('m4','up')">⬆️ Single
+                            Up</button><button class="tiny-btn" onclick="addMazeCmd('m4','right')">➡️ Single
+                            Right</button><button class="tiny-btn" onclick="addMazeCmd('m4','down')">⬇️ Single
+                            Down</button><button class="tiny-btn" onclick="addMazeCmd('m4','left')">⬅️ Single
+                            Left</button></div>
+                    <div class="command-list" id="mazeList4"></div>
+                    <div class="button-row"><button class="primary-btn green" onclick="runMaze('m4',true)">Run
+                            ▶️</button><button class="secondary-btn" onclick="resetMaze('m4')">Reset</button></div>
+                    <div class="status-line" id="mazeStatus4">Coba cari bagian yang bisa disingkat dengan repeat.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Compare Robot Steps">
+            <div class="slide-head center compact"><span class="kicker">COMPARE</span>
+                <h2>Mana yang Lebih Mudah Dibaca?</h2>
+                <p>Keduanya menghasilkan gerakan yang sama, tetapi cara membacanya berbeda.</p>
+            </div>
+            <div class="compare-box">
+                <div class="read-card">
+                    <h3>Tanpa Loop</h3>
+                    <div class="scratch-block-stack code-tall">
+                        <div class="scratch-motion">move up</div>
+                        <div class="scratch-motion">move up</div>
+                        <div class="scratch-motion">move up</div>
+                        <div class="scratch-motion">move up</div>
+                        <div class="scratch-motion">move up</div>
+                    </div>
+                    <div class="voice">Dibaca: “move up, move up, move up, move up, move up.”</div>
+                </div>
+                <div class="read-card">
+                    <h3>Dengan Repeat</h3>
+                    <div class="repeat-wrap">repeat <span class="input-pill">5</span>
+                        <div class="repeat-inner">
+                            <div class="scratch-motion">move up</div>
+                        </div>
+                    </div>
+                    <div class="voice">Dibaca: “move up 5 kali.” Lebih singkat dan rapi.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Looping Concept">
+            <div class="single-focus">
+                <div class="giant-emoji" style="font-size:6rem">🧠🔁</div><span class="kicker">CORE CONCEPT</span>
+                <h2>Looping Menyederhanakan Algoritma</h2>
+                <p>Programming mengajarkan kita menyusun instruksi sesederhana mungkin. Kalau ada code yang sama ditulis
+                    berkali-kali, kita bisa mulai berpikir: <b>bisa dibuat loop nggak ya?</b></p>
+                <div class="notice">Loop tidak membuat program berbeda. Loop membuat instruksi yang berulang jadi lebih
+                    pendek, rapi, dan mudah dibaca.</div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Robot Repair Loop">
+            <div style="transform: scale(0.85); width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <div class="slide-head center compact"><span class="kicker">INTERACTIVE ACTIVITY 5</span>
+                <h2>Sederhanakan Perintah Robot Repair</h2>
+                <p>Robot harus mengambil tool, menuju mobil, lalu memperbaiki mobil. Tugas itu dilakukan 4 kali.</p>
+            </div>
+            <div class="robot-fix">
+                <div class="sequence-card">
+                    <h3>Tanpa Loop</h3>
+                    <div class="scratch-block-stack code-tall">
+                        <div class="cmd-chip action">ambil tool</div>
+                        <div class="cmd-chip">menuju mobil</div>
+                        <div class="cmd-chip fix">fix mobil</div>
+                        <div class="cmd-chip action">ambil tool</div>
+                        <div class="cmd-chip">menuju mobil</div>
+                        <div class="cmd-chip fix">fix mobil</div>
+                        <div class="cmd-chip action">ambil tool</div>
+                        <div class="cmd-chip">menuju mobil</div>
+                        <div class="cmd-chip fix">fix mobil</div>
+                        <div class="cmd-chip action">ambil tool</div>
+                        <div class="cmd-chip">menuju mobil</div>
+                        <div class="cmd-chip fix">fix mobil</div>
+                    </div>
+                </div>
+                <div class="sequence-card">
+                    <h3>Buat Versi Loop</h3>
+                    <div class="fix-stage">
+                        <div class="fix-emoji fix-robot" id="fixRobot">🤖</div>
+                        <div class="fix-emoji fix-tool">🧰</div>
+                        <div class="fix-emoji fix-car">🚗</div>
+                    </div>
+                    <div class="loop-builder" style="grid-template-columns:1fr 1fr"><label>Repeat Count<select
+                                id="repairRepeat">
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4" selected>4</option>
+                                <option value="5">5</option>
+                            </select></label><label>Isi Loop<select id="repairPattern">
+                                <option value="full" selected>ambil tool → menuju mobil → fix mobil</option>
+                                <option value="tool">ambil tool saja</option>
+                                <option value="car">menuju mobil saja</option>
+                            </select></label></div>
+                    <div class="scratch-block-stack">
+                        <div class="repeat-wrap">repeat <span class="input-pill" id="repairCountPreview">4</span>
+                            <div class="repeat-inner">
+                                <div class="cmd-chip action">ambil tool</div>
+                                <div class="cmd-chip">menuju mobil</div>
+                                <div class="cmd-chip fix">fix mobil</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button-row"><button class="primary-btn green" onclick="runRepair()">Run Robot
+                            ▶️</button></div>
+                    <div class="fix-log" id="repairLog">Pilih repeat 4 dengan isi loop lengkap, lalu jalankan.</div>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Looping di Scratch">
+            <div style="transform: scale(0.85); width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <div class="slide-head center compact"><span class="kicker">SCRATCH ANIMATION</span>
+                <h2>Looping Bisa Membuat Animasi</h2>
+                <p>Sprite Scratch bisa terlihat bergerak jika costume-nya berganti secara berulang.</p>
+            </div>
+            <div class="grid-2">
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/c6b6c84d-bc0e-4c42-972d-df9ab8d33720.png"
+                        alt="Scratch cat costume 1">
+                    <h3>Costume 1</h3>
+                    <p>Posisi pertama.</p>
+                </div>
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/ba9aa4d9-2349-4bd7-9314-ef73334cd4ad.png"
+                        alt="Scratch cat costume 2">
+                    <h3>Costume 2</h3>
+                    <p>Posisi kedua.</p>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Cat Animation Without Loop">
+            <div style="transform: scale(0.85); width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <div class="slide-head center compact"><span class="kicker">BEFORE LOOP</span>
+                <h2>Animasi Tanpa Loop: Block-nya Panjang</h2>
+                <p>Klik green flag. Sprite akan ganti costume beberapa kali, lalu berhenti.</p>
+            </div>
+            <div class="grid-2">
+                <div class="read-card">
+                    <div class="scratch-block-stack code-tall">
+                        <div class="scratch-event">when green flag clicked</div>
+                        <div class="scratch-looks">switch costume to <span class="dropdown-pill">costume 1</span></div>
+                        <div class="scratch-control">wait <span class="input-pill">0.5</span></div>
+                        <div class="scratch-looks">switch costume to <span class="dropdown-pill">costume 2</span></div>
+                        <div class="scratch-control">wait <span class="input-pill">0.5</span></div>
+                        <div class="scratch-looks">switch costume to costume 1</div>
+                        <div class="scratch-control">wait 0.5</div>
+                        <div class="scratch-looks">switch costume to costume 2</div>
+                        <div class="scratch-control">wait 0.5</div>
+                        <div class="scratch-looks">switch costume to costume 1</div>
+                        <div class="scratch-control">wait 0.5</div>
+                        <div class="scratch-looks">switch costume to costume 2</div>
+                        <div class="scratch-control">wait 0.5</div>
+                    </div>
+                    <div class="notice">Banyak block yang sama ditulis berulang.</div>
+                </div>
+                <div class="costume-stage"><button class="flag-btn" onclick="playCatFinite()">🚩 Green Flag</button><img
+                        id="catFinite" class="cat-preview"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/c6b6c84d-bc0e-4c42-972d-df9ab8d33720.png"
+                        alt="Cat animation">
+                    <div style="position:absolute;bottom:18px;font-weight:700;color:#36516b;background:#fff;border-radius:14px;padding:10px 14px"
+                        id="catFiniteStatus">Klik green flag untuk test.</div>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Cat Forever Loop">
+            <div style="transform: scale(0.85); width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <div class="slide-head center compact"><span class="kicker">WITH LOOP</span>
+                <h2>Dengan Forever, Animasi Bisa Terus Berjalan</h2>
+                <p>Kita cukup menulis pola costume satu kali, lalu membungkusnya dengan forever.</p>
+            </div>
+            <div class="grid-2">
+                <div class="read-card">
+                    <div class="scratch-block-stack">
+                        <div class="scratch-event">when green flag clicked</div>
+                        <div class="repeat-wrap">forever<div class="repeat-inner">
+                                <div class="scratch-looks">switch costume to <span class="dropdown-pill">costume
+                                        1</span></div>
+                                <div class="scratch-control">wait <span class="input-pill">0.5</span></div>
+                                <div class="scratch-looks">switch costume to <span class="dropdown-pill">costume
+                                        2</span></div>
+                                <div class="scratch-control">wait <span class="input-pill">0.5</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notice">Lebih singkat dan bisa terus play selama project berjalan.</div>
+                </div>
+                <div class="costume-stage"><button class="flag-btn" onclick="playCatForever()">🚩 Green
+                        Flag</button><button class="stop-btn" onclick="stopCatForever()">Stop</button><img
+                        id="catForever" class="cat-preview"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/c6b6c84d-bc0e-4c42-972d-df9ab8d33720.png"
+                        alt="Cat forever">
+                    <div style="position:absolute;bottom:18px;font-weight:700;color:#36516b;background:#fff;border-radius:14px;padding:10px 14px"
+                        id="catForeverStatus">Klik green flag untuk menjalankan forever.</div>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="DRY Principle">
+            <div class="single-focus">
+                <div class="giant-emoji" style="font-size:6rem">💡🔁</div><span class="kicker">PROGRAMMING
+                    PRINCIPLE</span>
+                <h2>DRY: Don't Repeat Your Code</h2>
+                <p>DRY adalah aturan penting di programming. Kalau kamu merasa terlalu banyak menulis code yang sama
+                    berkali-kali, berarti sudah waktunya memikirkan loop.</p>
+                <div class="notice">Pertanyaan cepat: “Apakah block ini diulang dengan pola yang sama?” Jika iya, coba
+                    pakai repeat, forever, atau repeat until.</div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Daily Loops">
+            <div class="slide-head center compact"><span class="kicker">REAL LIFE LOOP</span>
+                <h2>Kegiatan Sehari-hari Juga Banyak yang Berulang</h2>
+                <p>Looping tidak hanya ada di Scratch. Banyak aktivitas harian juga punya pola yang diulang.</p>
+            </div>
+            <div class="grid-3">
+                <div class="image-card"><img class="gif-img"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxk-B1XY9-QyJPE-QVAxBQiDx-QvH4n4HkzSOHOi34Vg&s=10"
+                        alt="Membersihkan kaca">
+                    <h3>Bersihkan Kaca</h3>
+                    <p>Ulangi gerakan sampai kaca bersih.</p>
+                </div>
+                <div class="image-card"><img class="gif-img"
+                        src="https://media.baamboozle.com/uploads/images/24837/1669118374_1928416_gif-url.gif"
+                        alt="Memasang kancing">
+                    <h3>Pasang Kancing</h3>
+                    <p>Ulangi sampai semua kancing terpasang.</p>
+                </div>
+                <div class="image-card"><img class="gif-img"
+                        src="https://custom-doodle.com/wp-content/uploads/doodle/pusheen-watering-the-plant/pusheen-watering-the-plant-doodle.gif"
+                        alt="Menyiram tanaman">
+                    <h3>Siram Tanaman</h3>
+                    <p>Ulangi sampai tanaman selesai disiram.</p>
+                </div>
+            </div>
+            <div class="notice" style="max-width:920px;text-align:center">Loop tetap perlu aturan: berapa kali diulang,
+                selamanya, atau sampai kondisi tertentu terpenuhi.</div>
+        </section>
+
+        <section class="slide soft-orange" data-title="3 Loop Blocks">
+            <div class="slide-head center"><span class="kicker">SCRATCH CONTROL BLOCKS</span>
+                <h2>Di Scratch Ada 3 Jenis Loop yang Sering Dipakai</h2>
+                <p>Masing-masing punya fungsi berbeda. Pilih sesuai kebutuhan program.</p>
+            </div>
+            <div class="grid-3">
+                <div class="card loop-type-card">
+                    <div class="block-img">repeat <span class="input-pill" style="margin-left:6px">10</span></div>
+                    <h3>Repeat [n]</h3>
+                    <p>Dipakai kalau jumlah pengulangannya sudah jelas. Contoh: lompat 3 kali.</p>
+                </div>
+                <div class="card loop-type-card">
+                    <div class="block-img">forever</div>
+                    <h3>Forever</h3>
+                    <p>Dipakai kalau aksi berjalan terus selama project aktif. Contoh: awan bergerak terus.</p>
+                </div>
+                <div class="card loop-type-card">
+                    <div class="block-img">repeat until &lt;kondisi&gt;</div>
+                    <h3>Repeat Until</h3>
+                    <p>Dipakai sampai kondisi tertentu terjadi. Contoh: ulangi sampai menyentuh garis finish.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Choose Loop Type">
+            <div class="slide-head center compact"><span class="kicker">INTERACTIVE ACTIVITY 6</span>
+                <h2>Pilih Loop yang Paling Tepat</h2>
+                <p>Baca situasinya, lalu pilih block loop yang cocok.</p>
+            </div>
+            <div class="scenario-box">
+                <div class="scenario-text" id="scenarioText">Tepuk pramuka 3 kali.</div>
+                <div class="quiz-options"><button onclick="answerLoopType('repeat')">repeat [n]</button><button
+                        onclick="answerLoopType('forever')">forever</button><button
+                        onclick="answerLoopType('until')">repeat until</button></div>
+                <div class="status-line" id="loopTypeStatus">Soal 1 dari 4</div>
+                <div class="button-row"><button class="secondary-btn" onclick="nextLoopScenario()">Next Scenario
+                        ➜</button></div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Project Preview">
+            <div class="slide-head center compact"><span class="kicker">SCRATCH PROJECT</span>
+                <h2>Project Hari Ini: Chicken Walking</h2>
+                <p>Kita akan membuat chicken berjalan dengan animasi costume dan mengikuti mouse pointer terus-menerus.
+                </p>
+            </div>
+            <div class="project-grid">
+                <div class="scratch-demo"><iframe src="https://scratch.mit.edu/projects/1364245855/embed"
+                        allowtransparency="true" scrolling="no" allowfullscreen></iframe></div>
+                <div class="project-card">
+                    <h3>Yang Akan Kita Buat</h3>
+                    <ul>
+                        <li>Chicken punya walking animation.</li>
+                        <li>Costume berganti terus dengan loop.</li>
+                        <li>Chicken bergerak mengikuti mouse pointer.</li>
+                        <li>Kamu boleh menambahkan GIF sesuai tema project.</li>
+                    </ul>
+                    <div class="button-row"><a class="primary-btn" href="https://scratch.mit.edu/projects/1364245855/"
+                            target="_blank">Lihat Contoh ↗</a><a class="primary-btn orange"
+                            href="https://scratch.mit.edu/projects/1377876515/" target="_blank">Remix Starter ↗</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Remix Project">
+            <div class="slide-head center compact"><span class="kicker">BEFORE CODING</span>
+                <h2>Remix Starter Project</h2>
+                <p>Buka starter project, lalu klik Remix supaya project menjadi milikmu sendiri dan aman untuk diedit.
+                </p>
+            </div>
+            <div class="grid-2">
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/ffbc76a6-9956-41e1-9d5d-7812625add3c.png"
+                        alt="Cara remix Scratch">
+                    <h3>Remix Button</h3>
+                    <p>Klik tombol Remix di Scratch.</p>
+                </div>
+                <div class="big-card">
+                    <h3>Langkah Awal</h3>
+                    <ul>
+                        <li>Buka link starter project.</li>
+                        <li>Klik <b>See Inside</b> jika perlu melihat isi project.</li>
+                        <li>Klik <b>Remix</b>.</li>
+                        <li>Cek sprite <b>chicken-walking</b> sebelum mulai coding.</li>
+                    </ul>
+                    <div class="button-row"><a class="primary-btn orange"
+                            href="https://scratch.mit.edu/projects/1377876515/" target="_blank">Open Starter Project
+                            ↗</a></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Check Costumes">
+            <div style="transform: scale(0.85); width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <div class="slide-head center compact"><span class="kicker">SPRITE CHECK</span>
+                <h2>Pastikan Costume Chicken Sudah Siap</h2>
+                <p>Pilih sprite <b>chicken-walking</b>, lalu cek tab Costumes. Kita butuh beberapa costume agar
+                    animasinya terlihat berjalan.</p>
+            </div>
+            <div class="grid-2">
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/99201ddf-bb02-4fc4-887c-7f50ef83c709.png"
+                        alt="Costume chicken walking">
+                    <h3>Costume Tab</h3>
+                    <p>Pastikan sprite punya costume berjalan.</p>
+                </div>
+                <div class="big-card">
+                    <h3>Kenapa Costume Penting?</h3>
+                    <p>Animasi di Scratch sering dibuat dengan cara mengganti costume secara cepat. Semakin rapi urutan
+                        costume-nya, semakin halus gerakannya.</p>
+                    <div class="notice">Kalau sprite hanya punya satu costume, block <b>next costume</b> tidak akan
+                        terlihat berubah.</div>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Next Costume Animation">
+            <div style="transform: scale(0.85); width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <div class="slide-head center compact"><span class="kicker">STEP 1</span>
+                <h2>Buat Chicken Play Animation</h2>
+                <p>Tambahkan block sederhana: ketika green flag diklik, chicken berpindah ke costume berikutnya.</p>
+            </div>
+            <div class="grid-2">
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/7ef99cce-8b9f-4a45-9463-8bc1bd129836.png"
+                        alt="Chicken sprite">
+                    <h3>Sprite Chicken</h3>
+                    <p>Pilih sprite chicken-walking.</p>
+                </div>
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/ed0581df-c5c7-4f6a-8b86-4b96bb38ae8a.png"
+                        alt="Next costume block">
+                    <h3>Block Awal</h3>
+                    <p>Test apakah costume berubah saat project dijalankan.</p>
+                </div>
+            </div>
+            <div class="notice" style="max-width:920px;text-align:center">Coba klik green flag. Kalau animasi belum
+                terasa, nanti kita masukkan ke dalam loop.</div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Forever Mouse Follow">
+            <div style="transform: scale(0.85); width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <div class="slide-head center compact"><span class="kicker">STEP 2</span>
+                <h2>Buat Chicken Mengikuti Mouse Pointer</h2>
+                <p>Sekarang kita pakai Forever agar chicken terus bergerak, point towards mouse pointer, dan next
+                    costume.</p>
+            </div>
+            <div class="grid-2">
+                <div class="read-card">
+                    <div class="scratch-block-stack">
+                        <div class="scratch-event">when green flag clicked</div>
+                        <div class="scratch-motion">set rotation style <span class="dropdown-pill">left-right</span>
+                        </div>
+                        <div class="repeat-wrap">forever<div class="repeat-inner">
+                                <div class="scratch-motion">move <span class="input-pill">5</span> steps</div>
+                                <div class="scratch-motion">point towards <span
+                                        class="dropdown-pill">mouse-pointer</span></div>
+                                <div class="scratch-looks">next costume</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notice">Forever membuat chicken terus membaca posisi mouse.</div>
+                </div>
+                <div class="image-card"><img class="zoomable"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/1d051204-f204-4182-ba63-a3b6f7717dbd.png"
+                        alt="Forever chicken block">
+                    <h3>Contoh Block</h3>
+                    <p>Susun block seperti contoh, lalu test.</p>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Test Project">
+            <div class="slide-head center compact"><span class="kicker">TEST TIME</span>
+                <h2>Coba Jalankan Project</h2>
+                <p>Klik green flag, gerakkan mouse, lalu cek apakah chicken berjalan mengikuti pointer.</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-mini">
+                    <div class="num">1</div>
+                    <h3>Click Green Flag</h3>
+                    <p>Project mulai berjalan.</p>
+                </div>
+                <div class="step-mini">
+                    <div class="num">2</div>
+                    <h3>Move Mouse</h3>
+                    <p>Chicken harus mengikuti arah mouse pointer.</p>
+                </div>
+                <div class="step-mini">
+                    <div class="num">3</div>
+                    <h3>Check Costume</h3>
+                    <p>Chicken terlihat berjalan karena next costume berulang.</p>
+                </div>
+            </div>
+            <div class="notice" style="max-width:900px;text-align:center">Kalau chicken berputar aneh, cek kembali
+                <b>set rotation style left-right</b>.</div>
+        </section>
+
+        <section class="slide" data-title="Challenge GIF">
+            <div class="hero-row">
+                <div class="big-card"><span class="kicker">EXTRA CHALLENGE</span>
+                    <h2 style="font-size:2.45rem;margin:10px 0">Tambahkan GIF yang Cocok</h2>
+                    <p class="lead">Cari GIF di Google yang sesuai dengan tema project, lalu tambahkan ke Scratch.
+                        Setelah itu, buat GIF tersebut play di project.</p>
+                    <div class="notice">Pilih GIF yang aman, sesuai tema, dan tidak mengandung informasi pribadi.</div>
+                </div>
+                <div class="big-card" style="text-align:center">
+                    <div style="font-size:6rem">🐔🌾✨</div>
+                    <h3>Ide GIF</h3>
+                    <p>Rumput bergerak, matahari bersinar, awan berjalan, atau efek lucu saat chicken bergerak.</p>
+                    <div class="pill-row" style="justify-content:center"><span class="pill green">Search</span><span
+                            class="pill orange">Upload</span><span class="pill purple">Animate</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Checklist Project">
+            <div class="slide-head center"><span class="kicker">CHECK YOUR WORK</span>
+                <h2>Checklist Sebelum Selesai ✅</h2>
+                <p>Gunakan checklist ini untuk memastikan project kamu sudah sesuai target.</p>
+            </div>
+            <div class="checklist">
+                <div class="tick">
+                    <div class="mark">🐔</div>
+                    <div>
+                        <h4>Sprite chicken-walking dipilih</h4>
+                        <p>Kamu coding di sprite yang benar.</p>
+                    </div>
+                </div>
+                <div class="tick">
+                    <div class="mark">🎭</div>
+                    <div>
+                        <h4>Costume sudah dicek</h4>
+                        <p>Chicken punya beberapa costume untuk animasi.</p>
+                    </div>
+                </div>
+                <div class="tick">
+                    <div class="mark">🔁</div>
+                    <div>
+                        <h4>Forever digunakan</h4>
+                        <p>Chicken terus bergerak selama project berjalan.</p>
+                    </div>
+                </div>
+                <div class="tick">
+                    <div class="mark">🖱️</div>
+                    <div>
+                        <h4>Mengikuti mouse pointer</h4>
+                        <p>Chicken bergerak mengikuti arah mouse.</p>
+                    </div>
+                </div>
+                <div class="tick">
+                    <div class="mark">💾</div>
+                    <div>
+                        <h4>Project tersimpan</h4>
+                        <p>Klik Save now atau pastikan autosave berjalan.</p>
+                    </div>
+                </div>
+                <div class="tick">
+                    <div class="mark">🚀</div>
+                    <div>
+                        <h4>Challenge dicoba</h4>
+                        <p>Tambahkan GIF atau dekorasi jika waktu masih ada.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" data-title="Quick Quiz">
+            <div class="slide-head center compact"><span class="kicker">QUICK QUIZ</span>
+                <h2>Cek Pemahaman Hari Ini</h2>
+                <p>Pilih jawaban yang paling tepat.</p>
+            </div>
+            <div class="quiz-shell">
+                <div class="quiz-question active">
+                    <h3>1. Apa fungsi block repeat?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false)">Menghapus semua
+                            sprite</button><button onclick="answerQuiz(this,true)">Mengulang perintah beberapa
+                            kali</button><button onclick="answerQuiz(this,false)">Mengganti background otomatis</button>
+                    </div>
+                </div>
+                <div class="quiz-question">
+                    <h3>2. Kapan lebih cocok memakai forever?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,true)">Saat aksi perlu berjalan terus
+                            selama project aktif</button><button onclick="answerQuiz(this,false)">Saat aksi hanya
+                            dilakukan 1 kali</button><button onclick="answerQuiz(this,false)">Saat ingin menghentikan
+                            project</button></div>
+                </div>
+                <div class="quiz-question">
+                    <h3>3. Apa arti DRY dalam programming?</h3>
+                    <div class="quiz-options"><button onclick="answerQuiz(this,false)">Draw Really
+                            Yellow</button><button onclick="answerQuiz(this,true)">Don't Repeat Your
+                            Code</button><button onclick="answerQuiz(this,false)">Delete Repeat Yourself</button></div>
+                </div>
+                <div class="status-line" id="quizStatus">Jawab soal nomor 1.</div>
+                <div class="quiz-progress">Progress<div><i id="quizBar"></i></div>
+                </div>
+                <div class="button-row"><button class="secondary-btn" onclick="nextQuiz()">Next Question ➜</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Review">
+            <div class="slide-head center"><span class="kicker">REVIEW</span>
+                <h2>Hari Ini Kita Belajar Apa?</h2>
+                <p>Loop membantu program menjadi lebih singkat, rapi, dan mudah dibaca.</p>
+            </div>
+            <div class="review-grid">
+                <div class="mini-card">
+                    <div class="icon">🔁</div>
+                    <h3>Repeat</h3>
+                    <p>Mengulang perintah dengan jumlah tertentu.</p>
+                </div>
+                <div class="mini-card">
+                    <div class="icon">♾️</div>
+                    <h3>Forever</h3>
+                    <p>Menjalankan perintah terus selama project aktif.</p>
+                </div>
+                <div class="mini-card">
+                    <div class="icon">🧠</div>
+                    <h3>DRY</h3>
+                    <p>Jangan menulis code yang sama terlalu banyak.</p>
+                </div>
+                <div class="mini-card">
+                    <div class="icon">🐔</div>
+                    <h3>Project</h3>
+                    <p>Chicken walking dengan costume dan mouse pointer.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide feedback-final" data-title="Feedback">
+            <div class="slide-head center"><span class="kicker">FEEDBACK</span>
+                <h2>Gimana Belajar Loop Hari Ini?</h2>
+                <p>Pilih satu emoji yang paling menggambarkan perasaanmu.</p>
+            </div>
+            <div class="emoji-feedback">
+                <button onclick="giveFeedback(this,'Senang kamu merasa paham! 🔁')">😄<small>Paham</small></button>
+                <button
+                    onclick="giveFeedback(this,'Tidak apa-apa, loop memang perlu latihan. 💪')">🙂<small>Lumayan</small></button>
+                <button
+                    onclick="giveFeedback(this,'Bagian yang membingungkan bisa kita ulang pelan-pelan. 🔎')">🤔<small>Bingung</small></button>
+                <button onclick="giveFeedback(this,'Mantap! Challenge berikutnya bisa lebih kreatif. 🚀')">🚀<small>Siap
+                        Challenge</small></button>
+            </div>
+            <div class="feedback-thanks" id="feedbackThanks"></div>
+        </section>
+
+        <div class="progress-line" id="progressLine"></div>
+        <nav class="navigation">
+            <div class="nav-title" id="navTitle">Loop dan Pengulangan</div>
+            <div class="nav-controls"><button class="nav-btn" id="prevBtn" onclick="prevSlide()">‹</button>
+                <div class="counter" id="counter">1 / 30</div><button class="nav-btn next" id="nextBtn"
+                    onclick="nextSlide()">›</button>
+            </div>
+        </nav>
+    </main>
+    <div class="image-modal" id="imageModal" onclick="closeImageModal()"><img id="modalImg" alt="Preview"></div>
+
+    <script>
+        const slides = [...document.querySelectorAll('.slide')]; let currentSlide = 0;
+        const navTitle = document.getElementById('navTitle'), counter = document.getElementById('counter'), progressLine = document.getElementById('progressLine'), prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn');
+        function showSlide(i) { slides[currentSlide].classList.remove('active'); currentSlide = Math.max(0, Math.min(i, slides.length - 1)); slides[currentSlide].classList.add('active'); navTitle.textContent = slides[currentSlide].dataset.title || ''; counter.textContent = `${currentSlide + 1} / ${slides.length}`; progressLine.style.width = `${((currentSlide + 1) / slides.length) * 100}%`; prevBtn.disabled = currentSlide === 0; nextBtn.disabled = currentSlide === slides.length - 1; }
+        function nextSlide() { showSlide(currentSlide + 1) } function prevSlide() { showSlide(currentSlide - 1) } document.addEventListener('keydown', e => { if (e.key === 'ArrowRight') nextSlide(); if (e.key === 'ArrowLeft') prevSlide(); });
+        document.querySelectorAll('.zoomable,.image-card img').forEach(img => img.addEventListener('click', () => openImageModal(img.src)));
+        function openImageModal(src) { document.getElementById('modalImg').src = src; document.getElementById('imageModal').classList.add('show') } function closeImageModal() { document.getElementById('imageModal').classList.remove('show') }
+
+        const mazeConfigs = {
+            m1: { board: 'mazeBoard1', list: 'mazeList1', status: 'mazeStatus1', start: [0, 4], goal: [4, 1], walls: [[1, 3], [1, 2], [3, 4], [3, 3]], solution: ['right', 'right', 'right', 'right', 'up', 'up', 'up'], cmds: [], pos: [0, 4] },
+            m2: { board: 'mazeBoard2', list: 'mazeList2', status: 'mazeStatus2', start: [0, 0], goal: [4, 4], walls: [[1, 0], [1, 1], [3, 2], [2, 4]], solution: ['right', 'right', 'down', 'down', 'right', 'down', 'right', 'down'], cmds: [], pos: [0, 0] },
+            m3: { board: 'mazeBoard3', list: 'mazeList3', status: 'mazeStatus3', start: [0, 4], goal: [0, 0], walls: [[1, 1], [2, 1], [3, 1], [4, 1]], solution: ['up', 'up', 'up', 'up'], cmds: [], pos: [0, 4] },
+            m4: { board: 'mazeBoard4', list: 'mazeList4', status: 'mazeStatus4', start: [0, 4], goal: [4, 0], walls: [[1, 2], [2, 2], [3, 2], [0, 1]], solution: ['right', 'right', 'right', 'right', 'up', 'up', 'up', 'up'], cmds: [], pos: [0, 4] }
+        };
+        const arrowMap = { up: '⬆️', down: '⬇️', left: '⬅️', right: '➡️' };
+        function initMazes() { Object.keys(mazeConfigs).forEach(k => drawMaze(k)); }
+        function drawMaze(key) { const m = mazeConfigs[key]; const board = document.getElementById(m.board); if (!board) return; board.innerHTML = ''; for (let y = 0; y < 5; y++) { for (let x = 0; x < 5; x++) { const cell = document.createElement('div'); cell.className = 'maze-cell'; if (m.walls.some(w => w[0] === x && w[1] === y)) cell.classList.add('wall'); if (m.goal[0] === x && m.goal[1] === y) { cell.classList.add('goal'); cell.textContent = '🏁' } if (m.start[0] === x && m.start[1] === y) { cell.classList.add('start') } if (m.pos[0] === x && m.pos[1] === y) cell.classList.add('robot'); board.appendChild(cell) } } }
+        function addMazeCmd(key, dir) { const m = mazeConfigs[key]; m.cmds.push({ type: 'move', dir }); renderCmds(key) }
+        function addLoopCmd(key) { const idx = key === 'm3' ? '3' : '4'; const dir = document.getElementById('loopDir' + idx).value; const count = Math.max(1, Math.min(8, parseInt(document.getElementById('loopCount' + idx).value || 1))); mazeConfigs[key].cmds.push({ type: 'loop', dir, count }); renderCmds(key) }
+        function renderCmds(key) { const m = mazeConfigs[key]; const list = document.getElementById(m.list); list.innerHTML = ''; m.cmds.forEach(c => { const el = document.createElement('div'); el.className = 'cmd-chip ' + (c.type === 'loop' ? 'loop' : ''); el.textContent = c.type === 'loop' ? `repeat ${c.count} ${arrowMap[c.dir]}` : `${arrowMap[c.dir]} ${c.dir}`; list.appendChild(el) }); }
+        function expandCmds(cmds) { const out = []; cmds.forEach(c => { if (c.type === 'move') out.push(c.dir); else for (let i = 0; i < c.count; i++)out.push(c.dir) }); return out }
+        function resetMaze(key) { const m = mazeConfigs[key]; m.cmds = []; m.pos = [...m.start]; renderCmds(key); drawMaze(key); document.getElementById(m.status).textContent = 'Reset berhasil. Susun lagi algoritmanya.'; document.getElementById(m.status).className = 'status-line' }
+        async function runMaze(key, needLoop = false) {
+            const m = mazeConfigs[key]; const status = document.getElementById(m.status); if (needLoop && !m.cmds.some(c => c.type === 'loop')) { status.textContent = 'Coba gunakan minimal satu block repeat ya.'; status.className = 'status-line error'; return } const moves = expandCmds(m.cmds); let pos = [...m.start]; m.pos = [...pos]; drawMaze(key); for (const mv of moves) { await new Promise(r => setTimeout(r, 260)); if (mv === 'up') pos[1]--; if (mv === 'down') pos[1]++; if (mv === 'left') pos[0]--; if (mv === 'right') pos[0]++; m.pos = [...pos]; drawMaze(key); if (pos[0] < 0 || pos[0] > 4 || pos[1] < 0 || pos[1] > 4 || m.walls.some(w => w[0] === pos[0] && w[1] === pos[1])) { status.textContent = 'Oops, robot menabrak batu atau keluar grid. Debug dan coba lagi.'; status.className = 'status-line error'; return } }
+            const ok = pos[0] === m.goal[0] && pos[1] === m.goal[1]; status.textContent = ok ? 'Berhasil! Robot sampai ke bendera. ✅' : 'Belum sampai target. Cek lagi urutan langkahnya.'; status.className = 'status-line ' + (ok ? 'success' : 'error');
+        }
+
+        document.getElementById('repairRepeat')?.addEventListener('change', e => document.getElementById('repairCountPreview').textContent = e.target.value);
+        async function runRepair() { const count = document.getElementById('repairRepeat').value; const pattern = document.getElementById('repairPattern').value; const log = document.getElementById('repairLog'); const bot = document.getElementById('fixRobot'); if (count !== '4' || pattern !== 'full') { log.textContent = 'Belum tepat. Karena tugas lengkap dilakukan 4 kali, gunakan repeat 4 dengan tiga aksi lengkap.'; log.style.color = '#ce3f3c'; return } log.textContent = 'Loop benar! Robot akan menjalankan 3 aksi sebanyak 4 kali.'; log.style.color = '#12834e'; for (let i = 1; i <= 4; i++) { log.textContent = `Putaran ${i}: ambil tool...`; bot.style.left = '150px'; await new Promise(r => setTimeout(r, 500)); log.textContent = `Putaran ${i}: menuju mobil...`; bot.style.left = '270px'; await new Promise(r => setTimeout(r, 500)); log.textContent = `Putaran ${i}: fix mobil ✅`; bot.style.left = '455px'; await new Promise(r => setTimeout(r, 500)); bot.style.left = '22px'; await new Promise(r => setTimeout(r, 300)); } log.textContent = 'Selesai! Dengan loop, instruksi jadi lebih singkat dan rapi. ✅' }
+
+        const cat1 = 'https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/c6b6c84d-bc0e-4c42-972d-df9ab8d33720.png';
+        const cat2 = 'https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/ba9aa4d9-2349-4bd7-9314-ef73334cd4ad.png'; let catForeverTimer = null;
+        async function playCatFinite() { const img = document.getElementById('catFinite'), st = document.getElementById('catFiniteStatus'); st.textContent = 'Animation playing...'; for (let i = 0; i < 10; i++) { img.src = i % 2 ? cat2 : cat1; await new Promise(r => setTimeout(r, 500)); } st.textContent = 'Selesai. Karena tidak ada forever, animasi berhenti.' }
+        function playCatForever() { stopCatForever(); const img = document.getElementById('catForever'), st = document.getElementById('catForeverStatus'); let i = 0; st.textContent = 'Forever loop running...'; catForeverTimer = setInterval(() => { img.src = i++ % 2 ? cat2 : cat1 }, 500) }
+        function stopCatForever() { if (catForeverTimer) { clearInterval(catForeverTimer); catForeverTimer = null } const st = document.getElementById('catForeverStatus'); if (st) st.textContent = 'Loop dihentikan.' }
+
+        const scenarios = [
+            { text: 'Tepuk pramuka 3 kali.', ans: 'repeat', why: 'Jumlahnya jelas: 3 kali. Jadi paling cocok memakai repeat [n].' },
+            { text: 'Lampu jalan menyala sampai matahari terbit.', ans: 'until', why: 'Ada kondisi berhenti: sampai matahari terbit. Jadi cocok memakai repeat until.' },
+            { text: 'Awan bergerak terus selama game berjalan.', ans: 'forever', why: 'Selama project aktif, awan terus bergerak. Jadi cocok memakai forever.' },
+            { text: 'Karakter berjalan sampai menyentuh garis finish.', ans: 'until', why: 'Aksi berhenti ketika kondisi finish tercapai. Jadi cocok memakai repeat until.' }
+        ]; let scenarioIdx = 0;
+        function answerLoopType(ans) { const s = scenarios[scenarioIdx], st = document.getElementById('loopTypeStatus'); if (ans === s.ans) { st.textContent = 'Benar! ' + s.why; st.className = 'status-line success' } else { st.textContent = 'Belum tepat. ' + s.why; st.className = 'status-line error' } }
+        function nextLoopScenario() { scenarioIdx = (scenarioIdx + 1) % scenarios.length; document.getElementById('scenarioText').textContent = scenarios[scenarioIdx].text; const st = document.getElementById('loopTypeStatus'); st.textContent = `Soal ${scenarioIdx + 1} dari ${scenarios.length}`; st.className = 'status-line' }
+
+        let quizIndex = 0; const quizQs = [...document.querySelectorAll('.quiz-question')];
+        function answerQuiz(btn, correct) { btn.parentElement.querySelectorAll('button').forEach(b => b.disabled = true); btn.classList.add(correct ? 'correct' : 'wrong'); document.getElementById('quizStatus').textContent = correct ? 'Benar! ✅' : 'Belum tepat, coba ingat lagi konsep loop.'; document.getElementById('quizStatus').className = 'status-line ' + (correct ? 'success' : 'error') }
+        function nextQuiz() { quizQs[quizIndex].classList.remove('active'); quizIndex = Math.min(quizIndex + 1, quizQs.length - 1); quizQs[quizIndex].classList.add('active'); document.getElementById('quizStatus').textContent = quizIndex === quizQs.length - 1 ? 'Jawab soal terakhir.' : 'Jawab soal nomor ' + (quizIndex + 1) + '.'; document.getElementById('quizStatus').className = 'status-line'; document.getElementById('quizBar').style.width = ((quizIndex + 1) / quizQs.length * 100) + '%' }
+        function giveFeedback(btn, msg) { document.querySelectorAll('.emoji-feedback button').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); document.getElementById('feedbackThanks').textContent = msg }
+        initMazes(); showSlide(0);
+    </script>
+</body>
+
+</html>
