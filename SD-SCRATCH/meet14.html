@@ -1,0 +1,1957 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Session 14 - Pengenalan Variabel | Ruangguru Coding</title>
+    <link rel="icon"
+        href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --blue: #2f80ed;
+            --scratchBlue: #4c97ff;
+            --cyan: #16bde8;
+            --purple: #845ef7;
+            --orange: #ff8a34;
+            --yellow: #ffd53d;
+            --green: #28b875;
+            --red: #ef5350;
+            --pink: #ff6fb5;
+            --ink: #20324a;
+            --muted: #66788d;
+            --cardBorder: #e0e8f2;
+            --shadow: 0 22px 55px rgba(22, 44, 76, .18);
+            --event: #ffbf00;
+            --motion: #4c97ff;
+            --looks: #9966ff;
+            --control: #ffab19;
+            --sensing: #5cb1d6;
+            --sound: #d65cd6;
+            --operators: #59c059;
+            --variables: #ff8c1a
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--ink);
+            background: #f8fffe;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        body:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='600' viewBox='0 0 900 600'%3E%3Cg fill='none' stroke='%2300bcd4' stroke-width='2.2' opacity='0.18'%3E%3Crect x='40' y='60' width='68' height='80' rx='6'/%3E%3Cline x1='40' y1='100' x2='108' y2='100'/%3E%3Cline x1='74' y1='60' x2='74' y2='140'/%3E%3Ccircle cx='820' cy='70' r='22'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15' transform='rotate(60 820 70)'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15' transform='rotate(120 820 70)'/%3E%3Crect x='432' y='20' width='48' height='55' rx='10'/%3E%3Crect x='446' y='10' width='20' height='14' rx='4'/%3E%3Crect x='30' y='260' width='58' height='68' rx='10'/%3E%3Crect x='46' y='248' width='26' height='16' rx='4'/%3E%3Ccircle cx='838' cy='340' r='42'/%3E%3Cellipse cx='838' cy='340' rx='20' ry='42'/%3E%3Cline x1='796' y1='340' x2='880' y2='340'/%3E%3Cline x1='838' y1='298' x2='838' y2='382'/%3E%3Crect x='55' y='450' width='80' height='90' rx='6'/%3E%3Cline x1='55' y1='495' x2='135' y2='495'/%3E%3Cline x1='95' y1='450' x2='95' y2='540'/%3E%3Crect x='390' y='480' width='72' height='72' rx='4'/%3E%3Cline x1='414' y1='480' x2='414' y2='552'/%3E%3Cline x1='438' y1='480' x2='438' y2='552'/%3E%3Cline x1='390' y1='504' x2='462' y2='504'/%3E%3Cline x1='390' y1='528' x2='462' y2='528'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: cover;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: -1
+        }
+
+        body:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at 0% 100%, rgba(0, 188, 212, .07), transparent 55%), radial-gradient(ellipse at 100% 0%, rgba(0, 188, 212, .06), transparent 50%);
+            pointer-events: none;
+            z-index: -1
+        }
+
+        .brand-logo {
+            position: fixed;
+            left: 22px;
+            top: 16px;
+            z-index: 2000;
+            background: #fff;
+            border: 2.5px solid rgba(0, 188, 212, .22);
+            border-radius: 22px;
+            padding: 10px 20px;
+            box-shadow: 0 8px 32px rgba(0, 188, 212, .18), 0 2px 8px rgba(0, 0, 0, .07);
+            display: flex;
+            align-items: center
+        }
+
+        .brand-logo img {
+            display: block;
+            height: 80px;
+            max-width: 220px;
+            object-fit: contain
+        }
+
+        .presentation-container {
+            width: 86vw;
+            height: 80vh;
+            max-width: 1500px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(30, 56, 93, .25);
+            overflow: hidden;
+            position: relative;
+            border: 4px solid rgba(255, 255, 255, .85)
+        }
+
+        .presentation-container:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 26px;
+            box-shadow: inset 0 0 0 1px rgba(91, 124, 164, .10);
+            z-index: 30
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 42px 58px 76px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(42px) scale(.985);
+            transition: .46s ease;
+            background: linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(249, 252, 255, .98));
+            overflow: hidden
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            z-index: 10
+        }
+
+        .cover-slide {
+            background: radial-gradient(circle at top left, rgba(255, 255, 255, .30), transparent 34%), linear-gradient(135deg, #153f6a, #2f80ed 38%, #845ef7 70%, #ff8a34);
+            color: #fff
+        }
+
+        .cover-title {
+            font-size: clamp(3.4rem, 7vw, 6.6rem);
+            line-height: .95;
+            margin: 8px 0 18px;
+            font-weight: 800;
+            text-align: center;
+            color: #fff
+        }
+
+        .gradient-text {
+            color: #ffd65a
+        }
+
+        .cover-subtitle {
+            font-size: 1.48rem;
+            max-width: 940px;
+            margin: 0 auto;
+            color: #edf2ff;
+            line-height: 1.42;
+            text-align: center
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+            display: inline-block
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-12px) rotate(3deg)
+            }
+        }
+
+        .soft-blue {
+            background: linear-gradient(145deg, #edf7ff, #f7fbff)
+        }
+
+        .soft-green {
+            background: linear-gradient(145deg, #effcf5, #fbfffd)
+        }
+
+        .soft-orange {
+            background: linear-gradient(145deg, #fff6ea, #fffdf8)
+        }
+
+        .soft-purple {
+            background: linear-gradient(145deg, #f6f0ff, #fbf9ff)
+        }
+
+        .warm-slide {
+            background: linear-gradient(145deg, #fff8e9, #fffdf6)
+        }
+
+        .feedback-final {
+            background: linear-gradient(145deg, #fff0f6, #eef4ff)
+        }
+
+        .agenda-title {
+            width: 100%;
+            max-width: 1180px;
+            text-align: center;
+            font-size: clamp(2.15rem, 4vw, 3.8rem);
+            line-height: 1.06;
+            margin: 6px 0 22px;
+            color: #24344d;
+            font-weight: 800
+        }
+
+        .compact-title {
+            font-size: clamp(1.9rem, 3.3vw, 3.25rem)
+        }
+
+        .subtitle,
+        .lead {
+            font-size: clamp(1.08rem, 1.6vw, 1.38rem);
+            color: var(--muted);
+            margin: -6px 0 18px;
+            line-height: 1.46;
+            text-align: center
+        }
+
+        .kicker {
+            display: inline-flex;
+            background: #f0eaff;
+            color: #6940ba;
+            border: 2px solid #d9c6ff;
+            border-radius: 999px;
+            padding: 7px 13px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            font-size: .86rem
+        }
+
+        .grid,
+        .grid-2,
+        .grid-3,
+        .grid-4,
+        .two-col,
+        .activity-layout {
+            width: 100%;
+            max-width: 1140px;
+            display: grid;
+            gap: 18px
+        }
+
+        .grid-2,
+        .two-col,
+        .activity-layout {
+            grid-template-columns: repeat(2, 1fr);
+            align-items: center
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr)
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(4, 1fr)
+        }
+
+        .card,
+        .activity-box,
+        .quiz-box,
+        .image-panel,
+        .code-panel,
+        .stage-panel {
+            background: #fff;
+            border: 3px solid var(--cardBorder);
+            border-radius: 26px;
+            box-shadow: var(--shadow)
+        }
+
+        .card {
+            padding: 18px;
+            min-height: 145px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center
+        }
+
+        .card-icon {
+            font-size: 2.7rem;
+            margin-bottom: 6px
+        }
+
+        .card h3,
+        .activity-box h3,
+        .image-panel h3 {
+            margin: 4px 0 6px;
+            font-size: 1.28rem;
+            color: #20324a
+        }
+
+        .card p,
+        .activity-box p,
+        .image-panel p {
+            margin: 0;
+            color: #61768d;
+            line-height: 1.42;
+            font-size: 1.02rem
+        }
+
+        .note,
+        .warning {
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 1.08rem;
+            line-height: 1.42;
+            max-width: 920px;
+            font-weight: 600
+        }
+
+        .note {
+            background: #eefcf6;
+            border: 2px solid #c8f0dd;
+            color: #1f7d55
+        }
+
+        .warning {
+            background: #fff8db;
+            border: 2px solid #f7d95d;
+            color: #7b6412
+        }
+
+        .wide-note {
+            max-width: 1040px;
+            width: 100%;
+            text-align: center;
+            margin-top: 18px
+        }
+
+        .btn,
+        .choice,
+        .run-btn {
+            appearance: none;
+            border: none;
+            text-decoration: none;
+            font-family: inherit;
+            cursor: pointer;
+            font-weight: 700;
+            transition: .2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .btn {
+            padding: 13px 18px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            color: #fff;
+            box-shadow: 0 10px 18px rgba(47, 128, 237, .23);
+            font-size: 1rem
+        }
+
+        .btn:hover,
+        .choice:hover,
+        .run-btn:hover {
+            transform: translateY(-2px)
+        }
+
+        .choice {
+            background: #f9fbfd;
+            border: 3px solid #dfe7f0;
+            border-radius: 16px;
+            padding: 14px 16px;
+            text-align: left;
+            width: 100%;
+            color: #29425f;
+            font-size: 1.02rem
+        }
+
+        .choice.correct {
+            background: #eafaf3;
+            border-color: var(--green);
+            color: #136740
+        }
+
+        .choice.wrong {
+            background: #fff0ef;
+            border-color: var(--red);
+            color: #b24439
+        }
+
+        .feedback,
+        .status-line {
+            min-height: 28px;
+            margin-top: 12px;
+            text-align: center;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #566b81
+        }
+
+        .activity-box {
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 292px
+        }
+
+        .image-panel {
+            padding: 16px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px
+        }
+
+        .image-panel img {
+            width: 100%;
+            max-height: 320px;
+            object-fit: contain;
+            border-radius: 18px;
+            background: #f7fbff;
+            border: 2px solid #e2ebf5
+        }
+
+        .asset-img {
+            max-height: 170px !important;
+            object-fit: contain !important;
+            border: 0 !important;
+            background: transparent !important
+        }
+
+        .scratch-img-small {
+            max-height: 205px !important;
+            object-fit: contain !important;
+            background: #fff !important
+        }
+
+        .project-iframe {
+            width: 100%;
+            height: 390px;
+            border: 0;
+            border-radius: 22px;
+            background: #fff;
+            box-shadow: var(--shadow);
+            border: 4px solid #dfe8f2
+        }
+
+        .code-panel {
+            padding: 16px;
+            text-align: left;
+            font-size: 1rem;
+            line-height: 1.25;
+            width: 100%;
+            max-width: 560px
+        }
+
+        .scratch-block {
+            border-radius: 12px;
+            padding: 9px 13px;
+            font-weight: 700;
+            display: inline-block;
+            margin: 3px 0;
+            box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .12);
+            font-size: .96rem
+        }
+
+        .b-event {
+            background: var(--event);
+            color: #4c3a00
+        }
+
+        .b-control {
+            background: var(--control);
+            color: #553400
+        }
+
+        .b-motion {
+            background: var(--motion);
+            color: #fff
+        }
+
+        .b-look {
+            background: var(--looks);
+            color: #fff
+        }
+
+        .b-sound {
+            background: var(--sound);
+            color: #fff
+        }
+
+        .b-sensing {
+            background: var(--sensing);
+            color: #fff
+        }
+
+        .b-operator {
+            background: var(--operators);
+            color: #fff
+        }
+
+        .b-variable {
+            background: var(--variables);
+            color: #fff
+        }
+
+        .scratch-cblock {
+            background: var(--control);
+            color: #553400;
+            border-radius: 16px;
+            padding: 14px;
+            font-weight: 800;
+            box-shadow: inset 0 -5px 0 rgba(0, 0, 0, .12);
+            margin: 8px 0;
+            text-align: left;
+            transition: all .25s ease
+        }
+
+        .scratch-cblock .inner {
+            margin-left: 22px;
+            margin-top: 9px
+        }
+
+        .step-num {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: inline-grid;
+            place-items: center;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--orange), #ffb445);
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(255, 138, 52, .25);
+            margin-right: 8px
+        }
+
+        .wrap {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center
+        }
+
+        .small-tag {
+            display: inline-flex;
+            background: #f3f8ff;
+            color: #3a5d84;
+            border: 2px solid #d7e8ff;
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-weight: 700;
+            margin: 4px
+        }
+
+        .storage-quiz {
+            width: 100%;
+            max-width: 900px;
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 28px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+            text-align: center
+        }
+
+        .storage-question {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #24344d;
+            margin-bottom: 18px
+        }
+
+        .storage-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px
+        }
+
+        .storage-option {
+            border: 3px solid #dfe7f0;
+            background: #f9fbfd;
+            border-radius: 20px;
+            padding: 18px;
+            font-family: inherit;
+            font-size: 1.08rem;
+            font-weight: 800;
+            color: #29425f;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .storage-option:hover {
+            transform: translateY(-3px);
+            border-color: #845ef7;
+            background: #f6f0ff
+        }
+
+        .storage-option.ok {
+            background: #eafaf3;
+            border-color: var(--green);
+            color: #136740
+        }
+
+        .storage-option.no {
+            background: #fff8db;
+            border-color: #f7d95d;
+            color: #7b6412
+        }
+
+        .storage-progress {
+            font-weight: 800;
+            color: #6b7d92;
+            margin-bottom: 10px
+        }
+
+        .box-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1060px
+        }
+
+        .var-box {
+            background: #fff;
+            border: 3px solid #dfe8f2;
+            border-radius: 24px;
+            padding: 18px;
+            text-align: center;
+            box-shadow: 0 12px 26px rgba(40, 65, 100, .1);
+            min-height: 160px
+        }
+
+        .var-box .icon {
+            font-size: 3.3rem
+        }
+
+        .var-label {
+            margin-top: 8px;
+            background: #fff3e0;
+            border: 2px solid #ffcc80;
+            color: #bf5b00;
+            border-radius: 999px;
+            padding: 7px 12px;
+            font-weight: 800;
+            display: inline-block
+        }
+
+        .var-value {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #20324a;
+            margin-top: 8px
+        }
+
+        .flow-line {
+            height: 58px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            margin: 10px 0;
+            background: #eef7ff;
+            border: 2px solid #b9dcff;
+            color: #26394f
+        }
+
+        .chicky-game {
+            width: 100%;
+            height: 330px;
+            border: 6px solid #26394f;
+            border-radius: 26px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(#bcefff 0 58%, #8fd173 58%);
+            box-shadow: var(--shadow)
+        }
+
+        .chicky-actor,
+        .worm-actor {
+            position: absolute;
+            transition: .2s ease;
+            filter: drop-shadow(0 8px 8px rgba(0, 0, 0, .15));
+            user-select: none
+        }
+
+        .chicky-actor {
+            font-size: 4.5rem;
+            left: 44%;
+            top: 48%
+        }
+
+        .worm-actor {
+            font-size: 3.2rem;
+            left: 68%;
+            top: 58%
+        }
+
+        .score-pill {
+            position: absolute;
+            left: 14px;
+            top: 14px;
+            background: #fff;
+            border: 3px solid #ffcc80;
+            color: #bf5b00;
+            border-radius: 999px;
+            padding: 10px 16px;
+            font-weight: 800;
+            box-shadow: 0 10px 18px rgba(0, 0, 0, .1)
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 14px
+        }
+
+        .controls-row button {
+            height: 46px;
+            min-width: 70px;
+            padding: 0 14px;
+            border: 2.5px solid #dbe5f0;
+            background: #fff;
+            border-radius: 14px;
+            font: 800 1.05rem 'Fredoka';
+            color: #24344d;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
+            transition: .18s
+        }
+
+        .controls-row button:hover {
+            transform: translateY(-2px);
+            border-color: var(--blue);
+            color: var(--blue)
+        }
+
+        .score-select {
+            height: 42px;
+            border: 2.5px solid #dbe5f0;
+            border-radius: 14px;
+            padding: 0 10px;
+            font: 800 1rem 'Fredoka';
+            color: #24344d;
+            background: #fff
+        }
+
+        .water-demo {
+            width: 100%;
+            height: 320px;
+            border: 6px solid #26394f;
+            border-radius: 26px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(#c4f1ff 0 48%, #96d47b 48%);
+            box-shadow: var(--shadow)
+        }
+
+        .water-pot {
+            position: absolute;
+            left: 42%;
+            top: 42%;
+            font-size: 4.6rem;
+            cursor: pointer;
+            user-select: none;
+            transition: .18s
+        }
+
+        .plant-demo {
+            position: absolute;
+            font-size: 4.1rem;
+            top: 46%
+        }
+
+        .plant-demo.p1 {
+            left: 14%
+        }
+
+        .plant-demo.p2 {
+            left: 44%;
+            top: 57%
+        }
+
+        .plant-demo.p3 {
+            right: 14%
+        }
+
+        .water-bar {
+            position: absolute;
+            left: 14px;
+            top: 14px;
+            width: 170px;
+            background: #fff;
+            border: 3px solid #a5d8ff;
+            border-radius: 18px;
+            padding: 9px;
+            font-weight: 800;
+            color: #0369a1
+        }
+
+        .bar-track {
+            height: 16px;
+            background: #e0f2fe;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 6px
+        }
+
+        .bar-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #2f80ed, #16bde8);
+            border-radius: 999px;
+            transition: .25s
+        }
+
+        .water-msg {
+            position: absolute;
+            left: 50%;
+            top: 16px;
+            transform: translateX(-50%);
+            background: #fff;
+            border: 3px solid #dfe8f2;
+            border-radius: 18px;
+            padding: 10px 16px;
+            font-weight: 800;
+            color: #24344d;
+            box-shadow: 0 10px 18px rgba(0, 0, 0, .1);
+            min-width: 250px;
+            text-align: center
+        }
+
+        .water-splash {
+            position: absolute;
+            font-size: 2.6rem;
+            opacity: 0;
+            transition: .25s
+        }
+
+        .water-splash.show {
+            opacity: 1;
+            transform: translateY(20px)
+        }
+
+        .quiz-wrapper {
+            width: 100%;
+            max-width: 960px;
+            background: #fff;
+            border: 3.5px solid #e0e8f2;
+            border-radius: 28px;
+            padding: 28px 36px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden
+        }
+
+        .quiz-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px
+        }
+
+        .quiz-badge {
+            background: #f0eaff;
+            color: #7048e8;
+            border: 2px solid #d0bfff;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: .92rem;
+            letter-spacing: .05em
+        }
+
+        .quiz-step {
+            font-weight: 800;
+            color: #607289;
+            font-size: 1.05rem
+        }
+
+        .quiz-score-badge {
+            background: #fff9db;
+            color: #d97706;
+            border: 2px solid #fde68a;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 1rem
+        }
+
+        .quiz-progress-track {
+            width: 100%;
+            height: 8px;
+            background: #edf2f7;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 20px
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff8a34, #ff6fb5, #845ef7);
+            border-radius: 999px;
+            transition: width .35s ease
+        }
+
+        .quiz-question-title {
+            font-size: 1.6rem;
+            line-height: 1.35;
+            color: #1e293b;
+            margin: 0 0 18px;
+            font-weight: 800;
+            text-align: left
+        }
+
+        .quiz-options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 11px
+        }
+
+        .quiz-opt-btn {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 20px;
+            background: #f8fafc;
+            border: 2.5px solid #e2e8f0;
+            border-radius: 18px;
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #334155;
+            text-align: left;
+            cursor: pointer;
+            transition: all .2s ease
+        }
+
+        .quiz-opt-btn:hover:not(:disabled) {
+            background: #f0f7ff;
+            border-color: var(--blue);
+            transform: translateX(4px)
+        }
+
+        .quiz-opt-letter {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: #e2e8f0;
+            color: #475569;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            transition: all .2s ease
+        }
+
+        .quiz-opt-btn.correct {
+            background: #ecfdf5;
+            border-color: #10b981;
+            color: #065f46
+        }
+
+        .quiz-opt-btn.correct .quiz-opt-letter {
+            background: #10b981;
+            color: #fff
+        }
+
+        .quiz-opt-btn.wrong {
+            background: #fef2f2;
+            border-color: #ef4444;
+            color: #991b1b
+        }
+
+        .quiz-opt-btn.wrong .quiz-opt-letter {
+            background: #ef4444;
+            color: #fff
+        }
+
+        .quiz-feedback-box {
+            margin-top: 14px;
+            padding: 14px 18px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            line-height: 1.4;
+            text-align: left
+        }
+
+        .quiz-next-btn {
+            margin-top: 14px;
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            font-size: 1.05rem
+        }
+
+        .review-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .review-card {
+            background: #fff;
+            border: 3px solid var(--cardBorder);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 14px 30px rgba(30, 60, 100, .08);
+            display: grid;
+            grid-template-columns: 68px 1fr;
+            gap: 16px;
+            align-items: center;
+            text-align: left;
+            position: relative;
+            overflow: hidden
+        }
+
+        .review-icon-wrap {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            display: grid;
+            place-items: center;
+            font-size: 2.5rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, .06);
+            background: #e0f2fe;
+            border: 2px solid #bae6fd
+        }
+
+        .review-step-tag {
+            font-size: .76rem;
+            font-weight: 800;
+            letter-spacing: .08em;
+            color: #8b9eb5;
+            margin-bottom: 2px
+        }
+
+        .review-content h3 {
+            margin: 0 0 6px;
+            font-size: 1.25rem;
+            color: #1e293b
+        }
+
+        .review-content p {
+            margin: 0;
+            color: #64748b;
+            font-size: .98rem;
+            line-height: 1.4
+        }
+
+        .feedback-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 1060px;
+            margin-top: 8px
+        }
+
+        .feedback-card {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 26px;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 14px 30px rgba(40, 60, 100, .08);
+            transition: all .25s cubic-bezier(.34, 1.56, .64, 1);
+            font-family: inherit
+        }
+
+        .feedback-card:hover {
+            transform: translateY(-6px) scale(1.03);
+            border-color: var(--purple);
+            box-shadow: 0 20px 40px rgba(132, 94, 247, .2)
+        }
+
+        .feedback-card.selected {
+            transform: translateY(-4px) scale(1.04);
+            border-color: #845ef7;
+            background: #faf5ff;
+            box-shadow: 0 20px 40px rgba(132, 94, 247, .25)
+        }
+
+        .feedback-card .fb-emoji {
+            font-size: 4.6rem;
+            margin-bottom: 8px
+        }
+
+        .feedback-card h3 {
+            margin: 4px 0 6px;
+            font-size: 1.25rem;
+            color: #1e293b;
+            font-weight: 800
+        }
+
+        .feedback-card p {
+            margin: 0 0 12px;
+            font-size: .95rem;
+            color: #64748b;
+            line-height: 1.35
+        }
+
+        .fb-tag {
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: .88rem;
+            font-weight: 700;
+            color: #475569
+        }
+
+        .feedback-thanks {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c4ddd;
+            margin-top: 25px;
+            min-height: 35px
+        }
+
+        .img-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(15, 23, 42, .88);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity .25s ease
+        }
+
+        .img-modal.active {
+            display: flex;
+            opacity: 1
+        }
+
+        .img-modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: scale(.92);
+            transition: transform .25s cubic-bezier(.34, 1.56, .64, 1)
+        }
+
+        .img-modal.active .img-modal-content {
+            transform: scale(1)
+        }
+
+        .img-modal-content img {
+            max-width: 86vw;
+            max-height: 78vh;
+            object-fit: contain;
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .5), 0 0 0 3px rgba(255, 255, 255, .2);
+            background: #fff
+        }
+
+        .img-modal-caption {
+            margin-top: 14px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, .6);
+            text-align: center;
+            max-width: 800px
+        }
+
+        .img-modal-close {
+            position: absolute;
+            top: -18px;
+            right: -18px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #ff5252;
+            color: #fff;
+            border: 3px solid #fff;
+            font-size: 1.3rem;
+            font-weight: 800;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .35);
+            transition: all .2s ease;
+            z-index: 10
+        }
+
+        .image-panel img,
+        .card img,
+        .scratch-img-small,
+        .asset-img,
+        .two-col img {
+            cursor: zoom-in;
+            transition: transform .22s ease, box-shadow .22s ease
+        }
+
+        .image-panel img:hover,
+        .card img:hover,
+        .scratch-img-small:hover,
+        .asset-img:hover {
+            transform: scale(1.025);
+            box-shadow: 0 10px 24px rgba(47, 128, 237, .2)
+        }
+
+        .navigation {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, .96);
+            border-top: 1px solid #e7edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 100;
+            backdrop-filter: blur(12px)
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b7d92;
+            max-width: 42%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #d9e3ef;
+            background: #fff;
+            color: #4c6077;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            border-color: var(--blue);
+            color: var(--blue)
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            color: #fff;
+            border: 0;
+            box-shadow: 0 7px 16px rgba(255, 138, 52, .3)
+        }
+
+        .nav-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed
+        }
+
+        .counter {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #53677f;
+            min-width: 74px;
+            text-align: center
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 0;
+            bottom: 62px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--orange), var(--pink), var(--purple), var(--cyan));
+            width: 0;
+            transition: .35s;
+            z-index: 110
+        }
+
+        @media(max-width:1200px) {
+            .grid-4 {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .grid-3,
+            .grid-2,
+            .two-col,
+            .activity-layout,
+            .review-grid,
+            .feedback-grid,
+            .box-row {
+                grid-template-columns: 1fr
+            }
+
+            .card {
+                min-height: 118px
+            }
+
+            .image-panel {
+                min-height: 220px
+            }
+
+            .storage-options {
+                grid-template-columns: 1fr
+            }
+
+            .project-iframe {
+                height: 320px
+            }
+        }
+
+        @media(max-width:700px) {
+            .brand-logo {
+                left: 8px;
+                top: 6px;
+                padding: 7px 12px
+            }
+
+            .brand-logo img {
+                height: 32px
+            }
+
+            .presentation-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: 0
+            }
+
+            .slide {
+                padding: 68px 18px 74px
+            }
+
+            .grid-3,
+            .grid-4 {
+                grid-template-columns: 1fr
+            }
+
+            .cover-title {
+                font-size: 3.2rem
+            }
+
+            .nav-title {
+                display: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="brand-logo"><img alt="Ruangguru Coding"
+            src="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png" /></div>
+    <div class="presentation-container">
+        <section class="slide cover-slide active" data-title="Data & Variable: Pengenalan Variabel">
+            <h1 class="cover-title"><span class="gradient-text">Data & Variable</span><br />VARIABLE FROM ZERO</h1>
+            <div class="float" style="font-size:7rem;margin:8px 0">📦🔢💧</div>
+            <p class="cover-subtitle">Sesi 14: Pengenalan Variabel • Scratch SD 90 Menit</p>
+        </section>
+
+        <section class="slide soft-blue" data-title="Review Meet 13">
+            <h2 class="agenda-title">Review Meet 13: If-Else dan Broadcast 💬</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">🔀</div>
+                    <h3>If-Else</h3>
+                    <p>Program bisa memilih aksi berbeda berdasarkan kondisi.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">💬</div>
+                    <h3>Broadcast</h3>
+                    <p>Sprite mengirim pesan agar sprite lain melakukan sesuatu.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⌨️</div>
+                    <h3>Ask & Answer</h3>
+                    <p>User mengetik jawaban, lalu Scratch menyimpannya di answer.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚡</div>
+                    <h3>Energy Control</h3>
+                    <p>Kita membuat command untuk lamp dan fan di Scratch.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Today's Agenda">
+            <h2 class="agenda-title">Today's Agenda 🚀</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">📦</div>
+                    <h3>Storage Analogy</h3>
+                    <p>Memahami ide menyimpan benda dan informasi.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔢</div>
+                    <h3>Variable</h3>
+                    <p>Mengenal variable sebagai tempat menyimpan data.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎮</div>
+                    <h3>Score Activity</h3>
+                    <p>Mencoba variable score yang dapat bertambah.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">💧</div>
+                    <h3>Water Project</h3>
+                    <p>Menggunakan variable water pada project penyiraman.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Activity: Tempat Menyimpan">
+            <h2 class="agenda-title compact-title">Activity: Di Mana Kita Menyimpan Benda? 📦</h2>
+            <div class="storage-quiz">
+                <div class="storage-progress" id="storageProgress">Pertanyaan 1 / 3</div>
+                <div class="storage-question" id="storageQuestion">Pertanyaan muncul di sini.</div>
+                <div class="storage-options" id="storageOptions"></div>
+                <div class="feedback" id="storageFeedback">Pilih jawaban yang menurutmu paling sesuai.</div>
+                <button class="btn" id="storageNext" onclick="nextStorage()"
+                    style="display:none;margin-top:12px">Pertanyaan Berikutnya ➜</button>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Kenapa Perlu Menyimpan">
+            <h2 class="agenda-title compact-title">Kenapa Benda Perlu Disimpan?</h2>
+            <div class="box-row">
+                <div class="var-box">
+                    <div class="icon">👕</div>
+                    <div class="var-label">Lemari</div>
+                    <div class="var-value">Baju</div>
+                </div>
+                <div class="var-box">
+                    <div class="icon">✏️</div>
+                    <div class="var-label">Tempat Pensil</div>
+                    <div class="var-value">Alat Tulis</div>
+                </div>
+                <div class="var-box">
+                    <div class="icon">🥦</div>
+                    <div class="var-label">Kulkas</div>
+                    <div class="var-value">Sayuran</div>
+                </div>
+                <div class="var-box">
+                    <div class="icon">🎮</div>
+                    <div class="var-label">Game Data</div>
+                    <div class="var-value">Score</div>
+                </div>
+            </div>
+            <div class="note wide-note">Benda disimpan supaya rapi, bisa dipakai nanti, bisa bertambah, berkurang, atau
+                diganti. Di programming, kita juga punya tempat menyimpan informasi.</div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Apa Itu Variabel">
+            <h2 class="agenda-title compact-title">Di Programming, Tempat Menyimpan Itu Disebut Variable</h2>
+            <div class="two-col">
+                <div class="card" style="min-height:310px">
+                    <div style="font-size:6rem">📦</div>
+                    <h3>Variable = Kotak Data</h3>
+                    <p>Variable menyimpan informasi yang bisa digunakan lagi oleh program.</p>
+                </div>
+                <div style="text-align:left">
+                    <div class="flow-line">Nama kotak: <b>score</b></div>
+                    <div class="flow-line">Isi awal: <b>0</b></div>
+                    <div class="flow-line">Saat dapat item: <b>score + 1</b></div>
+                    <div class="warning" style="margin-top:12px">Nilai di dalam variable bisa berubah selama project
+                        berjalan.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Answer sebagai Penyimpanan">
+            <h2 class="agenda-title compact-title">Ingat Block Ask dan Answer? ⌨️</h2>
+            <div class="two-col">
+                <div class="image-panel"><img class="scratch-img-small"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/3a3b30b2-4cd2-4a7d-8020-ac44a82a80b2.png"
+                        alt="Scratch ask and answer block"></div>
+                <div style="text-align:left">
+                    <p class="lead" style="text-align:left">Saat Scratch bertanya kepada user, jawaban user perlu
+                        disimpan dulu sebelum diproses.</p>
+                    <div class="note">Untuk memudahkan, anggap <b>answer</b> seperti tempat penyimpanan sementara untuk
+                        jawaban terakhir user.</div>
+                    <div class="warning" style="margin-top:14px">Nanti, kita akan membuat variable sendiri seperti
+                        <b>score</b>, <b>water</b>, atau <b>health</b>.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Apa yang Bisa Disimpan">
+            <h2 class="agenda-title compact-title">Apa Saja yang Bisa Disimpan di Variable?</h2>
+            <div class="two-col">
+                <div class="image-panel"><img
+                        src="https://miro.medium.com/v2/resize:fit:1400/1*rR0FfdA1KX8sKgA6NWKcww.gif"
+                        alt="Game health and score example"></div>
+                <div class="grid" style="grid-template-columns:1fr;gap:12px">
+                    <div class="card" style="align-items:flex-start;text-align:left">
+                        <h3>🔢 Angka</h3>
+                        <p>Contoh: score, water, health, level, jumlah item.</p>
+                    </div>
+                    <div class="card" style="align-items:flex-start;text-align:left">
+                        <h3>🔤 Text</h3>
+                        <p>Contoh: nama player, jawaban user, status game.</p>
+                    </div>
+                    <div class="card" style="align-items:flex-start;text-align:left">
+                        <h3>🔁 Data yang Berubah</h3>
+                        <p>Nilainya bisa naik, turun, atau diganti oleh program.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Scratch Variable Blocks">
+            <h2 class="agenda-title compact-title">Variable di Scratch Ada di Kategori Orange 🟧</h2>
+            <div class="two-col">
+                <div class="image-panel"><img class="scratch-img-small"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSb4d4VL0lWdWOGeEWzOv1P4dDIJX3RgyZJngwE4Q0Vf1Bwd4dpl8JV9vFd&s=10"
+                        alt="Scratch variable blocks"></div>
+                <div class="image-panel"><img class="scratch-img-small"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/6a17cb4d-b31e-4701-808e-676bc00d1d7a.png"
+                        alt="Make a Variable in Scratch"></div>
+            </div>
+            <div class="note wide-note">Untuk membuat kotak penyimpanan baru, klik <b>Make a Variable</b>, lalu beri
+                nama variable yang mudah dipahami, misalnya <b>score</b> atau <b>water</b>.</div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Activity: Chicky Score">
+            <h2 class="agenda-title compact-title">Activity: Chicky Mengejar Worm 🐥🪱</h2>
+            <p class="subtitle">Gerakkan Chicky. Jika menyentuh Worm, variable <b>score</b> bertambah.</p>
+            <div class="activity-layout">
+                <div class="activity-box">
+                    <div class="chicky-game" id="chickyGame">
+                        <div class="score-pill">score = <span id="miniScore">0</span></div>
+                        <div class="chicky-actor" id="miniChicky">🐥</div>
+                        <div class="worm-actor" id="miniWorm">🪱</div>
+                    </div>
+                    <div class="controls-row">
+                        <button onclick="moveChicky(0,-1)">⬆️</button><button
+                            onclick="moveChicky(-1,0)">⬅️</button><button onclick="moveChicky(0,1)">⬇️</button><button
+                            onclick="moveChicky(1,0)">➡️</button>
+                        <select class="score-select" id="scoreStep">
+                            <option value="1">change score by 1</option>
+                            <option value="2">change score by 2</option>
+                            <option value="5">change score by 5</option>
+                        </select>
+                    </div>
+                    <div class="feedback" id="scoreFeedback">Coba sentuh Worm dan lihat score berubah.</div>
+                </div>
+                <div class="activity-box">
+                    <div class="code-panel">
+                        <span class="scratch-block b-event">when green flag clicked</span><br>
+                        <span class="scratch-block b-variable">set score to 0</span><br>
+                        <span class="scratch-block b-control">forever</span><br>
+                        <div style="margin-left:18px">
+                            <span class="scratch-block b-motion">move with arrow keys</span><br>
+                            <div class="scratch-cblock">if <span class="scratch-block b-sensing">touching Worm?</span>
+                                then
+                                <div class="inner"><span class="scratch-block b-variable">change score by
+                                        +1</span><br><span class="scratch-block b-look">hide / random position /
+                                        show</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="warning" style="margin-top:14px">Challenge: ubah angka pada <b>change score by</b>. Apa
+                        yang terjadi pada score?</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Project Preview">
+            <h2 class="agenda-title compact-title">Project Preview: Smart Watering Garden 💧</h2>
+            <div class="two-col">
+                <iframe class="project-iframe" src="https://scratch.mit.edu/projects/1378014204/embed"
+                    allowtransparency="true" scrolling="no" allowfullscreen></iframe>
+                <div style="text-align:left">
+                    <p class="lead" style="text-align:left">Perhatikan project contoh. Ada tanaman yang perlu disiram,
+                        tetapi kita harus mengecek persediaan air terlebih dahulu.</p>
+                    <div class="note">Variable utama project ini adalah <b>water</b>. Nilainya bisa berkurang saat
+                        menyiram dan bertambah perlahan saat menunggu.</div>
+                    <a class="btn" style="margin-top:16px" href="https://scratch.mit.edu/projects/1378014204/"
+                        target="_blank" rel="noopener noreferrer">Buka Contoh Project ↗</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Describe Project Logic">
+            <h2 class="agenda-title compact-title">Coba Describe Logic Project-nya 🧠</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">💧</div>
+                    <h3>Water</h3>
+                    <p>Isi air di pot disimpan di variable water.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🖱️</div>
+                    <h3>Click</h3>
+                    <p>Pot bisa menyiram saat diklik.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">✅</div>
+                    <h3>Cukup Air</h3>
+                    <p>Jika water lebih dari 30, pot bisa menyiram.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🌱</div>
+                    <h3>Grow</h3>
+                    <p>Jika pot menyentuh plant, plant menerima pesan grow.</p>
+                </div>
+            </div>
+            <div class="warning wide-note">Hari ini fokus sampai logic Pot dan variable water. Minggu depan project akan
+                dilanjutkan.</div>
+        </section>
+
+        <section class="slide soft-green" data-title="Open Starter & Remix">
+            <h2 class="agenda-title">Buka Starter Project dan Remix 🛠️</h2>
+            <div class="two-col">
+                <div class="image-panel"><img alt="Cara Remix Scratch"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/ffbc76a6-9956-41e1-9d5d-7812625add3c.png" />
+                </div>
+                <div style="text-align:left">
+                    <div class="card" style="align-items:flex-start;text-align:left">
+                        <h3>Langkah:</h3>
+                        <p><span class="step-num">1</span>Buka link starter project.</p>
+                        <p><span class="step-num">2</span>Klik tombol <b>Remix</b>.</p>
+                        <p><span class="step-num">3</span>Pastikan project tersalin ke akun Scratch kamu.</p>
+                    </div>
+                    <a class="btn" style="margin-top:18px" href="https://scratch.mit.edu/projects/1379673667/"
+                        target="_blank" rel="noopener noreferrer">Buka Starter Project 💧</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Asset and Variable Check">
+            <h2 class="agenda-title compact-title">Asset & Variable Check 👀</h2>
+            <div class="grid grid-3">
+                <div class="image-panel"><img alt="Sprite dan Backdrop Check"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/0a26f04e-acb7-48bf-98d0-69e041af5849.png" />
+                </div>
+                <div class="image-panel"><img alt="Costume Check"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/0a26f04e-acb7-48bf-98d0-69e041af5849.png" />
+                </div>
+                <div class="image-panel"><img alt="Variable Check"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/5b8cf5e1-24fc-4811-9aa9-28349f351312.png" />
+                </div>
+            </div>
+            <div class="note wide-note">Pastikan ada <b>5 sprite + backdrop</b>, costume sudah tersedia, dan variable
+                yang dibutuhkan sudah muncul.</div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Pot Logic 1">
+            <h2 class="agenda-title compact-title">Pot Logic 1: Ikuti Mouse dan Isi Air Bertambah 💧</h2>
+            <div class="two-col">
+                <div class="image-panel"><img alt="Pot follow mouse and refill water code"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/675ca975-cb6d-4049-be44-00c48c7edfff.png" />
+                </div>
+                <div style="text-align:left">
+                    <div class="card" style="align-items:flex-start;text-align:left">
+                        <h3>Fungsi Kode</h3>
+                        <p>Pot mengikuti mouse pointer. Saat green flag diklik, variable <b>water</b> di-set ke 100.
+                            Jika water kurang dari 100, nilainya naik perlahan.</p>
+                    </div>
+                    <div class="warning" style="margin-top:14px">Ini membuat pot seperti mengisi ulang air sedikit demi
+                        sedikit.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Pot Logic 2">
+            <h2 class="agenda-title compact-title">Pot Logic 2: Klik untuk Menyiram</h2>
+            <div class="two-col">
+                <div class="image-panel"><img alt="Pot click watering code"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/566dff11-d4a1-4861-90c4-ba182ce03f41.png" />
+                </div>
+                <div style="text-align:left">
+                    <div class="code-panel">
+                        <div class="scratch-cblock">if <span class="scratch-block b-sensing">mouse down?</span> and
+                            <span class="scratch-block b-operator">water &gt; 30</span> then
+                            <div class="inner"><span class="scratch-block b-look">switch costume to
+                                    watering</span><br><span class="scratch-block b-sound">play sound</span><br><span
+                                    class="scratch-block b-variable">change water by -30</span></div>
+                        </div>
+                    </div>
+                    <div class="note" style="margin-top:14px">Minimal butuh <b>30 water</b> untuk bisa menyiram.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Pot Logic 3">
+            <h2 class="agenda-title compact-title">Pot Logic 3: Jika Menyentuh Plant, Kirim Broadcast 🌱</h2>
+            <div class="two-col">
+                <div class="image-panel"><img alt="Touching plant broadcast growPlant"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/9a20201f-be17-4177-ad5f-924e83faa6b8.png" />
+                </div>
+                <div style="text-align:left">
+                    <p class="lead" style="text-align:left">Pot tidak langsung membuat tanaman tumbuh. Pot mengirim
+                        pesan ke plant dengan <b>broadcast growPlant</b>.</p>
+                    <div class="warning">Plant baru akan merespons kalau pot menyentuh plant saat proses menyiram.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Not Enough Water">
+            <h2 class="agenda-title compact-title">Kalau Air Tidak Cukup?</h2>
+            <div class="two-col">
+                <div class="image-panel"><img alt="Not enough water code"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/a9a2cab0-183c-4a3f-b543-078b9cf85faa.png" />
+                </div>
+                <div class="image-panel"><img alt="Full Pot Program"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/205f0fef-c7a8-46d7-8536-1f776007030b.png" />
+                </div>
+            </div>
+            <div class="note wide-note">Jika water belum cukup, pot menampilkan pesan <b>not enough water</b>. Tunggu
+                sebentar sampai water bertambah lagi.</div>
+        </section>
+
+        <section class="slide soft-green" data-title="Activity: Test Water Variable">
+            <h2 class="agenda-title compact-title">Activity: Test Variable Water 💧</h2>
+            <p class="subtitle">Klik pot untuk menyiram. Perhatikan variable water berkurang dan bertambah lagi
+                perlahan.</p>
+            <div class="activity-layout">
+                <div class="activity-box">
+                    <div class="water-demo" id="waterDemo">
+                        <div class="water-bar">water = <span id="waterValue">100</span>
+                            <div class="bar-track">
+                                <div class="bar-fill" id="waterFill"></div>
+                            </div>
+                        </div>
+                        <div class="water-msg" id="waterMsg">Klik pot untuk menyiram.</div>
+                        <div class="plant-demo p1">🌱</div>
+                        <div class="plant-demo p2">🌿</div>
+                        <div class="plant-demo p3">🌷</div>
+                        <div class="water-pot" id="waterPot" onclick="pourWater()">🪣</div>
+                        <div class="water-splash" id="splash" style="left:47%;top:48%">💦</div>
+                    </div>
+                    <div class="controls-row"><button onclick="pourWater()">💧 Water</button><button
+                            onclick="resetWaterDemo()">🔄 Reset</button></div>
+                </div>
+                <div class="activity-box">
+                    <div class="code-panel">
+                        <span class="scratch-block b-event">when green flag clicked</span><br>
+                        <span class="scratch-block b-variable">set water to 100</span><br>
+                        <span class="scratch-block b-control">forever</span><br>
+                        <div style="margin-left:18px">
+                            <div class="scratch-cblock">if <span class="scratch-block b-operator">water &lt; 100</span>
+                                then<div class="inner"><span class="scratch-block b-variable">change water by 1</span>
+                                </div>
+                            </div>
+                            <div class="scratch-cblock">if <span class="scratch-block b-operator">mouse down and water
+                                    &gt; 30</span> then<div class="inner"><span class="scratch-block b-variable">change
+                                        water by -30</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="warning" style="margin-top:14px">Tujuan testing: pastikan water bisa berkurang, tidak
+                        bisa dipakai saat kurang, lalu refill lagi.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Save Project">
+            <h2 class="agenda-title">Save Project untuk Minggu Depan 💾</h2>
+            <div class="two-col">
+                <div class="image-panel"><img alt="Save and Share Scratch"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/e498442c-d811-4956-ba64-cab26cac98e7.png" />
+                </div>
+                <div class="grid" style="grid-template-columns:1fr;gap:12px">
+                    <div class="card" style="align-items:flex-start;text-align:left">
+                        <h3>1. Test</h3>
+                        <p>Jalankan program dan cek apakah variable water berubah.</p>
+                    </div>
+                    <div class="card" style="align-items:flex-start;text-align:left">
+                        <h3>2. Save</h3>
+                        <p>Pastikan project tersimpan dengan baik di akun Scratch.</p>
+                    </div>
+                    <div class="card" style="align-items:flex-start;text-align:left">
+                        <h3>3. Lanjut Minggu Depan</h3>
+                        <p>Simpan project karena kita akan lanjut membuat logic pertumbuhan tanaman.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Quick Quiz">
+            <div class="quiz-wrapper">
+                <div class="quiz-top-bar"><span class="quiz-badge">⚡ Quick Quiz</span><span class="quiz-step"
+                        id="quizStepText">Soal 1 dari 3</span>
+                    <div class="quiz-score-badge" id="quizScoreBadge">⭐ Skor: 0</div>
+                </div>
+                <div class="quiz-progress-track">
+                    <div class="quiz-progress-fill" id="quizProgressFill" style="width:33.33%"></div>
+                </div>
+                <div class="quiz-card-body">
+                    <h3 class="quiz-question-title" id="quizQuestion">Pertanyaan akan muncul di sini.</h3>
+                    <div class="quiz-options-grid" id="quizOptions"></div>
+                    <div class="quiz-feedback-box" id="quizFeedback" style="display:none"></div>
+                    <button class="btn quiz-next-btn" id="quizNext" onclick="nextQuiz()" style="display:none">Soal
+                        Berikutnya ➜</button>
+                </div>
+                <div class="quiz-complete-card" id="quizComplete" style="display:none;text-align:center;padding:12px 0">
+                    <div style="font-size:5rem;margin-bottom:8px">🏆🎉</div>
+                    <h2 style="font-size:2.1rem;color:#24344d;margin:4px 0 10px">Kuis Selesai!</h2>
+                    <p id="quizFinalMessage" style="font-size:1.2rem;color:#5a718c;margin-bottom:22px"></p>
+                    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap"><button class="btn"
+                            onclick="restartQuiz()" style="background:linear-gradient(135deg,#845ef7,#2f80ed)">🔄 Ulangi
+                            Kuis</button><button class="btn" onclick="changeSlide(1)"
+                            style="background:linear-gradient(135deg,#28b875,#16bde8)">Lanjut ke Review ➜</button></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Review Hari Ini">
+            <h2 class="agenda-title compact-title">Review Hari Ini: 4 Kunci Utama 📝</h2>
+            <div class="review-grid">
+                <div class="review-card">
+                    <div class="review-icon-wrap">📦</div>
+                    <div class="review-content">
+                        <div class="review-step-tag">POIN 1</div>
+                        <h3>Variable</h3>
+                        <p>Variable adalah tempat menyimpan informasi yang bisa dipakai lagi oleh program.</p>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-icon-wrap">🔁</div>
+                    <div class="review-content">
+                        <div class="review-step-tag">POIN 2</div>
+                        <h3>Nilai Bisa Berubah</h3>
+                        <p>Score, water, health, dan jumlah item bisa bertambah atau berkurang.</p>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-icon-wrap">🟧</div>
+                    <div class="review-content">
+                        <div class="review-step-tag">POIN 3</div>
+                        <h3>Variable Blocks</h3>
+                        <p>Di Scratch, variable dibuat dari kategori Variables berwarna orange.</p>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-icon-wrap">💧</div>
+                    <div class="review-content">
+                        <div class="review-step-tag">POIN 4</div>
+                        <h3>Water Logic</h3>
+                        <p>Variable water di-set 100, berkurang saat menyiram, lalu refill perlahan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide feedback-final" data-title="Feedback">
+            <h2 class="agenda-title compact-title">Bagaimana Kelas Hari Ini? 💖</h2>
+            <p class="subtitle" style="margin-bottom:14px">Pilih perasaanmu setelah belajar coding hari ini!</p>
+            <div class="feedback-grid">
+                <button class="feedback-card" onclick="setFeedback(this,'Senang & Paham Banget! 🎉')">
+                    <div class="fb-emoji">🤩</div>
+                    <h3>Paham & Seru</h3>
+                    <p>Aku paham konsep variable dan water logic.</p><span class="fb-tag">⭐⭐⭐⭐⭐</span>
+                </button>
+                <button class="feedback-card" onclick="setFeedback(this,'Cukup Paham & Perlu Latihan! ✨')">
+                    <div class="fb-emoji">😊</div>
+                    <h3>Cukup Paham</h3>
+                    <p>Aku bisa mengikuti, perlu latihan sedikit lagi.</p><span class="fb-tag">⭐⭐⭐⭐</span>
+                </button>
+                <button class="feedback-card" onclick="setFeedback(this,'Butuh Bantuan Teacher! 🙋')">
+                    <div class="fb-emoji">🤔</div>
+                    <h3>Butuh Bantuan</h3>
+                    <p>Ada bagian variable yang ingin kutanyakan.</p><span class="fb-tag">💡 Bimbingan</span>
+                </button>
+            </div>
+            <div class="feedback-thanks" id="feedbackThanks"></div>
+        </section>
+
+        <div id="imageModal" class="img-modal" onclick="closeImageModal(event)">
+            <div class="img-modal-content" onclick="event.stopPropagation()"><button class="img-modal-close"
+                    onclick="closeImageModal(event)" title="Tutup (Esc)">✕</button><img id="modalImg" src=""
+                    alt="Zoomed Image" />
+                <div id="modalCaption" class="img-modal-caption"></div>
+            </div>
+        </div>
+        <div class="progress-line" id="progressLine"></div>
+        <nav class="navigation">
+            <div class="nav-title" id="navTitle">Data & Variable: Pengenalan Variabel</div>
+            <div class="nav-controls"><button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">‹</button>
+                <div class="counter" id="counter">1 / 1</div><button class="nav-btn next" id="nextBtn"
+                    onclick="changeSlide(1)">›</button>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        const slides = [...document.querySelectorAll('.slide')]; let currentSlide = 0; const prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn'), counter = document.getElementById('counter'), navTitle = document.getElementById('navTitle'), progressLine = document.getElementById('progressLine');
+        function showSlide(index) { slides[currentSlide].classList.remove('active'); currentSlide = index; slides[currentSlide].classList.add('active'); prevBtn.disabled = currentSlide === 0; nextBtn.disabled = currentSlide === slides.length - 1; counter.textContent = (currentSlide + 1) + ' / ' + slides.length; navTitle.textContent = slides[currentSlide].dataset.title || 'Ruangguru Coding'; progressLine.style.width = ((currentSlide + 1) / slides.length * 100) + '%' }
+        function changeSlide(dir) { const i = currentSlide + dir; if (i >= 0 && i < slides.length) showSlide(i) }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeImageModal(); if (e.key === 'ArrowRight') changeSlide(1); if (e.key === 'ArrowLeft') changeSlide(-1) }); showSlide(0);
+
+        const storageData = [
+            { q: 'Di mana kamu menyimpan baju?', o: ['Lemari', 'Rak sepatu', 'Bak mandi'], a: 0, good: 'Betul! Baju biasanya disimpan di lemari agar rapi.', other: 'Wah, jawabanmu agak berbeda ya. Tidak apa-apa, kita lanjut!' },
+            { q: 'Di mana kamu menyimpan alat tulis?', o: ['Kulkas', 'Tempat pensil', 'Bagasi'], a: 1, good: 'Betul! Alat tulis cocok disimpan di tempat pensil.', other: 'Boleh saja berbeda, tapi tempat pensil biasanya paling sesuai.' },
+            { q: 'Di mana kamu menyimpan sayuran segar?', o: ['Kulkas', 'Rak buku', 'Tempat sampah'], a: 0, good: 'Betul! Sayuran segar biasanya disimpan di kulkas.', other: 'Menarik! Tapi untuk menjaga sayuran tetap segar, kulkas paling sesuai.' }
+        ]; let storageIndex = 0, storageAnswered = false;
+        function renderStorage() { storageAnswered = false; const data = storageData[storageIndex]; document.getElementById('storageProgress').textContent = 'Pertanyaan ' + (storageIndex + 1) + ' / ' + storageData.length; document.getElementById('storageQuestion').textContent = data.q; document.getElementById('storageFeedback').textContent = 'Pilih jawaban yang menurutmu paling sesuai.'; document.getElementById('storageFeedback').style.color = '#566b81'; document.getElementById('storageNext').style.display = 'none'; const box = document.getElementById('storageOptions'); box.innerHTML = ''; data.o.forEach((opt, i) => { const b = document.createElement('button'); b.className = 'storage-option'; b.textContent = opt; b.onclick = () => answerStorage(i, b); box.appendChild(b); }); }
+        function answerStorage(i, btn) { if (storageAnswered) return; storageAnswered = true; const data = storageData[storageIndex]; document.querySelectorAll('.storage-option').forEach((b, idx) => { b.disabled = true; if (idx === data.a) b.classList.add('ok') }); const fb = document.getElementById('storageFeedback'); if (i === data.a) { fb.textContent = '✅ ' + data.good; fb.style.color = '#12834e' } else { btn.classList.add('no'); fb.textContent = '💡 ' + data.other; fb.style.color = '#7b6412' } document.getElementById('storageNext').style.display = 'inline-flex'; if (storageIndex === storageData.length - 1) document.getElementById('storageNext').textContent = 'Selesai ✅' }
+        function nextStorage() { if (storageIndex < storageData.length - 1) { storageIndex++; document.getElementById('storageNext').textContent = 'Pertanyaan Berikutnya ➜'; renderStorage() } else { document.getElementById('storageFeedback').textContent = 'Hebat! Sekarang kita tahu: setiap benda punya tempat penyimpanan yang sesuai.'; document.getElementById('storageNext').style.display = 'none' } } renderStorage();
+
+        let miniScore = 0, chX = 44, chY = 48, wX = 68, wY = 58;
+        function updateChicky() { const c = document.getElementById('miniChicky'), w = document.getElementById('miniWorm'); if (!c || !w) return; c.style.left = chX + '%'; c.style.top = chY + '%'; w.style.left = wX + '%'; w.style.top = wY + '%'; document.getElementById('miniScore').textContent = miniScore; const dist = Math.hypot(chX - wX, chY - wY); if (dist < 10) { const step = Number(document.getElementById('scoreStep').value || 1); miniScore += step; document.getElementById('miniScore').textContent = miniScore; document.getElementById('scoreFeedback').textContent = '✅ touching Worm? true → change score by ' + step; document.getElementById('scoreFeedback').style.color = '#12834e'; wX = Math.floor(12 + Math.random() * 72); wY = Math.floor(22 + Math.random() * 52); w.style.left = wX + '%'; w.style.top = wY + '%'; } }
+        function moveChicky(dx, dy) { chX = Math.max(6, Math.min(84, chX + dx * 8)); chY = Math.max(8, Math.min(72, chY + dy * 8)); updateChicky() } updateChicky();
+
+        let water = 100; function updateWater() { water = Math.max(0, Math.min(100, water)); document.getElementById('waterValue').textContent = Math.floor(water); document.getElementById('waterFill').style.width = water + '%' }
+        function pourWater() { const msg = document.getElementById('waterMsg'), splash = document.getElementById('splash'); if (water > 30) { water -= 30; msg.textContent = '✅ water > 30: watering and change water by -30'; msg.style.color = '#12834e'; splash.classList.add('show'); setTimeout(() => splash.classList.remove('show'), 420) } else { msg.textContent = '⚠️ Not enough water. Tunggu refill dulu.'; msg.style.color = '#ce3f3c' } updateWater() }
+        function resetWaterDemo() { water = 100; document.getElementById('waterMsg').textContent = 'Klik pot untuk menyiram.'; document.getElementById('waterMsg').style.color = '#24344d'; updateWater() } setInterval(() => { if (water < 100) { water += 1; updateWater() } }, 450); updateWater();
+
+        const quizData = [
+            { q: 'Apa fungsi variable dalam program?', o: ['Tempat menyimpan informasi yang bisa berubah', 'Block untuk mengganti warna backdrop saja', 'Tombol untuk menghapus semua sprite'], a: 0, h: 'Variable menyimpan data seperti score, water, health, atau jawaban user.' },
+            { q: 'Jika kita ingin score bertambah saat menyentuh item, block yang cocok adalah...', o: ['change score by 1', 'next costume saja', 'stop all'], a: 0, h: 'change score by 1 membuat nilai variable score naik satu.' },
+            { q: 'Pada project watering, mengapa water perlu disimpan di variable?', o: ['Agar bisa dicek cukup atau tidak sebelum menyiram', 'Agar sprite tidak bisa bergerak', 'Agar backdrop berubah otomatis'], a: 0, h: 'Water harus disimpan supaya program bisa mengurangi, menambah, dan mengecek nilainya.' }
+        ]; let qIndex = 0, qAnswered = false, quizScore = 0;
+        function renderQuiz() { qAnswered = false; document.querySelector('.quiz-card-body').style.display = 'block'; document.getElementById('quizComplete').style.display = 'none'; document.getElementById('quizStepText').textContent = 'Soal ' + (qIndex + 1) + ' dari ' + quizData.length; document.getElementById('quizScoreBadge').textContent = '⭐ Skor: ' + quizScore; document.getElementById('quizProgressFill').style.width = ((qIndex + 1) / quizData.length * 100) + '%'; document.getElementById('quizQuestion').textContent = quizData[qIndex].q; const box = document.getElementById('quizOptions'); box.innerHTML = ''; const letters = ['A', 'B', 'C']; quizData[qIndex].o.forEach((opt, i) => { const b = document.createElement('button'); b.className = 'quiz-opt-btn'; b.innerHTML = '<span class="quiz-opt-letter">' + letters[i] + '</span><span>' + opt + '</span>'; b.onclick = () => answerQuiz(i, b); box.appendChild(b) }); const fb = document.getElementById('quizFeedback'); fb.style.display = 'none'; fb.textContent = ''; const n = document.getElementById('quizNext'); n.style.display = 'none'; n.textContent = qIndex === quizData.length - 1 ? 'Lihat Hasil Kuis 🏆' : 'Soal Berikutnya ➜' }
+        function answerQuiz(i, btn) { if (qAnswered) return; qAnswered = true; const data = quizData[qIndex], ok = i === data.a; if (ok) quizScore += 30; document.getElementById('quizScoreBadge').textContent = '⭐ Skor: ' + quizScore; document.querySelectorAll('#quizOptions .quiz-opt-btn').forEach((b, idx) => { b.disabled = true; if (idx === data.a) b.classList.add('correct') }); if (!ok) btn.classList.add('wrong'); const fb = document.getElementById('quizFeedback'); fb.style.display = 'block'; fb.innerHTML = (ok ? '🎉 <b>Jawaban Tepat!</b> ' : '💡 <b>Kurang Tepat.</b> ') + data.h; fb.style.background = ok ? '#ecfdf5' : '#fef2f2'; fb.style.border = ok ? '2px solid #10b981' : '2px solid #ef4444'; fb.style.color = ok ? '#065f46' : '#991b1b'; document.getElementById('quizNext').style.display = 'inline-flex' }
+        function nextQuiz() { if (qIndex < quizData.length - 1) { qIndex++; renderQuiz() } else { document.querySelector('.quiz-card-body').style.display = 'none'; document.getElementById('quizComplete').style.display = 'block'; document.getElementById('quizProgressFill').style.width = '100%'; document.getElementById('quizFinalMessage').textContent = 'Kamu mendapatkan total skor ' + quizScore + ' poin. Sekarang kamu sudah mengenal variable dari awal! 🌟' } }
+        function restartQuiz() { qIndex = 0; quizScore = 0; renderQuiz() } renderQuiz();
+
+        function setFeedback(btn, text) { document.querySelectorAll('.feedback-card').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); const fb = document.getElementById('feedbackThanks'); fb.innerHTML = '✨ <b>' + text + '</b> Terima kasih atas responmu!'; fb.style.color = '#7048e8' }
+        function initImageZoom() { document.querySelectorAll('img:not(.brand-logo img)').forEach(img => { img.style.cursor = 'zoom-in'; img.title = 'Klik untuk memperbesar gambar'; img.addEventListener('click', e => { e.stopPropagation(); openImageModal(img.src, img.alt || 'Preview Gambar') }) }) }
+        function openImageModal(src, caption) { const modal = document.getElementById('imageModal'), modalImg = document.getElementById('modalImg'), modalCap = document.getElementById('modalCaption'); if (!modal || !modalImg) return; modalImg.src = src; modalCap.textContent = caption || ''; modal.classList.add('active') }
+        function closeImageModal(e) { if (e) e.stopPropagation(); const modal = document.getElementById('imageModal'); if (modal) modal.classList.remove('active') } initImageZoom();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,2776 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Session 12 - Kondisi dan Sensing | Ruangguru Coding</title>
+    <link rel="icon"
+        href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --blue: #2f80ed;
+            --scratchBlue: #4c97ff;
+            --cyan: #16bde8;
+            --purple: #845ef7;
+            --orange: #ff8a34;
+            --yellow: #ffd53d;
+            --green: #28b875;
+            --red: #ef5350;
+            --pink: #ff6fb5;
+            --ink: #20324a;
+            --muted: #66788d;
+            --cardBorder: #e0e8f2;
+            --shadow: 0 22px 55px rgba(22, 44, 76, .18);
+            --event: #ffbf00;
+            --motion: #4c97ff;
+            --looks: #9966ff;
+            --control: #ffab19;
+            --sensing: #5cb1d6;
+            --sound: #d65cd6;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--ink);
+            background: #f8fffe;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        body:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='600' viewBox='0 0 900 600'%3E%3Cg fill='none' stroke='%2300bcd4' stroke-width='2.2' opacity='0.18'%3E%3Crect x='40' y='60' width='68' height='80' rx='6'/%3E%3Cline x1='40' y1='100' x2='108' y2='100'/%3E%3Cline x1='74' y1='60' x2='74' y2='140'/%3E%3Ccircle cx='820' cy='70' r='22'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15' transform='rotate(60 820 70)'/%3E%3Cellipse cx='820' cy='70' rx='40' ry='15' transform='rotate(120 820 70)'/%3E%3Crect x='432' y='20' width='48' height='55' rx='10'/%3E%3Crect x='446' y='10' width='20' height='14' rx='4'/%3E%3Crect x='30' y='260' width='58' height='68' rx='10'/%3E%3Crect x='46' y='248' width='26' height='16' rx='4'/%3E%3Ccircle cx='838' cy='340' r='42'/%3E%3Cellipse cx='838' cy='340' rx='20' ry='42'/%3E%3Cline x1='796' y1='340' x2='880' y2='340'/%3E%3Cline x1='838' y1='298' x2='838' y2='382'/%3E%3Crect x='55' y='450' width='80' height='90' rx='6'/%3E%3Cline x1='55' y1='495' x2='135' y2='495'/%3E%3Cline x1='95' y1='450' x2='95' y2='540'/%3E%3Crect x='390' y='480' width='72' height='72' rx='4'/%3E%3Cline x1='414' y1='480' x2='414' y2='552'/%3E%3Cline x1='438' y1='480' x2='438' y2='552'/%3E%3Cline x1='390' y1='504' x2='462' y2='504'/%3E%3Cline x1='390' y1='528' x2='462' y2='528'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: cover;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        body:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at 0% 100%, rgba(0, 188, 212, .07), transparent 55%), radial-gradient(ellipse at 100% 0%, rgba(0, 188, 212, .06), transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .brand-logo {
+            position: fixed;
+            left: 22px;
+            top: 16px;
+            z-index: 2000;
+            background: #fff;
+            border: 2.5px solid rgba(0, 188, 212, .22);
+            border-radius: 22px;
+            padding: 10px 20px;
+            box-shadow: 0 8px 32px rgba(0, 188, 212, .18), 0 2px 8px rgba(0, 0, 0, .07);
+            display: flex;
+            align-items: center
+        }
+
+        .brand-logo img {
+            display: block;
+            height: 80px;
+            max-width: 220px;
+            object-fit: contain
+        }
+
+        .presentation-container {
+            width: 86vw;
+            height: 80vh;
+            max-width: 1500px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(30, 56, 93, .25);
+            overflow: hidden;
+            position: relative;
+            border: 4px solid rgba(255, 255, 255, .85)
+        }
+
+        .presentation-container:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 26px;
+            box-shadow: inset 0 0 0 1px rgba(91, 124, 164, .10);
+            z-index: 30
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 42px 58px 76px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(42px) scale(.985);
+            transition: .46s ease;
+            background: linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(249, 252, 255, .98));
+            overflow: hidden
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            z-index: 10
+        }
+
+        .cover-slide {
+            background: radial-gradient(circle at top left, rgba(255, 255, 255, .30), transparent 34%), linear-gradient(135deg, #153f6a, #2f80ed 38%, #845ef7 70%, #ff8a34);
+            color: #fff
+        }
+
+        .cover-title {
+            font-size: clamp(3.4rem, 7vw, 6.6rem);
+            line-height: .95;
+            margin: 8px 0 18px;
+            font-weight: 800;
+            text-align: center;
+            color: #fff
+        }
+
+        .gradient-text {
+            color: #ffd65a
+        }
+
+        .cover-subtitle {
+            font-size: 1.48rem;
+            max-width: 940px;
+            margin: 0 auto;
+            color: #edf2ff;
+            line-height: 1.42
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+            display: inline-block
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-12px) rotate(3deg)
+            }
+        }
+
+        .soft-blue {
+            background: linear-gradient(145deg, #edf7ff, #f7fbff)
+        }
+
+        .soft-green {
+            background: linear-gradient(145deg, #effcf5, #fbfffd)
+        }
+
+        .soft-orange {
+            background: linear-gradient(145deg, #fff6ea, #fffdf8)
+        }
+
+        .soft-purple {
+            background: linear-gradient(145deg, #f6f0ff, #fbf9ff)
+        }
+
+        .warm-slide {
+            background: linear-gradient(145deg, #fff8e9, #fffdf6)
+        }
+
+        .feedback-final {
+            background: linear-gradient(145deg, #fff0f6, #eef4ff)
+        }
+
+        .agenda-title {
+            width: 100%;
+            max-width: 1180px;
+            text-align: center;
+            font-size: clamp(2.2rem, 4vw, 4rem);
+            line-height: 1.06;
+            margin: 6px 0 22px;
+            color: #24344d;
+            font-weight: 800
+        }
+
+        .subtitle,
+        .lead {
+            font-size: clamp(1.08rem, 1.6vw, 1.38rem);
+            color: var(--muted);
+            margin: -6px 0 18px;
+            line-height: 1.46;
+            text-align: center
+        }
+
+        .kicker {
+            display: inline-flex;
+            background: #f0eaff;
+            color: #6940ba;
+            border: 2px solid #d9c6ff;
+            border-radius: 999px;
+            padding: 7px 13px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            font-size: .86rem
+        }
+
+        .grid,
+        .grid-2,
+        .grid-3,
+        .grid-4,
+        .two-col,
+        .activity-layout {
+            width: 100%;
+            max-width: 1140px;
+            display: grid;
+            gap: 18px
+        }
+
+        .grid-2,
+        .two-col,
+        .activity-layout {
+            grid-template-columns: repeat(2, 1fr);
+            align-items: center
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr)
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(4, 1fr)
+        }
+
+        .card,
+        .activity-box,
+        .quiz-box,
+        .image-panel,
+        .code-panel,
+        .stage-panel {
+            background: #fff;
+            border: 3px solid var(--cardBorder);
+            border-radius: 26px;
+            box-shadow: var(--shadow)
+        }
+
+        .card {
+            padding: 18px;
+            min-height: 145px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center
+        }
+
+        .card-icon {
+            font-size: 2.7rem;
+            margin-bottom: 6px
+        }
+
+        .card h3,
+        .activity-box h3,
+        .image-panel h3 {
+            margin: 4px 0 6px;
+            font-size: 1.28rem;
+            color: #20324a
+        }
+
+        .card p,
+        .activity-box p,
+        .image-panel p {
+            margin: 0;
+            color: #61768d;
+            line-height: 1.42;
+            font-size: 1.02rem
+        }
+
+        .note,
+        .warning {
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 1.08rem;
+            line-height: 1.42;
+            max-width: 920px;
+            font-weight: 600
+        }
+
+        .note {
+            background: #eefcf6;
+            border: 2px solid #c8f0dd;
+            color: #1f7d55
+        }
+
+        .warning {
+            background: #fff8db;
+            border: 2px solid #f7d95d;
+            color: #7b6412
+        }
+
+        .btn,
+        .choice,
+        .run-btn {
+            appearance: none;
+            border: none;
+            text-decoration: none;
+            font-family: inherit;
+            cursor: pointer;
+            font-weight: 700;
+            transition: .2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .btn {
+            padding: 13px 18px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            color: #fff;
+            box-shadow: 0 10px 18px rgba(47, 128, 237, .23);
+            font-size: 1rem
+        }
+
+        .btn:hover,
+        .choice:hover,
+        .run-btn:hover {
+            transform: translateY(-2px)
+        }
+
+        .choice {
+            background: #f9fbfd;
+            border: 3px solid #dfe7f0;
+            border-radius: 16px;
+            padding: 14px 16px;
+            text-align: left;
+            width: 100%;
+            color: #29425f;
+            font-size: 1.02rem
+        }
+
+        .choice.correct {
+            background: #eafaf3;
+            border-color: var(--green);
+            color: #136740
+        }
+
+        .choice.wrong {
+            background: #fff0ef;
+            border-color: var(--red);
+            color: #b24439
+        }
+
+        .choice.selected {
+            background: #eef7ff;
+            border-color: var(--blue)
+        }
+
+        .feedback,
+        .status-line {
+            min-height: 28px;
+            margin-top: 12px;
+            text-align: center;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #566b81
+        }
+
+        .activity-box {
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 292px
+        }
+
+        .code-panel {
+            padding: 16px;
+            text-align: left;
+            font-size: 1rem;
+            line-height: 1.25;
+            width: 100%;
+            max-width: 560px
+        }
+
+        .code-panel.compact {
+            max-height: 335px;
+            overflow: hidden
+        }
+
+        .scratch-block {
+            border-radius: 12px;
+            padding: 9px 13px;
+            font-weight: 700;
+            display: inline-block;
+            margin: 3px 0;
+            box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .12);
+            font-size: .96rem
+        }
+
+        .b-event {
+            background: var(--event);
+            color: #4c3a00
+        }
+
+        .b-control {
+            background: var(--control);
+            color: #553400
+        }
+
+        .b-motion {
+            background: var(--motion);
+            color: #fff
+        }
+
+        .b-look {
+            background: var(--looks);
+            color: #fff
+        }
+
+        .b-sound {
+            background: var(--sound);
+            color: #fff
+        }
+
+        .b-sensing {
+            background: var(--sensing);
+            color: #fff
+        }
+
+        .b-stop {
+            background: #ff6680;
+            color: #fff
+        }
+
+        .drop-zone {
+            min-height: 78px;
+            width: 100%;
+            border: 3px dashed #cbd8e2;
+            border-radius: 16px;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            align-content: flex-start;
+            background: #f8fbff
+        }
+
+        .drop-zone.over {
+            border-color: var(--orange);
+            background: #fff8db
+        }
+
+        .drag-pool {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 12px
+        }
+
+        .drag-item {
+            background: #4c97ff;
+            color: #fff;
+            padding: 9px 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: grab;
+            box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .12)
+        }
+
+        .drag-item.locked {
+            background: var(--green);
+            cursor: default
+        }
+
+        .image-panel {
+            padding: 16px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px
+        }
+
+        .image-panel img {
+            width: 100%;
+            max-height: 320px;
+            object-fit: contain;
+            border-radius: 18px;
+            background: #f7fbff;
+            border: 2px solid #e2ebf5
+        }
+
+        .stage-panel {
+            position: relative;
+            min-height: 330px;
+            overflow: hidden;
+            background: linear-gradient(#bcefff 0 56%, #8fd173 56%);
+            border: 6px solid #26394f
+        }
+
+        .field-stage {
+            width: 100%;
+            height: 320px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 22px;
+            background: linear-gradient(#bcefff 0 58%, #8dc66f 58%);
+            border: 6px solid #26394f
+        }
+
+        .soil {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 42%;
+            background: linear-gradient(135deg, #aa7142, #cf9a61)
+        }
+
+        .scratch-sprite {
+            position: absolute;
+            transition: .25s ease;
+            filter: drop-shadow(0 8px 8px rgba(0, 0, 0, .15))
+        }
+
+        .chicky {
+            width: 90px
+        }
+
+        .worm {
+            width: 72px
+        }
+
+        .eagle {
+            width: 112px
+        }
+
+        .chicky-js {
+            left: 32%;
+            bottom: 20%
+        }
+
+        .worm-js {
+            left: 68%;
+            bottom: 15%
+        }
+
+        .eagle-js {
+            right: 8%;
+            top: 14%
+        }
+
+        .bubble {
+            background: #fff;
+            border: 3px solid #dfe8f2;
+            border-radius: 22px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+            font-weight: 700;
+            color: #314760
+        }
+
+        .if-card {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 14px;
+            align-items: center;
+            width: 100%;
+            max-width: 950px
+        }
+
+        .logic-chip {
+            background: #fff;
+            border: 3px solid #dfe8f2;
+            border-radius: 22px;
+            padding: 18px;
+            text-align: center;
+            box-shadow: 0 12px 26px rgba(40, 65, 100, .1);
+            font-weight: 700
+        }
+
+        .logic-chip span {
+            font-size: 3rem;
+            display: block
+        }
+
+        .arrow {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ff8a34
+        }
+
+        .sensor-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .sensor-btn {
+            border: 3px solid #dfe7f0;
+            background: #fff;
+            border-radius: 22px;
+            padding: 15px;
+            font-family: inherit;
+            font-weight: 700;
+            color: #29425f;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .sensor-btn span {
+            display: block;
+            font-size: 3rem;
+            margin-bottom: 4px
+        }
+
+        .sensor-btn:hover,
+        .sensor-btn.selected {
+            transform: translateY(-4px);
+            border-color: #845ef7;
+            background: #f6f0ff
+        }
+
+        .mini-sim {
+            width: 100%;
+            height: 260px;
+            border-radius: 22px;
+            background: linear-gradient(#e9fbff 0 60%, #b4dc83 60%);
+            border: 5px solid #26394f;
+            position: relative;
+            overflow: hidden
+        }
+
+        .mini-sim .actor {
+            position: absolute;
+            font-size: 4.2rem;
+            transition: .25s
+        }
+
+        .sim-caption {
+            position: absolute;
+            left: 12px;
+            top: 12px;
+            background: #fff;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-weight: 700
+        }
+
+        .project-iframe {
+            width: 100%;
+            height: 390px;
+            border: 0;
+            border-radius: 22px;
+            background: #fff;
+            box-shadow: var(--shadow);
+            border: 4px solid #dfe8f2
+        }
+
+        .quiz-box {
+            padding: 28px;
+            width: 100%;
+            max-width: 900px
+        }
+
+        .quiz-box h3 {
+            font-size: 1.8rem;
+            margin: 0 0 18px;
+            color: #24344d;
+            line-height: 1.35
+        }
+
+        .options {
+            display: grid;
+            gap: 10px
+        }
+
+        .small-tag {
+            display: inline-flex;
+            background: #f3f8ff;
+            color: #3a5d84;
+            border: 2px solid #d7e8ff;
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-weight: 700;
+            margin: 4px
+        }
+
+        .step-num {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: inline-grid;
+            place-items: center;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--orange), #ffb445);
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(255, 138, 52, .25);
+            margin-right: 8px
+        }
+
+        .navigation {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, .96);
+            border-top: 1px solid #e7edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 100;
+            backdrop-filter: blur(12px)
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b7d92;
+            max-width: 42%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #d9e3ef;
+            background: #fff;
+            color: #4c6077;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            border-color: var(--blue);
+            color: var(--blue)
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            color: #fff;
+            border: 0;
+            box-shadow: 0 7px 16px rgba(255, 138, 52, .3)
+        }
+
+        .nav-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed
+        }
+
+        .counter {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #53677f;
+            min-width: 74px;
+            text-align: center
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 0;
+            bottom: 62px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--orange), var(--pink), var(--purple), var(--cyan));
+            width: 0;
+            transition: .35s;
+            z-index: 110
+        }
+
+        .emoji-feedback {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 30px
+        }
+
+        .emoji-feedback button {
+            border: 3px solid #e0e7ef;
+            background: #fff;
+            border-radius: 25px;
+            padding: 18px;
+            font-size: 5rem;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .emoji-feedback button:hover,
+        .emoji-feedback button.selected {
+            transform: scale(1.12);
+            border-color: var(--purple);
+            background: #f5efff
+        }
+
+        .emoji-feedback small {
+            display: block;
+            font: 600 .9rem 'Fredoka'
+        }
+
+        .feedback-thanks {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c4ddd;
+            margin-top: 25px;
+            min-height: 35px
+        }
+
+        .clickable {
+            cursor: pointer
+        }
+
+        .toggle-img {
+            max-height: 190px !important
+        }
+
+        .wrap {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center
+        }
+
+        .compact-title {
+            font-size: clamp(1.9rem, 3.3vw, 3.25rem)
+        }
+
+        @media(max-width:1200px) {
+            .grid-4 {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .grid-3,
+            .grid-2,
+            .two-col,
+            .activity-layout {
+                grid-template-columns: 1fr
+            }
+
+            .card {
+                min-height: 118px
+            }
+
+            .image-panel {
+                min-height: 220px
+            }
+
+            .sensor-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:700px) {
+            .brand-logo {
+                left: 8px;
+                top: 6px;
+                padding: 7px 12px
+            }
+
+            .brand-logo img {
+                height: 32px
+            }
+
+            .presentation-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: 0
+            }
+
+            .slide {
+                padding: 68px 18px 74px
+            }
+
+            .grid-3,
+            .grid-4,
+            .sensor-grid,
+            .if-card {
+                grid-template-columns: 1fr
+            }
+
+            .cover-title {
+                font-size: 3.2rem
+            }
+
+            .nav-title {
+                display: none
+            }
+
+            .emoji-feedback {
+                gap: 8px;
+                flex-wrap: wrap
+            }
+
+            .emoji-feedback button {
+                font-size: 3.5rem
+            }
+        }
+
+
+        /* ===== Revised Meet 12 additions ===== */
+        .think-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1060px
+        }
+
+        .think-card {
+            background: #fff;
+            border: 3px solid var(--cardBorder);
+            border-radius: 24px;
+            padding: 18px;
+            box-shadow: 0 12px 26px rgba(40, 65, 100, .10);
+            display: grid;
+            grid-template-columns: 70px 1fr;
+            gap: 14px;
+            align-items: center;
+            text-align: left
+        }
+
+        .think-card .icon {
+            font-size: 3rem;
+            text-align: center
+        }
+
+        .think-card h3 {
+            margin: 0 0 4px;
+            color: #20324a;
+            font-size: 1.2rem
+        }
+
+        .think-card p {
+            margin: 0;
+            color: #61768d;
+            line-height: 1.35;
+            font-size: 1rem
+        }
+
+        .then-row {
+            display: grid;
+            grid-template-columns: 1fr 70px 1fr;
+            gap: 14px;
+            align-items: center;
+            width: 100%;
+            max-width: 950px
+        }
+
+        .then-box {
+            background: #fff;
+            border: 3px solid #dfe8f2;
+            border-radius: 22px;
+            padding: 18px;
+            box-shadow: 0 12px 26px rgba(40, 65, 100, .1);
+            text-align: center;
+            min-height: 130px;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            color: #26394f
+        }
+
+        .then-box span {
+            display: block;
+            font-size: 3rem;
+            margin-bottom: 4px
+        }
+
+        .big-arrow {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--orange);
+            text-align: center
+        }
+
+        .traffic-wrap {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 1050px;
+            align-items: center
+        }
+
+        .traffic-panel {
+            background: #fff;
+            border: 3px solid #dfe8f2;
+            border-radius: 26px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            display: grid;
+            place-items: center;
+            gap: 12px
+        }
+
+        .traffic-light-box {
+            width: 92px;
+            background: #26394f;
+            border-radius: 28px;
+            padding: 18px;
+            display: grid;
+            gap: 14px;
+            box-shadow: inset 0 -8px 0 rgba(0, 0, 0, .22), 0 14px 24px rgba(30, 50, 90, .2)
+        }
+
+        .lamp {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #132033;
+            border: 4px solid rgba(255, 255, 255, .12);
+            cursor: pointer;
+            transition: .25s
+        }
+
+        .lamp.red.on {
+            background: #ef4444;
+            box-shadow: 0 0 26px #ef4444
+        }
+
+        .lamp.green.on {
+            background: #22c55e;
+            box-shadow: 0 0 26px #22c55e
+        }
+
+        .road-stage {
+            height: 300px;
+            border: 6px solid #26394f;
+            border-radius: 26px;
+            background: linear-gradient(#aee8ff 0 48%, #555 48% 78%, #92d174 78%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow)
+        }
+
+        .road-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 62%;
+            border-top: 5px dashed rgba(255, 255, 255, .55)
+        }
+
+        .car-sim {
+            position: absolute;
+            top: 52%;
+            left: 650px;
+            font-size: 4rem;
+            filter: drop-shadow(0 8px 6px rgba(0, 0, 0, .18));
+            user-select: none;
+            pointer-events: none
+        }
+
+        .traffic-status {
+            background: #fff;
+            border: 2px solid #dfe8f2;
+            border-radius: 16px;
+            padding: 12px 16px;
+            font-weight: 800;
+            text-align: center;
+            color: #15803d;
+            margin-top: 10px;
+            font-size: 1.05rem
+        }
+
+        .flow-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 1030px
+        }
+
+        .flow-card {
+            background: #fff;
+            border: 3px solid #dfe8f2;
+            border-radius: 28px;
+            padding: 20px;
+            min-height: 330px;
+            box-shadow: var(--shadow);
+            text-align: center
+        }
+
+        .flow-line {
+            height: 58px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            margin: 10px 0;
+            background: #eef7ff;
+            border: 2px solid #b9dcff
+        }
+
+        .branch-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 12px
+        }
+
+        .branch-box div {
+            padding: 14px;
+            border-radius: 18px;
+            border: 2px solid;
+            font-weight: 700;
+            min-height: 72px;
+            display: grid;
+            place-items: center
+        }
+
+        .game-logic-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1050px
+        }
+
+        .game-logic-card {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 24px;
+            padding: 18px;
+            box-shadow: 0 12px 25px rgba(40, 70, 100, .09);
+            text-align: center
+        }
+
+        .game-logic-card span {
+            font-size: 3.2rem;
+            display: block
+        }
+
+        .game-logic-card b {
+            font-size: 1.18rem;
+            display: block;
+            margin: 8px 0 4px
+        }
+
+        .scratch-img-small {
+            max-height: 205px !important;
+            object-fit: contain !important;
+            background: #fff !important
+        }
+
+        .block-hole {
+            display: inline-grid;
+            place-items: center;
+            min-width: 130px;
+            min-height: 42px;
+            background: #cf8b11;
+            color: #fff;
+            border-radius: 20px;
+            margin: 0 8px;
+            padding: 5px 12px;
+            font-weight: 800;
+            clip-path: polygon(8% 0, 92% 0, 100% 50%, 92% 100%, 8% 100%, 0 50%)
+        }
+
+        .healthy-stage {
+            width: 100%;
+            height: 330px;
+            background: #e8f5e9;
+            border: 6px solid #008080;
+            border-radius: 26px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow)
+        }
+
+        .healthy-cat {
+            position: absolute;
+            left: 46%;
+            top: 40%;
+            font-size: 4.4rem;
+            z-index: 10;
+            transition: .13s;
+            transform-origin: center
+        }
+
+        .food {
+            position: absolute;
+            font-size: 3.3rem
+        }
+
+        /* Single row WASD controls */
+        .controls-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 14px
+        }
+
+        .controls-row button {
+            height: 48px;
+            min-width: 72px;
+            padding: 0 14px;
+            border: 2.5px solid #dbe5f0;
+            background: #fff;
+            border-radius: 14px;
+            font: 800 1.05rem 'Fredoka', sans-serif;
+            color: #24344d;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
+            transition: all .18s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px
+        }
+
+        .controls-row button:hover {
+            transform: translateY(-2px);
+            border-color: var(--blue);
+            color: var(--blue);
+            box-shadow: 0 8px 16px rgba(47, 128, 237, .18)
+        }
+
+        .controls-row button:active {
+            transform: translateY(0)
+        }
+
+        .controls-row button.btn-reset {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            color: #475569
+        }
+
+        .controls-row button.btn-reset:hover {
+            background: #e2e8f0;
+            border-color: #94a3b8;
+            color: #1e293b
+        }
+
+        .scratch-cblock {
+            background: var(--control);
+            color: #553400;
+            border-radius: 16px;
+            padding: 14px;
+            font-weight: 800;
+            box-shadow: inset 0 -5px 0 rgba(0, 0, 0, .12);
+            margin: 8px 0;
+            text-align: left;
+            transition: all .25s ease
+        }
+
+        .scratch-cblock .inner {
+            margin-left: 22px;
+            margin-top: 9px
+        }
+
+        .asset-img {
+            max-height: 160px !important;
+            object-fit: contain !important;
+            border: 0 !important;
+            background: transparent !important
+        }
+
+        .wide-note {
+            max-width: 1040px;
+            width: 100%;
+            text-align: center;
+            margin-top: 18px
+        }
+
+        /* ===== Lightbox Image Modal ===== */
+        .img-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity .25s ease
+        }
+
+        .img-modal.active {
+            display: flex;
+            opacity: 1
+        }
+
+        .img-modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: scale(0.92);
+            transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1)
+        }
+
+        .img-modal.active .img-modal-content {
+            transform: scale(1)
+        }
+
+        .img-modal-content img {
+            max-width: 86vw;
+            max-height: 78vh;
+            object-fit: contain;
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 0 3px rgba(255, 255, 255, 0.2);
+            background: #fff
+        }
+
+        .img-modal-caption {
+            margin-top: 14px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            max-width: 800px
+        }
+
+        .img-modal-close {
+            position: absolute;
+            top: -18px;
+            right: -18px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #ff5252;
+            color: #fff;
+            border: 3px solid #fff;
+            font-size: 1.3rem;
+            font-weight: 800;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+            transition: all .2s ease;
+            z-index: 10
+        }
+
+        .img-modal-close:hover {
+            transform: scale(1.15) rotate(90deg);
+            background: #ff1744
+        }
+
+        .image-panel img,
+        .card img,
+        .scratch-img-small,
+        .asset-img,
+        .toggle-img,
+        .two-col img {
+            cursor: zoom-in;
+            transition: transform .22s ease, box-shadow .22s ease
+        }
+
+        .image-panel img:hover,
+        .card img:hover,
+        .scratch-img-small:hover,
+        .asset-img:hover {
+            transform: scale(1.025);
+            box-shadow: 0 10px 24px rgba(47, 128, 237, 0.2)
+        }
+
+        /* ===== Enhanced Quick Quiz Styles ===== */
+        .quiz-wrapper {
+            width: 100%;
+            max-width: 960px;
+            background: #fff;
+            border: 3.5px solid #e0e8f2;
+            border-radius: 28px;
+            padding: 28px 36px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden
+        }
+
+        .quiz-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px
+        }
+
+        .quiz-badge {
+            background: #f0eaff;
+            color: #7048e8;
+            border: 2px solid #d0bfff;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 0.92rem;
+            letter-spacing: 0.05em
+        }
+
+        .quiz-step {
+            font-weight: 800;
+            color: #607289;
+            font-size: 1.05rem
+        }
+
+        .quiz-score-badge {
+            background: #fff9db;
+            color: #d97706;
+            border: 2px solid #fde68a;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 1rem
+        }
+
+        .quiz-progress-track {
+            width: 100%;
+            height: 8px;
+            background: #edf2f7;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 20px
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff8a34, #ff6fb5, #845ef7);
+            border-radius: 999px;
+            transition: width 0.35s ease
+        }
+
+        .quiz-question-title {
+            font-size: 1.6rem;
+            line-height: 1.35;
+            color: #1e293b;
+            margin: 0 0 18px;
+            font-weight: 800;
+            text-align: left
+        }
+
+        .quiz-options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 11px
+        }
+
+        .quiz-opt-btn {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 20px;
+            background: #f8fafc;
+            border: 2.5px solid #e2e8f0;
+            border-radius: 18px;
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #334155;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease
+        }
+
+        .quiz-opt-btn:hover:not(:disabled) {
+            background: #f0f7ff;
+            border-color: var(--blue);
+            transform: translateX(4px)
+        }
+
+        .quiz-opt-letter {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: #e2e8f0;
+            color: #475569;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            transition: all 0.2s ease
+        }
+
+        .quiz-opt-btn:hover:not(:disabled) .quiz-opt-letter {
+            background: var(--blue);
+            color: #fff
+        }
+
+        .quiz-opt-btn.correct {
+            background: #ecfdf5;
+            border-color: #10b981;
+            color: #065f46
+        }
+
+        .quiz-opt-btn.correct .quiz-opt-letter {
+            background: #10b981;
+            color: #fff
+        }
+
+        .quiz-opt-btn.wrong {
+            background: #fef2f2;
+            border-color: #ef4444;
+            color: #991b1b
+        }
+
+        .quiz-opt-btn.wrong .quiz-opt-letter {
+            background: #ef4444;
+            color: #fff
+        }
+
+        .quiz-feedback-box {
+            margin-top: 14px;
+            padding: 14px 18px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            line-height: 1.4;
+            text-align: left
+        }
+
+        .quiz-next-btn {
+            margin-top: 14px;
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            font-size: 1.05rem
+        }
+
+        /* ===== Enhanced Review Styles ===== */
+        .review-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .review-card {
+            background: #fff;
+            border: 3px solid var(--cardBorder);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 14px 30px rgba(30, 60, 100, 0.08);
+            display: grid;
+            grid-template-columns: 68px 1fr;
+            gap: 16px;
+            align-items: center;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            transition: transform .2s ease, box-shadow .2s ease
+        }
+
+        .review-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 36px rgba(30, 60, 100, 0.12)
+        }
+
+        .review-icon-wrap {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            display: grid;
+            place-items: center;
+            font-size: 2.5rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06)
+        }
+
+        .card-conditional .review-icon-wrap {
+            background: #e0f2fe;
+            border: 2px solid #bae6fd
+        }
+
+        .card-control .review-icon-wrap {
+            background: #ffedd5;
+            border: 2px solid #fed7aa
+        }
+
+        .card-sensing .review-icon-wrap {
+            background: #f3e8ff;
+            border: 2px solid #e9d5ff
+        }
+
+        .card-game .review-icon-wrap {
+            background: #dcfce7;
+            border: 2px solid #bbf7d0
+        }
+
+        .review-step-tag {
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: #8b9eb5;
+            margin-bottom: 2px
+        }
+
+        .review-content h3 {
+            margin: 0 0 6px;
+            font-size: 1.25rem;
+            color: #1e293b
+        }
+
+        .review-content p {
+            margin: 0;
+            color: #64748b;
+            font-size: 0.98rem;
+            line-height: 1.4
+        }
+
+        .review-summary-banner {
+            width: 100%;
+            max-width: 1100px;
+            margin-top: 16px;
+            background: linear-gradient(135deg, #eefcf6, #e0f7fa);
+            border: 2px solid #80cbc4;
+            border-radius: 18px;
+            padding: 12px 20px;
+            color: #00695c;
+            font-size: 1.05rem;
+            font-weight: 700;
+            text-align: center;
+            box-shadow: 0 6px 18px rgba(0, 150, 136, 0.08)
+        }
+
+        /* ===== Enhanced Feedback Styles ===== */
+        .feedback-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 1060px;
+            margin-top: 8px
+        }
+
+        .feedback-card {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 26px;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 14px 30px rgba(40, 60, 100, 0.08);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-family: inherit
+        }
+
+        .feedback-card:hover {
+            transform: translateY(-6px) scale(1.03);
+            border-color: var(--purple);
+            box-shadow: 0 20px 40px rgba(132, 94, 247, 0.2)
+        }
+
+        .feedback-card.selected {
+            transform: translateY(-4px) scale(1.04);
+            border-color: #845ef7;
+            background: #faf5ff;
+            box-shadow: 0 20px 40px rgba(132, 94, 247, 0.25)
+        }
+
+        .feedback-card .fb-emoji {
+            font-size: 4.6rem;
+            margin-bottom: 8px;
+            transition: transform .2s ease
+        }
+
+        .feedback-card:hover .fb-emoji {
+            transform: scale(1.15) rotate(6deg)
+        }
+
+        .feedback-card h3 {
+            margin: 4px 0 6px;
+            font-size: 1.25rem;
+            color: #1e293b;
+            font-weight: 800
+        }
+
+        .feedback-card p {
+            margin: 0 0 12px;
+            font-size: 0.95rem;
+            color: #64748b;
+            line-height: 1.35
+        }
+
+        .fb-tag {
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #475569
+        }
+
+        .feedback-highlight-tags {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 18px;
+            font-weight: 700;
+            color: #556980
+        }
+
+        .mini-tag-btn {
+            border: 2px solid #d8e4f0;
+            background: #fff;
+            color: #334e68;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease
+        }
+
+        .mini-tag-btn:hover {
+            border-color: var(--blue);
+            background: #eef7ff;
+            transform: translateY(-2px)
+        }
+
+        .mini-tag-btn.active {
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(47, 128, 237, 0.3)
+        }
+
+        @media(max-width:1200px) {
+
+            .think-grid,
+            .traffic-wrap,
+            .flow-compare,
+            .game-logic-grid,
+            .review-grid,
+            .feedback-grid {
+                grid-template-columns: 1fr
+            }
+
+            .then-row {
+                grid-template-columns: 1fr
+            }
+
+            .big-arrow {
+                transform: rotate(90deg)
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="brand-logo"><img alt="Ruangguru Coding"
+            src="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png" /></div>
+    <div class="presentation-container">
+        <section class="slide cover-slide active" data-title="Control Flow: Conditional & Sensing">
+            <h1 class="cover-title"><span class="gradient-text">Control Flow</span><br />IF & SENSING</h1>
+            <div class="float" style="font-size:7rem;margin:8px 0">🤔💻🔀</div>
+            <p class="cover-subtitle">Sesi 12: Kondisi dan Sensing • Scratch SD 90 Menit</p>
+        </section>
+
+        <section class="slide soft-blue" data-title="Review Meet 11">
+            <h2 class="agenda-title">Review Meet 11: Loop dan Pola 🔁</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">🔁</div>
+                    <h3>Repeat</h3>
+                    <p>Mengulang perintah dengan jumlah tertentu.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">♾️</div>
+                    <h3>Forever</h3>
+                    <p>Mengulang terus selama project berjalan.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🧩</div>
+                    <h3>Nested Loop</h3>
+                    <p>Loop di dalam loop untuk pola yang lebih rapi.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎆</div>
+                    <h3>Animation</h3>
+                    <p>Costume bisa dimainkan berulang agar terlihat hidup.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Today's Agenda">
+            <h2 class="agenda-title">Today's Agenda 🚀</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">🧠</div>
+                    <h3>Think First</h3>
+                    <p>Melihat keputusan sederhana di kehidupan sehari-hari.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🚦</div>
+                    <h3>If-Then</h3>
+                    <p>Memahami kondisi dan konsekuensi melalui simulasi.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📡</div>
+                    <h3>Sensing</h3>
+                    <p>Mengisi kondisi if dengan sensor Scratch.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🐥</div>
+                    <h3>Chicky Grow</h3>
+                    <p>Membuat game dengan aturan makan dan menghindar.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Think First">
+            <h2 class="agenda-title compact-title">Coba Pikirkan Dulu 🤔</h2>
+            <p class="subtitle">Sebelum belajar block baru, kita mulai dari kejadian sehari-hari.</p>
+            <div class="think-grid">
+                <div class="think-card">
+                    <div class="icon">🍽️</div>
+                    <div>
+                        <h3>Kalau tiba-tiba lapar...</h3>
+                        <p>Apa yang biasanya kamu lakukan?</p>
+                    </div>
+                </div>
+                <div class="think-card">
+                    <div class="icon">🌧️</div>
+                    <div>
+                        <h3>Kalau mau keluar dan hujan...</h3>
+                        <p>Apa yang perlu kamu siapkan?</p>
+                    </div>
+                </div>
+                <div class="think-card">
+                    <div class="icon">☀️</div>
+                    <div>
+                        <h3>Kalau di luar sangat panas...</h3>
+                        <p>Apa yang perlu kamu pakai?</p>
+                    </div>
+                </div>
+                <div class="think-card">
+                    <div class="icon">🌙</div>
+                    <div>
+                        <h3>Kalau pukul 18.00 ruangan gelap...</h3>
+                        <p>Apa yang perlu dinyalakan?</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Jika Maka">
+            <h2 class="agenda-title compact-title">Kita Ubah Jadi “Jika... Maka...”</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">🍽️</div>
+                    <h3>Jika lapar</h3>
+                    <p>Maka makan.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">☔</div>
+                    <h3>Jika hujan</h3>
+                    <p>Maka gunakan payung.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🧢</div>
+                    <h3>Jika terik</h3>
+                    <p>Maka gunakan topi.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">💡</div>
+                    <h3>Jika malam</h3>
+                    <p>Maka nyalakan lampu.</p>
+                </div>
+            </div>
+            <div class="note wide-note">Bagian <b>Jika</b> adalah kondisi yang dicek. Bagian <b>Maka</b> adalah aksi
+                atau konsekuensi yang dilakukan.</div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Kondisi dan Konsekuensi">
+            <h2 class="agenda-title compact-title">Kondisi Benar = Aksi Berjalan ✅</h2>
+            <div class="then-row">
+                <div class="then-box"><span>🌧️</span><b>Kondisi:</b><br>Hujan turun</div>
+                <div class="big-arrow">➡️</div>
+                <div class="then-box"><span>☔</span><b>Konsekuensi:</b><br>Pakai payung</div>
+            </div>
+            <div class="warning wide-note">Kalau kondisi tidak terjadi, aksi tidak perlu dilakukan. Kalau tidak hujan,
+                kita tidak harus membuka payung.</div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Traffic Light Simulation">
+            <h2 class="agenda-title compact-title">Simulasi If-Then: Lampu Lalu Lintas 🚦</h2>
+            <p class="subtitle" style="margin-bottom:14px">👉 <b>Klik lampu atau tombol</b> (Merah 🔴 / Hijau 🟢) untuk melihat reaksi mobil!</p>
+            <div class="traffic-wrap">
+                <div class="traffic-panel">
+                    <div style="font-size:0.95rem;font-weight:700;color:#5a718c">Ubah Kondisi:</div>
+                    <div class="traffic-light-box">
+                        <div class="lamp red" id="lampRed" onclick="setTraffic('red')" title="Klik Lampu Merah"></div>
+                        <div class="lamp green on" id="lampGreen" onclick="setTraffic('green')" title="Klik Lampu Hijau"></div>
+                    </div>
+                    <div class="wrap">
+                        <button class="btn" style="background:linear-gradient(135deg,#ef5350,#ff8a34);padding:10px 16px"
+                            onclick="setTraffic('red')">🔴 Stop (Red)</button>
+                        <button class="btn" style="background:linear-gradient(135deg,#28b875,#16bde8);padding:10px 16px"
+                            onclick="setTraffic('green')">🟢 Go (Green)</button>
+                    </div>
+                </div>
+                <div>
+                    <div class="road-stage" id="roadStage1">
+                        <div class="road-line"></div>
+                        <div id="trafficCar" class="car-sim">🚗</div>
+                    </div>
+                    <div class="traffic-status" id="trafficStatus">🟢 GREEN: Lampu Hijau = Mobil Berjalan (Go)</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Bedah Traffic Logic">
+            <h2 class="agenda-title compact-title">Bedah Aturannya 🚦</h2>
+            <div class="grid grid-2">
+                <div class="card">
+                    <div class="card-icon">🔴</div>
+                    <h3>Jika lampu merah</h3>
+                    <p>Maka mobil berhenti.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🟢</div>
+                    <h3>Jika lampu hijau</h3>
+                    <p>Maka mobil berjalan.</p>
+                </div>
+            </div>
+            <div class="note wide-note">Aturan seperti ini disebut <b>conditional statement</b>: program mengecek
+                kondisi terlebih dahulu, lalu memilih aksi yang tepat.</div>
+        </section>
+
+        <section class="slide soft-green" data-title="Kenapa Conditional Penting">
+            <h2 class="agenda-title compact-title">Kenapa Kita Perlu Conditional? 🧠</h2>
+            <div class="flow-compare">
+                <div class="flow-card">
+                    <h3>Algoritma Satu Jalur</h3>
+                    <div class="flow-line">Start</div>
+                    <div class="flow-line">Jalan lurus</div>
+                    <div class="flow-line">Output sama</div>
+                    <p>Tidak peduli kondisi apa yang terjadi, hasilnya tetap sama.</p>
+                </div>
+                <div class="flow-card">
+                    <h3>Algoritma Bercabang</h3>
+                    <div class="flow-line">Start</div>
+                    <div class="flow-line">Cek kondisi</div>
+                    <div class="branch-box">
+                        <div style="background:#eafaf3;border-color:#28b875">Jika benar<br>aksi A</div>
+                        <div style="background:#fff0ef;border-color:#ef5350">Jika salah<br>aksi B</div>
+                    </div>
+                    <p>Program bisa memilih jalan yang berbeda sesuai situasi.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Traffic with Scratch Blocks">
+            <h2 class="agenda-title compact-title">Simulasi yang Sama, Sekarang Pakai Block Scratch 🧩</h2>
+            <p class="subtitle" style="margin-bottom:14px">👉 <b>Uji logika Scratch</b>: ganti lampu untuk melihat block mana yang aktif dijalankan!</p>
+            <div class="traffic-wrap">
+                <div class="code-panel">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+                        <span style="font-size:0.92rem;font-weight:800;color:#5a718c">Ganti Kondisi:</span>
+                        <div style="display:flex;gap:8px">
+                            <button class="btn" style="padding:6px 12px;font-size:0.85rem;background:#ef5350" onclick="setTraffic('red')">🔴 Red</button>
+                            <button class="btn" style="padding:6px 12px;font-size:0.85rem;background:#28b875" onclick="setTraffic('green')">🟢 Green</button>
+                        </div>
+                    </div>
+                    <span class="scratch-block b-event">when green flag clicked</span><br>
+                    <span class="scratch-block b-control">forever</span><br>
+                    <div style="margin-left:18px">
+                        <div class="scratch-cblock" id="blockRedCode">if <span class="scratch-block b-sensing">light = red?</span> then
+                            <div class="inner"><span class="scratch-block b-motion">car stop</span></div>
+                        </div>
+                        <div class="scratch-cblock" id="blockGreenCode">else if <span class="scratch-block b-sensing">light = green?</span>
+                            then<div class="inner"><span class="scratch-block b-motion">car move</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="road-stage" id="roadStage2">
+                        <div class="road-line"></div>
+                        <div id="blockCar" class="car-sim">🚗</div>
+                    </div>
+                    <div class="traffic-status" id="blockTrafficStatus">🟢 Kondisi <b>light = green</b> BENAR ➡️ block <b>car move</b> berjalan</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="If Else dalam Game">
+            <h2 class="agenda-title compact-title">Pernah Menemukan Ini di Game? 🎮</h2>
+            <div class="game-logic-grid">
+                <div class="game-logic-card"><span>🏆</span><b>Score kurang</b>
+                    <p>Jika score lebih kecil dari lawan, maka kalah.</p>
+                </div>
+                <div class="game-logic-card"><span>🪤</span><b>Menyentuh jebakan</b>
+                    <p>Jika karakter terkena trap, maka game over.</p>
+                </div>
+                <div class="game-logic-card"><span>💪</span><b>Tidak punya skill</b>
+                    <p>Jika skill belum ada, maka karakter belum bisa memakai kemampuan itu.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Manfaat If Else">
+            <h2 class="agenda-title compact-title">If-Else Membuat Program Bisa...</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">👀</div>
+                    <h3>Mengecek</h3>
+                    <p>Apakah sesuatu terjadi atau tidak.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎮</div>
+                    <h3>Merespons</h3>
+                    <p>Sprite bereaksi saat menyentuh objek.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🏁</div>
+                    <h3>Menentukan hasil</h3>
+                    <p>Menang, kalah, lanjut, atau ulang.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🧩</div>
+                    <h3>Membuat aturan</h3>
+                    <p>Game punya rule yang jelas.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Block If dan If Else">
+            <h2 class="agenda-title compact-title">Block Control: If dan If-Else 🟧</h2>
+            <div class="grid grid-2">
+                <div class="image-panel"><img class="scratch-img-small"
+                        src="https://cs20.ca/_images/scratch_if_block.png" alt="Scratch if then block"></div>
+                <div class="image-panel"><img class="scratch-img-small"
+                        src="https://www.codingal.com/resources/wp-content/uploads/2023/02/003.png"
+                        alt="Scratch if then else block"></div>
+            </div>
+            <div class="note wide-note">Di Scratch, block <b>if</b> dan <b>if-else</b> ada di kategori <b>Control</b>
+                yang berwarna orange.</div>
+        </section>
+
+        <section class="slide soft-green" data-title="Cara Pakai If Then">
+            <h2 class="agenda-title compact-title">Cara Pakai If-Then</h2>
+            <div class="two-col">
+                <div class="image-panel"><img class="scratch-img-small"
+                        src="https://education.vex.com/stemlabs/sites/default/files/inline-images/L3_If%20Then%20accepts%20Boolean%20values%20%281%29.png"
+                        alt="If then empty hole"></div>
+                <div style="text-align:left">
+                    <p class="lead" style="text-align:left">Perhatikan bagian tengah block if. Di situ kita menaruh
+                        <b>pernyataan/kondisi</b> yang bisa bernilai benar atau salah.</p>
+                    <div class="warning">Contoh kondisi: <b>hujan?</b>, <b>health = 0?</b>, <b>touching Worm?</b>, atau
+                        <b>score &gt; 10?</b></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Sensing untuk Mengisi Kondisi">
+            <h2 class="agenda-title compact-title">Di Scratch, Kondisi Banyak Diisi dengan Sensing 📡</h2>
+            <div class="two-col">
+                <div class="image-panel"><img class="scratch-img-small"
+                        src="https://i.ytimg.com/vi/QmWwNnOhGvM/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCpEPiX9yyPuaebrBSN4qZb1ffP8w"
+                        alt="Scratch sensing blocks"></div>
+                <div class="code-panel">
+                    <div class="scratch-cblock">if <span class="block-hole">touching?</span> then<div class="inner">
+                            <span class="scratch-block b-look">action happens</span></div>
+                    </div>
+                    <p style="font-size:1.08rem;line-height:1.45;color:#61768d">Block Sensing adalah pernyataan yang
+                        dicek oleh program: apakah menyentuh objek, warna, mouse, atau tombol keyboard?</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Jika Pernyataan Benar">
+            <h2 class="agenda-title compact-title">Kalau Pernyataannya Benar, Aksi di Dalam If Berjalan</h2>
+            <div class="if-card">
+                <div class="logic-chip"><span>🐥🪱</span><b>touching Worm?</b><br>Benar</div>
+                <div class="arrow">➡️</div>
+                <div class="logic-chip"><span>📈</span><b>change size by 10</b><br>Chicky grow</div>
+            </div>
+            <div class="warning wide-note">Kalau Chicky tidak menyentuh Worm, block aksi di dalam if tidak dijalankan.
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Activity: Healthy Food Game">
+            <h2 class="agenda-title compact-title">Activity: Makan Sehat atau Junk Food? 🍎🍟</h2>
+            <p class="subtitle">Gunakan tombol di bawah atau W-A-S-D untuk menggerakkan kucing.</p>
+            <div class="activity-layout">
+                <div class="activity-box">
+                    <div class="healthy-stage" id="healthyStage">
+                        <div class="healthy-cat" id="healthyCat">😺</div>
+                        <div class="food" style="left:10%;top:13%">🍎</div>
+                        <div class="food" style="right:10%;top:13%">🍜</div>
+                        <div class="food" style="left:10%;bottom:13%">🥦</div>
+                        <div class="food" style="right:10%;bottom:13%">🍟</div>
+                    </div>
+                    <div class="controls-row">
+                        <button onclick="moveCat(0,-1)" title="Gerak ke Atas">⬆️ W</button>
+                        <button onclick="moveCat(-1,0)" title="Gerak ke Kiri">⬅️ A</button>
+                        <button onclick="moveCat(0,1)" title="Gerak ke Bawah">⬇️ S</button>
+                        <button onclick="moveCat(1,0)" title="Gerak ke Kanan">➡️ D</button>
+                        <button class="btn-reset" onclick="resetCat()" title="Reset Posisi">🔄 Reset</button>
+                    </div>
+                </div>
+                <div class="activity-box">
+                    <div class="code-panel">
+                        <div class="scratch-cblock">if <span class="scratch-block b-sensing">touching Buah/Sayur?</span>
+                            then<div class="inner"><span class="scratch-block b-look">set size to Smaller 📉</span>
+                            </div>
+                        </div>
+                        <div class="scratch-cblock">if <span class="scratch-block b-sensing">touching Junk Food?</span>
+                            then<div class="inner"><span class="scratch-block b-look">set size to Bigger 📈</span></div>
+                        </div>
+                    </div>
+                    <div class="feedback" id="healthyFeedback">Coba sentuh makanannya! ✨</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Fun Fact Chicky">
+            <h2 class="agenda-title">Fun Fact: Chicky's Daily Life 🐥</h2>
+            <div class="two-col">
+                <div class="stage-panel" style="min-height:330px">
+                    <div class="soil"></div><img class="scratch-sprite chicky" style="left:18%;bottom:22%"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/2cd35f3f-08b5-49c1-bd67-d3b477c15678.png"
+                        alt="Chicky" /><img class="scratch-sprite worm" style="left:58%;bottom:16%"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/68bbedad-0761-4529-aede-010950f1f7ab.png"
+                        alt="Worm" /><img class="scratch-sprite eagle" style="right:8%;top:8%"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/a56413dc-ba27-4dc9-adfc-1d23bcab4b1c.png"
+                        alt="Eagle" />
+                </div>
+                <div style="text-align:left">
+                    <p class="lead" style="text-align:left">Anak ayam mencari makanan seperti cacing kecil di tanah agar
+                        bisa tumbuh. Tetapi anak ayam juga perlu berhati-hati terhadap predator seperti elang.</p>
+                    <div class="warning" style="margin-top:18px">Di game kita: <b>jika makan worm maka Chicky grow</b>.
+                        <b>Jika menyentuh eagle maka Chicky reset</b>.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Project Preview">
+            <h2 class="agenda-title">Project Preview: Chicky Grow 🐥</h2>
+            <div class="two-col">
+                <iframe class="project-iframe" src="https://scratch.mit.edu/projects/1377983633/embed"
+                    allowtransparency="true" scrolling="no" allowfullscreen></iframe>
+                <div style="text-align:left">
+                    <p class="lead" style="text-align:left">Perhatikan gerakan Chicky, Worm, dan Eagle. Coba tebak:
+                        kondisi apa saja yang dicek oleh program?</p>
+                    <div class="note" style="margin-top:18px">Tujuan project: makan worm agar tumbuh, hindari eagle agar
+                        tidak reset.</div><a class="btn" style="margin-top:18px"
+                        href="https://scratch.mit.edu/projects/1377983633/" target="_blank"
+                        rel="noopener noreferrer">Buka Contoh Project ↗</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Chicky Grow Game Logic">
+            <h2 class="agenda-title compact-title">Game Logic Chicky Grow 🐥</h2>
+            <div class="grid grid-3">
+                <div class="card"><img class="asset-img"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/2cd35f3f-08b5-49c1-bd67-d3b477c15678.png"
+                        alt="Chicky">
+                    <h3>Chicky</h3>
+                    <p>Mengikuti mouse pointer.</p>
+                </div>
+                <div class="card"><img class="asset-img"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/68bbedad-0761-4529-aede-010950f1f7ab.png"
+                        alt="Worm">
+                    <h3>Worm</h3>
+                    <p>Jika dimakan, Chicky bertambah besar.</p>
+                </div>
+                <div class="card"><img class="asset-img"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/a56413dc-ba27-4dc9-adfc-1d23bcab4b1c.png"
+                        alt="Eagle">
+                    <h3>Eagle</h3>
+                    <p>Jika tersentuh, Chicky mulai dari kecil lagi.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Open Starter & Remix">
+            <h2 class="agenda-title">Buka Starter Project dan Remix 🛠️</h2>
+            <div class="two-col">
+                <div class="image-panel"><img alt="Cara Remix Scratch"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/ffbc76a6-9956-41e1-9d5d-7812625add3c.png" />
+                </div>
+                <div style="text-align:left">
+                    <div class="card" style="align-items:flex-start;text-align:left">
+                        <h3>Langkah:</h3>
+                        <p><span class="step-num">1</span>Buka link starter project.</p>
+                        <p><span class="step-num">2</span>Klik tombol <b>Remix</b>.</p>
+                        <p><span class="step-num">3</span>Pastikan project tersalin ke akun Scratch kamu.</p>
+                    </div><a class="btn" style="margin-top:18px" href="https://scratch.mit.edu/projects/1377988298/"
+                        target="_blank" rel="noopener noreferrer">Buka Starter Project 🐥</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Sprite Check">
+            <h2 class="agenda-title">Sprite Check 👀</h2>
+            <div class="grid grid-3">
+                <div class="card"><img class="asset-img"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/2cd35f3f-08b5-49c1-bd67-d3b477c15678.png"
+                        alt="Chicky">
+                    <h3>Chicky</h3>
+                    <p>Player utama yang mengikuti mouse pointer.</p>
+                </div>
+                <div class="card"><img class="asset-img"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/68bbedad-0761-4529-aede-010950f1f7ab.png"
+                        alt="Worm">
+                    <h3>Worm</h3>
+                    <p>Makanan yang muncul dan berpindah posisi.</p>
+                </div>
+                <div class="card"><img class="asset-img"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/a56413dc-ba27-4dc9-adfc-1d23bcab4b1c.png"
+                        alt="Eagle">
+                    <h3>Eagle</h3>
+                    <p>Rintangan yang muncul tiba-tiba.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-blue" data-title="Costume Check">
+            <h2 class="agenda-title">Pastikan Costume Sudah Ada 🎭</h2>
+            <div class="grid grid-3">
+                <div class="image-panel"><img alt="Chicky Costume"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/bb1a6ab8-2413-42d1-93dc-a58823e50baf.png" />
+                </div>
+                <div class="image-panel"><img alt="Worm Costume"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/44bb00a2-9b99-4651-b74a-362059d8a37a.png" />
+                </div>
+                <div class="image-panel"><img alt="Eagle Costume"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/f00cbf59-2ee1-4f94-b767-4b0c5c3dbc47.png" />
+                </div>
+            </div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Chicky Code">
+            <h2 class="agenda-title compact-title">Code Sprite Chicky 🐥</h2>
+            <div class="two-col">
+                <div class="image-panel"><img alt="Chicky Code"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/4b859dad-cd21-4a7d-b80e-5ed529a1755f.png" />
+                </div>
+                <div style="text-align:left">
+                    <div class="card" style="align-items:flex-start;text-align:left">
+                        <h3>Fungsi Chicky</h3>
+                        <p>1. Mengikuti mouse pointer.<br>2. Jika menyentuh worm, size bertambah.<br>3. Jika menyentuh
+                            eagle, size kembali kecil / game reset.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Worm Code">
+            <h2 class="agenda-title compact-title">Code Sprite Worm 🪱</h2>
+            <div class="two-col">
+                <div class="image-panel"><img alt="Worm Code"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/1e6ffe9e-5e21-44be-ada4-b22a84047095.png" />
+                </div>
+                <div style="text-align:left">
+                    <div class="card" style="align-items:flex-start;text-align:left">
+                        <h3>Fungsi Worm</h3>
+                        <p>Worm glide ke posisi acak. Jika tersentuh Chicky, Worm hide, pindah posisi, lalu show lagi.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Eagle Code">
+            <h2 class="agenda-title compact-title">Code Sprite Eagle 🦅</h2>
+            <div class="two-col">
+                <div class="image-panel"><img alt="Eagle Code"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/408e531b-3227-49d2-b839-1df230f98694.png" />
+                </div>
+                <div style="text-align:left">
+                    <div class="card" style="align-items:flex-start;text-align:left">
+                        <h3>Fungsi Eagle</h3>
+                        <p>Eagle hide di awal, muncul tiba-tiba, lalu glide random. Chicky harus menghindar.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-orange" data-title="Testing">
+            <h2 class="agenda-title">Testing Checklist ✅</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">🖱️</div>
+                    <h3>Move</h3>
+                    <p>Chicky mengikuti mouse pointer.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🪱</div>
+                    <h3>Eat</h3>
+                    <p>Touch Worm membuat Chicky grow.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🦅</div>
+                    <h3>Avoid</h3>
+                    <p>Touch Eagle membuat Chicky reset.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">💾</div>
+                    <h3>Save</h3>
+                    <p>Pastikan project tersimpan dan siap dibagikan.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide warm-slide" data-title="Save & Share">
+            <h2 class="agenda-title">Save & Share Project 💾</h2>
+            <div class="grid grid-3">
+                <div class="card">
+                    <div class="card-icon">💾</div>
+                    <h3>Save</h3>
+                    <p>Pastikan project tersimpan di akun Scratch.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">▶️</div>
+                    <h3>Test</h3>
+                    <p>Klik green flag dan coba semua kondisi.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔗</div>
+                    <h3>Share</h3>
+                    <p>Bagikan project jika teacher meminta link.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-purple" data-title="Quick Quiz">
+            <div class="quiz-wrapper">
+                <div class="quiz-top-bar">
+                    <span class="quiz-badge">⚡ Quick Challenge</span>
+                    <span class="quiz-step" id="quizStepText">Soal 1 dari 3</span>
+                    <div class="quiz-score-badge" id="quizScoreBadge">⭐ Skor: 0</div>
+                </div>
+                <div class="quiz-progress-track">
+                    <div class="quiz-progress-fill" id="quizProgressFill" style="width: 33.33%"></div>
+                </div>
+                <div class="quiz-card-body">
+                    <h3 class="quiz-question-title" id="quizQuestion">Pertanyaan akan muncul di sini.</h3>
+                    <div class="quiz-options-grid" id="quizOptions"></div>
+                    <div class="quiz-feedback-box" id="quizFeedback" style="display:none"></div>
+                    <button class="btn quiz-next-btn" id="quizNext" onclick="nextQuiz()" style="display:none">
+                        Soal Berikutnya ➜
+                    </button>
+                </div>
+                <div class="quiz-complete-card" id="quizComplete" style="display:none;text-align:center;padding:12px 0">
+                    <div style="font-size: 5rem; margin-bottom: 8px">🏆🎉</div>
+                    <h2 style="font-size: 2.1rem; color: #24344d; margin: 4px 0 10px">Kuis Selesai! Hebat Sekali!</h2>
+                    <p id="quizFinalMessage" style="font-size: 1.2rem; color: #5a718c; margin-bottom: 22px"></p>
+                    <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap">
+                        <button class="btn" onclick="restartQuiz()" style="background: linear-gradient(135deg, #845ef7, #2f80ed)">🔄 Ulangi Kuis</button>
+                        <button class="btn" onclick="changeSlide(1)" style="background: linear-gradient(135deg, #28b875, #16bde8)">Lanjut ke Review ➜</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide soft-green" data-title="Review Hari Ini">
+            <h2 class="agenda-title compact-title">Review Hari Ini: 4 Kunci Utama 📝</h2>
+            <p class="subtitle" style="margin-bottom:16px">Rangkuman penting yang telah kita kuasai di sesi conditional & sensing</p>
+            <div class="review-grid">
+                <div class="review-card card-conditional">
+                    <div class="review-icon-wrap">🔀</div>
+                    <div class="review-content">
+                        <div class="review-step-tag">POIN 1</div>
+                        <h3>Conditional (Jika - Maka)</h3>
+                        <p>Program mengambil keputusan logis: <b>Hanya saat kondisi Benar</b>, aksi di dalam block akan dijalankan.</p>
+                    </div>
+                </div>
+                <div class="review-card card-control">
+                    <div class="review-icon-wrap">🟧</div>
+                    <div class="review-content">
+                        <div class="review-step-tag">POIN 2</div>
+                        <h3>Block If & If-Else</h3>
+                        <p>Block kategori <b>Control</b> untuk membuat percabangan alur logika. If-else menyediakan aksi alternatif.</p>
+                    </div>
+                </div>
+                <div class="review-card card-sensing">
+                    <div class="review-icon-wrap">📡</div>
+                    <div class="review-content">
+                        <div class="review-step-tag">POIN 3</div>
+                        <h3>Sensing sebagai Sensor</h3>
+                        <p>Mendeteksi sentuhan sprite (<code>touching?</code>), warna, koordinat mouse, dan tombol keyboard.</p>
+                    </div>
+                </div>
+                <div class="review-card card-game">
+                    <div class="review-icon-wrap">🐥</div>
+                    <div class="review-content">
+                        <div class="review-step-tag">POIN 4</div>
+                        <h3>Game Rule Logic</h3>
+                        <p>Sentuh Worm ➡️ <b>Grow (+10)</b>.<br>Sentuh Eagle ➡️ <b>Reset</b> ukuran kembali kecil.</p>
+                    </div>
+                </div>
+            </div>
+           
+        </section>
+
+        <section class="slide feedback-final" data-title="Feedback">
+            <h2 class="agenda-title compact-title">Bagaimana Kelas Hari Ini? 💖</h2>
+            <p class="subtitle" style="margin-bottom:14px">Pilih perasaanmu setelah belajar coding hari ini!</p>
+            <div class="feedback-grid">
+                <button class="feedback-card" onclick="setFeedback(this,'Senang & Paham Banget! 🎉')">
+                    <div class="fb-emoji">🤩</div>
+                    <h3>Paham & Seru Banget!</h3>
+                    <p>Semua materi jelas dan asyik dipelajari!</p>
+                    <span class="fb-tag">⭐⭐⭐⭐⭐</span>
+                </button>
+                <button class="feedback-card" onclick="setFeedback(this,'Cukup Paham & Menarik! ✨')">
+                    <div class="fb-emoji">😊</div>
+                    <h3>Cukup Paham</h3>
+                    <p>Bisa mengikuti, perlu latihan project sedikit lagi.</p>
+                    <span class="fb-tag">⭐⭐⭐⭐</span>
+                </button>
+                <button class="feedback-card" onclick="setFeedback(this,'Butuh Bantuan Teacher! 🙋‍♂️')">
+                    <div class="fb-emoji">🤔</div>
+                    <h3>Butuh Bantuan</h3>
+                    <p>Ada konsep yang ingin ditanyakan ke teacher.</p>
+                    <span class="fb-tag">💡 Bimbingan</span>
+                </button>
+            </div>
+           
+            <div class="feedback-thanks" id="feedbackThanks"></div>
+        </section>
+
+        <!-- Image Lightbox Modal -->
+        <div id="imageModal" class="img-modal" onclick="closeImageModal(event)">
+            <div class="img-modal-content" onclick="event.stopPropagation()">
+                <button class="img-modal-close" onclick="closeImageModal(event)" title="Tutup (Esc)">✕</button>
+                <img id="modalImg" src="" alt="Zoomed Image" />
+                <div id="modalCaption" class="img-modal-caption"></div>
+            </div>
+        </div>
+
+        <div class="progress-line" id="progressLine"></div>
+        <nav class="navigation">
+            <div class="nav-title" id="navTitle">Control Flow: Conditional & Sensing</div>
+            <div class="nav-controls"><button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">‹</button>
+                <div class="counter" id="counter">1 / 1</div><button class="nav-btn next" id="nextBtn"
+                    onclick="changeSlide(1)">›</button>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        const slides = [...document.querySelectorAll('.slide')];
+        let currentSlide = 0;
+        const prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn'), counter = document.getElementById('counter'), navTitle = document.getElementById('navTitle'), progressLine = document.getElementById('progressLine');
+
+        function showSlide(index) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            counter.textContent = (currentSlide + 1) + ' / ' + slides.length;
+            navTitle.textContent = slides[currentSlide].dataset.title || 'Ruangguru Coding';
+            progressLine.style.width = ((currentSlide + 1) / slides.length * 100) + '%';
+        }
+
+        function changeSlide(dir) {
+            const i = currentSlide + dir;
+            if (i >= 0 && i < slides.length) showSlide(i);
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeImageModal();
+            if (e.key === 'ArrowRight') changeSlide(1);
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (['w', 'a', 's', 'd', 'W', 'A', 'S', 'D'].includes(e.key)) {
+                const k = e.key.toLowerCase();
+                if (k === 'w') moveCat(0, -1);
+                if (k === 's') moveCat(0, 1);
+                if (k === 'a') moveCat(-1, 0);
+                if (k === 'd') moveCat(1, 0);
+            }
+        });
+        showSlide(0);
+
+        /* ===== Traffic Light Simulation (Moving Right to Left) ===== */
+        let traffic = 'green', carX = 650, blockX = 650;
+        function setTraffic(c) {
+            traffic = c;
+            const isRed = (c === 'red');
+            const redLamp = document.getElementById('lampRed');
+            const greenLamp = document.getElementById('lampGreen');
+            if (redLamp) redLamp.classList.toggle('on', isRed);
+            if (greenLamp) greenLamp.classList.toggle('on', !isRed);
+
+            const ts = document.getElementById('trafficStatus');
+            if (ts) {
+                ts.textContent = isRed ? '🔴 RED: Lampu Merah = Mobil Berhenti (Stop)' : '🟢 GREEN: Lampu Hijau = Mobil Berjalan (Go)';
+                ts.style.color = isRed ? '#ce3f3c' : '#12834e';
+            }
+
+            const bts = document.getElementById('blockTrafficStatus');
+            if (bts) {
+                bts.innerHTML = isRed
+                    ? '🔴 Kondisi <b>light = red</b> BENAR ➡️ block <b>car stop</b> berjalan'
+                    : '🟢 Kondisi <b>light = green</b> BENAR ➡️ block <b>car move</b> berjalan';
+                bts.style.color = isRed ? '#ce3f3c' : '#12834e';
+            }
+
+            const blockRed = document.getElementById('blockRedCode');
+            const blockGreen = document.getElementById('blockGreenCode');
+            if (blockRed && blockGreen) {
+                if (isRed) {
+                    blockRed.style.outline = '3px solid #ef4444';
+                    blockRed.style.boxShadow = '0 0 16px rgba(239, 68, 68, 0.4)';
+                    blockGreen.style.outline = 'none';
+                    blockGreen.style.boxShadow = 'none';
+                } else {
+                    blockGreen.style.outline = '3px solid #22c55e';
+                    blockGreen.style.boxShadow = '0 0 16px rgba(34, 197, 94, 0.4)';
+                    blockRed.style.outline = 'none';
+                    blockRed.style.boxShadow = 'none';
+                }
+            }
+        }
+
+        setInterval(() => {
+            if (traffic === 'green') {
+                const road1 = document.getElementById('roadStage1');
+                const roadW = (road1 && road1.clientWidth > 0) ? road1.clientWidth : 650;
+
+                carX -= 3.5;
+                blockX -= 3.5;
+
+                if (carX < -90) carX = roadW + 20;
+                if (blockX < -90) blockX = roadW + 20;
+
+                const car1 = document.getElementById('trafficCar');
+                const car2 = document.getElementById('blockCar');
+                if (car1) car1.style.left = carX + 'px';
+                if (car2) car2.style.left = blockX + 'px';
+            }
+        }, 50);
+
+        /* ===== Healthy Cat Simulation ===== */
+        let catX = 46, catY = 40, catScale = 1;
+        function updateCat() {
+            const cat = document.getElementById('healthyCat');
+            if (!cat) return;
+            cat.style.left = catX + '%';
+            cat.style.top = catY + '%';
+            cat.style.transform = 'scale(' + catScale + ')';
+            let msg = 'Coba sentuh makanannya! ✨', color = '#566b81';
+            if (catX < 28 && catY < 32) {
+                catScale = .8;
+                msg = '✅ Makan Apel Sehat: if touching Buah then set size to Smaller 📉';
+                color = '#12834e';
+            } else if (catX > 62 && catY < 32) {
+                catScale = 1.25;
+                msg = '⚠️ Makan Mie Instan: if touching Junk Food then set size to Bigger 📈';
+                color = '#ce3f3c';
+            } else if (catX < 28 && catY > 55) {
+                catScale = .8;
+                msg = '✅ Makan Brokoli Sehat: if touching Sayur then set size to Smaller 📉';
+                color = '#12834e';
+            } else if (catX > 62 && catY > 55) {
+                catScale = 1.25;
+                msg = '⚠️ Makan Kentang Goreng: if touching Junk Food then set size to Bigger 📈';
+                color = '#ce3f3c';
+            }
+            const fb = document.getElementById('healthyFeedback');
+            if (fb) {
+                fb.textContent = msg;
+                fb.style.color = color;
+            }
+        }
+        function moveCat(dx, dy) {
+            catX = Math.max(6, Math.min(82, catX + dx * 8));
+            catY = Math.max(8, Math.min(72, catY + dy * 8));
+            updateCat();
+        }
+        function resetCat() {
+            catX = 46;
+            catY = 40;
+            catScale = 1;
+            updateCat();
+        }
+
+        /* ===== Enhanced Quick Quiz Engine ===== */
+        const quizData = [
+            {
+                q: 'Dalam conditional, bagian IF berfungsi untuk apa?',
+                o: ['Menjalankan aksi tanpa mengecek apa pun', 'Mengecek kondisi atau pernyataan', 'Menghapus semua block'],
+                a: 1,
+                h: 'IF adalah bagian yang mengecek apakah suatu kondisi benar atau salah.'
+            },
+            {
+                q: 'Jika Chicky menyentuh Worm, aksi yang tepat di Scratch adalah...',
+                o: ['Chicky bertambah besar (change size by 10)', 'Eagle hilang selamanya dari stage', 'Backdrop otomatis berubah menjadi kota'],
+                a: 0,
+                h: 'Worm adalah makanan target, jadi Chicky bertambah besar (grow).'
+            },
+            {
+                q: 'Block Sensing apa yang cocok untuk mendeteksi sentuhan antar sprite?',
+                o: ['next costume', 'touching [sprite]?', 'repeat 10'],
+                a: 1,
+                h: 'Block <touching [sprite]?> digunakan untuk mendeteksi sentuhan antar dua sprite.'
+            }
+        ];
+        let qIndex = 0, qAnswered = false, quizScore = 0;
+
+        function renderQuiz() {
+            qAnswered = false;
+            const qBody = document.querySelector('.quiz-card-body');
+            const qComp = document.getElementById('quizComplete');
+            if (qBody) qBody.style.display = 'block';
+            if (qComp) qComp.style.display = 'none';
+
+            document.getElementById('quizStepText').textContent = 'Soal ' + (qIndex + 1) + ' dari ' + quizData.length;
+            document.getElementById('quizScoreBadge').textContent = '⭐ Skor: ' + quizScore;
+            document.getElementById('quizProgressFill').style.width = ((qIndex + 1) / quizData.length * 100) + '%';
+            document.getElementById('quizQuestion').textContent = quizData[qIndex].q;
+
+            const box = document.getElementById('quizOptions');
+            box.innerHTML = '';
+            const letters = ['A', 'B', 'C'];
+            quizData[qIndex].o.forEach((opt, i) => {
+                const b = document.createElement('button');
+                b.className = 'quiz-opt-btn';
+                b.innerHTML = '<span class="quiz-opt-letter">' + letters[i] + '</span><span>' + opt + '</span>';
+                b.onclick = () => answerQuiz(i, b);
+                box.appendChild(b);
+            });
+
+            const fb = document.getElementById('quizFeedback');
+            fb.style.display = 'none';
+            fb.textContent = '';
+            const nextBtn = document.getElementById('quizNext');
+            nextBtn.style.display = 'none';
+            nextBtn.textContent = (qIndex === quizData.length - 1) ? 'Lihat Hasil Kuis 🏆' : 'Soal Berikutnya ➜';
+        }
+
+        function answerQuiz(i, btn) {
+            if (qAnswered) return;
+            qAnswered = true;
+            const data = quizData[qIndex];
+            const isCorrect = (i === data.a);
+            if (isCorrect) quizScore += 30;
+
+            document.getElementById('quizScoreBadge').textContent = '⭐ Skor: ' + quizScore;
+
+            document.querySelectorAll('#quizOptions .quiz-opt-btn').forEach((b, idx) => {
+                b.disabled = true;
+                if (idx === data.a) b.classList.add('correct');
+            });
+
+            if (!isCorrect) btn.classList.add('wrong');
+
+            const fb = document.getElementById('quizFeedback');
+            fb.style.display = 'block';
+            fb.innerHTML = (isCorrect ? '🎉 <b>Jawaban Tepat!</b> ' : '💡 <b>Kurang Tepat.</b> ') + data.h;
+            fb.style.background = isCorrect ? '#ecfdf5' : '#fef2f2';
+            fb.style.border = isCorrect ? '2px solid #10b981' : '2px solid #ef4444';
+            fb.style.color = isCorrect ? '#065f46' : '#991b1b';
+
+            document.getElementById('quizNext').style.display = 'inline-flex';
+        }
+
+        function nextQuiz() {
+            if (qIndex < quizData.length - 1) {
+                qIndex++;
+                renderQuiz();
+            } else {
+                const qBody = document.querySelector('.quiz-card-body');
+                const qComp = document.getElementById('quizComplete');
+                if (qBody) qBody.style.display = 'none';
+                if (qComp) qComp.style.display = 'block';
+                document.getElementById('quizProgressFill').style.width = '100%';
+                document.getElementById('quizFinalMessage').textContent = 'Kamu mendapatkan total skor ' + quizScore + ' poin! Pemahamanmu tentang konsep If & Sensing sangat bagus! 🌟';
+            }
+        }
+
+        function restartQuiz() {
+            qIndex = 0;
+            quizScore = 0;
+            renderQuiz();
+        }
+        renderQuiz();
+
+        /* ===== Feedback Functions ===== */
+        function setFeedback(btn, text) {
+            document.querySelectorAll('.feedback-card').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            const fb = document.getElementById('feedbackThanks');
+            fb.innerHTML = '✨ <b>' + text + '</b> Terima kasih atas responmu, semangat terus belajarnya! 🚀';
+            fb.style.color = '#7048e8';
+        }
+        function toggleTag(btn) {
+            btn.classList.toggle('active');
+        }
+
+        /* ===== Lightbox Image Zoom Functions ===== */
+        function initImageZoom() {
+            document.querySelectorAll('img:not(.brand-logo img)').forEach(img => {
+                img.style.cursor = 'zoom-in';
+                img.title = 'Klik untuk memperbesar gambar';
+                img.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openImageModal(img.src, img.alt || 'Preview Gambar');
+                });
+            });
+        }
+        function openImageModal(src, caption) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            const modalCap = document.getElementById('modalCaption');
+            if (!modal || !modalImg) return;
+            modalImg.src = src;
+            modalCap.textContent = caption || '';
+            modal.classList.add('active');
+        }
+        function closeImageModal(e) {
+            if (e) e.stopPropagation();
+            const modal = document.getElementById('imageModal');
+            if (modal) modal.classList.remove('active');
+        }
+        initImageZoom();
+    </script>
+</body>
+
+</html>
