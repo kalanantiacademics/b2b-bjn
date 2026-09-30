@@ -56,18 +56,20 @@
             content: "";
             position: fixed;
             inset: 0;
-            z-index: -2;
-            background: radial-gradient(circle at 8% 18%, rgba(22, 189, 232, .13), transparent 24%), radial-gradient(circle at 90% 14%, rgba(255, 211, 67, .16), transparent 24%), radial-gradient(circle at 14% 90%, rgba(40, 184, 117, .13), transparent 24%), radial-gradient(circle at 88% 88%, rgba(132, 94, 247, .10), transparent 25%), #f8fffe
+            background-image: url("https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/1a86db42-485f-46a7-ac12-0a36769e680f.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: -1
         }
 
         body:after {
             content: "";
             position: fixed;
             inset: 0;
-            z-index: -1;
-            background-image: linear-gradient(rgba(22, 189, 232, .08) 2px, transparent 2px), linear-gradient(90deg, rgba(22, 189, 232, .08) 2px, transparent 2px);
-            background-size: 96px 96px;
-            pointer-events: none
+            background: radial-gradient(ellipse at 0% 100%, rgba(0, 188, 212, .07), transparent 55%), radial-gradient(ellipse at 100% 0%, rgba(0, 188, 212, .06), transparent 50%);
+            pointer-events: none;
+            z-index: -1
         }
 
         .brand-logo {

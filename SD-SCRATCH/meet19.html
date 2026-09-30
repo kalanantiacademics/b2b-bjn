@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Session 19 - Computer Vision: Deteksi dan Posisi Wajah | Ruangguru Coding</title>
+    <link rel="icon"
+        href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --blue: #2f80ed;
+            --scratchBlue: #4c97ff;
+            --cyan: #16bde8;
+            --purple: #845ef7;
+            --orange: #ff8a34;
+            --yellow: #ffd53d;
+            --green: #28b875;
+            --red: #ef5350;
+            --pink: #ff6fb5;
+            --ink: #20324a;
+            --muted: #66788d;
+            --cardBorder: #e0e8f2;
+            --shadow: 0 22px 55px rgba(22, 44, 76, .18);
+            --event: #ffbf00;
+            --motion: #4c97ff;
+            --looks: #9966ff;
+            --control: #ffab19;
+            --sensing: #5cb1d6;
+            --sound: #d65cd6;
+            --operators: #59c059;
+            --variables: #ff8c1a
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--ink);
+            background: #f8fffe;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        body:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/1a86db42-485f-46a7-ac12-0a36769e680f.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: -1
+        }
+
+        body:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at 0% 100%, rgba(0, 188, 212, .07), transparent 55%), radial-gradient(ellipse at 100% 0%, rgba(0, 188, 212, .06), transparent 50%);
+            pointer-events: none;
+            z-index: -1
+        }
+
+        .brand-logo {
+            position: fixed;
+            left: 22px;
+            top: 16px;
+            z-index: 2000;
+            background: #fff;
+            border: 2.5px solid rgba(0, 188, 212, .22);
+            border-radius: 22px;
+            padding: 10px 20px;
+            box-shadow: 0 8px 32px rgba(0, 188, 212, .18), 0 2px 8px rgba(0, 0, 0, .07);
+            display: flex;
+            align-items: center
+        }
+
+        .brand-logo img {
+            display: block;
+            height: 80px;
+            max-width: 220px;
+            object-fit: contain
+        }
+
+        .presentation-container {
+            width: 86vw;
+            height: 80vh;
+            max-width: 1500px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(30, 56, 93, .25);
+            overflow: hidden;
+            position: relative;
+            border: 4px solid rgba(255, 255, 255, .85)
+        }
+
+        .presentation-container:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 26px;
+            box-shadow: inset 0 0 0 1px rgba(91, 124, 164, .10);
+            z-index: 30
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 42px 58px 76px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(42px) scale(.985);
+            transition: .46s ease;
+            background: linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(249, 252, 255, .98));
+            overflow-y: auto
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            z-index: 10
+        }
+
+        .cover-slide {
+            background: radial-gradient(circle at top left, rgba(255, 255, 255, .30), transparent 34%), linear-gradient(135deg, #0b3c5d, #008080 38%, #845ef7 70%, #ff8a34);
+            color: #fff
+        }
+
+        .cover-title {
+            font-size: clamp(3rem, 6.5vw, 5.8rem);
+            line-height: .96;
+            margin: 8px 0 18px;
+            font-weight: 800;
+            text-align: center;
+            color: #fff
+        }
+
+        .gradient-text {
+            color: #ffd65a;
+            filter: drop-shadow(0 0 20px rgba(255, 214, 90, .4))
+        }
+
+        .cover-subtitle {
+            font-size: 1.4rem;
+            max-width: 980px;
+            margin: 0 auto;
+            color: #edf2ff;
+            line-height: 1.42;
+            text-align: center
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+            display: inline-block
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-12px) rotate(3deg)
+            }
+        }
+
+        .soft-blue {
+            background: linear-gradient(145deg, #edf7ff, #f7fbff)
+        }
+
+        .soft-green {
+            background: linear-gradient(145deg, #effcf5, #fbfffd)
+        }
+
+        .soft-orange {
+            background: linear-gradient(145deg, #fff6ea, #fffdf8)
+        }
+
+        .soft-purple {
+            background: linear-gradient(145deg, #f6f0ff, #fbf9ff)
+        }
+
+        .warm-slide {
+            background: linear-gradient(145deg, #fff8e9, #fffdf6)
+        }
+
+        .feedback-final {
+            background: linear-gradient(145deg, #fff0f6, #eef4ff)
+        }
+
+        .agenda-title {
+            width: 100%;
+            max-width: 1180px;
+            text-align: center;
+            font-size: clamp(2rem, 3.8vw, 3.5rem);
+            line-height: 1.08;
+            margin: 4px 0 20px;
+            color: #20324a;
+            font-weight: 800
+        }
+
+        .compact-title {
+            font-size: clamp(1.8rem, 3.2vw, 2.9rem)
+        }
+
+        .subtitle,
+        .lead {
+            font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+            color: var(--muted);
+            margin: -4px 0 18px;
+            line-height: 1.44;
+            text-align: center
+        }
+
+        .grid,
+        .grid-2,
+        .grid-3,
+        .grid-4,
+        .two-col {
+            width: 100%;
+            max-width: 1140px;
+            display: grid;
+            gap: 18px
+        }
+
+        .grid-2,
+        .two-col {
+            grid-template-columns: repeat(2, 1fr);
+            align-items: center
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr)
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(4, 1fr)
+        }
+
+        .card,
+        .activity-box,
+        .quiz-wrapper,
+        .image-panel,
+        .code-panel,
+        .stage-panel {
+            background: #fff;
+            border: 3px solid var(--cardBorder);
+            border-radius: 26px;
+            box-shadow: var(--shadow)
+        }
+
+        .card {
+            padding: 18px;
+            min-height: 140px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center
+        }
+
+        .card-icon {
+            font-size: 2.7rem;
+            margin-bottom: 6px
+        }
+
+        .card h3,
+        .activity-box h3,
+        .image-panel h3 {
+            margin: 4px 0 6px;
+            font-size: 1.22rem;
+            color: #20324a
+        }
+
+        .card p,
+        .activity-box p,
+        .image-panel p {
+            margin: 0;
+            color: #61768d;
+            line-height: 1.4;
+            font-size: 0.98rem
+        }
+
+        .note,
+        .warning {
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 1.05rem;
+            line-height: 1.4;
+            max-width: 920px;
+            font-weight: 600
+        }
+
+        .note {
+            background: #eefcf6;
+            border: 2px solid #c8f0dd;
+            color: #1f7d55
+        }
+
+        .warning {
+            background: #fff8db;
+            border: 2px solid #f7d95d;
+            color: #7b6412
+        }
+
+        .wide-note {
+            max-width: 1040px;
+            width: 100%;
+            text-align: center;
+            margin-top: 16px
+        }
+
+        .btn,
+        .choice {
+            appearance: none;
+            border: none;
+            text-decoration: none;
+            font-family: inherit;
+            cursor: pointer;
+            font-weight: 700;
+            transition: .2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .btn {
+            padding: 13px 22px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #008080, #845ef7);
+            color: #fff;
+            box-shadow: 0 10px 18px rgba(0, 128, 128, .24);
+            font-size: 1.02rem
+        }
+
+        .btn:hover,
+        .choice:hover {
+            transform: translateY(-2px)
+        }
+
+        .choice {
+            background: #f9fbfd;
+            border: 3px solid #dfe7f0;
+            border-radius: 16px;
+            padding: 12px 16px;
+            text-align: left;
+            width: 100%;
+            color: #29425f;
+            font-size: 1rem
+        }
+
+        .stage-panel {
+            padding: 18px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center
+        }
+
+        .scratch-img,
+        .project-img,
+        .code-img {
+            max-width: 100%;
+            max-height: 310px;
+            object-fit: contain;
+            border-radius: 18px;
+            border: 2px solid #e2ebf5;
+            background: #fff;
+            box-shadow: 0 10px 24px rgba(22, 44, 76, .12)
+        }
+
+        .video-wrap {
+            background: #fff;
+            padding: 10px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            border: 3px solid #dfe8f2;
+            width: 100%;
+            max-width: 760px
+        }
+
+        .video-wrap iframe {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border: 0;
+            border-radius: 16px;
+            display: block
+        }
+
+        .mini-step {
+            background: #fff;
+            border: 2.5px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 12px 16px;
+            font-size: 1.02rem;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .scratch-block {
+            color: white;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            display: inline-block;
+            margin: 3px 0;
+            box-shadow: inset 0 -3px rgba(0, 0, 0, .15);
+            font-size: 0.95rem
+        }
+
+        .b-event {
+            background: #ffbf00;
+            color: #333
+        }
+
+        .b-control {
+            background: #ffab19
+        }
+
+        .b-look {
+            background: #9966ff
+        }
+
+        .b-motion {
+            background: #4c97ff
+        }
+
+        .b-sensing {
+            background: #5cb1d6
+        }
+
+        .b-sound {
+            background: #d65cd6
+        }
+
+        .b-var {
+            background: #ff8c1a
+        }
+
+        .camera-test {
+            background: #eef7ff;
+            border: 3.5px solid #4c97ff;
+            border-radius: 26px;
+            padding: 18px;
+            min-height: 290px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%
+        }
+
+        .camera-test video {
+            width: 100%;
+            max-height: 220px;
+            object-fit: cover;
+            display: none;
+            border-radius: 18px;
+            background: #000;
+            transform: scaleX(-1)
+        }
+
+        .camera-placeholder {
+            font-size: 4.8rem;
+            color: #4c97ff
+        }
+
+        .checklist {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            width: 100%;
+            max-width: 960px
+        }
+
+        .check-item {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 20px;
+            padding: 14px 18px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(30, 56, 93, .06);
+            transition: all .2s ease
+        }
+
+        .check-item:hover {
+            transform: translateY(-2px);
+            border-color: var(--blue)
+        }
+
+        .check-item .box {
+            width: 28px;
+            height: 28px;
+            border: 2.5px solid #008080;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #008080;
+            flex-shrink: 0
+        }
+
+        .check-item.done {
+            background: #f0fdf4;
+            border-color: #a8c368
+        }
+
+        .check-item.done .box::after {
+            content: '✓';
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: #10b981
+        }
+
+        .quiz-wrapper {
+            width: 100%;
+            max-width: 960px;
+            background: #fff;
+            border: 3.5px solid #e0e8f2;
+            border-radius: 28px;
+            padding: 28px 36px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden
+        }
+
+        .quiz-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px
+        }
+
+        .quiz-badge {
+            background: #f0eaff;
+            color: #7048e8;
+            border: 2px solid #d0bfff;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: .92rem;
+            letter-spacing: .05em
+        }
+
+        .quiz-step {
+            font-weight: 800;
+            color: #607289;
+            font-size: 1.05rem
+        }
+
+        .quiz-score-badge {
+            background: #fff9db;
+            color: #d97706;
+            border: 2px solid #fde68a;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 1rem
+        }
+
+        .quiz-progress-track {
+            width: 100%;
+            height: 8px;
+            background: #edf2f7;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 20px
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff8a34, #ff6fb5, #845ef7);
+            border-radius: 999px;
+            transition: width .35s ease
+        }
+
+        .quiz-question-title {
+            font-size: 1.55rem;
+            line-height: 1.35;
+            color: #1e293b;
+            margin: 0 0 18px;
+            font-weight: 800;
+            text-align: left
+        }
+
+        .quiz-options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 11px
+        }
+
+        .quiz-opt-btn {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 20px;
+            background: #f8fafc;
+            border: 2.5px solid #e2e8f0;
+            border-radius: 18px;
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #334155;
+            text-align: left;
+            cursor: pointer;
+            transition: all .2s ease
+        }
+
+        .quiz-opt-btn:hover:not(:disabled) {
+            background: #f0f7ff;
+            border-color: var(--blue);
+            transform: translateX(4px)
+        }
+
+        .quiz-opt-letter {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: #e2e8f0;
+            color: #475569;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            transition: all .2s ease
+        }
+
+        .quiz-opt-btn.correct {
+            background: #ecfdf5;
+            border-color: #10b981;
+            color: #065f46
+        }
+
+        .quiz-opt-btn.correct .quiz-opt-letter {
+            background: #10b981;
+            color: #fff
+        }
+
+        .quiz-opt-btn.wrong {
+            background: #fef2f2;
+            border-color: #ef4444;
+            color: #991b1b
+        }
+
+        .quiz-opt-btn.wrong .quiz-opt-letter {
+            background: #ef4444;
+            color: #fff
+        }
+
+        .quiz-feedback-box {
+            margin-top: 14px;
+            padding: 14px 18px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            line-height: 1.4;
+            text-align: left
+        }
+
+        .quiz-next-btn {
+            margin-top: 14px;
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            font-size: 1.05rem;
+            color: #fff;
+        }
+
+        .review-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .review-card {
+            background: #fff;
+            border: 3px solid var(--cardBorder);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 14px 30px rgba(30, 60, 100, .08);
+            display: grid;
+            grid-template-columns: 68px 1fr;
+            gap: 16px;
+            align-items: center;
+            text-align: left;
+            position: relative;
+            overflow: hidden
+        }
+
+        .review-icon-wrap {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            display: grid;
+            place-items: center;
+            font-size: 2.5rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, .06);
+            background: #e0f2fe;
+            border: 2px solid #bae6fd
+        }
+
+        .review-step-tag {
+            font-size: .76rem;
+            font-weight: 800;
+            letter-spacing: .08em;
+            color: #8b9eb5;
+            margin-bottom: 2px
+        }
+
+        .review-content h3 {
+            margin: 0 0 6px;
+            font-size: 1.25rem;
+            color: #1e293b
+        }
+
+        .review-content p {
+            margin: 0;
+            color: #64748b;
+            font-size: .98rem;
+            line-height: 1.4
+        }
+
+        .feedback-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 1060px;
+            margin-top: 8px
+        }
+
+        .feedback-card {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 26px;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 14px 30px rgba(40, 60, 100, .08);
+            transition: all .25s cubic-bezier(.34, 1.56, .64, 1);
+            font-family: inherit
+        }
+
+        .feedback-card:hover {
+            transform: translateY(-6px) scale(1.03);
+            border-color: var(--purple);
+            box-shadow: 0 20px 40px rgba(132, 94, 247, .2)
+        }
+
+        .feedback-card.selected {
+            transform: translateY(-4px) scale(1.04);
+            border-color: #845ef7;
+            background: #faf5ff;
+            box-shadow: 0 20px 40px rgba(132, 94, 247, .25)
+        }
+
+        .feedback-card .fb-emoji {
+            font-size: 4.6rem;
+            margin-bottom: 8px
+        }
+
+        .feedback-card h3 {
+            margin: 4px 0 6px;
+            font-size: 1.25rem;
+            color: #1e293b;
+            font-weight: 800
+        }
+
+        .feedback-card p {
+            margin: 0 0 12px;
+            font-size: .95rem;
+            color: #64748b;
+            line-height: 1.35
+        }
+
+        .fb-tag {
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: .88rem;
+            font-weight: 700;
+            color: #475569
+        }
+
+        .feedback-thanks {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c4ddd;
+            margin-top: 25px;
+            min-height: 35px
+        }
+
+        .img-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(15, 23, 42, .88);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity .25s ease
+        }
+
+        .img-modal.active {
+            display: flex;
+            opacity: 1
+        }
+
+        .img-modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: scale(.92);
+            transition: transform .25s cubic-bezier(.34, 1.56, .64, 1)
+        }
+
+        .img-modal.active .img-modal-content {
+            transform: scale(1)
+        }
+
+        .img-modal-content img {
+            max-width: 86vw;
+            max-height: 78vh;
+            object-fit: contain;
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .5), 0 0 0 3px rgba(255, 255, 255, .2);
+            background: #fff
+        }
+
+        .img-modal-caption {
+            margin-top: 14px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, .6);
+            text-align: center;
+            max-width: 800px
+        }
+
+        .img-modal-close {
+            position: absolute;
+            top: -18px;
+            right: -18px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #ff5252;
+            color: #fff;
+            border: 3px solid #fff;
+            font-size: 1.3rem;
+            font-weight: 800;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .35);
+            transition: all .2s ease;
+            z-index: 10
+        }
+
+        .navigation {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, .96);
+            border-top: 1px solid #e7edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 100;
+            backdrop-filter: blur(12px)
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b7d92;
+            max-width: 42%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #d9e3ef;
+            background: #fff;
+            color: #4c6077;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            border-color: var(--blue);
+            color: var(--blue)
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            color: #fff;
+            border: 0;
+            box-shadow: 0 7px 16px rgba(255, 138, 52, .3)
+        }
+
+        .nav-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed
+        }
+
+        .counter {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #53677f;
+            min-width: 74px;
+            text-align: center
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 0;
+            bottom: 62px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--orange), var(--pink), var(--purple), var(--cyan));
+            width: 0;
+            transition: .35s;
+            z-index: 110
+        }
+
+        @media(max-width:1200px) {
+            .grid-4 {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .grid-3,
+            .grid-2,
+            .two-col,
+            .review-grid,
+            .feedback-grid,
+            .checklist {
+                grid-template-columns: 1fr
+            }
+
+            .card {
+                min-height: 118px
+            }
+        }
+
+        @media(max-width:700px) {
+            .brand-logo {
+                left: 8px;
+                top: 6px;
+                padding: 7px 12px
+            }
+
+            .brand-logo img {
+                height: 32px
+            }
+
+            .presentation-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: 0
+            }
+
+            .slide {
+                padding: 68px 18px 74px
+            }
+
+            .grid-3,
+            .grid-4 {
+                grid-template-columns: 1fr
+            }
+
+            .cover-title {
+                font-size: 3.2rem
+            }
+
+            .nav-title {
+                display: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="brand-logo"><img alt="Ruangguru Coding"
+            src="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png" /></div>
+
+    <div class="presentation-container">
+        <!-- Slide 1: Cover -->
+        <section class="slide cover-slide active" data-title="Computer Vision: Deteksi dan Posisi Wajah">
+            <h1 class="cover-title"><span class="gradient-text">SHY PANDA</span><br />VIDEO & FACE SENSING</h1>
+            <div class="float" style="font-size:6.5rem;margin:8px 0">🐼📷✨</div>
+            <p class="cover-subtitle">Sesi 19: Deteksi Wajah (Face Detection) dan Interaksi Posisi</p>
+        </section>
+
+        <!-- Slide 2: Review Sesi 18 -->
+        <section class="slide soft-blue" data-title="Review Sesi 18">
+            <h2 class="agenda-title">Review Pertemuan Minggu Lalu 🧠</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">📹</div>
+                    <h3>Video Motion</h3>
+                    <p>Kamera membaca ada atau tidaknya gerakan di layar.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📦</div>
+                    <h3>Variabel Score</h3>
+                    <p>Menghitung capaian skor saat balon terkena lambaian tangan.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⏱️</div>
+                    <h3>Timer Game</h3>
+                    <p>Menghitung mundur durasi permainan hingga Game Over.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔍</div>
+                    <h3>Deteksi vs Pengenalan</h3>
+                    <p>Video motion hanya tahu ada gerakan, bukan siapa atau apa yang bergerak.</p>
+                </div>
+            </div>
+            <div class="warning wide-note">Hari ini kita melangkah lebih canggih: <b>Face Detection</b> (mengenali keberadaan wajah manusia di depan kamera)!</div>
+        </section>
+
+        <!-- Slide 3: Today's Mission -->
+        <section class="slide soft-green" data-title="Today's Mission">
+            <h2 class="agenda-title">Today's Mission 🚀</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">🎭</div>
+                    <h3>Camera Filter</h3>
+                    <p>Melihat cara kerja filter wajah di dunia nyata.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📍</div>
+                    <h3>Face Points</h3>
+                    <p>Memahami titik koordinat (landmarks) di wajah.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🐼</div>
+                    <h3>Project Shy Panda</h3>
+                    <p>Membuat Panda asyik menari saat tidak dilihat manusia.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">👀</div>
+                    <h3>Face Reaction</h3>
+                    <p>Panda langsung malu dan diam saat ada wajah terdeteksi!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: Filter Kamera di Sekitar Kita -->
+        <section class="slide soft-purple" data-title="Filter Kamera di Sekitar Kita">
+            <h2 class="agenda-title compact-title">Pernah Pakai Filter Kamera? 🤳✨</h2>
+            <div class="grid grid-3">
+                <div class="card" style="padding:14px;">
+                    <img class="code-img" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/18c34a4f-5a5a-417c-a3a8-016a4a132b4f.png"
+                        alt="Face Effect" style="max-height:220px;" />
+                    <h3 style="margin-top:8px;">Face Effect</h3>
+                    <p>Mengubah warna mata atau menghias pipi.</p>
+                </div>
+                <div class="card" style="padding:14px;">
+                    <img class="code-img" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/ba711590-06a0-4374-b0a9-126ac8111c78.png"
+                        alt="Sticker Filter" style="max-height:220px;" />
+                    <h3 style="margin-top:8px;">Sticker Filter</h3>
+                    <p>Stiker topi atau kacamata menempel pas di kepala.</p>
+                </div>
+                <div class="card" style="padding:14px;">
+                    <img class="code-img" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/83d03f26-efd6-4937-8eec-f3cc93d8e8dd.png"
+                        alt="Funny Mask" style="max-height:220px;" />
+                    <h3 style="margin-top:8px;">Funny Mask</h3>
+                    <p>Topeng animasi bergerak mengikuti senyumanmu.</p>
+                </div>
+            </div>
+            <div class="note wide-note">Filter bisa menempel karena komputer mencari dan mengenali <b>posisi wajah</b> di layar kamera!</div>
+        </section>
+
+        <!-- Slide 5: Bagaimana Kamera Tahu Posisi Wajah -->
+        <section class="slide soft-blue" data-title="Face Landmarks">
+            <h2 class="agenda-title compact-title">Kamera Tahu Mata & Mulut dari Mana? 👀🤖</h2>
+            <div class="two-col">
+                <div class="stage-panel">
+                    <img class="project-img" src="https://miro.medium.com/1*nus1SeSd_wnAckhLy3281g.gif"
+                        alt="Face Landmarks Animation" style="max-height:270px;" />
+                </div>
+                <div style="text-align:left;display:flex;flex-direction:column;gap:12px;">
+                    <div class="mini-step">
+                        <span style="font-size:1.6rem;">1️⃣</span>
+                        <div><strong>Kamera Menangkap Gambar:</strong> Program menerima frame video langsung.</div>
+                    </div>
+                    <div class="mini-step">
+                        <span style="font-size:1.6rem;">2️⃣</span>
+                        <div><strong>Pencarian Pola Wajah:</strong> AI mencari bentuk mata, hidung, dan bibir.</div>
+                    </div>
+                    <div class="mini-step">
+                        <span style="font-size:1.6rem;">3️⃣</span>
+                        <div><strong>Membuat Titik Koordinat (Landmarks):</strong> Titik ini menentukan posisi wajah di layar.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: Face Sensing Logic -->
+        <section class="slide warm-slide" data-title="Face Sensing Logic">
+            <h2 class="agenda-title compact-title">Face Sensing: Titik di Wajah 🟡</h2>
+            <div class="two-col">
+                <div style="text-align:left;display:flex;flex-direction:column;gap:14px;">
+                    <div class="card" style="align-items:flex-start;text-align:left;padding:20px;">
+                        <h3 style="color:#008080;">Peta Koordinat Wajah</h3>
+                        <p style="font-size:1.02rem;line-height:1.5;">Bayangkan wajah seperti peta. Program memasang titik kecil di area penting sehingga Scratch bisa mengecek status:</p>
+                    </div>
+                    <div class="mini-step"><strong>✅ Jika wajah ditemukan:</strong> Variabel status = "Yes" (Ada yang melihat).</div>
+                    <div class="mini-step"><strong>❌ Jika wajah tidak terlihat:</strong> Variabel status = "No" (Aman, tidak ada yang melihat).</div>
+                    <div class="warning">Privasi Aman: Kita tidak menyimpan foto siapa pun. Kamera hanya dipakai langsung untuk logika game!</div>
+                </div>
+                <div class="stage-panel">
+                    <img class="project-img" src="https://visagetechnologies.com/app/uploads/2024/07/emotion-AI_beauty-brand-strategy_Arbelle.gif"
+                        alt="Face Detection gif" style="max-height:270px;" />
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7: Apa yang Dibaca Scratch -->
+        <section class="slide soft-green" data-title="Sistem Logika Scratch">
+            <h2 class="agenda-title compact-title">Bagaimana Scratch Memprosesnya? 🧩</h2>
+            <div class="grid grid-3">
+                <div class="card">
+                    <div class="card-icon">🎥</div>
+                    <h3>Video Sensing</h3>
+                    <p>Menyalakan kamera dan mengatur transparansi latar.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">😊</div>
+                    <h3>Face Sensing</h3>
+                    <p>Mengecek apakah kondisi <i>face detected?</i> bernilai Benar/Salah.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🐼</div>
+                    <h3>Reaction Code</h3>
+                    <p>Panda menari saat aman, lalu malu saat ada yang melihat!</p>
+                </div>
+            </div>
+            <div style="margin-top:16px;text-align:center;">
+                <span class="scratch-block b-event">when green flag clicked</span>
+                <span class="scratch-block b-sensing">turn video on</span>
+                <span class="scratch-block b-control">if &lt;face detected?&gt; then</span>
+                <span class="scratch-block b-var">set is someone looking to [Yes]</span>
+            </div>
+        </section>
+
+        <!-- Slide 8: Camera Check & Safety -->
+        <section class="slide soft-blue" data-title="Camera Check">
+            <h2 class="agenda-title compact-title">Camera Check & Safety 📷✅</h2>
+            <div class="two-col">
+                <div class="camera-test">
+                    <video id="cameraPreview" autoplay playsinline muted></video>
+                    <div id="cameraPlaceholder" class="camera-placeholder">📷</div>
+                    <p id="cameraStatus"
+                        style="font-size:1.05rem;font-weight:700;color:#4c97ff;text-align:center;min-height:36px;margin:8px 0">Klik tombol untuk mengecek kamera.</p>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+                        <button class="btn" onclick="startCameraTest()">Tes Kamera 📹</button>
+                        <button class="choice" style="width:auto;padding:10px 18px" onclick="stopCameraTest()">Stop</button>
+                    </div>
+                </div>
+                <div class="card" style="align-items:flex-start;text-align:left;padding:22px;">
+                    <h3>Panduan Keamanan & Teknis</h3>
+                    <p style="line-height:1.6;">✅ Klik <b>Allow</b> saat browser meminta izin kamera.<br>✅ Duduk di tempat yang cukup terang agar wajah jelas.<br>✅ Jangan merekam teman tanpa persetujuan.<br>✅ Jaga jarak sekitar 40–60 cm dari layar laptop.</p>
+                    <div class="note" style="margin-top:12px;">Kalau kamera belum bisa terbuka, tetap tenang ya. Kamu bisa mengikuti demo bersama teacher!</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 9: Extension Setup -->
+        <section class="slide soft-purple" data-title="Extension Scratch">
+            <h2 class="agenda-title compact-title">Tambahkan Extension di Scratch 🧩</h2>
+            <div class="two-col">
+                <div class="stage-panel">
+                    <img class="project-img" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/ab6c1e6f-3d85-4b66-80ab-4b66be93ea9b.png"
+                        alt="Scratch Extensions Selection" style="max-height:280px;" />
+                </div>
+                <div style="text-align:left;display:flex;flex-direction:column;gap:12px;">
+                    <div class="mini-step"><strong>1. Klik Extensions:</strong> Tombol biru di pojok kiri paling bawah Scratch.</div>
+                    <div class="mini-step"><strong>2. Pilih Video Sensing:</strong> Untuk menyalakan kamera webcam.</div>
+                    <div class="mini-step"><strong>3. Pilih Face Sensing:</strong> Untuk mengecek keberadaan wajah manusia.</div>
+                    <div class="note" style="margin-top:6px;">Kombinasi kedua extension ini akan menghidupkan karakter Shy Panda!</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 10: Preview Project Shy Panda -->
+        <section class="slide soft-orange" data-title="Preview Shy Panda">
+            <h2 class="agenda-title compact-title">Project Preview: Shy Panda 🐼</h2>
+            <div class="two-col">
+                <div class="video-wrap">
+                    <iframe src="https://jumpshare.com/embed/uSsApdYOAhj1ktRxHg39" allowfullscreen></iframe>
+                </div>
+                <div style="text-align:left;">
+                    <div class="card" style="align-items:flex-start;text-align:left;padding:22px;">
+                        <h3 style="color:#008080;">Perilaku Panda:</h3>
+                        <p style="font-size:1.05rem;line-height:1.6;">• Saat kamu menunduk / menutupi kamera: Panda menari dengan ceria! 💃<br>• Begitu wajahmu muncul di depan kamera: Panda kaget, malu, dan berhenti menari! 🙈</p>
+                    </div>
+                    <div class="note" style="margin-top:14px;">Mari kita buat project interaktif ini step-by-step!</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 11: Starter Project Remix -->
+        <section class="slide soft-green" data-title="Remix Starter">
+            <h2 class="agenda-title compact-title">Buka Starter Project Shy Panda 🐼</h2>
+            <div class="two-col">
+                <div class="stage-panel">
+                    <img class="project-img" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/ffbc76a6-9956-41e1-9d5d-7812625add3c.png"
+                        alt="Scratch Remix Guide" style="max-height:280px;" />
+                </div>
+                <div style="text-align:left;display:flex;flex-direction:column;gap:14px;">
+                    <div class="mini-step"><strong>1. Buka Starter Project:</strong> Klik tombol di bawah.</div>
+                    <div class="mini-step"><strong>2. Klik Tombol Remix:</strong> Di pojok kanan atas lembar kerja.</div>
+                    <div class="mini-step"><strong>3. Siap Coding:</strong> Semua sprite dan kostum panda sudah tersedia!</div>
+                    <a class="btn" href="https://scratch.mit.edu/projects/1385602143/" target="_blank"
+                        rel="noopener noreferrer" style="font-size:1.25rem;padding:14px 32px;">OPEN STARTER PROJECT ↗</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 12: Cek Sprite & Costume -->
+        <section class="slide warm-slide" data-title="Cek Sprite & Costume">
+            <h2 class="agenda-title compact-title">Cek Sprite & Costume Panda 👀</h2>
+            <div class="two-col">
+                <div class="card" style="padding:16px;">
+                    <h3 style="color:#2f80ed;">3 Objek Utama</h3>
+                    <img class="code-img" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/e6d02fa5-a2f3-4776-9efa-2b147f24c8f0.png"
+                        alt="Sprites and backdrop" style="max-height:190px;" />
+                    <p style="margin-top:6px;">Sprite <b>Window</b>, Sprite <b>Shy Panda</b>, dan <b>Backdrop</b>.</p>
+                </div>
+                <div class="card" style="padding:16px;">
+                    <h3 style="color:#845ef7;">3 Costume Panda</h3>
+                    <img class="code-img" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/595a7eb1-5a9d-4db6-8259-cf4e0b62547b.png"
+                        alt="Panda Costumes" style="max-height:190px;" />
+                    <p style="margin-top:6px;"><b>PandaDance01</b>, <b>PandaDance02</b>, dan <b>PandaEmbarrassed</b>.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 13: Sprite Window Sang Pengatur Kamera -->
+        <section class="slide soft-blue" data-title="Fungsi Sprite Window">
+            <h2 class="agenda-title compact-title">Sprite Window = Otak Pengatur Kamera 🪟📷</h2>
+            <div class="two-col">
+                <div class="card" style="padding:22px;">
+                    <div class="card-icon">🪟🤖</div>
+                    <h3 style="color:#008080;">Kenapa Menggunakan Window?</h3>
+                    <p style="font-size:1.02rem;line-height:1.55;">Sprite Window terlihat seperti jendela kecil di panggung, tetapi perannya sangat vital: menjalankan pendeteksian wajah terus-menerus dan memperbarui variabel status.</p>
+                </div>
+                <div style="text-align:left;display:flex;flex-direction:column;gap:10px;">
+                    <div class="mini-step"><strong>turn video on:</strong> Menyalakan kamera di Scratch.</div>
+                    <div class="mini-step"><strong>video transparency 0:</strong> Kamera terlihat jernih.</div>
+                    <div class="mini-step"><strong>is someone looking:</strong> Variabel penyimpan Yes / No.</div>
+                    <div class="mini-step"><strong>face detected?:</strong> Sensor pendeteksi wajah.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 14: Code Sprite Window -->
+        <section class="slide soft-green" data-title="Code Sprite Window">
+            <h2 class="agenda-title compact-title">Kode di Sprite Window 🧱🪟</h2>
+            <div class="two-col">
+                <div class="stage-panel">
+                    <img class="code-img" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/19b35906-21fa-4dc4-be3d-6e1495ec68b7.png"
+                        alt="Window Sprite Code" style="max-height:300px;" />
+                </div>
+                <div style="text-align:left;display:flex;flex-direction:column;gap:12px;">
+                    <div class="card" style="align-items:flex-start;text-align:left;padding:20px;">
+                        <h3 style="color:#008080;">Alur Kode Window:</h3>
+                        <p style="font-size:1.02rem;line-height:1.55;">
+                            1. <b>Awal:</b> Nyalakan video, set transparansi ke 0, dan set variabel <i>is someone looking</i> = No.<br>
+                            2. <b>Forever Loop:</b> Cek terus apakah ada wajah (<i>if face detected?</i>).<br>
+                            3. <b>Jika ada:</b> Set <i>is someone looking</i> = <b>Yes</b>.<br>
+                            4. <b>Jika tidak ada:</b> Set <i>is someone looking</i> = <b>No</b>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 15: Code Sprite Panda -->
+        <section class="slide soft-purple" data-title="Code Sprite Panda">
+            <h2 class="agenda-title compact-title">Kode di Sprite Shy Panda 🐼💃</h2>
+            <div class="two-col">
+                <div class="card" style="padding:18px;">
+                    <img src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/abe8eb4a-e14c-4c19-a56f-bc269f78bd9a.png"
+                        alt="Panda Sprite Preview" style="max-height:180px;object-fit:contain;" />
+                    <div class="note" style="margin-top:10px;">Panda membaca isi variabel <i>is someone looking</i>!</div>
+                </div>
+                <div class="stage-panel">
+                    <img class="code-img" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/376b9b95-76aa-4669-94ed-6397bf645fbb.png"
+                        alt="Panda Sprite Code" style="max-height:300px;" />
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 16: Testing Time -->
+        <section class="slide soft-orange" data-title="Testing Time">
+            <h2 class="agenda-title compact-title">Testing Time: Uji Reaksi Pandamu! 🧪</h2>
+            <p class="subtitle">Klik checklist di bawah setelah mencoba di Scratch.</p>
+            <div class="checklist">
+                <div class="check-item" onclick="toggleCheck(this)"><span class="box"></span>Kamera menyala dan menampilkan gambarmu di panggung.</div>
+                <div class="check-item" onclick="toggleCheck(this)"><span class="box"></span>Saat kamu menunduk / sembunyi: Panda menari berganti kostum.</div>
+                <div class="check-item" onclick="toggleCheck(this)"><span class="box"></span>Saat wajahmu muncul di kamera: Panda langsung malu dan diam!</div>
+                <div class="check-item" onclick="toggleCheck(this)"><span class="box"></span>Variabel is someone looking berubah otomatis Yes ↔ No.</div>
+                <div class="check-item" onclick="toggleCheck(this)"><span class="box"></span>Semua sprite Window dan Panda terhubung dengan tepat.</div>
+                <div class="check-item" onclick="toggleCheck(this)"><span class="box"></span>Project siap disimpan!</div>
+            </div>
+        </section>
+
+        <!-- Slide 17: Save & Share -->
+        <section class="slide warm-slide" data-title="Save Project">
+            <h2 class="agenda-title compact-title">Simpan Project Shy Panda 💾</h2>
+            <div class="two-col">
+                <div class="stage-panel">
+                    <img class="project-img" src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/e498442c-d811-4956-ba64-cab26cac98e7.png"
+                        alt="Save Project" style="max-height:260px;" />
+                </div>
+                <div style="text-align:left;">
+                    <div class="card" style="align-items:flex-start;text-align:left;padding:22px;">
+                        <h3 style="color:#008080;">Pastikan Project Tersimpan:</h3>
+                        <p style="font-size:1.15rem;line-height:1.65;">• Tekan <b>CTRL + S</b> di keyboard.<br>• Beri judul: <b>Shy Panda - Namamu</b>.<br>• Klik <b>Share</b> jika diminta teacher untuk demo.</p>
+                    </div>
+                    <div class="note" style="margin-top:14px;">Di pertemuan berikutnya (Meet 20), kita akan menambahkan musik, efek suara malu, skor stealth, dan challenge game Rodocodo!</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 18: Quick Quiz -->
+        <section class="slide soft-purple" data-title="Quick Quiz">
+            <div class="quiz-wrapper">
+                <div class="quiz-top-bar"><span class="quiz-badge">⚡ Quick Quiz</span><span class="quiz-step"
+                        id="quizStepText">Soal 1 dari 3</span>
+                </div>
+                <div class="quiz-progress-track">
+                    <div class="quiz-progress-fill" id="quizProgressFill" style="width:33.33%"></div>
+                </div>
+                <div class="quiz-card-body">
+                    <h3 class="quiz-question-title" id="quizQuestion">Pertanyaan akan muncul di sini.</h3>
+                    <div class="quiz-options-grid" id="quizOptions"></div>
+                    <div class="quiz-feedback-box" id="quizFeedback" style="display:none"></div>
+                    <button class="btn quiz-next-btn" id="quizNext" onclick="nextQuiz()" style="display:none">Soal
+                        Berikutnya ➜</button>
+                </div>
+                <div class="quiz-complete-card" id="quizComplete" style="display:none;text-align:center;padding:12px 0">
+                    <div style="font-size:5rem;margin-bottom:8px">🏆🎉</div>
+                    <h2 style="font-size:2.1rem;color:#24344d;margin:4px 0 10px">Kuis Selesai!</h2>
+                    <p id="quizFinalMessage" style="font-size:1.2rem;color:#5a718c;margin-bottom:22px"></p>
+                    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap"><button class="btn"
+                            onclick="restartQuiz()" style="background:linear-gradient(135deg,#845ef7,#2f80ed);color:#fff;">🔄 Ulangi
+                            Kuis</button><button class="btn" onclick="changeSlide(1)"
+                            style="background:linear-gradient(135deg,#28b875,#16bde8);color:#fff;">Lanjut ke Review ➜</button></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 19: 4-Point Review -->
+        <section class="slide soft-green" data-title="Review Hari Ini">
+            <h2 class="agenda-title compact-title">Review Hari Ini: 4 Kunci Utama 📝</h2>
+            <div class="review-grid">
+                <div class="review-card">
+                    <div class="review-icon-wrap">😊</div>
+                    <div class="review-content">
+                        <div class="review-step-tag">POIN 1</div>
+                        <h3>Face Detection</h3>
+                        <p>Teknologi Computer Vision untuk mendeteksi keberadaan dan posisi wajah manusia di layar.</p>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-icon-wrap">📍</div>
+                    <div class="review-content">
+                        <div class="review-step-tag">POIN 2</div>
+                        <h3>Face Landmarks</h3>
+                        <p>Titik-titik koordinat pada mata, hidung, dan mulut yang membantu program mengenali wajah.</p>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-icon-wrap">🪟</div>
+                    <div class="review-content">
+                        <div class="review-step-tag">POIN 3</div>
+                        <h3>Sprite Window Controller</h3>
+                        <p>Sprite yang mengatur kamera dan mengupdate nilai variabel <i>is someone looking</i>.</p>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-icon-wrap">🐼</div>
+                    <div class="review-content">
+                        <div class="review-step-tag">POIN 4</div>
+                        <h3>Reaksi Shy Panda</h3>
+                        <p>Panda berganti kostum menari saat aman, dan berubah ke kostum malu saat ada yang melihat.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 20: Feedback -->
+        <section class="slide feedback-final" data-title="Feedback">
+            <h2 class="agenda-title compact-title">Bagaimana Kelas Hari Ini? 💖</h2>
+            <p class="subtitle" style="margin-bottom:14px">Pilih perasaanmu setelah membuat Shy Panda hari ini!</p>
+            <div class="feedback-grid">
+                <button class="feedback-card" onclick="setFeedback(this,'Senang & Gemas Banget! 🐼🎉')">
+                    <div class="fb-emoji">🤩</div>
+                    <h3>Seru & Paham</h3>
+                    <p>Panda-ku berhasil malu dan menari sesuai deteksi wajah!</p><span class="fb-tag">⭐⭐⭐⭐⭐</span>
+                </button>
+                <button class="feedback-card" onclick="setFeedback(this,'Cukup Paham & Ingin Lanjut! ✨')">
+                    <div class="fb-emoji">😊</div>
+                    <h3>Cukup Paham</h3>
+                    <p>Konsep deteksi wajah sangat menarik, ingin tambah musik di sesi berikutnya.</p><span class="fb-tag">⭐⭐⭐⭐</span>
+                </button>
+                <button class="feedback-card" onclick="setFeedback(this,'Butuh Bimbingan Teacher! 🙋')">
+                    <div class="fb-emoji">🤔</div>
+                    <h3>Butuh Bantuan</h3>
+                    <p>Ada bagian variabel atau kamera yang ingin kuperjelas.</p><span class="fb-tag">💡 Bimbingan</span>
+                </button>
+            </div>
+            <div class="feedback-thanks" id="feedbackThanks"></div>
+        </section>
+
+        <!-- Modal for Image Zoom -->
+        <div id="imageModal" class="img-modal" onclick="closeImageModal(event)">
+            <div class="img-modal-content" onclick="event.stopPropagation()"><button class="img-modal-close"
+                    onclick="closeImageModal(event)" title="Tutup (Esc)">✕</button><img id="modalImg" src=""
+                    alt="Zoomed Image" />
+                <div id="modalCaption" class="img-modal-caption"></div>
+            </div>
+        </div>
+
+        <!-- Navigation Bar -->
+        <div class="progress-line" id="progressLine"></div>
+        <nav class="navigation">
+            <div class="nav-title" id="navTitle">Computer Vision: Deteksi dan Posisi Wajah</div>
+            <div class="nav-controls"><button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">‹</button>
+                <div class="counter" id="counter">1 / 1</div><button class="nav-btn next" id="nextBtn"
+                    onclick="changeSlide(1)">›</button>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        const slides = [...document.querySelectorAll('.slide')];
+        let currentSlide = 0;
+        const prevBtn = document.getElementById('prevBtn'),
+              nextBtn = document.getElementById('nextBtn'),
+              counter = document.getElementById('counter'),
+              navTitle = document.getElementById('navTitle'),
+              progressLine = document.getElementById('progressLine');
+        let streamRef = null;
+
+        function showSlide(index) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            counter.textContent = (currentSlide + 1) + ' / ' + slides.length;
+            navTitle.textContent = slides[currentSlide].dataset.title || 'Ruangguru Coding';
+            progressLine.style.width = ((currentSlide + 1) / slides.length * 100) + '%';
+        }
+        function changeSlide(dir) {
+            const i = currentSlide + dir;
+            if (i >= 0 && i < slides.length) showSlide(i);
+        }
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeImageModal();
+            if (e.key === 'ArrowRight') changeSlide(1);
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+        });
+
+        async function startCameraTest() {
+            const status = document.getElementById('cameraStatus');
+            const video = document.getElementById('cameraPreview');
+            const ph = document.getElementById('cameraPlaceholder');
+            try {
+                streamRef = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                video.srcObject = streamRef;
+                video.style.display = 'block';
+                ph.style.display = 'none';
+                status.textContent = '✅ Hore! Kamera berhasil terbuka. Kamu siap mencoba Face Sensing.';
+                status.style.color = '#12834e';
+            } catch (err) {
+                status.textContent = '⚠️ Kamera belum bisa dibuka. Tidak apa-apa, tetap ikuti instruksi teacher.';
+                status.style.color = '#ef5350';
+            }
+        }
+        function stopCameraTest() {
+            if (streamRef) { streamRef.getTracks().forEach(t => t.stop()); streamRef = null; }
+            const video = document.getElementById('cameraPreview');
+            const ph = document.getElementById('cameraPlaceholder');
+            if (video) video.style.display = 'none';
+            if (ph) ph.style.display = 'block';
+            const status = document.getElementById('cameraStatus');
+            if (status) {
+                status.textContent = 'Kamera sudah dihentikan.';
+                status.style.color = '#4c97ff';
+            }
+        }
+
+        function toggleCheck(el) { el.classList.toggle('done'); }
+
+        const quizData = [
+            { q: 'Sprite mana yang bertugas mengatur kamera dan mengecek sensor wajah?', o: ['Sprite Shy Panda', 'Sprite Window', 'Backdrop saja'], a: 1, h: 'Sprite Window berfungsi sebagai controller yang menyalakan kamera dan mengupdate variabel is someone looking.' },
+            { q: 'Jika sensor face detected? bernilai benar (ada wajah), apa yang dilakukan Panda?', o: ['Panda berganti ke kostum PandaEmbarrassed dan berhenti menari', 'Panda menghapus seluruh project', 'Panda keluar dari Scratch'], a: 0, h: 'Panda merasa malu karena ada orang yang melihatnya, sehingga ia diam dan bersembunyi.' },
+            { q: 'Mengapa kita menggunakan variabel "is someone looking"?', o: ['Untuk mewarnai latar belakang', 'Untuk menyimpan status Yes / No sehingga sprite Panda tahu kapan harus menari atau malu', 'Untuk membuat akun baru di Scratch'], a: 1, h: 'Variabel menyimpan informasi status agar komunikasi antar sprite berjalan lancar dan akurat.' }
+        ];
+        let qIndex = 0, qAnswered = false;
+        function renderQuiz() {
+            qAnswered = false;
+            document.querySelector('.quiz-card-body').style.display = 'block';
+            document.getElementById('quizComplete').style.display = 'none';
+            document.getElementById('quizStepText').textContent = 'Soal ' + (qIndex + 1) + ' dari ' + quizData.length;
+            document.getElementById('quizProgressFill').style.width = ((qIndex + 1) / quizData.length * 100) + '%';
+            document.getElementById('quizQuestion').textContent = quizData[qIndex].q;
+            const box = document.getElementById('quizOptions');
+            box.innerHTML = '';
+            const letters = ['A', 'B', 'C'];
+            quizData[qIndex].o.forEach((opt, i) => {
+                const b = document.createElement('button');
+                b.className = 'quiz-opt-btn';
+                b.innerHTML = '<span class="quiz-opt-letter">' + letters[i] + '</span><span>' + opt + '</span>';
+                b.onclick = () => answerQuiz(i, b);
+                box.appendChild(b);
+            });
+            const fb = document.getElementById('quizFeedback');
+            fb.style.display = 'none';
+            fb.textContent = '';
+            const n = document.getElementById('quizNext');
+            n.style.display = 'none';
+            n.textContent = qIndex === quizData.length - 1 ? 'Lihat Hasil Kuis 🏆' : 'Soal Berikutnya ➜';
+        }
+        function answerQuiz(i, btn) {
+            if (qAnswered) return;
+            qAnswered = true;
+            const data = quizData[qIndex], ok = i === data.a;
+            document.querySelectorAll('#quizOptions .quiz-opt-btn').forEach((b, idx) => { b.disabled = true; if (idx === data.a) b.classList.add('correct') });
+            if (!ok) btn.classList.add('wrong');
+            const fb = document.getElementById('quizFeedback');
+            fb.style.display = 'block';
+            fb.innerHTML = (ok ? '🎉 <b>Jawaban Tepat!</b> ' : '💡 <b>Kurang Tepat.</b> ') + data.h;
+            fb.style.background = ok ? '#ecfdf5' : '#fef2f2';
+            fb.style.border = ok ? '2px solid #10b981' : '2px solid #ef4444';
+            fb.style.color = ok ? '#065f46' : '#991b1b';
+            document.getElementById('quizNext').style.display = 'inline-flex';
+        }
+        function nextQuiz() {
+            if (qIndex < quizData.length - 1) {
+                qIndex++;
+                renderQuiz();
+            } else {
+                document.querySelector('.quiz-card-body').style.display = 'none';
+                document.getElementById('quizComplete').style.display = 'block';
+                document.getElementById('quizProgressFill').style.width = '100%';
+                document.getElementById('quizFinalMessage').textContent = 'Hebat! Kamu telah menyelesaikan semua soal kuis dan memahami konsep deteksi wajah serta interaksi posisi! 🌟';
+            }
+        }
+        function restartQuiz() { qIndex = 0; renderQuiz(); }
+
+        function setFeedback(btn, text) {
+            document.querySelectorAll('.feedback-card').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            const fb = document.getElementById('feedbackThanks');
+            fb.innerHTML = '✨ <b>' + text + '</b> Terima kasih atas responmu!';
+            fb.style.color = '#7048e8';
+        }
+
+        function initImageZoom() {
+            document.querySelectorAll('img:not(.brand-logo img)').forEach(img => {
+                img.style.cursor = 'zoom-in';
+                img.title = 'Klik untuk memperbesar gambar';
+                img.addEventListener('click', e => {
+                    e.stopPropagation();
+                    openImageModal(img.src, img.alt || 'Preview Gambar');
+                });
+            });
+        }
+        function openImageModal(src, caption) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            const modalCap = document.getElementById('modalCaption');
+            if (!modal || !modalImg) return;
+            modalImg.src = src;
+            modalCap.textContent = caption || '';
+            modal.classList.add('active');
+        }
+        function closeImageModal(e) {
+            if (e) e.stopPropagation();
+            const modal = document.getElementById('imageModal');
+            if (modal) modal.classList.remove('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderQuiz();
+            initImageZoom();
+            showSlide(0);
+        });
+    </script>
+</body>
+
+</html>

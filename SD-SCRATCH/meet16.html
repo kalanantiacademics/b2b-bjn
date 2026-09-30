@@ -1,0 +1,2438 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Session 16 - Pengenalan AI dan ML Dasar | Ruangguru Coding</title>
+    <link rel="icon"
+        href="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png"
+        type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --blue: #2f80ed;
+            --scratchBlue: #4c97ff;
+            --cyan: #16bde8;
+            --purple: #845ef7;
+            --orange: #ff8a34;
+            --yellow: #ffd53d;
+            --green: #28b875;
+            --red: #ef5350;
+            --pink: #ff6fb5;
+            --ink: #20324a;
+            --muted: #66788d;
+            --cardBorder: #e0e8f2;
+            --shadow: 0 22px 55px rgba(22, 44, 76, .18);
+            --event: #ffbf00;
+            --motion: #4c97ff;
+            --looks: #9966ff;
+            --control: #ffab19;
+            --sensing: #5cb1d6;
+            --sound: #d65cd6;
+            --operators: #59c059;
+            --variables: #ff8c1a
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--ink);
+            background: #f8fffe;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        body:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/1a86db42-485f-46a7-ac12-0a36769e680f.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: -1
+        }
+
+        body:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at 0% 100%, rgba(0, 188, 212, .07), transparent 55%), radial-gradient(ellipse at 100% 0%, rgba(0, 188, 212, .06), transparent 50%);
+            pointer-events: none;
+            z-index: -1
+        }
+
+        .brand-logo {
+            position: fixed;
+            left: 22px;
+            top: 16px;
+            z-index: 2000;
+            background: #fff;
+            border: 2.5px solid rgba(0, 188, 212, .22);
+            border-radius: 22px;
+            padding: 10px 20px;
+            box-shadow: 0 8px 32px rgba(0, 188, 212, .18), 0 2px 8px rgba(0, 0, 0, .07);
+            display: flex;
+            align-items: center
+        }
+
+        .brand-logo img {
+            display: block;
+            height: 80px;
+            max-width: 220px;
+            object-fit: contain
+        }
+
+        .presentation-container {
+            width: 86vw;
+            height: 80vh;
+            max-width: 1500px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(30, 56, 93, .25);
+            overflow: hidden;
+            position: relative;
+            border: 4px solid rgba(255, 255, 255, .85)
+        }
+
+        .presentation-container:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 26px;
+            box-shadow: inset 0 0 0 1px rgba(91, 124, 164, .10);
+            z-index: 30
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 42px 58px 76px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(42px) scale(.985);
+            transition: .46s ease;
+            background: linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(249, 252, 255, .98));
+            overflow: hidden
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            z-index: 10
+        }
+
+        .cover-slide {
+            background: radial-gradient(circle at top left, rgba(255, 255, 255, .30), transparent 34%), linear-gradient(135deg, #153f6a, #2f80ed 38%, #845ef7 70%, #ff8a34);
+            color: #fff
+        }
+
+        .cover-title {
+            font-size: clamp(3.3rem, 7vw, 6.25rem);
+            line-height: .95;
+            margin: 8px 0 18px;
+            font-weight: 800;
+            text-align: center;
+            color: #fff
+        }
+
+        .gradient-text {
+            color: #ffd65a
+        }
+
+        .cover-subtitle {
+            font-size: 1.48rem;
+            max-width: 980px;
+            margin: 0 auto;
+            color: #edf2ff;
+            line-height: 1.42;
+            text-align: center
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+            display: inline-block
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-12px) rotate(3deg)
+            }
+        }
+
+        .soft-blue {
+            background: linear-gradient(145deg, #edf7ff, #f7fbff)
+        }
+
+        .soft-green {
+            background: linear-gradient(145deg, #effcf5, #fbfffd)
+        }
+
+        .soft-orange {
+            background: linear-gradient(145deg, #fff6ea, #fffdf8)
+        }
+
+        .soft-purple {
+            background: linear-gradient(145deg, #f6f0ff, #fbf9ff)
+        }
+
+        .warm-slide {
+            background: linear-gradient(145deg, #fff8e9, #fffdf6)
+        }
+
+        .feedback-final {
+            background: linear-gradient(145deg, #fff0f6, #eef4ff)
+        }
+
+        .agenda-title {
+            width: 100%;
+            max-width: 1180px;
+            text-align: center;
+            font-size: clamp(2.05rem, 4vw, 3.65rem);
+            line-height: 1.06;
+            margin: 6px 0 22px;
+            color: #24344d;
+            font-weight: 800
+        }
+
+        .compact-title {
+            font-size: clamp(1.85rem, 3.25vw, 3.05rem)
+        }
+
+        .subtitle,
+        .lead {
+            font-size: clamp(1.06rem, 1.55vw, 1.3rem);
+            color: var(--muted);
+            margin: -6px 0 18px;
+            line-height: 1.44;
+            text-align: center
+        }
+
+        .grid,
+        .grid-2,
+        .grid-3,
+        .grid-4,
+        .grid-5,
+        .two-col,
+        .activity-layout {
+            width: 100%;
+            max-width: 1140px;
+            display: grid;
+            gap: 18px
+        }
+
+        .grid-2,
+        .two-col,
+        .activity-layout {
+            grid-template-columns: repeat(2, 1fr);
+            align-items: center
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr)
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(4, 1fr)
+        }
+
+        .grid-5 {
+            grid-template-columns: repeat(5, 1fr)
+        }
+
+        .card,
+        .activity-box,
+        .quiz-box,
+        .image-panel,
+        .code-panel,
+        .stage-panel {
+            background: #fff;
+            border: 3px solid var(--cardBorder);
+            border-radius: 26px;
+            box-shadow: var(--shadow)
+        }
+
+        .card {
+            padding: 18px;
+            min-height: 142px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center
+        }
+
+        .card-icon {
+            font-size: 2.65rem;
+            margin-bottom: 6px
+        }
+
+        .card h3,
+        .activity-box h3,
+        .image-panel h3 {
+            margin: 4px 0 6px;
+            font-size: 1.25rem;
+            color: #20324a
+        }
+
+        .card p,
+        .activity-box p,
+        .image-panel p {
+            margin: 0;
+            color: #61768d;
+            line-height: 1.4;
+            font-size: 1rem
+        }
+
+        .choice-card-img {
+            background: #fff;
+            border: 3px solid #dfe7f0;
+            border-radius: 22px;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all .2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 8px 20px rgba(30, 56, 93, .08);
+            font-family: inherit
+        }
+
+        .choice-card-img:hover {
+            transform: translateY(-3px);
+            border-color: var(--blue)
+        }
+
+        .choice-card-img.correct {
+            background: #ecfdf5;
+            border-color: #10b981
+        }
+
+        .choice-card-img img {
+            width: 100%;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 14px;
+            background: #f8fbff;
+            border: 2px solid #eef3f8
+        }
+
+        .choice-card-img .label {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #20324a;
+            margin-top: 10px
+        }
+
+        .note,
+        .warning {
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 1.06rem;
+            line-height: 1.4;
+            max-width: 920px;
+            font-weight: 600
+        }
+
+        .note {
+            background: #eefcf6;
+            border: 2px solid #c8f0dd;
+            color: #1f7d55
+        }
+
+        .warning {
+            background: #fff8db;
+            border: 2px solid #f7d95d;
+            color: #7b6412
+        }
+
+        .wide-note {
+            max-width: 1040px;
+            width: 100%;
+            text-align: center;
+            margin-top: 18px
+        }
+
+        .btn,
+        .choice,
+        .run-btn {
+            appearance: none;
+            border: none;
+            text-decoration: none;
+            font-family: inherit;
+            cursor: pointer;
+            font-weight: 700;
+            transition: .2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .btn {
+            padding: 13px 18px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            color: #fff;
+            box-shadow: 0 10px 18px rgba(47, 128, 237, .23);
+            font-size: 1rem
+        }
+
+        .btn:hover,
+        .choice:hover,
+        .run-btn:hover {
+            transform: translateY(-2px)
+        }
+
+        .choice {
+            background: #f9fbfd;
+            border: 3px solid #dfe7f0;
+            border-radius: 16px;
+            padding: 14px 16px;
+            text-align: left;
+            width: 100%;
+            color: #29425f;
+            font-size: 1.02rem
+        }
+
+        .choice.correct {
+            background: #eafaf3;
+            border-color: var(--green);
+            color: #136740
+        }
+
+        .choice.wrong {
+            background: #fff0ef;
+            border-color: var(--red);
+            color: #b24439
+        }
+
+        .feedback,
+        .status-line {
+            min-height: 28px;
+            margin-top: 12px;
+            text-align: center;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #566b81
+        }
+
+        .stage-panel {
+            padding: 20px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .scratch-img,
+        .project-img {
+            max-width: 100%;
+            max-height: 310px;
+            object-fit: contain;
+            border-radius: 18px;
+            border: 2px solid #e2ebf5;
+            background: #fff;
+            box-shadow: 0 12px 28px rgba(22, 44, 76, .12)
+        }
+
+        .video-wrap {
+            background: #fff;
+            padding: 12px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            border: 3px solid #dfe8f2;
+            width: 100%;
+            max-width: 760px
+        }
+
+        .video-wrap iframe {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border: 0;
+            border-radius: 16px;
+            display: block
+        }
+
+        .mini-step {
+            background: #fff;
+            border: 2.5px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 12px 16px;
+            font-size: 1.02rem;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .ocean-zone-wrap {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            width: 100%
+        }
+
+        .drop-zone {
+            min-height: 180px;
+            border: 3.5px dashed #cbd5e1;
+            border-radius: 22px;
+            background: #f8fafc;
+            padding: 14px;
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center
+        }
+
+        .drop-title {
+            width: 100%;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 6px
+        }
+
+        .items-pool {
+            background: #fff9db;
+            border: 3px solid #ffd53d;
+            border-radius: 22px;
+            padding: 14px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center
+        }
+
+        .drag-item {
+            font-size: 2.3rem;
+            width: 56px;
+            height: 56px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            cursor: grab;
+            box-shadow: 0 8px 16px rgba(30, 56, 93, .10);
+            transition: transform .15s ease
+        }
+
+        .drag-item:active {
+            cursor: grabbing;
+            transform: scale(1.08)
+        }
+
+        .ocean-test-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .ocean-test-item {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 20px;
+            padding: 14px 8px;
+            text-align: center;
+            transition: all .25s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 16px rgba(30, 56, 93, .06);
+            min-height: 140px;
+        }
+
+        .ocean-test-item .test-emoji {
+            font-size: 3rem;
+            margin-bottom: 4px;
+        }
+
+        .ocean-test-item .test-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #475569;
+        }
+
+        .ocean-test-item .badge-result {
+            margin-top: 8px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.84rem;
+            font-weight: 800;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all .3s cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        .ocean-test-item.scanned .badge-result {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .ocean-test-item.correct-guess {
+            border-color: #10b981;
+            background: #f0fdf4;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, .15);
+        }
+
+        .ocean-test-item.wrong-guess {
+            border-color: #ef4444;
+            background: #fef2f2;
+            box-shadow: 0 8px 20px rgba(239, 68, 68, .18);
+            animation: pulse 1.2s infinite;
+        }
+
+        .prediction-box {
+            background: #111827;
+            color: #f8fafc;
+            border-radius: 24px;
+            padding: 20px;
+            width: 100%;
+            font-family: inherit;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, .22);
+            border: 3px solid #374151
+        }
+
+        .bar {
+            height: 18px;
+            border-radius: 999px;
+            background: #374151;
+            overflow: hidden;
+            margin: 6px 0 14px
+        }
+
+        .bar span {
+            display: block;
+            height: 100%;
+            width: 0;
+            border-radius: 999px;
+            background: linear-gradient(to right, #008080, #ffd53d);
+            transition: width .5s cubic-bezier(.4, 0, .2, 1)
+        }
+
+        .camera-test {
+            background: #eef7ff;
+            border: 3.5px solid #4c97ff;
+            border-radius: 26px;
+            padding: 18px;
+            min-height: 290px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center
+        }
+
+        .camera-test video {
+            width: 100%;
+            max-height: 220px;
+            object-fit: cover;
+            display: none;
+            border-radius: 18px;
+            background: #000
+        }
+
+        .camera-placeholder {
+            font-size: 4.8rem;
+            color: #4c97ff
+        }
+
+        .checklist {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            width: 100%;
+            max-width: 960px
+        }
+
+        .check-item {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 20px;
+            padding: 14px 18px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(30, 56, 93, .06);
+            transition: all .2s ease
+        }
+
+        .check-item:hover {
+            transform: translateY(-2px);
+            border-color: var(--blue)
+        }
+
+        .check-item .box {
+            width: 28px;
+            height: 28px;
+            border: 2.5px solid #008080;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #008080;
+            flex-shrink: 0
+        }
+
+        .check-item.done {
+            background: #f0fdf4;
+            border-color: #a8c368
+        }
+
+        .check-item.done .box::after {
+            content: '✓';
+            font-weight: 900;
+            font-size: 1.2rem
+        }
+
+        .quiz-wrapper {
+            width: 100%;
+            max-width: 960px;
+            background: #fff;
+            border: 3.5px solid #e0e8f2;
+            border-radius: 28px;
+            padding: 28px 36px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden
+        }
+
+        .quiz-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px
+        }
+
+        .quiz-badge {
+            background: #f0eaff;
+            color: #7048e8;
+            border: 2px solid #d0bfff;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: .92rem;
+            letter-spacing: .05em
+        }
+
+        .quiz-step {
+            font-weight: 800;
+            color: #607289;
+            font-size: 1.05rem
+        }
+
+        .quiz-score-badge {
+            background: #fff9db;
+            color: #d97706;
+            border: 2px solid #fde68a;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 1rem
+        }
+
+        .quiz-progress-track {
+            width: 100%;
+            height: 8px;
+            background: #edf2f7;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 20px
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff8a34, #ff6fb5, #845ef7);
+            border-radius: 999px;
+            transition: width .35s ease
+        }
+
+        .quiz-question-title {
+            font-size: 1.6rem;
+            line-height: 1.35;
+            color: #1e293b;
+            margin: 0 0 18px;
+            font-weight: 800;
+            text-align: left
+        }
+
+        .quiz-options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 11px
+        }
+
+        .quiz-opt-btn {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 20px;
+            background: #f8fafc;
+            border: 2.5px solid #e2e8f0;
+            border-radius: 18px;
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #334155;
+            text-align: left;
+            cursor: pointer;
+            transition: all .2s ease
+        }
+
+        .quiz-opt-btn:hover:not(:disabled) {
+            background: #f0f7ff;
+            border-color: var(--blue);
+            transform: translateX(4px)
+        }
+
+        .quiz-opt-letter {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: #e2e8f0;
+            color: #475569;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            transition: all .2s ease
+        }
+
+        .quiz-opt-btn.correct {
+            background: #ecfdf5;
+            border-color: #10b981;
+            color: #065f46
+        }
+
+        .quiz-opt-btn.correct .quiz-opt-letter {
+            background: #10b981;
+            color: #fff
+        }
+
+        .quiz-opt-btn.wrong {
+            background: #fef2f2;
+            border-color: #ef4444;
+            color: #991b1b
+        }
+
+        .quiz-opt-btn.wrong .quiz-opt-letter {
+            background: #ef4444;
+            color: #fff
+        }
+
+        .quiz-feedback-box {
+            margin-top: 14px;
+            padding: 14px 18px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            line-height: 1.4;
+            text-align: left
+        }
+
+        .quiz-next-btn {
+            margin-top: 14px;
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            font-size: 1.05rem
+        }
+
+        .review-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 1100px
+        }
+
+        .review-card {
+            background: #fff;
+            border: 3px solid var(--cardBorder);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 14px 30px rgba(30, 60, 100, .08);
+            display: grid;
+            grid-template-columns: 68px 1fr;
+            gap: 16px;
+            align-items: center;
+            text-align: left;
+            position: relative;
+            overflow: hidden
+        }
+
+        .review-icon-wrap {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            display: grid;
+            place-items: center;
+            font-size: 2.5rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, .06);
+            background: #e0f2fe;
+            border: 2px solid #bae6fd
+        }
+
+        .review-step-tag {
+            font-size: .76rem;
+            font-weight: 800;
+            letter-spacing: .08em;
+            color: #8b9eb5;
+            margin-bottom: 2px
+        }
+
+        .review-content h3 {
+            margin: 0 0 6px;
+            font-size: 1.25rem;
+            color: #1e293b
+        }
+
+        .review-content p {
+            margin: 0;
+            color: #64748b;
+            font-size: .98rem;
+            line-height: 1.4
+        }
+
+        .feedback-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 1060px;
+            margin-top: 8px
+        }
+
+        .feedback-card {
+            background: #fff;
+            border: 3px solid #e0e8f2;
+            border-radius: 26px;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 14px 30px rgba(40, 60, 100, .08);
+            transition: all .25s cubic-bezier(.34, 1.56, .64, 1);
+            font-family: inherit
+        }
+
+        .feedback-card:hover {
+            transform: translateY(-6px) scale(1.03);
+            border-color: var(--purple);
+            box-shadow: 0 20px 40px rgba(132, 94, 247, .2)
+        }
+
+        .feedback-card.selected {
+            transform: translateY(-4px) scale(1.04);
+            border-color: #845ef7;
+            background: #faf5ff;
+            box-shadow: 0 20px 40px rgba(132, 94, 247, .25)
+        }
+
+        .feedback-card .fb-emoji {
+            font-size: 4.6rem;
+            margin-bottom: 8px
+        }
+
+        .feedback-card h3 {
+            margin: 4px 0 6px;
+            font-size: 1.25rem;
+            color: #1e293b;
+            font-weight: 800
+        }
+
+        .feedback-card p {
+            margin: 0 0 12px;
+            font-size: .95rem;
+            color: #64748b;
+            line-height: 1.35
+        }
+
+        .fb-tag {
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: .88rem;
+            font-weight: 700;
+            color: #475569
+        }
+
+        .feedback-thanks {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6c4ddd;
+            margin-top: 25px;
+            min-height: 35px
+        }
+
+        .img-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(15, 23, 42, .88);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity .25s ease
+        }
+
+        .img-modal.active {
+            display: flex;
+            opacity: 1
+        }
+
+        .img-modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: scale(.92);
+            transition: transform .25s cubic-bezier(.34, 1.56, .64, 1)
+        }
+
+        .img-modal.active .img-modal-content {
+            transform: scale(1)
+        }
+
+        .img-modal-content img {
+            max-width: 86vw;
+            max-height: 78vh;
+            object-fit: contain;
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .5), 0 0 0 3px rgba(255, 255, 255, .2);
+            background: #fff
+        }
+
+        .img-modal-caption {
+            margin-top: 14px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, .6);
+            text-align: center;
+            max-width: 800px
+        }
+
+        .img-modal-close {
+            position: absolute;
+            top: -18px;
+            right: -18px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #ff5252;
+            color: #fff;
+            border: 3px solid #fff;
+            font-size: 1.3rem;
+            font-weight: 800;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .35);
+            transition: all .2s ease;
+            z-index: 10
+        }
+
+        .image-panel img,
+        .card img,
+        .project-img,
+        .choice-card-img img,
+        .two-col img {
+            cursor: zoom-in;
+            transition: transform .22s ease, box-shadow .22s ease
+        }
+
+        .image-panel img:hover,
+        .card img:hover,
+        .project-img:hover {
+            transform: scale(1.025);
+            box-shadow: 0 10px 24px rgba(47, 128, 237, .2)
+        }
+
+        .navigation {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, .96);
+            border-top: 1px solid #e7edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 100;
+            backdrop-filter: blur(12px)
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b7d92;
+            max-width: 42%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #d9e3ef;
+            background: #fff;
+            color: #4c6077;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            border-color: var(--blue);
+            color: var(--blue)
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--orange), #ffac37);
+            color: #fff;
+            border: 0;
+            box-shadow: 0 7px 16px rgba(255, 138, 52, .3)
+        }
+
+        .nav-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed
+        }
+
+        .counter {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #53677f;
+            min-width: 74px;
+            text-align: center
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 0;
+            bottom: 62px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--orange), var(--pink), var(--purple), var(--cyan));
+            width: 0;
+            transition: .35s;
+            z-index: 110
+        }
+
+        @media(max-width:1200px) {
+            .grid-4,
+            .grid-5 {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .grid-3,
+            .grid-2,
+            .two-col,
+            .activity-layout,
+            .review-grid,
+            .feedback-grid,
+            .checklist {
+                grid-template-columns: 1fr
+            }
+
+            .ocean-test-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .card {
+                min-height: 118px
+            }
+
+            .stage-panel {
+                min-height: 220px
+            }
+        }
+
+        @media(max-width:700px) {
+            .brand-logo {
+                left: 8px;
+                top: 6px;
+                padding: 7px 12px
+            }
+
+            .brand-logo img {
+                height: 32px
+            }
+
+            .presentation-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: 0
+            }
+
+            .slide {
+                padding: 68px 18px 74px
+            }
+
+            .grid-3,
+            .grid-4,
+            .grid-5 {
+                grid-template-columns: 1fr
+            }
+
+            .ocean-test-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cover-title {
+                font-size: 3.2rem
+            }
+
+            .nav-title {
+                display: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="brand-logo"><img alt="Ruangguru Coding"
+            src="https://cdn-web-2.ruangguru.com/landing-pages/assets/e7d93748-818d-462d-be57-7db1e479cd62.png" /></div>
+
+    <div class="presentation-container">
+        <!-- Slide 1: Cover -->
+        <section class="slide cover-slide active" data-title="Artificial Intelligence: Pengenalan AI dan ML Dasar">
+            <h1 class="cover-title"><span class="gradient-text">Artificial Intelligence</span><br />AI • DATASET • TRAINING</h1>
+            <div class="float" style="font-size:7rem;margin:8px 0">🤖🧠🌊</div>
+            <p class="cover-subtitle">Sesi 16: Pengenalan AI dan Machine Learning Dasar</p>
+        </section>
+
+        <!-- Slide 2: Review -->
+        <section class="slide soft-blue" data-title="Review Meet 15">
+            <h2 class="agenda-title">Review Pertemuan Minggu Lalu 🔢</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">📦</div>
+                    <h3>Variable</h3>
+                    <p>Menyimpan data seperti score, water, timer, atau status.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">➕➖</div>
+                    <h3>Math Operator</h3>
+                    <p>Mengolah angka agar program bisa menghitung hasil.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⏱️</div>
+                    <h3>Timer</h3>
+                    <p>Membuat waktu permainan berjalan dan bisa berhenti.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">✅</div>
+                    <h3>Win / Finish</h3>
+                    <p>Mengecek kapan project sudah selesai atau berhasil.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 3: Today's Agenda -->
+        <section class="slide soft-green" data-title="Today's Agenda">
+            <h2 class="agenda-title">Today's Agenda 🚀</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">🤖</div>
+                    <h3>Apa itu AI?</h3>
+                    <p>Mengenal program yang bisa belajar dari contoh.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🌊</div>
+                    <h3>AI for Ocean</h3>
+                    <p>Melatih AI membedakan ikan dan sampah di laut.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📷</div>
+                    <h3>Teachable Machine</h3>
+                    <p>Mencoba membuat model AI sederhana sendiri.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔍</div>
+                    <h3>Test & Improve</h3>
+                    <p>Menguji hasil prediksi dan memperbaiki data.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: Pancingan AI (4 Poin dengan Gambar/GIF Rapi) -->
+        <section class="slide soft-orange" data-title="Pancingan AI">
+            <h2 class="agenda-title compact-title">Pernah Bertemu AI di Sekitar Kita? 👀</h2>
+            <p class="subtitle">Coba lihat contoh di bawah. Menurutmu, mana yang memakai AI?</p>
+            <div class="grid grid-4">
+                <button class="choice-card-img" onclick="aiEveryday(this,true)">
+                    <img src="https://play-lh.googleusercontent.com/y_2p-EsEEX5equ7KYKCBRJiYXm5ICFznNhnO0QGbfyyCrfwrG6BdhlS5WQCeT9EoawWozQ-ZxtmuI3Dk0sPwkA=w240-h480-rw" alt="Filter Kamera" />
+                    <div class="label">📱 Filter Kamera</div>
+                </button>
+                <button class="choice-card-img" onclick="aiEveryday(this,true)">
+                    <img src="https://cdn-icons-gif.flaticon.com/7920/7920844.gif" alt="Face Unlock" style="object-fit:contain;padding:6px;background:#f8fbff;" />
+                    <div class="label">🔐 Face Unlock</div>
+                </button>
+                <button class="choice-card-img" onclick="aiEveryday(this,true)">
+                    <img src="https://cdn.searchenginejournal.com/wp-content/uploads/2020/05/how-youtube---s-recommendation-systems-generate-rank-suggested-videos-5ec3c49b25a93-1280x720.png" alt="Video Recommendation" />
+                    <div class="label">🎬 Video Recommendation</div>
+                </button>
+                <button class="choice-card-img" onclick="aiEveryday(this,true)">
+                    <img src="https://asset.kompas.com/crops/nEXjsyguO5r6FYGIBDX4Upj3MW8=/200x0:1280x720/1200x800/data/photo/2021/04/16/6079534734e39.jpg" alt="Smart Assistant" />
+                    <div class="label">🎙️ Smart Assistant</div>
+                </button>
+            </div>
+            <div id="everydayStatus" class="status-line">Klik salah satu contoh untuk melihat penjelasannya.</div>
+            <div class="note wide-note">AI sering membantu komputer <b>mengenali pola</b>, memberi rekomendasi, atau membuat prediksi dari data.</div>
+        </section>
+
+        <!-- Slide 5: Apa itu AI (dengan GIF yang diminta) -->
+        <section class="slide soft-blue" data-title="Apa itu AI">
+            <h2 class="agenda-title compact-title">Apa Itu Artificial Intelligence? 🤖</h2>
+            <div class="two-col">
+                <div class="stage-panel" style="display:flex;align-items:center;justify-content:center;min-height:280px">
+                    <img src="https://www.sciencefriday.com/wp-content/uploads/2023/05/ezgif.com-optimize.gif?w=575&h=380&crop=1"
+                        alt="AI Brain Animation"
+                        style="max-width:100%;max-height:260px;object-fit:contain;border-radius:18px;border:2px solid #e2ebf5;" />
+                </div>
+                <div style="text-align:left">
+                    <div class="card" style="align-items:flex-start;text-align:left">
+                        <h3>AI adalah...</h3>
+                        <p style="font-size:1.08rem;line-height:1.45">Cara membuat komputer terlihat “pintar” karena bisa mengenali pola, memilih jawaban, atau memberi keputusan dari contoh data.</p>
+                    </div>
+                    <div class="warning" style="margin-top:14px">AI bukan sulap. AI perlu <b>belajar dari contoh</b> dulu sebelum bisa menebak sesuatu.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: Machine Learning -->
+        <section class="slide soft-green" data-title="Machine Learning">
+            <h2 class="agenda-title compact-title">Machine Learning: Komputer Belajar dari Contoh 📚</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">📥</div>
+                    <h3>Input Data</h3>
+                    <p>Kita berikan contoh gambar, teks, suara, atau pilihan.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🏷️</div>
+                    <h3>Label</h3>
+                    <p>Contoh diberi nama kategori yang benar.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🧠</div>
+                    <h3>Training</h3>
+                    <p>Komputer mencari pola dari contoh yang diberikan.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔍</div>
+                    <h3>Prediction</h3>
+                    <p>Komputer mencoba menebak data baru.</p>
+                </div>
+            </div>
+            <div class="note wide-note">Semakin jelas dan bervariasi contoh yang diberikan, semakin mudah AI belajar.</div>
+        </section>
+
+        <!-- Slide 7: Dataset -->
+        <section class="slide warm-slide" data-title="Dataset">
+            <h2 class="agenda-title compact-title">Kosakata Penting: Dataset 📦</h2>
+            <div class="two-col">
+                <div class="stage-panel" style="min-height:280px;display:flex;flex-direction:column;justify-content:center;align-items:center">
+                    <div style="font-size:3.5rem;text-align:center;margin-bottom:8px">🐟🐠🗑️🥤🐟🛍️</div>
+                    <div class="ocean-zone-wrap" style="width:100%;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                        <div class="drop-zone" style="border-color:#4c97ff;background:#eff6ff;min-height:110px;padding:10px">
+                            <div class="drop-title" style="font-size:1.1rem">🐟 Fish Data</div>
+                            <div class="drag-item" style="font-size:1.8rem;width:44px;height:44px">🐟</div>
+                            <div class="drag-item" style="font-size:1.8rem;width:44px;height:44px">🐠</div>
+                        </div>
+                        <div class="drop-zone" style="border-color:#ef5350;background:#fff1f2;min-height:110px;padding:10px">
+                            <div class="drop-title" style="font-size:1.1rem">🗑️ Trash Data</div>
+                            <div class="drag-item" style="font-size:1.8rem;width:44px;height:44px">🥤</div>
+                            <div class="drag-item" style="font-size:1.8rem;width:44px;height:44px">🛍️</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align:left">
+                    <div class="card" style="align-items:flex-start;text-align:left">
+                        <h3>Dataset = Kumpulan Contoh Data</h3>
+                        <p>Kalau kita ingin AI membedakan ikan dan sampah, kita perlu memberi banyak contoh ikan dan banyak contoh sampah.</p>
+                    </div>
+                    <div class="note" style="margin-top:14px">Hari ini kita akan mencoba sendiri bagaimana AI belajar dari dataset.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 8: Activity Dataset (Shuffled) -->
+        <section class="slide soft-purple" data-title="Activity Dataset">
+            <h2 class="agenda-title compact-title">Activity: Kamu Jadi Teacher untuk AI 🧑‍🏫</h2>
+            <p class="subtitle">Tarik contoh ke kelompok yang benar. Kalau contoh salah masuk, AI bisa belajar hal yang salah.</p>
+            <div class="stage-panel" style="width:100%;max-width:980px;min-height:300px;padding:18px">
+                <div class="ocean-zone-wrap" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                    <div class="drop-zone" data-accept="fish" style="border-color:#4c97ff;background:#eff6ff">
+                        <div class="drop-title">🐟 Ikan</div>
+                    </div>
+                    <div class="drop-zone" data-accept="trash" style="border-color:#ef5350;background:#fff1f2">
+                        <div class="drop-title">🗑️ Sampah</div>
+                    </div>
+                </div>
+                <div class="items-pool" id="oceanPool" style="margin-top:14px"></div>
+            </div>
+            <div id="datasetStatus" class="status-line">Drag & drop datanya ke kotak yang sesuai.</div>
+        </section>
+
+        <!-- Slide 9: Simulasi Test AI (Ikan vs Bukan Ikan) -->
+        <section class="slide soft-blue" data-title="Test Prediksi AI">
+            <h2 class="agenda-title compact-title">Simulasi: Apakah AI Mengenali Ikan? 🌊🤖</h2>
+            <p class="subtitle">Setelah training, sekarang saatnya kita test AI pada benda-benda baru di laut!</p>
+            <div class="stage-panel" style="width:100%;max-width:1040px;padding:20px;text-align:center;">
+                <div class="ocean-test-grid">
+                    <div class="ocean-test-item">
+                        <div class="test-emoji">🐟</div>
+                        <div class="test-name">Ikan Badut</div>
+                        <div class="badge-result">...</div>
+                    </div>
+                    <div class="ocean-test-item">
+                        <div class="test-emoji">🥤</div>
+                        <div class="test-name">Gelas Plastik</div>
+                        <div class="badge-result">...</div>
+                    </div>
+                    <div class="ocean-test-item">
+                        <div class="test-emoji">🐡</div>
+                        <div class="test-name">Ikan Buntal</div>
+                        <div class="badge-result">...</div>
+                    </div>
+                    <div class="ocean-test-item">
+                        <div class="test-emoji">🛍️</div>
+                        <div class="test-name">Kantong Plastik</div>
+                        <div class="badge-result">...</div>
+                    </div>
+                    <div class="ocean-test-item">
+                        <div class="test-emoji">🦈</div>
+                        <div class="test-name">Ikan Hiu</div>
+                        <div class="badge-result">...</div>
+                    </div>
+                    <div class="ocean-test-item">
+                        <div class="test-emoji">🥾</div>
+                        <div class="test-name">Sepatu Bekas</div>
+                        <div class="badge-result">...</div>
+                    </div>
+                </div>
+                <div style="margin-top:16px;display:flex;justify-content:center;gap:12px;">
+                    <button class="btn" id="runAiOceanTestBtn" onclick="runAiOceanTest()" style="font-size:1.15rem;padding:12px 28px;">
+                        <span style="font-size:1.3rem;margin-right:8px;">▶️</span> Jalankan Simulasi Test AI
+                    </button>
+                </div>
+            </div>
+            <div id="oceanTestNote" class="warning wide-note" style="display:none;margin-top:14px;"></div>
+        </section>
+
+        <!-- Slide 10: AI Bingung -->
+        <section class="slide soft-blue" data-title="AI Bingung">
+            <h2 class="agenda-title compact-title">Kenapa AI Kadang Salah? 😵‍💫</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">📉</div>
+                    <h3>Data Sedikit</h3>
+                    <p>AI belum melihat cukup banyak contoh.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔁</div>
+                    <h3>Data Terlalu Mirip</h3>
+                    <p>AI hanya hafal satu sudut atau bentuk.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🏷️</div>
+                    <h3>Label Salah</h3>
+                    <p>Contoh ikan keliru masuk ke class sampah.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🌑</div>
+                    <h3>Kondisi Beda</h3>
+                    <p>Saat test, cahaya atau latar belakang terlalu berbeda.</p>
+                </div>
+            </div>
+            <div class="warning wide-note">Kalau AI salah, artinya kita perlu memperbaiki dataset lalu melakukan <b>training lagi</b>.</div>
+        </section>
+
+        <!-- Slide 10: Part 1 AI for Ocean -->
+        <section class="slide soft-green" data-title="AI for Ocean">
+            <h2 class="agenda-title compact-title">Part 1: AI for Ocean 🌊🤖</h2>
+            <div class="two-col">
+                <div class="image-panel" style="display:flex;align-items:center;justify-content:center">
+                    <img class="project-img"
+                        src="https://miro.medium.com/v2/resize:fit:1400/1*hCNgA59vplMCTmCOcwMjkA.gif"
+                        alt="AI for Ocean preview" />
+                </div>
+                <div style="text-align:left">
+                    <div class="card" style="align-items:flex-start;text-align:left">
+                        <h3>Mission</h3>
+                        <p>Kita akan mengajari AI untuk membedakan mana ikan dan mana sampah. Kamu akan memberikan contoh yang benar agar AI belajar.</p>
+                    </div>
+                    <div class="note" style="margin-top:14px">Activity ini membantu kita memahami training, classification, testing, dan bias data secara sederhana.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 11: Panduan Pakai (Dari User) -->
+        <section class="slide soft-orange" data-title="Panduan AI for Ocean">
+            <h2 class="agenda-title compact-title">Sebelum Mulai, Perhatikan Cara Pakainya 👀</h2>
+            <div class="two-col" style="max-width: 980px;">
+                <div class="card" style="padding: 22px;">
+                    <div class="card-icon">🧭</div>
+                    <h3>Ikuti Level</h3>
+                    <p>Kita akan membuka platform berbeda. Ikuti arahan teacher dan lanjutkan level satu per satu.</p>
+                </div>
+                <div class="card" style="padding: 22px;">
+                    <div class="card-icon">🖱️</div>
+                    <h3>Klik Sesuai Instruksi</h3>
+                    <p>Baca instruksi singkat di layar, lalu pilih gambar atau tombol yang diminta.</p>
+                </div>
+            </div>
+            <div class="note wide-note">Kalau tampilan berbeda sedikit, tetap tenang. Ikuti instruksi teacher dan lihat tombol yang ditunjukkan di layar.</div>
+        </section>
+
+        <!-- Slide 12: 8 Level Guide (Dari User) -->
+        <section class="slide soft-purple" data-title="8 Level Ocean">
+            <h2 class="agenda-title compact-title">Ada 8 Level yang Akan Kamu Selesaikan 🧩</h2>
+            <div class="two-col" style="grid-template-columns: 1.05fr .95fr; gap: 20px;">
+                <div class="image-panel">
+                    <img class="project-img"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/22ad45ba-5102-4316-a0d2-ae50021bb191.png"
+                        alt="Next button guide" style="max-height: 320px;" />
+                </div>
+                <div style="display:flex; flex-direction:column; gap:10px; text-align:left;">
+                    <div class="mini-step"><span style="font-size:1.6rem;">1️⃣</span> Di bagian atas, kamu akan melihat <strong>level 1 sampai 8</strong>.</div>
+                    <div class="mini-step"><span style="font-size:1.6rem;">2️⃣</span> Beberapa level berbentuk <strong>activity</strong>, beberapa berbentuk <strong>video</strong>.</div>
+                    <div class="mini-step"><span style="font-size:1.6rem;">3️⃣</span> Jika melihat video, tidak perlu diputar. Klik tombol <strong>Next</strong> di kanan bawah.</div>
+                    <div class="mini-step"><span style="font-size:1.6rem;">4️⃣</span> Kamu <strong>tidak perlu Sign In / Login</strong>, langsung mulai activity.</div>
+                    <div class="warning" style="margin-top:4px; padding: 10px 14px; font-size: 0.98rem;">💡 Hari ini kita akan fokus pada activity melatih AI.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 13: Ubah Bahasa (Dari User) -->
+        <section class="slide warm-slide" data-title="Ubah Bahasa">
+            <h2 class="agenda-title compact-title">Ubah Bahasa Terlebih Dahulu 🌏</h2>
+            <div class="two-col">
+                <div style="text-align:left;">
+                    <div style="font-size:4.5rem;margin-bottom:8px">🌐🇮🇩</div>
+                    <p class="lead" style="text-align:left;font-size:1.3rem;">
+                        Setelah masuk, kamu bisa mengubah bahasa dari pojok kiri bawah agar instruksinya lebih mudah dipahami.
+                    </p>
+                    <div class="note">
+                        🙋 Jika masih bingung mencari pilihan bahasa, angkat tangan dan teacher akan membantu.
+                    </div>
+                </div>
+                <div class="image-panel">
+                    <img class="project-img"
+                        src="https://uob-1328237036.cos.ap-singapore.myqcloud.com//file-uploader/images/42930078-ec74-4e44-b90a-2e8819f5156f.png"
+                        alt="Language change guide" style="max-height: 330px;" />
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 14: Buka AI for Ocean -->
+        <section class="slide soft-blue" data-title="Open AI for Ocean">
+            <h2 class="agenda-title compact-title">Buka AI for Ocean 🌐</h2>
+            <div style="text-align:center;max-width:880px">
+                <div class="float" style="font-size:6.5rem;margin-bottom:8px">🐟🧠🗑️</div>
+                <p class="lead">Klik tombol di bawah. Activity akan terbuka di tab baru.</p>
+                <a class="btn" href="https://studio.code.org/courses/oceans/units/1/lessons/1/levels/1" target="_blank"
+                    rel="noopener noreferrer" style="font-size:1.6rem;padding:20px 48px">BUKA AI FOR OCEAN 🌊</a>
+                <div class="note wide-note" style="margin:20px auto 0">Setelah terbuka, tetap perhatikan arahan teacher ya.</div>
+            </div>
+        </section>
+
+        <!-- Slide 15: Refleksi AI for Ocean -->
+        <section class="slide soft-purple" data-title="Refleksi AI for Ocean">
+            <h2 class="agenda-title compact-title">Setelah AI for Ocean: Apa yang Terjadi? 💬</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">📚</div>
+                    <h3>Dataset</h3>
+                    <p>Kamu memberi contoh ikan dan sampah.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🧠</div>
+                    <h3>Training</h3>
+                    <p>AI belajar dari contoh yang kamu pilih.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔍</div>
+                    <h3>Testing</h3>
+                    <p>AI mencoba menebak gambar baru di laut.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚖️</div>
+                    <h3>Bias</h3>
+                    <p>Data yang tidak seimbang bisa membuat AI keliru.</p>
+                </div>
+            </div>
+            <div class="note wide-note">Sekarang kita naik level: membuat model AI sederhana sendiri dengan Teachable Machine!</div>
+        </section>
+
+        <!-- Slide 16: Video Motion VS Image Recognition -->
+        <section class="slide soft-blue" data-title="Video Motion vs Image Recognition">
+            <h2 class="agenda-title compact-title">Video Motion VS Image Recognition 🕶️</h2>
+            <div class="two-col">
+                <div class="card" style="border-color:#4c97ff;align-items:flex-start;text-align:left;">
+                    <div class="card-icon">👋📹</div>
+                    <h3 style="color:#2f80ed;">Video Motion</h3>
+                    <p style="font-size:1.08rem;line-height:1.5;">Kamera membaca: <b>“Ada gerakan di sini.”</b><br><br>Komputer belum tentu tahu benda apa yang bergerak.</p>
+                </div>
+                <div class="card" style="border-color:#28b875;align-items:flex-start;text-align:left;">
+                    <div class="card-icon">✏️📷</div>
+                    <h3 style="color:#28b875;">Image Recognition</h3>
+                    <p style="font-size:1.08rem;line-height:1.5;">Kamera menjawab: <b>“Benda apa yang sedang aku lihat?”</b><br><br>Contoh: pensil, buku, atau botol minum.</p>
+                </div>
+            </div>
+            <div class="warning wide-note">Hari ini kita tidak hanya mendeteksi gerakan. Kita akan melatih AI untuk mengenali <b>jenis benda</b>.</div>
+        </section>
+
+        <!-- Slide 17: How Image AI Learns -->
+        <section class="slide soft-green" data-title="How Image AI Learns">
+            <h2 class="agenda-title compact-title">How Image AI Learns 📚➡️🧠</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">📸</div>
+                    <h3>1. Examples</h3>
+                    <p>Kita berikan banyak gambar contoh.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🏷️</div>
+                    <h3>2. Label</h3>
+                    <p>Setiap contoh diberi nama class.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🧠</div>
+                    <h3>3. Training</h3>
+                    <p>AI belajar mencari pola visual.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔍</div>
+                    <h3>4. Prediction</h3>
+                    <p>AI mencoba menebak gambar baru.</p>
+                </div>
+            </div>
+            <div class="note wide-note">Ingat kata <b>dataset</b>? Hari ini dataset kita berisi <b>gambar-gambar</b>.</div>
+        </section>
+
+        <!-- Slide 18: New Word Class -->
+        <section class="slide warm-slide" data-title="New Word: Class">
+            <h2 class="agenda-title compact-title">New Word: Class 🏷️</h2>
+            <p class="subtitle">Class adalah <b>kategori</b> benda yang ingin dikenali oleh AI.</p>
+            <div class="grid grid-3">
+                <div class="card">
+                    <div class="card-icon">✏️</div>
+                    <h3>Pencil</h3>
+                    <p>AI melihat banyak contoh pensil.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📘</div>
+                    <h3>Book</h3>
+                    <p>AI melihat banyak contoh buku.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🧴</div>
+                    <h3>Bottle</h3>
+                    <p>AI melihat banyak contoh botol.</p>
+                </div>
+            </div>
+            <div class="warning wide-note">Kalau kita ingin AI membedakan <b>cat</b> dan <b>dog</b>, berarti kita butuh <b>2 classes</b>.</div>
+        </section>
+
+        <!-- Slide 19: Activity You Are the AI -->
+        <section class="slide soft-purple" data-title="Activity: You Are the AI">
+            <h2 class="agenda-title compact-title">Activity: You Are the AI 🤖</h2>
+            <p class="subtitle">Lihat benda di tengah, lalu pilih class yang benar.</p>
+            <div class="card" style="max-width:580px; width:100%; margin-bottom:14px; padding: 24px;">
+                <div id="classifyEmoji" style="font-size:6.5rem; margin-bottom:8px;">✏️</div>
+                <h3 id="classifyPrompt" style="font-size:1.5rem; margin-bottom: 14px;">Benda ini termasuk class apa?</h3>
+                <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+                    <button class="choice" style="width:auto; padding:12px 20px;" onclick="checkClass('Pencil')">✏️ Pencil</button>
+                    <button class="choice" style="width:auto; padding:12px 20px;" onclick="checkClass('Book')">📘 Book</button>
+                    <button class="choice" style="width:auto; padding:12px 20px;" onclick="checkClass('Bottle')">🧴 Bottle</button>
+                </div>
+            </div>
+            <div class="note wide-note" id="classifyFeedback" style="min-height:50px;">Pilih jawaban untuk mulai.</div>
+        </section>
+
+        <!-- Slide 20: Good Dataset VS Bad Dataset -->
+        <section class="slide soft-orange" data-title="Good vs Bad Dataset">
+            <h2 class="agenda-title compact-title">Good Dataset VS Bad Dataset 📊</h2>
+            <div class="two-col">
+                <div class="card" id="modelA" style="padding:22px;">
+                    <div class="card-icon">✏️✏️✏️</div>
+                    <h3>Model A</h3>
+                    <p>Semua gambar pensil hanya dari satu posisi dan sudut yang sama persis.</p>
+                    <button class="btn" style="margin-top:16px;" onclick="chooseDataset('A')">Pilih Model A</button>
+                </div>
+                <div class="card" id="modelB" style="padding:22px;">
+                    <div class="card-icon">✏️🔄📏</div>
+                    <h3>Model B</h3>
+                    <p>Gambar pensil bervariasi: dekat, jauh, miring, kiri, dan kanan.</p>
+                    <button class="btn" style="margin-top:16px;" onclick="chooseDataset('B')">Pilih Model B</button>
+                </div>
+            </div>
+            <div class="warning wide-note" id="datasetFeedback">Menurutmu model mana yang akan lebih mudah mengenali gambar baru?</div>
+        </section>
+
+        <!-- Slide 21: Project Mission -->
+        <section class="slide soft-green" data-title="Project Mission">
+            <h2 class="agenda-title compact-title">Project Mission 🔍🤖</h2>
+            <div class="two-col">
+                <div class="card" style="padding:24px;">
+                    <div class="card-icon" style="font-size:5.5rem;">👊✋✌️</div>
+                    <h3>AI Rock-Paper-Scissors Detector</h3>
+                    <p>Kita akan melatih AI untuk mengenali 3 pose tangan: <b>Rock 👊</b>, <b>Paper ✋</b>, dan <b>Scissors ✌️</b>.</p>
+                </div>
+                <div class="card" style="text-align:left; align-items:flex-start; padding:24px;">
+                    <h3 style="color:#008080;">Success Mission</h3>
+                    <p style="font-size:1.15rem; line-height:1.5;">Tunjukkan pose tangan baru ke kamera, lalu cek apakah AI bisa menebak pose yang benar.</p>
+                    <div class="note" style="margin-top:16px;">Hari ini project-nya adalah <b>model AI</b> yang kamu latih sendiri.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 22: Meet Teachable Machine -->
+        <section class="slide soft-blue" data-title="Meet Teachable Machine">
+            <h2 class="agenda-title compact-title">Meet Teachable Machine 🤖📸</h2>
+            <div class="two-col">
+                <div class="stage-panel" style="display:flex;align-items:center;justify-content:center;flex-direction:column;min-height:240px">
+                    <img src="https://miro.medium.com/0*2E9-J5WPFbVI_d32" alt="Teachable Machine"
+                        style="width:170px;border-radius:20px;box-shadow:0 12px 28px rgba(22,44,76,.14)" />
+                    <div style="font-size:2.5rem;margin-top:12px">📸 ➜ 🧠 ➜ ✅</div>
+                </div>
+                <div style="text-align:left">
+                    <div class="card" style="align-items:flex-start;text-align:left">
+                        <h3>Teachable Machine</h3>
+                        <p>Website dari Google untuk melatih model AI memakai contoh gambar, suara, atau pose.</p>
+                    </div>
+                    <div class="warning" style="margin-top:14px">Hari ini kita memilih <b>Image Project</b> untuk membuat <b>Standard Image Model</b>.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 23: Watch First Video -->
+        <section class="slide warm-slide" data-title="Watch Video Guide">
+            <h2 class="agenda-title compact-title">Watch First: How to Train the AI 🎬</h2>
+            <p class="subtitle" style="margin-top:-10px;">Perhatikan videonya dulu. Setelah ini, kamu akan mencoba langkah yang sama bersama teacher.</p>
+            <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/tcctLEYf97g"
+                    title="How to Train an Image Model with Teachable Machine"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+            </div>
+            <div class="note wide-note" style="margin-top:14px;">4 langkah utama: <b>📸 Add examples → 🏷️ Name classes → 🧠 Train Model → 🔍 Test</b></div>
+        </section>
+
+        <!-- Slide 24: Buka Teachable Machine -->
+        <section class="slide soft-orange" data-title="Open Teachable Machine">
+            <h2 class="agenda-title compact-title">Buka Teachable Machine 🚀</h2>
+            <div style="text-align:center;max-width:880px">
+                <div class="float" style="font-size:6.5rem;margin-bottom:8px">📷🧠✨</div>
+                <p class="lead">Pilih <b>Image Project</b>, lalu pilih <b>Standard Image Model</b>.</p>
+                <a class="btn" href="https://teachablemachine.withgoogle.com/train/image" target="_blank"
+                    rel="noopener noreferrer" style="font-size:1.6rem;padding:20px 48px">OPEN TEACHABLE MACHINE 📸</a>
+                <div class="warning wide-note" style="margin:20px auto 0">Ikuti step bersama teacher. Jangan klik tombol yang belum diminta ya!</div>
+            </div>
+        </section>
+
+        <!-- Slide 25: Camera Safety -->
+        <section class="slide soft-blue" data-title="Camera Safety">
+            <h2 class="agenda-title compact-title">Camera Setup & Safety 📷</h2>
+            <div class="two-col">
+                <div class="camera-test">
+                    <video id="cameraPreview" autoplay playsinline muted></video>
+                    <div id="cameraPlaceholder" class="camera-placeholder">📷</div>
+                    <p id="cameraStatus"
+                        style="font-size:1.05rem;font-weight:700;color:#4c97ff;text-align:center;min-height:36px;margin:8px 0">Klik tombol untuk cek kamera.</p>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+                        <button class="btn" onclick="startCameraTest()">Start Camera</button>
+                        <button class="choice" style="width:auto;padding:10px 18px" onclick="stopCameraTest()">Stop</button>
+                    </div>
+                </div>
+                <div class="card" style="align-items:flex-start;text-align:left">
+                    <h3>Aturan Aman</h3>
+                    <p style="line-height:1.6">✅ Allow camera saat diminta<br>✅ Gunakan pose tangan, bukan wajah teman<br>✅ Tangan terlihat jelas di layar kamera<br>✅ Tunjukkan pose tangan satu per satu<br>✅ Kalau kamera tidak bisa, tetap ikuti arahan teacher</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 26: Step 1 Create Classes -->
+        <section class="slide soft-green" data-title="Step 1: Create Classes">
+            <h2 class="agenda-title compact-title">Step 1: Create Your Classes 🏷️</h2>
+            <p class="subtitle">Beri nama 3 class sesuai pose tangan permainan Batu-Gunting-Kertas.</p>
+            <div class="grid grid-3">
+                <div class="card">
+                    <div class="card-icon">👊</div>
+                    <h3>Class 1: Rock</h3>
+                    <p>Kepalan tangan tertutup (Batu).</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">✋</div>
+                    <h3>Class 2: Paper</h3>
+                    <p>Telapak tangan terbuka (Kertas).</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">✌️</div>
+                    <h3>Class 3: Scissors</h3>
+                    <p>Dua jari membentuk gunting.</p>
+                </div>
+            </div>
+            <div class="note wide-note">Nama class harus jelas (Rock, Paper, Scissors) supaya AI tahu kategori pose apa yang sedang dipelajari.</div>
+        </section>
+
+        <!-- Slide 27: Step 2 Collect Training Images -->
+        <section class="slide soft-blue" data-title="Step 2: Collect Images">
+            <h2 class="agenda-title compact-title">Step 2: Collect Training Images 📸</h2>
+            <div class="two-col">
+                <div class="stage-panel"
+                    style="display:flex;align-items:center;justify-content:center;flex-direction:column;min-height:260px">
+                    <div style="font-size:5.5rem">👊 ✋ ✌️</div>
+                    <div class="note" style="margin-top:10px">Ambil 20–30 foto pose per class.</div>
+                </div>
+                <div class="card" style="align-items:flex-start;text-align:left">
+                    <h3>Tips Ambil Foto Pose yang Bagus</h3>
+                    <p style="line-height:1.55">• Ada contoh pose dekat dan sedikit jauh<br>• Miringkan sedikit tangan ke kiri dan kanan<br>• Pastikan tangan terlihat jelas dan cahaya cukup<br>• Variasikan posisi jari sedikit agar AI belajar banyak pola<br>• Pastikan pose tangan tidak tertukar antar class</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 28: Dataset Checklist -->
+        <section class="slide soft-orange" data-title="Dataset Checklist">
+            <h2 class="agenda-title compact-title">Dataset Checklist ✅</h2>
+            <p class="subtitle">Klik checklist saat kelompokmu sudah siap melatih AI.</p>
+            <div class="checklist">
+                <div class="check-item" onclick="toggleCheck(this)"><span class="box"></span>Setiap class (Rock, Paper, Scissors) sudah punya contoh foto pose.</div>
+                <div class="check-item" onclick="toggleCheck(this)"><span class="box"></span>Pose tangan terlihat jelas di kamera.</div>
+                <div class="check-item" onclick="toggleCheck(this)"><span class="box"></span>Foto pose tangan bervariasi (sedikit miring, dekat, jauh).</div>
+                <div class="check-item" onclick="toggleCheck(this)"><span class="box"></span>Jumlah contoh tiap class cukup seimbang (~20–30 foto).</div>
+                <div class="check-item" onclick="toggleCheck(this)"><span class="box"></span>Tidak ada pose salah masuk ke class lain.</div>
+                <div class="check-item" onclick="toggleCheck(this)"><span class="box"></span>Siap klik tombol Train Model.</div>
+            </div>
+        </section>
+
+        <!-- Slide 29: Step 3 Train Model -->
+        <section class="slide soft-purple" data-title="Step 3: Train Model">
+            <h2 class="agenda-title compact-title">Step 3: Train Model 🧠⚡</h2>
+            <div class="two-col">
+                <div class="stage-panel" style="display:flex;align-items:center;justify-content:center;min-height:260px">
+                    <img class="project-img"
+                        src="https://storage.googleapis.com/gweb-uniblog-publish-prod/original_images/Test-small.gif"
+                        alt="Training AI" />
+                </div>
+                <div style="text-align:left">
+                    <div class="card" style="align-items:flex-start;text-align:left">
+                        <h3>Apa yang terjadi saat training?</h3>
+                        <p>Teachable Machine mempelajari contoh foto pose tangan (Rock, Paper, Scissors) yang kamu masukkan, lalu mencari pola visual yang membedakan setiap pose.</p>
+                    </div>
+                    <div class="note" style="margin-top:14px;text-align:center"><b>Dataset Pose → Training → Model AI</b></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 30: Step 4 Test Your AI -->
+        <section class="slide soft-blue" data-title="Step 4: Test AI">
+            <h2 class="agenda-title compact-title">Step 4: Test Your AI 🔍</h2>
+            <div class="two-col">
+                <div class="stage-panel"
+                    style="display:flex;align-items:center;justify-content:center;flex-direction:column;min-height:260px">
+                    <div style="font-size:5.5rem">✌️</div>
+                    <h3 style="margin:4px 0 12px;color:#143f6f;font-size:1.3rem">Tunjukkan pose tangan baru</h3>
+                    <button class="btn" onclick="simulatePrediction()">Simulate Result</button>
+                </div>
+                <div class="prediction-box">
+                    <div style="font-weight:800;font-size:1.05rem;margin-bottom:6px">Prediction Result:</div>
+                    <div style="display:flex;justify-content:space-between"><span>👊 Rock</span><b id="rockPct">0%</b></div>
+                    <div class="bar"><span id="rockBar"></span></div>
+                    <div style="display:flex;justify-content:space-between"><span>✋ Paper</span><b id="paperPct">0%</b></div>
+                    <div class="bar"><span id="paperBar"></span></div>
+                    <div style="display:flex;justify-content:space-between"><span>✌️ Scissors</span><b id="scissorsPct">0%</b></div>
+                    <div class="bar"><span id="scissorsBar"></span></div>
+                </div>
+            </div>
+            <div class="warning wide-note">Angka confidence menunjukkan seberapa yakin model terhadap jawabannya.</div>
+        </section>
+
+        <!-- Slide 31: AI Challenge -->
+        <section class="slide warm-slide" data-title="AI Challenge: Confuse It">
+            <h2 class="agenda-title compact-title">AI Challenge: Can You Confuse It? 😵💫</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">📏</div>
+                    <h3>Far Away</h3>
+                    <p>Tunjukkan pose tangan dari jauh. Apakah masih dikenali?</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔄</div>
+                    <h3>Rotate</h3>
+                    <p>Putar tangan ke sudut atau posisi miring berbeda.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🫣</div>
+                    <h3>Cover Half</h3>
+                    <p>Tutup sebagian jari tangan. Masih bisa ditebak?</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">👊✋</div>
+                    <h3>Two Hands</h3>
+                    <p>Tunjukkan dua tangan dengan pose berbeda. AI memilih apa?</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 32: Why Did AI Make a Mistake -->
+        <section class="slide soft-orange" data-title="Why AI Mistakes">
+            <h2 class="agenda-title compact-title">Why Did AI Make a Mistake? 🤔</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-icon">📸</div>
+                    <h3>Not Enough Examples</h3>
+                    <p>Contoh foto pose tangan masih terlalu sedikit.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔄</div>
+                    <h3>Less Variety</h3>
+                    <p>Foto pose tangan terlalu kaku atau hanya 1 posisi.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🌑</div>
+                    <h3>Different Lighting</h3>
+                    <p>Saat test, pencahayaan berbeda atau bayangan tangan mengganggu.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🏷️</div>
+                    <h3>Wrong Label</h3>
+                    <p>Ada foto pose Rock yang keliru masuk ke class Paper/Scissors.</p>
+                </div>
+            </div>
+            <div class="note wide-note">Kesalahan AI adalah petunjuk bagi kita untuk memperbaiki dataset pose tangan.</div>
+        </section>
+
+        <!-- Slide 33: Improve & Retrain -->
+        <section class="slide soft-green" data-title="Improve and Retrain">
+            <h2 class="agenda-title compact-title">Improve & Retrain 🔧</h2>
+            <div class="grid grid-5">
+                <div class="card">
+                    <div class="card-icon">🔍</div>
+                    <h3>Test</h3>
+                    <p>Cari contoh pose yang salah ditebak.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🧩</div>
+                    <h3>Find Problem</h3>
+                    <p>Apa yang membuat AI bingung?</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📸</div>
+                    <h3>Add Data</h3>
+                    <p>Tambah contoh pose yang lebih bervariasi.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🧠</div>
+                    <h3>Retrain</h3>
+                    <p>Latih model kembali.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">✅</div>
+                    <h3>Test Again</h3>
+                    <p>Cek apakah prediksinya membaik.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 34: Final Checklist -->
+        <section class="slide soft-purple" data-title="Before You Finish">
+            <h2 class="agenda-title compact-title">Before You Finish ✅</h2>
+            <div class="checklist">
+                <div class="check-item" onclick="toggleCheck(this)"><span class="box"></span>Created 3 classes (Rock, Paper, Scissors).</div>
+                <div class="check-item" onclick="toggleCheck(this)"><span class="box"></span>Collected pose image datasets.</div>
+                <div class="check-item" onclick="toggleCheck(this)"><span class="box"></span>Used different hand angles and positions.</div>
+                <div class="check-item" onclick="toggleCheck(this)"><span class="box"></span>Trained the model.</div>
+                <div class="check-item" onclick="toggleCheck(this)"><span class="box"></span>Tested new hand gestures.</div>
+                <div class="check-item" onclick="toggleCheck(this)"><span class="box"></span>Improved data and retrained.</div>
+            </div>
+        </section>
+
+        <!-- Slide 35: What Did We Build Today -->
+        <section class="slide soft-blue" data-title="What Did We Build">
+            <h2 class="agenda-title compact-title">What Did We Build Today? 🧠</h2>
+            <div class="two-col">
+                <div class="card" style="padding:22px;">
+                    <div class="card-icon" style="font-size:5.5rem;">🤖</div>
+                    <h3>Image Classification Model</h3>
+                    <p>Model yang bisa menerima gambar baru dan memilih class yang paling cocok.</p>
+                </div>
+                <div class="card" style="align-items:flex-start; text-align:left; padding:22px;">
+                    <h3>Model ini bisa...</h3>
+                    <p style="line-height:1.6">📷 Menerima gambar dari kamera<br>🧠 Membaca pola visual<br>🏷️ Memilih class yang sesuai<br>📊 Menampilkan confidence score</p>
+                    <div class="warning" style="margin-top:14px;">Hari ini kita membangun <b>otak AI</b>. Model seperti ini bisa dikembangkan untuk berbagai aplikasi pintar!</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 36: Quick Quiz -->
+        <section class="slide soft-purple" data-title="Quick Quiz">
+            <div class="quiz-wrapper">
+                <div class="quiz-top-bar"><span class="quiz-badge">⚡ Quick Quiz</span><span class="quiz-step"
+                        id="quizStepText">Soal 1 dari 3</span>
+                </div>
+                <div class="quiz-progress-track">
+                    <div class="quiz-progress-fill" id="quizProgressFill" style="width:33.33%"></div>
+                </div>
+                <div class="quiz-card-body">
+                    <h3 class="quiz-question-title" id="quizQuestion">Pertanyaan akan muncul di sini.</h3>
+                    <div class="quiz-options-grid" id="quizOptions"></div>
+                    <div class="quiz-feedback-box" id="quizFeedback" style="display:none"></div>
+                    <button class="btn quiz-next-btn" id="quizNext" onclick="nextQuiz()" style="display:none">Soal
+                        Berikutnya ➜</button>
+                </div>
+                <div class="quiz-complete-card" id="quizComplete" style="display:none;text-align:center;padding:12px 0">
+                    <div style="font-size:5rem;margin-bottom:8px">🏆🎉</div>
+                    <h2 style="font-size:2.1rem;color:#24344d;margin:4px 0 10px">Kuis Selesai!</h2>
+                    <p id="quizFinalMessage" style="font-size:1.2rem;color:#5a718c;margin-bottom:22px"></p>
+                    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap"><button class="btn"
+                            onclick="restartQuiz()" style="background:linear-gradient(135deg,#845ef7,#2f80ed)">🔄 Ulangi
+                            Kuis</button><button class="btn" onclick="changeSlide(1)"
+                            style="background:linear-gradient(135deg,#28b875,#16bde8)">Lanjut ke Review ➜</button></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 37: Review Hari Ini -->
+        <section class="slide soft-green" data-title="Review Hari Ini">
+            <h2 class="agenda-title compact-title">Review Hari Ini: 4 Kunci Utama 📝</h2>
+            <div class="review-grid">
+                <div class="review-card">
+                    <div class="review-icon-wrap">🤖</div>
+                    <div class="review-content">
+                        <div class="review-step-tag">POIN 1</div>
+                        <h3>Artificial Intelligence</h3>
+                        <p>Komputer bisa terlihat pintar karena belajar mengenali pola dari contoh data.</p>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-icon-wrap">📚</div>
+                    <div class="review-content">
+                        <div class="review-step-tag">POIN 2</div>
+                        <h3>Dataset & Label</h3>
+                        <p>Kumpulan contoh data yang sudah diberi nama kategori untuk melatih AI.</p>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-icon-wrap">🧠</div>
+                    <div class="review-content">
+                        <div class="review-step-tag">POIN 3</div>
+                        <h3>Training</h3>
+                        <p>Proses saat AI mencari dan mempelajari pola visual dari contoh yang diberikan.</p>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-icon-wrap">🔍</div>
+                    <div class="review-content">
+                        <div class="review-step-tag">POIN 4</div>
+                        <h3>Testing & Retrain</h3>
+                        <p>Mengecek keakuratan prediksi pada data baru dan memperbaiki data jika salah.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 38: Feedback -->
+        <section class="slide feedback-final" data-title="Feedback">
+            <h2 class="agenda-title compact-title">Bagaimana Kelas Hari Ini? 💖</h2>
+            <p class="subtitle" style="margin-bottom:14px">Pilih perasaanmu setelah belajar AI hari ini!</p>
+            <div class="feedback-grid">
+                <button class="feedback-card" onclick="setFeedback(this,'Senang & Paham Banget! 🎉')">
+                    <div class="fb-emoji">🤩</div>
+                    <h3>Paham & Seru</h3>
+                    <p>Aku paham konsep AI, dataset, dan cara melatih model.</p><span class="fb-tag">⭐⭐⭐⭐⭐</span>
+                </button>
+                <button class="feedback-card" onclick="setFeedback(this,'Cukup Paham & Perlu Latihan! ✨')">
+                    <div class="fb-emoji">😊</div>
+                    <h3>Cukup Paham</h3>
+                    <p>Aku bisa mengikuti, perlu latihan membuat model lagi.</p><span class="fb-tag">⭐⭐⭐⭐</span>
+                </button>
+                <button class="feedback-card" onclick="setFeedback(this,'Butuh Bantuan Teacher! 🙋')">
+                    <div class="fb-emoji">🤔</div>
+                    <h3>Butuh Bantuan</h3>
+                    <p>Ada bagian dataset/training yang ingin kutanyakan.</p><span class="fb-tag">💡 Bimbingan</span>
+                </button>
+            </div>
+            <div class="feedback-thanks" id="feedbackThanks"></div>
+        </section>
+
+        <!-- Modal for Image Zoom -->
+        <div id="imageModal" class="img-modal" onclick="closeImageModal(event)">
+            <div class="img-modal-content" onclick="event.stopPropagation()"><button class="img-modal-close"
+                    onclick="closeImageModal(event)" title="Tutup (Esc)">✕</button><img id="modalImg" src=""
+                    alt="Zoomed Image" />
+                <div id="modalCaption" class="img-modal-caption"></div>
+            </div>
+        </div>
+
+        <!-- Navigation Bar -->
+        <div class="progress-line" id="progressLine"></div>
+        <nav class="navigation">
+            <div class="nav-title" id="navTitle">Artificial Intelligence: Pengenalan AI dan ML Dasar</div>
+            <div class="nav-controls"><button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">‹</button>
+                <div class="counter" id="counter">1 / 1</div><button class="nav-btn next" id="nextBtn"
+                    onclick="changeSlide(1)">›</button>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        const slides = [...document.querySelectorAll('.slide')];
+        let currentSlide = 0;
+        const prevBtn = document.getElementById('prevBtn'),
+              nextBtn = document.getElementById('nextBtn'),
+              counter = document.getElementById('counter'),
+              navTitle = document.getElementById('navTitle'),
+              progressLine = document.getElementById('progressLine');
+        let streamRef = null;
+
+        function showSlide(index) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            counter.textContent = (currentSlide + 1) + ' / ' + slides.length;
+            navTitle.textContent = slides[currentSlide].dataset.title || 'Ruangguru Coding';
+            progressLine.style.width = ((currentSlide + 1) / slides.length * 100) + '%';
+        }
+        function changeSlide(dir) {
+            const i = currentSlide + dir;
+            if (i >= 0 && i < slides.length) showSlide(i);
+        }
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeImageModal();
+            if (e.key === 'ArrowRight') changeSlide(1);
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+        });
+
+        function aiEveryday(btn, ok) {
+            document.querySelectorAll('.choice-card-img').forEach(b => b.classList.remove('correct'));
+            btn.classList.add('correct');
+            const st = document.getElementById('everydayStatus');
+            st.textContent = 'Betul! Contoh ini memakai AI untuk mengenali pola, memilih rekomendasi, atau memprediksi data.';
+            st.style.color = '#12834e';
+        }
+
+        const oceanItems = [
+            { e: '🐟', type: 'fish' }, { e: '🐠', type: 'fish' }, { e: '🦈', type: 'fish' }, { e: '🐡', type: 'fish' },
+            { e: '🥤', type: 'trash' }, { e: '🛍️', type: 'trash' }, { e: '🧃', type: 'trash' }, { e: '🧴', type: 'trash' }
+        ];
+        function initDnd() {
+            const pool = document.getElementById('oceanPool');
+            if (!pool) return;
+            pool.innerHTML = '';
+            // Shuffle ocean items randomly
+            const shuffled = [...oceanItems].sort(() => Math.random() - 0.5);
+            shuffled.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'drag-item';
+                el.textContent = item.e;
+                el.draggable = true;
+                el.dataset.type = item.type;
+                el.addEventListener('dragstart', () => el.classList.add('dragging'));
+                el.addEventListener('dragend', () => el.classList.remove('dragging'));
+                pool.appendChild(el);
+            });
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.addEventListener('dragover', e => e.preventDefault());
+                zone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    const dragged = document.querySelector('.dragging');
+                    if (!dragged || !zone.dataset.accept) return;
+                    if (dragged.dataset.type === zone.dataset.accept) {
+                        zone.appendChild(dragged);
+                        dragged.draggable = false;
+                        const st = document.getElementById('datasetStatus');
+                        st.textContent = '✅ Data benar! AI mendapat contoh yang tepat.';
+                        st.style.color = '#12834e';
+                    } else {
+                        const st = document.getElementById('datasetStatus');
+                        st.textContent = '❌ Coba lagi. Kalau data salah masuk class, AI bisa bingung.';
+                        st.style.color = '#ef5350';
+                    }
+                });
+            });
+        }
+
+        let isTestingOcean = false;
+        function runAiOceanTest() {
+            if (isTestingOcean) return;
+            isTestingOcean = true;
+            const btn = document.getElementById('runAiOceanTestBtn');
+            const note = document.getElementById('oceanTestNote');
+            const items = document.querySelectorAll('.ocean-test-item');
+            if (btn) { btn.disabled = true; btn.innerHTML = '⏳ AI Sedang Menganalisis...'; }
+            if (note) { note.style.display = 'none'; }
+
+            items.forEach((item) => {
+                item.classList.remove('scanned', 'correct-guess', 'wrong-guess');
+                const badge = item.querySelector('.badge-result');
+                if (badge) {
+                    badge.textContent = '...';
+                    badge.removeAttribute('style');
+                }
+            });
+
+            const results = [
+                { guess: 'Ikan ✅', ok: true },
+                { guess: 'Bukan Ikan ✅', ok: true },
+                { guess: 'Bukan Ikan ❌ (Salah!)', ok: false },
+                { guess: 'Ikan ❌ (Salah!)', ok: false },
+                { guess: 'Ikan ✅', ok: true },
+                { guess: 'Bukan Ikan ✅', ok: true }
+            ];
+
+            results.forEach((res, idx) => {
+                setTimeout(() => {
+                    const item = items[idx];
+                    if (!item) return;
+                    item.classList.add('scanned', res.ok ? 'correct-guess' : 'wrong-guess');
+                    const badge = item.querySelector('.badge-result');
+                    if (badge) {
+                        badge.textContent = res.guess;
+                        badge.style.background = res.ok ? '#d1fae5' : '#fee2e2';
+                        badge.style.color = res.ok ? '#065f46' : '#991b1b';
+                        badge.style.border = res.ok ? '1.5px solid #10b981' : '1.5px solid #ef4444';
+                    }
+                    if (idx === results.length - 1) {
+                        setTimeout(() => {
+                            if (btn) { btn.disabled = false; btn.innerHTML = '🔄 Ulangi Test AI'; }
+                            if (note) {
+                                note.style.display = 'block';
+                                note.innerHTML = '⚠️ <b>Lho, kok ada 2 tebakan yang ngaco?</b> AI mengira <b>ikan buntal</b> sebagai sampah, dan <b>kantong plastik</b> sebagai ikan! Kenapa AI bisa salah ya?';
+                            }
+                            isTestingOcean = false;
+                        }, 500);
+                    }
+                }, (idx + 1) * 450);
+            });
+        }
+
+        const classifyItems = [
+            { emoji: '✏️', answer: 'Pencil', note: 'Benar! Pensil masuk ke class Pencil.' },
+            { emoji: '📘', answer: 'Book', note: 'Benar! Buku masuk ke class Book.' },
+            { emoji: '🧴', answer: 'Bottle', note: 'Benar! Botol masuk ke class Bottle.' },
+            { emoji: '📕', answer: 'Book', note: 'Benar! Walau warnanya merah, ini tetap class Book.' },
+            { emoji: '🖊️', answer: 'Pencil', note: 'Bisa dianggap alat tulis. Untuk latihan hari ini, masukkan ke Pencil.' }
+        ];
+        let currentClassify = 0;
+        function checkClass(answer) {
+            const item = classifyItems[currentClassify];
+            const fb = document.getElementById('classifyFeedback');
+            if (answer === item.answer) {
+                fb.textContent = item.note + ' Kita lanjut ke contoh berikutnya!';
+                fb.style.background = '#ecfdf5'; fb.style.borderColor = '#10b981'; fb.style.color = '#065f46';
+                currentClassify = (currentClassify + 1) % classifyItems.length;
+                setTimeout(() => {
+                    const prompt = document.getElementById('classifyPrompt');
+                    const emojiEl = document.getElementById('classifyEmoji');
+                    if (emojiEl) emojiEl.textContent = classifyItems[currentClassify].emoji;
+                    if (fb) fb.textContent = 'Sekarang benda baru. Class apa yang benar?';
+                }, 700);
+            } else {
+                fb.textContent = 'Cek lagi ya. Perhatikan bentuk fungsinya, bukan hanya warna atau ukurannya.';
+                fb.style.background = '#fff8db'; fb.style.borderColor = '#ffd53d'; fb.style.color = '#7b5200';
+            }
+        }
+
+        function chooseDataset(model) {
+            const fb = document.getElementById('datasetFeedback');
+            if (model === 'B') {
+                fb.innerHTML = '<b>Benar!</b> Model B lebih baik karena contoh gambarnya lebih bervariasi (dekat, jauh, miring).';
+                fb.style.background = '#ecfdf5'; fb.style.borderColor = '#10b981'; fb.style.color = '#065f46';
+            } else {
+                fb.innerHTML = 'Model A kurang kuat karena contoh gambarnya terlalu mirip satu posisi. AI bisa bingung saat melihat posisi baru.';
+                fb.style.background = '#fff8db'; fb.style.borderColor = '#ffd53d'; fb.style.color = '#7b5200';
+            }
+        }
+
+        async function startCameraTest() {
+            const status = document.getElementById('cameraStatus');
+            const video = document.getElementById('cameraPreview');
+            const ph = document.getElementById('cameraPlaceholder');
+            try {
+                streamRef = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                video.srcObject = streamRef;
+                video.style.display = 'block';
+                ph.style.display = 'none';
+                status.textContent = '✅ Kamera berhasil terbuka. Kamu siap mencoba image model.';
+                status.style.color = '#12834e';
+            } catch (err) {
+                status.textContent = '⚠️ Kamera belum bisa dibuka. Tidak apa-apa, tetap ikuti arahan teacher.';
+                status.style.color = '#ef5350';
+            }
+        }
+        function stopCameraTest() {
+            if (streamRef) { streamRef.getTracks().forEach(t => t.stop()); streamRef = null; }
+            const video = document.getElementById('cameraPreview');
+            const ph = document.getElementById('cameraPlaceholder');
+            if (video) video.style.display = 'none';
+            if (ph) ph.style.display = 'block';
+            const status = document.getElementById('cameraStatus');
+            if (status) {
+                status.textContent = 'Kamera sudah dihentikan.';
+                status.style.color = '#4c97ff';
+            }
+        }
+        function toggleCheck(el) { el.classList.toggle('done') }
+        function simulatePrediction() {
+            const vals = [4, 3, 93];
+            const ids = ['rock', 'paper', 'scissors'];
+            ids.forEach((id, i) => {
+                document.getElementById(id + 'Pct').textContent = vals[i] + '%';
+                document.getElementById(id + 'Bar').style.width = vals[i] + '%';
+            });
+        }
+
+        const quizData = [
+            { q: 'Apa yang dimaksud Class dalam image model?', o: ['Kategori atau label yang dipelajari AI (misal: Rock, Paper, Scissors)', 'Tombol untuk mematikan kamera', 'Nama backdrop di Scratch'], a: 0, h: 'Class adalah kategori yang ingin dikenali AI, misalnya Rock, Paper, atau Scissors.' },
+            { q: 'Mengapa contoh gambar/pose dalam dataset sebaiknya bervariasi?', o: ['Agar website lebih penuh gambar', 'Agar AI belajar mengenali berbagai sudut, jarak, dan variasi pose', 'Agar AI cepat selesai tanpa belajar'], a: 1, h: 'Variasi membantu AI mengenali objek/pose dalam kondisi nyata yang tidak selalu sama.' },
+            { q: 'Jika AI sering salah menebak pose benda, apa yang bisa kita lakukan?', o: ['Menambah contoh pose yang lebih bervariasi lalu train ulang (retrain)', 'Mematikan komputer selamanya', 'Menghapus semua file project'], a: 0, h: 'Kita bisa memperbaiki dataset dengan variasi baru, lalu melatih ulang model AI.' }
+        ];
+        let qIndex = 0, qAnswered = false;
+        function renderQuiz() {
+            qAnswered = false;
+            document.querySelector('.quiz-card-body').style.display = 'block';
+            document.getElementById('quizComplete').style.display = 'none';
+            document.getElementById('quizStepText').textContent = 'Soal ' + (qIndex + 1) + ' dari ' + quizData.length;
+            document.getElementById('quizProgressFill').style.width = ((qIndex + 1) / quizData.length * 100) + '%';
+            document.getElementById('quizQuestion').textContent = quizData[qIndex].q;
+            const box = document.getElementById('quizOptions');
+            box.innerHTML = '';
+            const letters = ['A', 'B', 'C'];
+            quizData[qIndex].o.forEach((opt, i) => {
+                const b = document.createElement('button');
+                b.className = 'quiz-opt-btn';
+                b.innerHTML = '<span class="quiz-opt-letter">' + letters[i] + '</span><span>' + opt + '</span>';
+                b.onclick = () => answerQuiz(i, b);
+                box.appendChild(b);
+            });
+            const fb = document.getElementById('quizFeedback');
+            fb.style.display = 'none';
+            fb.textContent = '';
+            const n = document.getElementById('quizNext');
+            n.style.display = 'none';
+            n.textContent = qIndex === quizData.length - 1 ? 'Lihat Hasil Kuis 🏆' : 'Soal Berikutnya ➜';
+        }
+        function answerQuiz(i, btn) {
+            if (qAnswered) return;
+            qAnswered = true;
+            const data = quizData[qIndex], ok = i === data.a;
+            document.querySelectorAll('#quizOptions .quiz-opt-btn').forEach((b, idx) => { b.disabled = true; if (idx === data.a) b.classList.add('correct') });
+            if (!ok) btn.classList.add('wrong');
+            const fb = document.getElementById('quizFeedback');
+            fb.style.display = 'block';
+            fb.innerHTML = (ok ? '🎉 <b>Jawaban Tepat!</b> ' : '💡 <b>Kurang Tepat.</b> ') + data.h;
+            fb.style.background = ok ? '#ecfdf5' : '#fef2f2';
+            fb.style.border = ok ? '2px solid #10b981' : '2px solid #ef4444';
+            fb.style.color = ok ? '#065f46' : '#991b1b';
+            document.getElementById('quizNext').style.display = 'inline-flex';
+        }
+        function nextQuiz() {
+            if (qIndex < quizData.length - 1) {
+                qIndex++;
+                renderQuiz();
+            } else {
+                document.querySelector('.quiz-card-body').style.display = 'none';
+                document.getElementById('quizComplete').style.display = 'block';
+                document.getElementById('quizProgressFill').style.width = '100%';
+                document.getElementById('quizFinalMessage').textContent = 'Hebat! Kamu telah menyelesaikan seluruh kuis dengan baik. Sekarang kamu sudah memahami konsep awal AI, dataset, training, dan testing! 🌟';
+            }
+        }
+        function restartQuiz() { qIndex = 0; renderQuiz(); }
+
+        function setFeedback(btn, text) {
+            document.querySelectorAll('.feedback-card').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            const fb = document.getElementById('feedbackThanks');
+            fb.innerHTML = '✨ <b>' + text + '</b> Terima kasih atas responmu!';
+            fb.style.color = '#7048e8';
+        }
+
+        function initImageZoom() {
+            document.querySelectorAll('img:not(.brand-logo img)').forEach(img => {
+                img.style.cursor = 'zoom-in';
+                img.title = 'Klik untuk memperbesar gambar';
+                img.addEventListener('click', e => {
+                    e.stopPropagation();
+                    openImageModal(img.src, img.alt || 'Preview Gambar');
+                });
+            });
+        }
+        function openImageModal(src, caption) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            const modalCap = document.getElementById('modalCaption');
+            if (!modal || !modalImg) return;
+            modalImg.src = src;
+            modalCap.textContent = caption || '';
+            modal.classList.add('active');
+        }
+        function closeImageModal(e) {
+            if (e) e.stopPropagation();
+            const modal = document.getElementById('imageModal');
+            if (modal) modal.classList.remove('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initDnd();
+            renderQuiz();
+            initImageZoom();
+            showSlide(0);
+        });
+    </script>
+</body>
+
+</html>
